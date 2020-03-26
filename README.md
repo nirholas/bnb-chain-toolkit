@@ -214,8 +214,9 @@ Send direct messages - Direct Message Methods
 Follow and unfollow users - Friendship Methods
 Block and unblock users - Block Methods
 
- # Configuration Options
+ # Configuration Options [https://github.com/levid/lunarcrush-widget-example]
 It is possible to configure the bot to extract additional features. For example:
+```
 ?key={API_KEY_HERE} - Required to render the widgets.
 ?symbol=BTC - Change the symbol that is displayed in the widgets.
 ?interval=1 Week - Change the time interval being displayed in the charts (default is 1 Week).
@@ -225,7 +226,11 @@ It is possible to configure the bot to extract additional features. For example:
 ?theme={See themes section for instructions}
 ?scrolling=true|false (default = true) - Enable or disable scrolling on the widget inner content. Use this if you want to set scrolling=false on the iframe with a fixed height but still want to allow scrolling within the widget.
 
+```
+
 We have the ability to configure and add an enormous amount of metrics from LunarCRUSH, supported metrics:
+
+```
 market_cap (Market Cap)
 galaxy_score (Galaxy Score)
 price_score (Price Score)
@@ -285,6 +290,8 @@ tweet_spam (Spam Volume)
 volatility (Volatility)
 volumefrom (Market Volume Open)
 volumeto (Market Volume Close)
+```
+
 
 # Final Thoughts
 Within a few lines of code, we built an easily configurable Twitter bot which pulls data from LunarCRUSH and we have it automatically posting Cryptocurrency markets, metrics, price data, and more.
