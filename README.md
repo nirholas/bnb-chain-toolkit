@@ -7,8 +7,9 @@ The twitter bot pulls information from LunarCRUSH. The metrics for Bitcoin, Ethe
 # Setting up a Twitter Development Account and Tweepy
 
 First of all, we need to install Tweepy. We can easily install it in the terminal using the pip command:
-
+```python
 pip install tweepy
+```
 
 Now we have Tweepy Installed, the Python library which handles a majority of the work. Next, we need to create a Twitter developer account. Twitter for Developers offers a developer platform that provides access to Twitter API in oder to "Publish and analyze Tweets, optimize ads, and create unique customer experiences" . Check out the Twitter API documentation here. We can perform multiple tasks through this API. See below some of them:
 
