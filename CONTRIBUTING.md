@@ -106,22 +106,93 @@ npm run build
 
 4. **Commit your changes**
 
-Follow conventional commits format:
+We use **accessible commit messages** designed to work well with screen readers and be clear for developers with cognitive disabilities.
 
-```bash
-git commit -m "feat: add new example for cross-chain bridge"
-git commit -m "fix: resolve wallet connection issue"
-git commit -m "docs: update setup instructions"
+### Accessible Commit Message Format
+
+```
+[type] Short description in plain English (emoji at end) 🎉
+
+- Bullet point details if needed
+- Each point on its own line
+- Use plain language, avoid jargon
 ```
 
-Commit types:
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation changes
-- `style`: Code style changes (formatting)
-- `refactor`: Code refactoring
-- `test`: Adding tests
-- `chore`: Maintenance tasks
+### Commit Types (use lowercase in brackets)
+
+| Type | Meaning | Example |
+|------|---------|---------|
+| `[add]` | New feature or file | `[add] Wallet connection for Polygon 🔗` |
+| `[fix]` | Bug fix | `[fix] Button not clickable on mobile 🐛` |
+| `[update]` | Improve existing feature | `[update] Faster loading for tutorials ⚡` |
+| `[remove]` | Delete code or files | `[remove] Unused dependencies 🧹` |
+| `[docs]` | Documentation only | `[docs] Add setup guide for Windows 📚` |
+| `[style]` | Formatting, no logic change | `[style] Fix indentation in utils 🎨` |
+| `[refactor]` | Code restructure, same behavior | `[refactor] Simplify wallet store 🔧` |
+| `[test]` | Add or update tests | `[test] Add tests for API service ✅` |
+| `[access]` | Accessibility improvements | `[access] Add screen reader labels ♿` |
+| `[i18n]` | Translations | `[i18n] Add Spanish translations 🌍` |
+| `[security]` | Security fixes | `[security] Sanitize user input 🔒` |
+
+### Accessibility Guidelines for Commit Messages
+
+**For Screen Reader Users:**
+- Put text BEFORE emoji (screen readers read emoji names like "sparkles")
+- Use brackets `[type]` not colons `type:` (clearer when read aloud)
+- Avoid special characters like `->`, `=>`, `&&`
+
+**For Cognitive Accessibility:**
+- Use plain, simple words (not "refactor" alone - say what changed)
+- Keep subject line under 72 characters
+- One idea per commit
+- Avoid abbreviations (write "button" not "btn")
+
+**For Low Vision:**
+- Emoji at end helps visual scanning but doesn't block meaning
+- Consistent format makes pattern recognition easier
+
+**For Everyone:**
+- Write in present tense ("Add feature" not "Added feature")
+- Start with a verb (Add, Fix, Update, Remove)
+- Be specific ("Fix login button" not "Fix bug")
+- No period at end of subject line
+
+### Good Examples ✅
+
+```bash
+# Clear, accessible, screen-reader friendly
+git commit -m "[add] Dark mode toggle in navigation bar 🌙"
+
+git commit -m "[fix] Form not submitting on Safari browser 🐛"
+
+git commit -m "[access] Add keyboard navigation to dropdown menus ♿
+
+- Arrow keys now navigate options
+- Enter key selects option
+- Escape key closes menu"
+
+git commit -m "[update] Improve loading speed for tutorial pages ⚡
+
+- Lazy load images
+- Cache API responses
+- Reduce bundle size by 40kb"
+```
+
+### Avoid These ❌
+
+```bash
+# Bad: Emoji first (screen reader says "sparkles" before meaning)
+git commit -m "✨ feat: add new feature"
+
+# Bad: Abbreviations and jargon
+git commit -m "fix: btn evt handler cb"
+
+# Bad: Vague
+git commit -m "fix stuff"
+
+# Bad: Too long, complex punctuation
+git commit -m "feat(wallet): implement connection -> add listener && update state"
+```
 
 5. **Push and create PR**
 

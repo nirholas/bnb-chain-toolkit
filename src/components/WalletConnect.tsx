@@ -9,6 +9,7 @@ import { X, Wallet, AlertCircle, CheckCircle } from 'lucide-react';
 import { BrowserProvider } from 'ethers';
 import { useWalletStore } from '@/stores/walletStore';
 import { truncateAddress, formatBalance } from '@/utils/helpers';
+import ConsentModal, { useConsent } from './ConsentModal';
 
 interface WalletConnectProps {
   onClose?: () => void;
@@ -17,8 +18,10 @@ interface WalletConnectProps {
 
 export default function WalletConnect({ onClose, onConnect }: WalletConnectProps) {
   const { address, isConnected, balance, disconnect, setWallet } = useWalletStore();
+  const { hasConsented, acceptTerms } = useConsent();
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showConsent, setShowConsent] = useState(false);
 
   useEffect(() => {
     if (isConnected && address) {
@@ -27,6 +30,16 @@ export default function WalletConnect({ onClose, onConnect }: WalletConnectProps
   }, [isConnected, address]);
 
   const connectMetaMask = async () => {
+    // Check consent first
+    if (!hasConsented) {
+      setShowConsent(true);
+      return;
+    }
+    
+    await doConnect();
+  };
+  
+  const doConnect = async () => {
     setIsConnecting(true);
     setError(null);
 
@@ -121,6 +134,23 @@ export default function WalletConnect({ onClose, onConnect }: WalletConnectProps
     disconnect();
     onClose?.();
   };
+
+  const handleConsentAccept = () => {
+    acceptTerms();
+    setShowConsent(false);
+    doConnect();
+  };
+
+  // Show consent modal if needed
+  if (showConsent) {
+    return (
+      <ConsentModal 
+        trigger="wallet" 
+        onAccept={handleConsentAccept}
+        onCancel={() => setShowConsent(false)}
+      />
+    );
+  }
 
   return (
     <div 

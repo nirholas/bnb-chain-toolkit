@@ -12,11 +12,84 @@
 [![React](https://img.shields.io/badge/React-18-61dafb)](https://react.dev/)
 [![Accessibility](https://img.shields.io/badge/a11y-WCAG%202.1%20AAA-purple)](docs/ACCESSIBILITY.md)
 [![i18n](https://img.shields.io/badge/i18n-10%20languages-orange)](docs/ARCHITECTURE.md)
-[![Vercel](https://img.shields.io/badge/Deployed-Vercel-black)](https://lyra.works)
 
-A browser-based interactive platform for learning blockchain development. Write, compile, and deploy Solidity smart contracts directly in your browser — no setup required.
+> **Learn blockchain development by doing.** Write, compile, and deploy smart contracts directly in your browser — no setup required.
 
-**🌐 Live at [lyra.works](https://lyra.works)**
+<p align="center">
+  <a href="https://lyra.works"><strong>🚀 Try it now at lyra.works →</strong></a>
+</p>
+
+---
+
+## 🎯 Who is this for?
+
+| You are... | Lyra helps you... |
+|------------|-------------------|
+| 🌱 **Complete beginner** | Learn Solidity with step-by-step tutorials |
+| 💻 **Web developer** | Transition to Web3 with familiar tools |
+| 🎓 **Student** | Practice smart contracts without spending gas |
+| 🔧 **Builder** | Prototype dApps quickly with templates |
+| 👩‍🏫 **Educator** | Teach blockchain with interactive examples |
+
+---
+
+## ⚡ Start in 30 Seconds (No Install)
+
+**Option 1: Just use the website**
+1. Go to [lyra.works](https://lyra.works)
+2. Click any tutorial or example
+3. Start coding immediately
+
+**Option 2: Try the Solidity IDE**
+1. Go to [lyra.works/ide](https://lyra.works/ide)
+2. Write or paste a smart contract
+3. Click "Compile" then "Deploy" (uses JavaScript VM - no wallet needed)
+
+**Option 3: Follow a tutorial**
+1. Go to [lyra.works](https://lyra.works)
+2. Scroll to "Learn Web3 Development"
+3. Pick a tutorial based on your level
+
+---
+
+## 🎮 What can you do here?
+
+### For Learning
+- 📖 **50+ tutorials** from "What is a blockchain?" to advanced DeFi
+- 🎯 **Interactive examples** - code runs as you read
+- 💡 **Instant feedback** - see errors and results immediately
+- 🏆 **Progress tracking** - pick up where you left off
+
+### For Building
+- ⚡ **Solidity IDE** - compile and deploy in seconds
+- 📝 **40+ templates** - tokens, NFTs, DAOs, DeFi
+- 🤖 **AI dApp Builder** - describe what you want, get code
+- 🔗 **Multi-chain** - Ethereum, Polygon, Base, Arbitrum, and more
+
+### For Everyone
+- 🌍 **10 languages** - English, Spanish, Chinese, Arabic, and more
+- ♿ **Fully accessible** - screen readers, keyboard nav, color blind support
+- 🌙 **Dark mode** - easy on the eyes
+- 📱 **Mobile friendly** - learn on any device
+
+---
+
+## 📚 Learning Paths
+
+### 🌱 I'm new to blockchain
+1. Start with [What is Ethereum?](https://lyra.works) tutorial
+2. Learn [Your First Smart Contract](https://lyra.works)
+3. Try the [Hello World example](https://lyra.works/example/hello-world)
+
+### 💻 I know JavaScript, teach me Solidity
+1. Read [Solidity for JS Developers](https://lyra.works)
+2. Compare [JavaScript vs Solidity](https://lyra.works)
+3. Build a [Simple Token](https://lyra.works/example/erc20-token)
+
+### 🚀 I want to build a dApp
+1. Use the [AI dApp Builder](https://lyra.works) - describe your idea
+2. Or start with a [template](https://lyra.works/ide)
+3. Deploy to testnet and share with the community
 
 ---
 
@@ -240,13 +313,76 @@ npm run preview
 
 ## 📖 Documentation
 
-- [Quick Start Guide](docs/QUICKSTART.md)
-- [Sandbox Guide](docs/SANDBOX_GUIDE.md)
-- [Architecture Overview](docs/ARCHITECTURE.md)
-- [Backend API](docs/BACKEND_API.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [Security](docs/SECURITY.md)
-- [Accessibility](docs/ACCESSIBILITY.md)
+| Document | Description |
+|----------|-------------|
+| [Getting Started](docs/GETTING_STARTED.md) | **New to blockchain? Start here!** |
+| [Quick Start Guide](docs/QUICKSTART.md) | Get up and running locally |
+| [Sandbox Guide](docs/SANDBOX_GUIDE.md) | How to use the IDE |
+| [Architecture Overview](docs/ARCHITECTURE.md) | System design |
+| [Backend API](docs/BACKEND_API.md) | API reference |
+| [Deployment Guide](docs/DEPLOYMENT.md) | Deploy your own instance |
+| [Security](docs/SECURITY.md) | Security practices |
+| [Accessibility](docs/ACCESSIBILITY.md) | A11y features and usage |
+
+---
+
+## ❓ Frequently Asked Questions
+
+<details>
+<summary><strong>Do I need to install anything?</strong></summary>
+
+No! Just go to [lyra.works](https://lyra.works) and start coding. Everything runs in your browser.
+
+</details>
+
+<details>
+<summary><strong>Do I need cryptocurrency or a wallet?</strong></summary>
+
+No! You can learn and practice without any crypto. The IDE has a "JavaScript VM" mode that simulates a blockchain locally. When you're ready to deploy for real, you'll need MetaMask and testnet ETH (which is free).
+
+</details>
+
+<details>
+<summary><strong>Is this free?</strong></summary>
+
+Yes, 100% free and open source. No hidden fees, no premium tier. MIT licensed.
+
+</details>
+
+<details>
+<summary><strong>I'm getting errors. What do I do?</strong></summary>
+
+1. Check the error message - it usually tells you what's wrong
+2. Make sure your Solidity version matches your code
+3. Check the [FAQ page](https://lyra.works/faq) for common issues
+4. [Open an issue](https://github.com/nirholas/lyra-web3-playground/issues) if you're stuck
+
+</details>
+
+<details>
+<summary><strong>Can I use this for my class/workshop?</strong></summary>
+
+Absolutely! That's one of the main use cases. You can share links to specific examples, and students can code along in their browsers. No setup required.
+
+</details>
+
+<details>
+<summary><strong>How do I deploy to a real network?</strong></summary>
+
+1. Install [MetaMask](https://metamask.io)
+2. Get testnet ETH from a faucet (free)
+3. Connect your wallet on Lyra
+4. Select your network (e.g., Sepolia, Mumbai)
+5. Click "Deploy" - your contract is now on the blockchain!
+
+</details>
+
+<details>
+<summary><strong>I found a bug / I have a suggestion</strong></summary>
+
+Please [open an issue](https://github.com/nirholas/lyra-web3-playground/issues)! We appreciate all feedback.
+
+</details>
 
 ---
 
@@ -258,6 +394,22 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 - Development workflow
 - Pull request process
 - Coding standards
+- **Accessible commit messages** - We use a format designed for screen readers and cognitive accessibility
+
+### Commit Message Format
+
+```bash
+[type] Clear description in plain English (emoji at end) 🎉
+```
+
+Example: `[add] Keyboard navigation for dropdown menus ♿`
+
+Why this format?
+- **Text first** - Screen readers read emoji names, so meaning comes first
+- **Plain words** - Clear for developers with cognitive disabilities
+- **Consistent** - Easy to scan for low vision users
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
 
 ### Good First Issues
 

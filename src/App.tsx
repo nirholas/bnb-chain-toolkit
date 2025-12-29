@@ -47,7 +47,7 @@ import MarketsPage from './pages/MarketsPage';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import MobileBottomNav from './components/MobileBottomNav';
-import ConsentModal, { useConsent } from './components/ConsentModal';
+import ConsentModal, { useConsent, ConsentTrigger } from './components/ConsentModal';
 import { 
   SkipLink, 
   LiveAnnouncerProvider, 
@@ -70,7 +70,6 @@ const fullscreenPaths = ['/ide'];
 function AppContent() {
   const { mode } = useThemeStore();
   const location = useLocation();
-  const { hasConsented, acceptTerms } = useConsent();
   const { applyAccessibilityCSS } = useAccessibilityStore();
   
   // Apply accessibility CSS whenever settings change
@@ -80,20 +79,6 @@ function AppContent() {
   
   // Check if current path should be fullscreen (no navbar/footer)
   const isFullscreen = fullscreenPaths.some(path => location.pathname.startsWith(path));
-
-  // Allow Terms and Privacy pages to be viewed without accepting
-  const isLegalPage = location.pathname === '/terms' || location.pathname === '/privacy';
-
-  // Show consent modal if not accepted (except on legal pages)
-  if (!hasConsented && !isLegalPage) {
-    return (
-      <div className={`min-h-screen ${mode === 'dark' ? 'dark' : ''}`}>
-        <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
-          <ConsentModal onAccept={acceptTerms} />
-        </div>
-      </div>
-    );
-  }
 
   if (isFullscreen) {
     // Render without navbar and footer

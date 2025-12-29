@@ -4,11 +4,75 @@
   💫 Your dedication inspires others 🌠
 -->
 
-# 🚀 Quick Start Guide - Interactive Sandbox
+# 🚀 Quick Start Guide
 
-Get your smart contract development environment running in 5 minutes!
+Choose your path based on what you want to do:
 
-## Prerequisites
+| I want to... | Time | What to do |
+|--------------|------|------------|
+| **Just learn** | 30 seconds | [Use the website](#option-1-just-use-the-website-no-install) |
+| **Run locally** | 5 minutes | [Basic local setup](#option-2-basic-local-setup) |
+| **Develop features** | 15 minutes | [Full developer setup](#option-3-full-developer-setup) |
+
+---
+
+## Option 1: Just Use the Website (No Install)
+
+**Time: 30 seconds**
+
+1. Go to **[lyra.works](https://lyra.works)**
+2. That's it! Start learning or coding.
+
+### Try these first:
+- Click a **tutorial** to learn step-by-step
+- Go to [lyra.works/ide](https://lyra.works/ide) to write Solidity
+- Use "JavaScript VM" to deploy without real crypto
+
+No wallet, no crypto, no account needed to start learning.
+
+---
+
+## Option 2: Basic Local Setup
+
+**Time: 5 minutes | No API keys required**
+
+This runs the frontend only. Perfect for learning and UI development.
+
+### Prerequisites
+- Node.js 18 or higher ([download](https://nodejs.org))
+- A code editor (VS Code recommended)
+
+### Steps
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/nirholas/lyra-web3-playground.git
+cd lyra-web3-playground
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### What works without API keys?
+- ✅ All tutorials and examples
+- ✅ Solidity IDE with compilation
+- ✅ JavaScript VM deployment (simulated blockchain)
+- ✅ Dark mode, accessibility features, translations
+- ❌ AI features (need OpenAI key)
+- ❌ Real blockchain deployment (need wallet + testnet ETH)
+
+---
+
+## Option 3: Full Developer Setup
+
+**Time: 15 minutes | Includes backend and all features**
+
+### Prerequisites
 
 ```bash
 # Check Node.js version (need 18+)
@@ -17,12 +81,10 @@ node --version
 # Check npm version
 npm --version
 
-# MetaMask browser extension installed
+# MetaMask browser extension installed (optional but recommended)
 ```
 
-## Installation
-
-### 1. Clone & Install
+### 1. Clone and Install
 
 ```bash
 # Clone the repository
@@ -38,7 +100,7 @@ npm install
 cd ..
 ```
 
-### 2. Environment Setup
+### 2. Environment Setup (Optional)
 
 Create `.env` in the root directory:
 
@@ -46,14 +108,11 @@ Create `.env` in the root directory:
 # Frontend Environment Variables
 VITE_API_URL=http://localhost:3001/api
 
-# OpenAI API (for AI features)
+# OpenAI API (for AI features) - optional
 VITE_OPENAI_API_KEY=sk-your-key-here
 
-# Alchemy API (for RPC)
+# Alchemy API (for RPC) - optional, has fallbacks
 VITE_ALCHEMY_API_KEY=your-key-here
-
-# Infura API (alternative RPC)
-VITE_INFURA_API_KEY=your-key-here
 ```
 
 Create `server/.env`:
@@ -62,22 +121,14 @@ Create `server/.env`:
 # Backend Environment Variables
 PORT=3001
 
-# OpenAI
+# OpenAI - optional, for AI code generation
 OPENAI_API_KEY=sk-your-key-here
 
-# Alchemy
+# Alchemy - optional, for blockchain RPC
 ALCHEMY_API_KEY=your-key-here
-
-# Pinata (IPFS)
-PINATA_API_KEY=your-key-here
-PINATA_SECRET_KEY=your-secret-here
-
-# Faucet wallet (for testnet funding)
-FAUCET_PRIVATE_KEY=your-testnet-private-key
-
-# Redis (optional, for caching)
-REDIS_URL=redis://localhost:6379
 ```
+
+> 💡 **Don't have API keys?** That's fine! The app works without them - you just won't have AI features or premium RPC nodes.
 
 ### 3. Start Development Servers
 
@@ -99,7 +150,9 @@ Open your browser to:
 http://localhost:5173
 ```
 
-Click "Interactive Sandbox" in the navigation!
+---
+
+## First Steps After Setup
 
 ## First Steps
 
