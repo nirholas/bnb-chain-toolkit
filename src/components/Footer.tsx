@@ -1,7 +1,12 @@
 /**
- * ✨ built by nich
- * 🌐 GitHub: github.com/nirholas
- * 💫 Your potential is limitless 🌌
+ * ═══════════════════════════════════════════════════════════════════════════
+ * LYRA WEB3 PLAYGROUND - Footer Component
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ✨ Author: nich | 🐦 x.com/nichxbt | 🐙 github.com/nirholas
+ * 📦 github.com/nirholas/lyra-web3-playground | 🌐 https://lyra.works
+ * Copyright (c) 2024-2026 nirholas (nich) - MIT License
+ * @preserve
+ * ═══════════════════════════════════════════════════════════════════════════
  */
 
 import { Link } from 'react-router-dom';
@@ -13,7 +18,7 @@ export default function Footer() {
   const { t } = useI18n();
   
   return (
-    <footer className="bg-gray-900 text-gray-200 pt-12 pb-24 md:pb-8 mt-16" role="contentinfo">
+    <footer className="bg-black text-gray-200 pt-12 pb-24 md:pb-8 mt-16 border-t border-white/5" role="contentinfo">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           <div className="col-span-2 md:col-span-1">

@@ -1,8 +1,23 @@
 /**
- * ✨ built by nich
- * 🌐 GitHub: github.com/nirholas
- * 💫 Code is poetry written for machines 📝
+ * ═══════════════════════════════════════════════════════════════════════════
+ * LYRA WEB3 PLAYGROUND - Main Stylesheet
+ * ═══════════════════════════════════════════════════════════════════════════
+ * 
+ * ✨ Original Author: nich
+ * 🐦 Twitter/X: x.com/nichxbt
+ * 🐙 GitHub: github.com/nirholas
+ * 📦 Repository: github.com/nirholas/lyra-web3-playground
+ * 🌐 Website: https://lyra.works
+ * 
+ * Copyright (c) 2024-2026 nirholas (nich)
+ * Licensed under MIT License
+ * 
+ * NOTICE: This code contains embedded watermarks and attribution markers.
+ * Removal or modification of attribution constitutes violation of the license.
+ * ═══════════════════════════════════════════════════════════════════════════
  */
+
+/* Attribution: nich | x.com/nichxbt | github.com/nirholas */
 
 @import './accessibility.css';
 
@@ -17,6 +32,30 @@
     /* Improve tap highlight on mobile */
     -webkit-tap-highlight-color: transparent;
   }
+
+  /* Pure black dark mode base */
+  html.dark {
+    background-color: #000000;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-white text-gray-900;
+    @apply dark:bg-black dark:text-white;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* Better headings with tighter tracking */
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.025em;
+    font-weight: 600;
+  }
+
+  h1 { letter-spacing: -0.04em; }
+  h2 { letter-spacing: -0.035em; }
 
   /* Smooth scrolling for all devices */
   @media (prefers-reduced-motion: no-preference) {
@@ -76,24 +115,73 @@
     }
   }
 
+  /* Updated card style - subtle elevation on dark backgrounds */
   .card {
-    @apply rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm transition-shadow hover:shadow-md;
+    @apply rounded-xl bg-white p-6 transition-all duration-200;
+    @apply border border-gray-200;
+    @apply shadow-sm;
+    @apply hover:shadow-md hover:border-gray-300;
+    /* Dark mode: subtle zinc background for visual separation */
+    @apply dark:bg-zinc-950 dark:border-white/[0.08];
+    @apply dark:shadow-[0_0_0_1px_rgba(255,255,255,0.02)];
+    @apply dark:hover:border-white/[0.15] dark:hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.06)];
+  }
+
+  /* Elevated card variant - for featured content */
+  .card-elevated {
+    @apply rounded-xl bg-white p-6 transition-all duration-200;
+    @apply border border-gray-200;
+    @apply shadow-lg;
+    @apply dark:bg-zinc-900 dark:border-white/[0.1];
+    @apply dark:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)];
+    @apply dark:hover:border-white/[0.2] dark:hover:shadow-[0_8px_40px_-5px_rgba(255,255,255,0.08)];
+  }
+
+  /* Glass-morphism card variant */
+  .card-glass {
+    @apply rounded-xl p-6 transition-all duration-200;
+    @apply bg-white/90 dark:bg-white/[0.03];
+    @apply backdrop-blur-xl;
+    @apply border border-gray-200/50 dark:border-white/[0.08];
+    @apply shadow-lg dark:shadow-[0_0_40px_-10px_rgba(255,255,255,0.05)];
+    @apply hover:dark:shadow-[0_0_50px_-10px_rgba(255,255,255,0.08)] hover:dark:border-white/[0.12];
   }
 
   .btn {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-200;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply disabled:pointer-events-none disabled:opacity-50;
   }
 
   .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-700;
+    @apply btn bg-white text-black;
+    @apply hover:bg-gray-100 hover:shadow-lg;
+    @apply dark:bg-white dark:text-black dark:hover:bg-gray-100;
+    @apply dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.2)];
   }
 
   .btn-secondary {
-    @apply btn border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700;
+    @apply btn bg-transparent text-gray-700 dark:text-white;
+    @apply border border-gray-300 dark:border-white/20;
+    @apply hover:bg-gray-50 dark:hover:bg-white/[0.05];
+    @apply hover:border-gray-400 dark:hover:border-white/30;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-gray-600 dark:text-gray-400;
+    @apply hover:bg-gray-100 dark:hover:bg-white/[0.05];
+    @apply hover:text-gray-900 dark:hover:text-white;
   }
 
   .input {
-    @apply flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply flex h-10 w-full rounded-md px-3 py-2 text-sm transition-all;
+    @apply bg-white dark:bg-black;
+    @apply border border-gray-300 dark:border-white/10;
+    @apply placeholder:text-gray-400 dark:placeholder:text-gray-600;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20;
+    @apply focus-visible:border-white/30;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    @apply file:border-0 file:bg-transparent file:text-sm file:font-medium;
   }
 }
 
@@ -209,7 +297,7 @@
 
 /* Enhanced focus indicators for keyboard navigation */
 :focus-visible {
-  outline: 2px solid var(--tw-ring-color, #6366f1);
+  outline: 2px solid var(--tw-ring-color, #525252);
   outline-offset: 2px;
 }
 
@@ -458,7 +546,7 @@
   top: -100%;
   left: 50%;
   transform: translateX(-50%);
-  background: #0284c7;
+  background: #262626;
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 0 0 0.5rem 0.5rem;
@@ -470,19 +558,19 @@
 
 .skip-link:focus {
   top: 0;
-  outline: 3px solid #fbbf24;
+  outline: 3px solid #737373;
   outline-offset: 2px;
 }
 
 /* Enhanced focus styles for better visibility */
 *:focus-visible {
-  outline: 3px solid #0284c7;
+  outline: 3px solid #525252;
   outline-offset: 2px;
 }
 
 /* High contrast focus for dark mode */
 .dark *:focus-visible {
-  outline-color: #38bdf8;
+  outline-color: #d4d4d4;
 }
 
 /* Remove default focus outline when using mouse (but keep for keyboard) */
@@ -498,7 +586,7 @@ select:focus-visible,
 textarea:focus-visible,
 [role="button"]:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid #0284c7;
+  outline: 3px solid #525252;
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -510,7 +598,7 @@ textarea:focus-visible,
 .dark textarea:focus-visible,
 .dark [role="button"]:focus-visible,
 .dark [tabindex]:focus-visible {
-  outline-color: #38bdf8;
+  outline-color: #d4d4d4;
 }
 
 /* High contrast mode support */
@@ -573,7 +661,7 @@ textarea:focus-visible,
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #0284c7, #a855f7, #0284c7);
+  background: linear-gradient(90deg, #525252, #737373, #525252);
   background-size: 200% 100%;
   animation: loading-progress 1.5s infinite;
 }
@@ -599,19 +687,19 @@ textarea:focus-visible,
 }
 
 .status-indicator.status-success::before {
-  background-color: #22c55e;
+  background-color: #737373;
 }
 
 .status-indicator.status-error::before {
-  background-color: #ef4444;
+  background-color: #171717;
 }
 
 .status-indicator.status-warning::before {
-  background-color: #f59e0b;
+  background-color: #525252;
 }
 
 .status-indicator.status-info::before {
-  background-color: #3b82f6;
+  background-color: #a3a3a3;
 }
 
 /* Pulsing indicator for active/connected states */
@@ -633,5 +721,63 @@ textarea:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .status-indicator.status-active::before {
     animation: none;
+  }
+}
+
+/* ============================================
+   DARK THEME UTILITIES - Pure Black Design
+   ============================================ */
+
+@layer utilities {
+  /* Background utilities for dark theme */
+  .dark-bg {
+    @apply bg-black;
+  }
+
+  .dark-bg-elevated {
+    @apply bg-black;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .dark-bg-card {
+    @apply bg-black border border-white/5;
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.03),
+      0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .dark-bg-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(255, 255, 255, 0.02);
+  }
+
+  /* Glow effects */
+  .glow-subtle {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
+  }
+
+  .glow-hover:hover {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Border utilities for dark theme */
+  .border-dark {
+    @apply border-white/5;
+  }
+
+  .border-dark-hover:hover {
+    @apply border-white/10;
+  }
+
+  /* Text utilities */
+  .text-muted {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  .text-subtle {
+    @apply text-gray-400 dark:text-gray-500;
   }
 }

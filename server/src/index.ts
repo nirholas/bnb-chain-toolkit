@@ -13,6 +13,7 @@ import deployRoutes from './routes/deploy.js';
 import aiRoutes from './routes/ai.js';
 import faucetRoutes from './routes/faucet.js';
 import ipfsRoutes from './routes/ipfs.js';
+import translateRoutes from './routes/translate.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { rateLimiter } from './middleware/rateLimiter.js';
 
@@ -20,6 +21,9 @@ config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Trust proxy (needed for rate limiting behind reverse proxies/devcontainers)
+app.set('trust proxy', 1);
 
 // Middleware
 app.use(helmet());
@@ -41,6 +45,7 @@ app.use('/api/deploy', deployRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/faucet', faucetRoutes);
 app.use('/api/ipfs', ipfsRoutes);
+app.use('/api/translate', translateRoutes);
 
 // Error handling
 app.use(errorHandler);

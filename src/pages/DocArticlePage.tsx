@@ -5,6 +5,7 @@
  */
 
 import { useParams, Link } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 import {
   BookOpen,
   ChevronRight,
@@ -1862,7 +1863,7 @@ export default function DocArticlePage() {
             <div 
               className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
               dangerouslySetInnerHTML={{ 
-                __html: formatMarkdown(article.content) 
+                __html: DOMPurify.sanitize(formatMarkdown(article.content)) 
               }} 
             />
           </div>

@@ -8,15 +8,15 @@
  * API Client for Lyra Web3 Playground Server
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
-interface ApiResponse<T = any> {
+interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
 }
 
-async function fetchAPI<T = any>(
+async function fetchAPI<T = unknown>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
@@ -38,8 +38,9 @@ async function fetchAPI<T = any>(
     }
 
     return result.data as T;
-  } catch (error: any) {
-    console.error('API Error:', error);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown API error';
+    console.error('API Error:', message);
     throw error;
   }
 }
@@ -51,9 +52,34 @@ export interface CompileRequest {
   optimize?: boolean;
 }
 
+// Ethereum ABI types
+export interface ABIInput {
+  name: string;
+  type: string;
+  indexed?: boolean;
+  components?: ABIInput[];
+  internalType?: string;
+}
+
+export interface ABIOutput {
+  name: string;
+  type: string;
+  components?: ABIOutput[];
+  internalType?: string;
+}
+
+export interface ABIFragment {
+  type: 'function' | 'event' | 'constructor' | 'fallback' | 'receive' | 'error';
+  name?: string;
+  inputs?: ABIInput[];
+  outputs?: ABIOutput[];
+  stateMutability?: 'pure' | 'view' | 'nonpayable' | 'payable';
+  anonymous?: boolean;
+}
+
 export interface CompileResult {
   bytecode: string;
-  abi: any[];
+  abi: ABIFragment[];
   warnings?: string[];
 }
 
@@ -67,9 +93,9 @@ export async function compileContract(request: CompileRequest): Promise<CompileR
 // Deployment API
 export interface DeployRequest {
   bytecode: string;
-  abi: any[];
+  abi: ABIFragment[];
   network?: string;
-  constructorArgs?: any[];
+  constructorArgs?: (string | number | boolean | string[])[];
 }
 
 export interface DeployResult {
@@ -158,7 +184,7 @@ export async function requestFaucetFunds(request: FaucetRequest): Promise<Faucet
 export interface IPFSUploadRequest {
   content: string;
   name?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, string | number | boolean>;
 }
 
 export interface IPFSUploadResult {

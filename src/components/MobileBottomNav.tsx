@@ -5,7 +5,7 @@
  */
 
 import { Link, useLocation } from 'react-router-dom';
-import { Home, BookOpen, Code, Sparkles, Wallet } from 'lucide-react';
+import { Home, BookOpen, Code, Sparkles, Wallet, Terminal } from 'lucide-react';
 import { useWalletStore } from '@/stores/walletStore';
 import { cn } from '@/utils/helpers';
 
@@ -18,7 +18,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/tutorials', icon: BookOpen, label: 'Learn' },
-  { path: '/playground', icon: Code, label: 'Templates' },
+  { path: '/ide', icon: Terminal, label: 'IDE' },
   { path: '/sandbox', icon: Sparkles, label: 'Sandbox' },
 ];
 

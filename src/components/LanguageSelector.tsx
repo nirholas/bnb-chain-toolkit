@@ -5,7 +5,7 @@
  */
 
 import { useState } from 'react';
-import { Check, Globe2, ChevronDown } from 'lucide-react';
+import { Check, Globe2, ChevronDown, Loader2 } from 'lucide-react';
 import useI18n, { languages } from '@/stores/i18nStore';
 
 interface Props {
@@ -13,19 +13,29 @@ interface Props {
 }
 
 export default function LanguageSelector({ compact = false }: Props) {
-  const { language, setLanguage } = useI18n();
+  const { language, setLanguage, isLoading } = useI18n();
   const [open, setOpen] = useState(false);
   const active = languages.find(l => l.code === language);
+
+  const handleLanguageChange = async (code: typeof language) => {
+    setOpen(false);
+    await setLanguage(code);
+  };
 
   return (
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`flex items-center space-x-2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${compact ? 'text-sm' : ''}`}
+        disabled={isLoading}
+        className={`flex items-center space-x-2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-50 ${compact ? 'text-sm' : ''}`}
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <Globe2 className="w-4 h-4" />
+        {isLoading ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <Globe2 className="w-4 h-4" />
+        )}
         <span className="font-medium">{active?.flag} {active?.nativeName || active?.name}</span>
         <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
@@ -36,11 +46,9 @@ export default function LanguageSelector({ compact = false }: Props) {
             {languages.map(lang => (
               <button
                 key={lang.code}
-                onClick={() => {
-                  setLanguage(lang.code);
-                  setOpen(false);
-                }}
-                className={`w-full text-left px-4 py-2 flex items-center space-x-3 hover:bg-gray-100 dark:hover:bg-gray-800 ${lang.code === language ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
+                onClick={() => handleLanguageChange(lang.code)}
+                disabled={isLoading}
+                className={`w-full text-left px-4 py-2 flex items-center space-x-3 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 ${lang.code === language ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
                 role="option"
                 aria-selected={lang.code === language}
               >

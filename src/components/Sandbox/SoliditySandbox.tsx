@@ -166,30 +166,245 @@ const DEFAULT_CONTRACT = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 /**
- * @title SimpleStorage
- * @dev Store & retrieve a value in a variable
+ * ════════════════════════════════════════════════════════════════════════════════
+ * 🏦 DeFi Staking Vault - Learn Solidity with a Real DeFi Contract
+ * ════════════════════════════════════════════════════════════════════════════════
+ * 
+ * This contract demonstrates key DeFi concepts:
+ * - Depositing and withdrawing ETH
+ * - Earning yield based on time staked
+ * - Tracking user balances with mappings
+ * - Secure withdrawal patterns
+ * - Events for off-chain tracking
+ * 
+ * Try these interactions:
+ * 1. Call deposit() with some ETH value
+ * 2. Wait a bit, then call getRewards() to see earned yield
+ * 3. Call withdraw() to get your ETH + rewards back
  */
-contract SimpleStorage {
-    uint256 private storedValue;
+
+contract StakingVault {
+    // ═══════════════════════════════════════════════════════════════════════════
+    // STATE VARIABLES
+    // ═══════════════════════════════════════════════════════════════════════════
     
-    event ValueChanged(uint256 indexed oldValue, uint256 indexed newValue);
+    /// @notice Contract owner (deployer)
+    address public owner;
+    
+    /// @notice Annual Percentage Yield (in basis points, e.g., 1000 = 10%)
+    uint256 public constant APY_BPS = 1000; // 10% APY
+    
+    /// @notice Minimum deposit amount
+    uint256 public constant MIN_DEPOSIT = 0.01 ether;
+    
+    /// @notice Total ETH deposited in the vault
+    uint256 public totalDeposits;
+    
+    /// @notice Total rewards distributed
+    uint256 public totalRewardsDistributed;
+    
+    /// @notice Tracks each user's stake info
+    struct Stake {
+        uint256 amount;        // Amount of ETH staked
+        uint256 timestamp;     // When they staked
+        uint256 rewardsClaimed; // Total rewards claimed
+    }
+    
+    /// @notice User address => Stake info
+    mapping(address => Stake) public stakes;
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // EVENTS - Emit these to track activity off-chain
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    event Deposited(address indexed user, uint256 amount, uint256 timestamp);
+    event Withdrawn(address indexed user, uint256 amount, uint256 rewards);
+    event RewardsClaimed(address indexed user, uint256 rewards);
+    event VaultFunded(address indexed funder, uint256 amount);
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // MODIFIERS
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not authorized");
+        _;
+    }
+    
+    modifier hasStake() {
+        require(stakes[msg.sender].amount > 0, "No active stake");
+        _;
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // CONSTRUCTOR
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    constructor() {
+        owner = msg.sender;
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // MAIN FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════════════
     
     /**
-     * @dev Store a value
-     * @param value The value to store
+     * @notice Deposit ETH to start earning yield
+     * @dev Creates or adds to existing stake
      */
-    function set(uint256 value) public {
-        uint256 oldValue = storedValue;
-        storedValue = value;
-        emit ValueChanged(oldValue, value);
+    function deposit() external payable {
+        require(msg.value >= MIN_DEPOSIT, "Below minimum deposit");
+        
+        Stake storage userStake = stakes[msg.sender];
+        
+        // If user already has a stake, claim pending rewards first
+        if (userStake.amount > 0) {
+            uint256 pendingRewards = calculateRewards(msg.sender);
+            if (pendingRewards > 0) {
+                _claimRewards(msg.sender, pendingRewards);
+            }
+        }
+        
+        // Update stake
+        userStake.amount += msg.value;
+        userStake.timestamp = block.timestamp;
+        totalDeposits += msg.value;
+        
+        emit Deposited(msg.sender, msg.value, block.timestamp);
     }
     
     /**
-     * @dev Retrieve the stored value
-     * @return The stored value
+     * @notice Withdraw all staked ETH plus earned rewards
      */
-    function get() public view returns (uint256) {
-        return storedValue;
+    function withdraw() external hasStake {
+        Stake storage userStake = stakes[msg.sender];
+        
+        uint256 amount = userStake.amount;
+        uint256 rewards = calculateRewards(msg.sender);
+        uint256 totalPayout = amount + rewards;
+        
+        // Check vault has enough balance for rewards
+        require(address(this).balance >= totalPayout, "Insufficient vault balance");
+        
+        // Reset user's stake (before transfer to prevent reentrancy)
+        userStake.amount = 0;
+        userStake.timestamp = 0;
+        userStake.rewardsClaimed += rewards;
+        
+        totalDeposits -= amount;
+        totalRewardsDistributed += rewards;
+        
+        // Transfer ETH to user
+        (bool success, ) = payable(msg.sender).call{value: totalPayout}("");
+        require(success, "Transfer failed");
+        
+        emit Withdrawn(msg.sender, amount, rewards);
+    }
+    
+    /**
+     * @notice Claim only rewards without withdrawing stake
+     */
+    function claimRewards() external hasStake {
+        uint256 rewards = calculateRewards(msg.sender);
+        require(rewards > 0, "No rewards to claim");
+        require(address(this).balance >= rewards, "Insufficient vault balance");
+        
+        _claimRewards(msg.sender, rewards);
+        
+        // Reset timestamp to start new reward period
+        stakes[msg.sender].timestamp = block.timestamp;
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // VIEW FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    /**
+     * @notice Calculate pending rewards for a user
+     * @param user The user's address
+     * @return rewards The amount of ETH rewards earned
+     */
+    function calculateRewards(address user) public view returns (uint256) {
+        Stake memory userStake = stakes[user];
+        if (userStake.amount == 0) return 0;
+        
+        // Time staked in seconds
+        uint256 timeStaked = block.timestamp - userStake.timestamp;
+        
+        // Calculate rewards: (amount * APY * time) / (365 days * 10000)
+        // 10000 because APY is in basis points
+        uint256 rewards = (userStake.amount * APY_BPS * timeStaked) / (365 days * 10000);
+        
+        return rewards;
+    }
+    
+    /**
+     * @notice Get user's current stake info
+     * @param user The user's address
+     */
+    function getStakeInfo(address user) external view returns (
+        uint256 stakedAmount,
+        uint256 pendingRewards,
+        uint256 stakedSince,
+        uint256 totalClaimed
+    ) {
+        Stake memory userStake = stakes[user];
+        return (
+            userStake.amount,
+            calculateRewards(user),
+            userStake.timestamp,
+            userStake.rewardsClaimed
+        );
+    }
+    
+    /**
+     * @notice Get vault statistics
+     */
+    function getVaultStats() external view returns (
+        uint256 _totalDeposits,
+        uint256 _totalRewards,
+        uint256 _vaultBalance,
+        uint256 _apy
+    ) {
+        return (
+            totalDeposits,
+            totalRewardsDistributed,
+            address(this).balance,
+            APY_BPS
+        );
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // INTERNAL FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    function _claimRewards(address user, uint256 rewards) internal {
+        stakes[user].rewardsClaimed += rewards;
+        totalRewardsDistributed += rewards;
+        
+        (bool success, ) = payable(user).call{value: rewards}("");
+        require(success, "Reward transfer failed");
+        
+        emit RewardsClaimed(user, rewards);
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // OWNER FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    /**
+     * @notice Owner can fund the vault for reward payouts
+     */
+    function fundVault() external payable onlyOwner {
+        require(msg.value > 0, "Must send ETH");
+        emit VaultFunded(msg.sender, msg.value);
+    }
+    
+    /**
+     * @notice Receive ETH sent directly to contract
+     */
+    receive() external payable {
+        emit VaultFunded(msg.sender, msg.value);
     }
 }`;
 
@@ -212,7 +427,7 @@ export default function SoliditySandbox() {
   
   const { mode: appTheme } = useThemeStore();
   const [files, setFiles] = useState<ContractFile[]>([
-    { id: 'main', name: 'SimpleStorage.sol', content: DEFAULT_CONTRACT }
+    { id: 'main', name: 'StakingVault.sol', content: DEFAULT_CONTRACT }
   ]);
   const [activeFileId, setActiveFileId] = useState('main');
   const [openTabs, setOpenTabs] = useState<string[]>(['main']);

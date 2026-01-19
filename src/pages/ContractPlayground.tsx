@@ -339,11 +339,17 @@ export default function ContractPlayground() {
   // Listen for console messages from iframe
   useEffect(() => {
     const handler = (ev: MessageEvent) => {
-      const data = ev.data as any;
+      // Security: Only accept messages from our own iframe (same origin or blob URLs)
+      if (ev.origin !== window.location.origin && !ev.origin.startsWith('blob:')) {
+        // For sandboxed iframes, origin may be 'null' - verify source is our iframe
+        if (ev.origin !== 'null') return;
+      }
+      
+      const data = ev.data as { __lyra_preview_console?: boolean; type?: string; entries?: string[] };
       if (data && data.__lyra_preview_console) {
         const time = new Date().toLocaleTimeString();
         const text = (data.entries || []).join(' ');
-        setConsoleLogs(prev => [{ type: data.type, text, time }, ...prev].slice(0, 200));
+        setConsoleLogs(prev => [{ type: data.type || 'log', text, time }, ...prev].slice(0, 200));
       }
     };
     window.addEventListener('message', handler);

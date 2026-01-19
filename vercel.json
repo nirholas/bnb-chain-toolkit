@@ -6,7 +6,16 @@
   "installCommand": "npm install",
   "framework": "vite",
   "regions": ["iad1"],
+  "functions": {
+    "api/translate.ts": {
+      "runtime": "@vercel/node@3.0.0"
+    }
+  },
   "rewrites": [
+    {
+      "source": "/api/translate",
+      "destination": "/api/translate"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"

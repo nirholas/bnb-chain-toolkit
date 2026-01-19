@@ -6,6 +6,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { translateAllStrings, getCachedTranslations, clearTranslationCache } from '@/services/translation';
 
 export type Language = 'en' | 'es' | 'zh' | 'fr' | 'de' | 'ja' | 'ko' | 'pt' | 'ru' | 'ar';
 
@@ -30,12 +31,8 @@ export const languages: LanguageInfo[] = [
   { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', rtl: true }
 ];
 
-// Translations dictionary
-type TranslationKey = string;
-type Translations = Record<Language, Record<TranslationKey, string>>;
-
-const translations: Translations = {
-  en: {
+// Base English translations (source of truth)
+export const baseTranslations: Record<string, string> = {
     // Navigation
     'nav.home': 'Home',
     'nav.examples': 'Examples',
@@ -131,251 +128,142 @@ const translations: Translations = {
     'footer.rights': 'All rights reserved',
     'footer.privacy': 'Privacy Policy',
     'footer.terms': 'Terms of Service',
-  },
-  
-  es: {
-    // Navigation
-    'nav.home': 'Inicio',
-    'nav.examples': 'Ejemplos',
-    'nav.playground': 'Playground',
-    'nav.sandbox': 'Sandbox',
-    'nav.docs': 'Documentación',
-    'nav.tutorials': 'Tutoriales',
-    'nav.about': 'Acerca de',
-    'nav.faq': 'FAQ',
-    'nav.community': 'Comunidad',
-    'nav.settings': 'Configuración',
     
-    // Hero
-    'hero.title': 'Aprende Desarrollo Web3',
-    'hero.subtitle': 'De Forma Interactiva',
-    'hero.description': 'Construye, despliega y entiende contratos inteligentes con herramientas impulsadas por IA y tutoriales interactivos.',
-    'hero.cta.start': 'Comenzar a Construir',
-    'hero.cta.explore': 'Explorar Ejemplos',
+    // Explore Page
+    'explore.title': 'Explore the Community',
+    'explore.subtitle': 'Discover shared projects, templates, and tutorials from developers around the world',
+    'explore.search_placeholder': 'Search projects, templates, tutorials...',
+    'explore.no_projects': 'No projects found',
+    'explore.be_first': 'Be the first to share something!',
+    'explore.create_project': 'Create a Project',
+    'explore.showing': 'Showing {count} of {total} projects',
     
-    // Features
-    'features.title': 'Características Revolucionarias',
-    'features.ai.title': 'AI Code Whisperer',
-    'features.ai.description': 'Análisis de IA en tiempo real con control por voz',
-    'features.timemachine.title': 'Máquina del Tiempo',
-    'features.timemachine.description': 'Viaja a través de la evolución del código',
-    'features.exploit.title': 'Laboratorio de Exploits',
-    'features.exploit.description': 'Aprende seguridad hackeando de forma segura',
-    'features.arena.title': 'Arena Colaborativa',
-    'features.arena.description': 'Programa con compañeros de IA',
-    'features.neural.title': 'Oráculo Neural de Gas',
-    'features.neural.description': 'Optimización de gas con ML',
-    'features.crosschain.title': 'Despliegue Multi-Cadena',
-    'features.crosschain.description': 'Despliega en 8+ redes al instante',
+    // Categories
+    'category.all': 'All',
+    'category.sandbox': 'Sandboxes',
+    'category.template': 'Templates',
+    'category.tutorial': 'Tutorials',
+    'category.example': 'Examples',
     
-    // Common
-    'common.loading': 'Cargando...',
-    'common.error': 'Error',
-    'common.success': 'Éxito',
-    'common.save': 'Guardar',
-    'common.cancel': 'Cancelar',
-    'common.delete': 'Eliminar',
-    'common.edit': 'Editar',
-    'common.copy': 'Copiar',
-    'common.copied': '¡Copiado!',
-    'common.search': 'Buscar',
-    'common.filter': 'Filtrar',
-    'common.all': 'Todo',
-    'common.back': 'Atrás',
-    'common.next': 'Siguiente',
-    'common.previous': 'Anterior',
-    'common.close': 'Cerrar',
-    'common.open': 'Abrir',
-    'common.learn_more': 'Saber Más',
-    'common.get_started': 'Comenzar',
+    // Sort
+    'sort.recent': 'Most Recent',
+    'sort.popular': 'Most Viewed',
+    'sort.likes': 'Most Liked',
     
-    // Sandbox
-    'sandbox.compile': 'Compilar',
-    'sandbox.deploy': 'Desplegar',
-    'sandbox.compiling': 'Compilando...',
-    'sandbox.deploying': 'Desplegando...',
-    'sandbox.console': 'Consola',
-    'sandbox.files': 'Archivos',
-    'sandbox.interaction': 'Interactuar',
-    'sandbox.innovation': 'Modo Innovación',
-    'sandbox.activate_innovation': 'Activar Innovación',
+    // Tutorial Page
+    'tutorial.difficulty': 'Difficulty',
+    'tutorial.duration': 'Duration',
+    'tutorial.prerequisites': 'Prerequisites',
+    'tutorial.start': 'Start Tutorial',
+    'tutorial.continue': 'Continue',
+    'tutorial.complete': 'Complete',
+    'tutorial.step': 'Step {current} of {total}',
     
-    // About
-    'about.title': 'Sobre Nosotros',
-    'about.mission': 'Nuestra Misión',
-    'about.vision': 'Nuestra Visión',
-    'about.team': 'Conoce al Equipo',
-    'about.values': 'Nuestros Valores',
-    'about.join': 'Únete a Nuestra Misión',
+    // Markets Page
+    'markets.title': 'Live Markets',
+    'markets.price': 'Price',
+    'markets.change_24h': '24h Change',
+    'markets.volume': 'Volume',
+    'markets.market_cap': 'Market Cap',
     
-    // Docs
-    'docs.title': 'Documentación',
-    'docs.search_placeholder': 'Buscar documentación...',
-    'docs.getting_started': 'Primeros Pasos',
-    'docs.quick_links': 'Enlaces Rápidos',
-    'docs.read_time': 'min de lectura',
+    // DeFi
+    'defi.analytics': 'Live DeFi Analytics',
+    'defi.tvl': 'Total Value Locked',
+    'defi.protocols': 'Top Protocols',
+    'defi.learn_build': 'Learn How to Build This',
     
-    // Settings
-    'settings.title': 'Configuración',
-    'settings.language': 'Idioma',
-    'settings.theme': 'Tema',
-    'settings.theme.light': 'Claro',
-    'settings.theme.dark': 'Oscuro',
-    'settings.theme.system': 'Sistema',
-    'settings.notifications': 'Notificaciones',
-    'settings.privacy': 'Privacidad',
+    // Auth
+    'auth.connect_wallet': 'Connect Wallet',
+    'auth.disconnect': 'Disconnect',
+    'auth.sign_in': 'Sign In',
+    'auth.sign_out': 'Sign Out',
     
-    // Footer
-    'footer.rights': 'Todos los derechos reservados',
-    'footer.privacy': 'Política de Privacidad',
-    'footer.terms': 'Términos de Servicio',
-  },
-  
-  zh: {
-    // Navigation
-    'nav.home': '首页',
-    'nav.examples': '示例',
-    'nav.playground': 'Playground',
-    'nav.sandbox': '沙盒',
-    'nav.docs': '文档',
-    'nav.tutorials': '教程',
-    'nav.about': '关于',
-    'nav.faq': '常见问题',
-    'nav.community': '社区',
-    'nav.settings': '设置',
-    
-    // Hero
-    'hero.title': '学习 Web3 开发',
-    'hero.subtitle': '交互式学习',
-    'hero.description': '使用AI驱动的工具和交互式教程构建、部署和理解智能合约。',
-    'hero.cta.start': '开始构建',
-    'hero.cta.explore': '探索示例',
-    
-    // Features
-    'features.title': '革命性功能',
-    'features.ai.title': 'AI 代码助手',
-    'features.ai.description': '实时AI分析与语音控制',
-    'features.timemachine.title': '时间机器',
-    'features.timemachine.description': '穿越代码演变历史',
-    'features.exploit.title': '漏洞实验室',
-    'features.exploit.description': '通过安全的黑客学习安全知识',
-    'features.arena.title': '协作竞技场',
-    'features.arena.description': '与AI队友一起编程',
-    'features.neural.title': '神经Gas预言机',
-    'features.neural.description': 'ML驱动的Gas优化',
-    'features.crosschain.title': '跨链部署',
-    'features.crosschain.description': '一键部署到8+网络',
-    
-    // Common
-    'common.loading': '加载中...',
-    'common.error': '错误',
-    'common.success': '成功',
-    'common.save': '保存',
-    'common.cancel': '取消',
-    'common.delete': '删除',
-    'common.edit': '编辑',
-    'common.copy': '复制',
-    'common.copied': '已复制！',
-    'common.search': '搜索',
-    'common.filter': '筛选',
-    'common.all': '全部',
-    'common.back': '返回',
-    'common.next': '下一步',
-    'common.previous': '上一步',
-    'common.close': '关闭',
-    'common.open': '打开',
-    'common.learn_more': '了解更多',
-    'common.get_started': '开始使用',
-    
-    // Sandbox
-    'sandbox.compile': '编译',
-    'sandbox.deploy': '部署',
-    'sandbox.compiling': '编译中...',
-    'sandbox.deploying': '部署中...',
-    'sandbox.console': '控制台',
-    'sandbox.files': '文件',
-    'sandbox.interaction': '交互',
-    'sandbox.innovation': '创新模式',
-    'sandbox.activate_innovation': '激活创新',
-    
-    // About
-    'about.title': '关于我们',
-    'about.mission': '我们的使命',
-    'about.vision': '我们的愿景',
-    'about.team': '团队介绍',
-    'about.values': '我们的价值观',
-    'about.join': '加入我们',
-    
-    // Docs
-    'docs.title': '文档',
-    'docs.search_placeholder': '搜索文档...',
-    'docs.getting_started': '快速开始',
-    'docs.quick_links': '快捷链接',
-    'docs.read_time': '分钟阅读',
-    
-    // Settings
-    'settings.title': '设置',
-    'settings.language': '语言',
-    'settings.theme': '主题',
-    'settings.theme.light': '浅色',
-    'settings.theme.dark': '深色',
-    'settings.theme.system': '跟随系统',
-    'settings.notifications': '通知',
-    'settings.privacy': '隐私',
-    
-    // Footer
-    'footer.rights': '版权所有',
-    'footer.privacy': '隐私政策',
-    'footer.terms': '服务条款',
-  },
-  
-  // Placeholder for other languages
-  fr: {} as Record<string, string>,
-  de: {} as Record<string, string>,
-  ja: {} as Record<string, string>,
-  ko: {} as Record<string, string>,
-  pt: {} as Record<string, string>,
-  ru: {} as Record<string, string>,
-  ar: {} as Record<string, string>,
+    // Errors
+    'error.generic': 'Something went wrong',
+    'error.not_found': 'Page not found',
+    'error.network': 'Network error',
+    'error.try_again': 'Try Again',
 };
 
-// Fill in missing translations with English fallback
-Object.keys(translations.en).forEach(key => {
-  Object.keys(translations).forEach(lang => {
-    if (!translations[lang as Language][key]) {
-      translations[lang as Language][key] = translations.en[key];
-    }
-  });
-});
+// Dynamic translations storage (populated from API/cache)
+let dynamicTranslations: Record<Language, Record<string, string>> = {
+  en: { ...baseTranslations },
+  es: {},
+  zh: {},
+  fr: {},
+  de: {},
+  ja: {},
+  ko: {},
+  pt: {},
+  ru: {},
+  ar: {},
+};
 
 interface I18nStore {
   language: Language;
-  setLanguage: (lang: Language) => void;
+  isLoading: boolean;
+  translationError: string | null;
+  setLanguage: (lang: Language) => Promise<void>;
   t: (key: string, params?: Record<string, string>) => string;
   isRTL: () => boolean;
+  refreshTranslations: () => Promise<void>;
+  clearCache: () => void;
 }
 
 export const useI18n = create<I18nStore>()(
   persist(
     (set, get) => ({
       language: 'en',
+      isLoading: false,
+      translationError: null,
       
-      setLanguage: (lang: Language) => {
-        set({ language: lang });
+      setLanguage: async (lang: Language) => {
+        set({ language: lang, isLoading: true, translationError: null });
+        
         // Update document direction for RTL languages
         const langInfo = languages.find(l => l.code === lang);
         document.documentElement.dir = langInfo?.rtl ? 'rtl' : 'ltr';
         document.documentElement.lang = lang;
+        
+        // If English, no need to translate
+        if (lang === 'en') {
+          dynamicTranslations.en = { ...baseTranslations };
+          set({ isLoading: false });
+          return;
+        }
+        
+        // Check cache first
+        const cached = getCachedTranslations(lang);
+        if (cached && Object.keys(cached).length > 0) {
+          dynamicTranslations[lang] = cached;
+          set({ isLoading: false });
+          return;
+        }
+        
+        // Fetch translations from API
+        try {
+          const translations = await translateAllStrings(baseTranslations, lang);
+          dynamicTranslations[lang] = translations;
+          set({ isLoading: false });
+        } catch (error: any) {
+          console.error('Failed to load translations:', error);
+          set({ isLoading: false, translationError: error.message });
+        }
       },
       
       t: (key: string, params?: Record<string, string>) => {
         const { language } = get();
-        let text = translations[language][key] || translations.en[key] || key;
         
-        // Replace parameters
+        // Get translation from dynamic store, fall back to English, then to key
+        let text = dynamicTranslations[language]?.[key] 
+          || dynamicTranslations.en[key] 
+          || baseTranslations[key]
+          || key;
+        
+        // Replace parameters like {name} with actual values
         if (params) {
           Object.entries(params).forEach(([param, value]) => {
-            text = text.replace(`{${param}}`, value);
+            text = text.replace(new RegExp(`\\{${param}\\}`, 'g'), value);
           });
         }
         
@@ -386,10 +274,27 @@ export const useI18n = create<I18nStore>()(
         const { language } = get();
         const langInfo = languages.find(l => l.code === language);
         return langInfo?.rtl || false;
+      },
+      
+      refreshTranslations: async () => {
+        const { language, setLanguage } = get();
+        clearTranslationCache();
+        await setLanguage(language);
+      },
+      
+      clearCache: () => {
+        clearTranslationCache();
+        // Reset dynamic translations
+        Object.keys(dynamicTranslations).forEach(lang => {
+          if (lang !== 'en') {
+            dynamicTranslations[lang as Language] = {};
+          }
+        });
       }
     }),
     {
-      name: 'i18n-storage'
+      name: 'i18n-storage',
+      partialize: (state) => ({ language: state.language })
     }
   )
 );

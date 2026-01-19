@@ -16,7 +16,7 @@
   --a11y-cursor-size: 1;
   --a11y-focus-width: 3px;
   --a11y-transition-duration: 200ms;
-  --a11y-reading-guide-color: rgba(255, 255, 0, 0.3);
+  --a11y-reading-guide-color: rgba(212, 212, 212, 0.4);
   --a11y-contrast-multiplier: 1;
 }
 
@@ -26,8 +26,8 @@
 .a11y-high-contrast {
   --contrast-text: #000000;
   --contrast-bg: #ffffff;
-  --contrast-link: #0000ee;
-  --contrast-link-visited: #551a8b;
+  --contrast-link: #404040;
+  --contrast-link-visited: #171717;
   --contrast-border: #000000;
 }
 
@@ -48,6 +48,10 @@
 
 .dark.a11y-high-contrast {
   --contrast-text: #ffffff;
+  --contrast-bg: #000000;
+  --contrast-link: #e5e5e5;
+  --contrast-link-visited: #d4d4d4;
+  --contrast-border: #ffffff;
   --contrast-bg: #000000;
   --contrast-link: #66b3ff;
   --contrast-link-visited: #cc99ff;
@@ -226,17 +230,17 @@
    ============================================ */
 .a11y-focus-enhanced *:focus,
 .a11y-focus-enhanced *:focus-visible {
-  outline: 4px solid #0066ff !important;
+  outline: 4px solid #404040 !important;
   outline-offset: 4px !important;
-  box-shadow: 0 0 0 6px rgba(0, 102, 255, 0.3) !important;
+  box-shadow: 0 0 0 6px rgba(64, 64, 64, 0.3) !important;
 }
 
 .a11y-focus-maximum *:focus,
 .a11y-focus-maximum *:focus-visible {
-  outline: 6px solid #ff6600 !important;
+  outline: 6px solid #171717 !important;
   outline-offset: 6px !important;
-  box-shadow: 0 0 0 10px rgba(255, 102, 0, 0.3) !important;
-  background-color: rgba(255, 255, 0, 0.3) !important;
+  box-shadow: 0 0 0 10px rgba(23, 23, 23, 0.3) !important;
+  background-color: rgba(229, 229, 229, 0.3) !important;
 }
 
 /* ============================================
@@ -275,7 +279,7 @@
   left: 0;
   right: 0;
   height: 2em;
-  background-color: var(--a11y-reading-guide-color, rgba(255, 255, 0, 0.3));
+  background-color: var(--a11y-reading-guide-color, rgba(212, 212, 212, 0.4));
   pointer-events: none;
   z-index: 9999;
   transition: top 0.1s ease-out;

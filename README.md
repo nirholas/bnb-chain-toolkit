@@ -1,10 +1,27 @@
 <!--
-  ✨ built by nich
-  🌐 GitHub: github.com/nirholas
-  💫 Persistence beats perfection 🎖️
+═══════════════════════════════════════════════════════════════════════════════
+LYRA WEB3 PLAYGROUND
+═══════════════════════════════════════════════════════════════════════════════
+
+✨ Original Author: nich
+🐦 Twitter/X: x.com/nichxbt  
+🐙 GitHub: github.com/nirholas
+📦 Repository: github.com/nirholas/lyra-web3-playground
+🌐 Website: https://lyra.works
+
+Copyright (c) 2024-2026 nirholas (nich)
+Licensed under MIT License
+
+NOTICE: This project contains embedded watermarks and attribution markers.
+Removal or modification of attribution constitutes violation of the license.
+═══════════════════════════════════════════════════════════════════════════════
 -->
 
 # Lyra Web3 Playground
+
+<p align="center">
+  <strong>✨ Built by <a href="https://x.com/nichxbt">nich</a> | <a href="https://github.com/nirholas">GitHub</a> | <a href="https://x.com/nichxbt">X/Twitter</a></strong>
+</p>
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/demo-lyra.works-blue)](https://lyra.works)
@@ -12,6 +29,7 @@
 [![React](https://img.shields.io/badge/React-18-61dafb)](https://react.dev/)
 [![Accessibility](https://img.shields.io/badge/a11y-WCAG%202.1%20AAA-purple)](docs/ACCESSIBILITY.md)
 [![i18n](https://img.shields.io/badge/i18n-10%20languages-orange)](docs/ARCHITECTURE.md)
+[![Author](https://img.shields.io/badge/Author-nich-ff69b4)](https://x.com/nichxbt)
 
 > **A comprehensive open-source Web3 learning platform.** Professional development environments, AI-assisted tools, security testing, and collaborative features — all in your browser.
 

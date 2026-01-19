@@ -10,17 +10,35 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
 // Initialize Supabase client (only if configured)
-export const supabase: SupabaseClient = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey, {
+const createSupabaseClient = (): SupabaseClient => {
+  if (supabaseUrl && supabaseAnonKey) {
+    return createClient(supabaseUrl, supabaseAnonKey, {
       auth: {
         autoRefreshToken: true,
         persistSession: true,
         detectSessionInUrl: true,
       },
-    })
-  : createClient('https://placeholder.supabase.co', 'placeholder-key', {
-      auth: { persistSession: false },
     });
+  }
+  
+  // Return a mock client that logs warnings when Supabase is not configured
+  console.warn('[Supabase] Not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.');
+  
+  // Create a minimal mock that won't make network requests to placeholder URLs
+  const mockClient = createClient('https://localhost.invalid', 'not-configured', {
+    auth: { 
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+    global: {
+      fetch: () => Promise.reject(new Error('Supabase is not configured. Please set environment variables.')),
+    },
+  });
+  
+  return mockClient;
+};
+
+export const supabase: SupabaseClient = createSupabaseClient();
 
 // Check if Supabase is properly configured
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);

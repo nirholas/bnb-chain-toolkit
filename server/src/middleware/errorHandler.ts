@@ -6,21 +6,27 @@
 
 import { Request, Response, NextFunction } from 'express';
 
+interface HttpError extends Error {
+  statusCode?: number;
+}
+
 export const errorHandler = (
-  err: any,
+  err: HttpError | Error | unknown,
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
-  console.error('Error:', err);
-
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal server error';
+  // Type-safe error handling
+  const error = err instanceof Error ? err : new Error('Unknown error occurred');
+  const statusCode = (err as HttpError)?.statusCode || 500;
+  const message = error.message || 'Internal server error';
+  
+  console.error('Error:', message);
 
   res.status(statusCode).json({
     success: false,
     error: message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
   });
 };
 

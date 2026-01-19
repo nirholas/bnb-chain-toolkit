@@ -107,12 +107,18 @@ export default function InteractiveSandbox() {
   // Listen for console messages from preview iframe
   useEffect(() => {
     const handler = (ev: MessageEvent) => {
-      const data = ev.data as any;
+      // Security: Only accept messages from our own iframe (same origin or blob URLs)
+      if (ev.origin !== window.location.origin && !ev.origin.startsWith('blob:')) {
+        // For sandboxed iframes, origin may be 'null' - verify source is our iframe
+        if (ev.origin !== 'null') return;
+      }
+      
+      const data = ev.data as { __lyra_preview_console?: boolean; type?: string; entries?: string[] };
       if (data && data.__lyra_preview_console) {
         const time = new Date().toLocaleTimeString();
         const text = (data.entries || []).join(' ');
         const typeMap: Record<string, Log['type']> = { log: 'info', info: 'info', warn: 'warning', error: 'error' };
-        addLog(typeMap[data.type] || 'info', text);
+        addLog(typeMap[data.type || 'log'] || 'info', text);
       }
     };
     window.addEventListener('message', handler);

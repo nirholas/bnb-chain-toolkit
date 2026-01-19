@@ -15,6 +15,7 @@ import TokenSwapExample from '@/examples/web3/TokenSwapExample';
 import TokenSwapFullStack from '@/examples/web3/TokenSwapFullStack';
 import AIContractGenerator from '@/examples/ai/AIContractGenerator';
 import AIFullStackBuilder from '@/examples/ai/AIFullStackBuilder';
+import AIChatAssistant from '@/examples/ai/AIChatAssistant';
 import DeFiLendingExample from '@/examples/web3/DeFiLendingExample';
 import YieldFarmingExample from '@/examples/web3/YieldFarmingExample';
 import DAOGovernanceExample from '@/examples/web3/DAOGovernanceExample';
@@ -147,6 +148,34 @@ async function getBalance(address: string, provider: ethers.Provider) {
 
 // The generated code is fully editable in the
 // interactive playground with live preview!`,
+  },
+  'ai-chat-assistant': {
+    component: AIChatAssistant,
+    title: 'AI Chat Assistant',
+    description: 'Smart coding assistant using pattern matching - no API key required!',
+    difficulty: 'intermediate',
+    tags: ['ai', 'chat', 'assistant', 'free'],
+    inlineCode: `// Lyra AI Chat Assistant
+// A smart coding assistant that works without an API key!
+
+// This example demonstrates how to build an AI assistant using:
+// 1. Pattern Matching - Match user queries to knowledge entries
+// 2. Knowledge Base - Curated Q&A for Solidity/Web3 topics
+// 3. Response Formatting - Rich responses with code examples
+
+// Key benefits:
+// - 🆓 Completely free - no API costs
+// - ⚡ Instant responses - no network latency
+// - 🔒 100% private - data stays in browser
+// - 📴 Works offline!
+
+// Perfect for:
+// - Documentation bots
+// - Code assistants
+// - FAQ systems
+// - Educational tools
+
+// Try asking about mappings, ERC-20, security, DeFi, and more!`,
   },
   'defi-lending': {
     component: DeFiLendingExample,

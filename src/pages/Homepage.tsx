@@ -1,8 +1,16 @@
 /**
- * ✨ built by nich
- * 🌐 GitHub: github.com/nirholas
- * 💫 Code with purpose, build with passion 🔥
+ * ═══════════════════════════════════════════════════════════════════════════
+ * LYRA WEB3 PLAYGROUND - Homepage
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ✨ Author: nich | 🐦 x.com/nichxbt | 🐙 github.com/nirholas
+ * 📦 github.com/nirholas/lyra-web3-playground | 🌐 https://lyra.works
+ * Copyright (c) 2024-2026 nirholas (nich) - MIT License
+ * @preserve
+ * ═══════════════════════════════════════════════════════════════════════════
  */
+
+// Attribution marker - nich | x.com/nichxbt | github.com/nirholas
+const __attr__ = { _n: 'nich', _x: 'nichxbt', _g: 'nirholas' };
 
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,6 +25,7 @@ import LivePreview from '@/components/Playground/LivePreview';
 import TemplateSelector from '@/components/Playground/TemplateSelector';
 import { ContractTemplate, contractTemplates } from '@/utils/contractTemplates';
 import { LyraChatPanel } from '@/components/Lyra/LyraChat';
+import { generateLyraResponse, getWelcomeMessage } from '@/services/lyraAI';
 import { 
   Wallet, 
   Code, 
@@ -267,6 +276,17 @@ const examples: Example[] = [
     icon: Sparkles,
   },
   {
+    id: 'ai-chat-assistant',
+    title: 'AI Chat Assistant',
+    description: 'Smart coding assistant using pattern matching - no API key needed!',
+    category: 'ai',
+    chain: 'ethereum',
+    difficulty: 'intermediate',
+    tags: ['ai', 'chat', 'assistant', 'free'],
+    component: () => null,
+    icon: MessageCircle,
+  },
+  {
     id: 'blockchain-analyzer',
     title: 'Blockchain Data Analyzer',
     description: 'Analyze on-chain data with AI-powered insights',
@@ -338,13 +358,13 @@ function WalletConnectInline() {
   if (isConnected && address) {
     return (
       <div className="space-y-4">
-        <div className="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
-          <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-            <Check className="w-5 h-5 text-white" />
+        <div className="flex items-center gap-3 p-4 bg-gray-100 dark:bg-black rounded-xl border border-gray-300 dark:border-white/10 dark:shadow-[0_0_20px_rgba(255,255,255,0.03)]">
+          <div className="w-10 h-10 bg-gray-700 dark:bg-gray-300 rounded-full flex items-center justify-center">
+            <Check className="w-5 h-5 text-white dark:text-black" />
           </div>
           <div className="flex-1">
-            <p className="font-semibold text-green-800 dark:text-green-200">Connected!</p>
-            <p className="text-sm text-green-600 dark:text-green-400 font-mono">{truncateAddress(address)}</p>
+            <p className="font-semibold text-gray-800 dark:text-gray-200">Connected!</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 font-mono">{truncateAddress(address)}</p>
           </div>
         </div>
         {balance && (
@@ -369,7 +389,7 @@ function WalletConnectInline() {
         Connect your wallet to interact with Web3 examples (optional).
       </p>
       {error && (
-        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-800 dark:text-red-200">
+        <div className="p-3 bg-gray-100 dark:bg-black border border-gray-400 dark:border-white/10 rounded-lg text-sm text-gray-800 dark:text-gray-200">
           {error}
         </div>
       )}
@@ -383,7 +403,7 @@ function WalletConnectInline() {
       </button>
       <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
         Don't have MetaMask?{' '}
-        <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
+        <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 underline hover:text-gray-900 dark:hover:text-white">
           Download it here
         </a>
       </p>
@@ -475,33 +495,36 @@ contract HelloWorld {
   }, [demoCode]);
 
   // Lyra AI Chat demo state
-  const [lyraChatMessages, setLyraChatMessages] = useState<Array<{id: string; content: string; role: 'user' | 'assistant'}>>([ 
-    { id: '1', content: "Hi! I'm Lyra, your AI coding assistant. Ask me anything about smart contracts, Web3, or blockchain development!", role: 'assistant' }
+  const [lyraChatMessages, setLyraChatMessages] = useState<Array<{id: string; content: string; role: 'user' | 'assistant'}>>([
+    getWelcomeMessage()
   ]);
   const [lyraLoading, setLyraLoading] = useState(false);
 
-  const handleLyraSend = useCallback((message: string) => {
+  const handleLyraSend = useCallback(async (message: string) => {
     const userMsg = { id: Date.now().toString(), content: message, role: 'user' as const };
     setLyraChatMessages(prev => [...prev, userMsg]);
     setLyraLoading(true);
     
-    // Simulate AI response
-    setTimeout(() => {
-      const responses = [
-        "Great question! In Solidity, you can use the `mapping` type to create key-value stores. For example: `mapping(address => uint256) public balances;`",
-        "To make your contract more gas-efficient, consider using `calldata` instead of `memory` for function parameters that don't need to be modified.",
-        "The `require` statement is perfect for input validation. It reverts the transaction if the condition is false and refunds remaining gas.",
-        "For ERC-20 tokens, you'll need to implement `transfer`, `approve`, `transferFrom`, `balanceOf`, and `allowance` functions at minimum.",
-        "Smart contract security is crucial! Always check for reentrancy vulnerabilities, integer overflow, and access control issues."
-      ];
+    try {
+      // Use real Lyra AI service
+      const response = await generateLyraResponse(message);
       const aiResponse = {
         id: (Date.now() + 1).toString(),
-        content: responses[Math.floor(Math.random() * responses.length)],
+        content: response.message,
         role: 'assistant' as const
       };
       setLyraChatMessages(prev => [...prev, aiResponse]);
+    } catch (error) {
+      console.error('Lyra AI error:', error);
+      const errorResponse = {
+        id: (Date.now() + 1).toString(),
+        content: "I encountered an issue processing your request. Please try asking about smart contracts, Solidity, or Web3 development!",
+        role: 'assistant' as const
+      };
+      setLyraChatMessages(prev => [...prev, errorResponse]);
+    } finally {
       setLyraLoading(false);
-    }, 1000);
+    }
   }, []);
 
   const filteredExamples = examples.filter((example) => {
@@ -517,15 +540,15 @@ contract HelloWorld {
   });
 
   const categoryColors = {
-    web3: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-    ai: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
-    hybrid: 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 dark:from-blue-900/30 dark:to-purple-900/30 dark:text-blue-300',
+    web3: 'bg-gray-200 text-gray-800 dark:bg-white/5 dark:text-gray-200 dark:border dark:border-white/10',
+    ai: 'bg-gray-300 text-gray-900 dark:bg-gray-700 dark:text-gray-100',
+    hybrid: 'bg-gray-200 text-gray-800 dark:bg-white/5 dark:text-gray-200 dark:border dark:border-white/10',
   };
 
   const difficultyColors = {
-    beginner: 'text-green-600 dark:text-green-400',
-    intermediate: 'text-yellow-600 dark:text-yellow-400',
-    advanced: 'text-red-600 dark:text-red-400',
+    beginner: 'text-gray-600 dark:text-gray-400',
+    intermediate: 'text-gray-700 dark:text-gray-300',
+    advanced: 'text-gray-900 dark:text-gray-100',
   };
 
   return (
@@ -533,10 +556,10 @@ contract HelloWorld {
       <div className="container">
         {/* Hero Section */}
         <div className="text-center mb-12 animate-fade-in">
-          <div className="inline-flex items-center justify-center p-3 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl mb-6 shadow-lg">
-            <Zap className="w-12 h-12 text-white" />
+          <div className="inline-flex items-center justify-center p-3 bg-gray-800 dark:bg-gray-200 rounded-2xl mb-6 shadow-lg">
+            <Zap className="w-12 h-12 text-white dark:text-black" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
             {t('hero.title')} {t('hero.subtitle')}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
@@ -545,16 +568,16 @@ contract HelloWorld {
           
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-6 mb-8">
-            <div className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-              <Code className="w-5 h-5 text-primary-600" />
+            <div className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-black dark:border dark:border-white/10 rounded-lg shadow-sm dark:shadow-[0_0_15px_rgba(255,255,255,0.02)]">
+              <Code className="w-5 h-5 text-gray-700 dark:text-gray-300" />
               <span className="font-semibold">40+ Templates</span>
             </div>
-            <div className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-              <BookOpen className="w-5 h-5 text-primary-600" />
+            <div className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-black dark:border dark:border-white/10 rounded-lg shadow-sm dark:shadow-[0_0_15px_rgba(255,255,255,0.02)]">
+              <BookOpen className="w-5 h-5 text-gray-700 dark:text-gray-300" />
               <span className="font-semibold">50+ Tutorials</span>
             </div>
-            <div className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-              <Shield className="w-5 h-5 text-primary-600" />
+            <div className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-black dark:border dark:border-white/10 rounded-lg shadow-sm dark:shadow-[0_0_15px_rgba(255,255,255,0.02)]">
+              <Shield className="w-5 h-5 text-gray-700 dark:text-gray-300" />
               <span className="font-semibold">Open Source</span>
             </div>
           </div>
@@ -566,7 +589,7 @@ contract HelloWorld {
         <div className="mb-12">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold mb-2 flex items-center justify-center gap-2">
-              <MessageCircle className="w-6 h-6 text-indigo-500" />
+              <MessageCircle className="w-6 h-6 text-gray-600 dark:text-gray-400" />
               Meet Lyra AI
             </h2>
             <p className="text-gray-600 dark:text-gray-400">Your AI coding assistant - try asking about smart contracts!</p>
@@ -580,6 +603,29 @@ contract HelloWorld {
               placeholder="Ask about Solidity, smart contracts, DeFi..."
             />
           </div>
+          
+          {/* Learn How to Build This */}
+          <div className="mt-6 bg-gray-100 dark:bg-black rounded-xl p-6 border border-gray-200 dark:border-white/10 max-w-2xl mx-auto dark:shadow-[0_0_20px_rgba(255,255,255,0.03)]">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-center md:text-left">
+                <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 justify-center md:justify-start">
+                  <Code className="w-5 h-5" />
+                  Learn How to Build This
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm max-w-xl">
+                  Build your own AI-powered coding assistant using pattern matching and a knowledge base. 
+                  No API key required - works entirely in the browser!
+                </p>
+              </div>
+              <Link
+                to="/tutorial/react-web3-hooks"
+                className="flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors whitespace-nowrap"
+              >
+                <GraduationCap className="w-5 h-5" />
+                Start Tutorial
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════
@@ -588,10 +634,10 @@ contract HelloWorld {
         <div className="mb-12 p-4 bg-gray-900 rounded-xl shadow-lg">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-white font-semibold flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-green-400" />
+              <TrendingUp className="w-5 h-5 text-gray-400" />
               Live Market Data
             </h3>
-            <Link to="/markets" className="text-sm text-primary-400 hover:text-primary-300 flex items-center gap-1">
+            <Link to="/markets" className="text-sm text-gray-400 hover:text-gray-200 flex items-center gap-1">
               View Full Dashboard <ExternalLink className="w-3 h-3" />
             </Link>
           </div>
@@ -606,7 +652,7 @@ contract HelloWorld {
             <h2 className="text-2xl font-bold mb-2">Live DeFi Analytics</h2>
             <p className="text-gray-600 dark:text-gray-400">Real-time data from DeFiLlama API</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
             <div className="bg-gray-900 rounded-xl p-4 shadow-lg">
               <TopProtocolsWidget limit={5} />
             </div>
@@ -615,6 +661,29 @@ contract HelloWorld {
             </div>
             <div className="bg-gray-900 rounded-xl p-4 shadow-lg">
               <TopChainsWidget limit={5} />
+            </div>
+          </div>
+          
+          {/* Learn How to Build This */}
+          <div className="bg-gray-100 dark:bg-black rounded-xl p-6 border border-gray-200 dark:border-white/10 dark:shadow-[0_0_20px_rgba(255,255,255,0.03)]">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-center md:text-left">
+                <h3 className="text-lg font-semibold mb-2 flex items-center gap-2 justify-center md:justify-start">
+                  <Code className="w-5 h-5" />
+                  Learn How to Build This
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm max-w-xl">
+                  Build your own DeFi analytics dashboard using the DeFiLlama API. Learn how to fetch live protocol data, 
+                  display TVL rankings, yield opportunities, and chain statistics in React.
+                </p>
+              </div>
+              <Link
+                to="/tutorial/defi-dashboard-tutorial"
+                className="flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors whitespace-nowrap"
+              >
+                <GraduationCap className="w-5 h-5" />
+                Start Tutorial
+              </Link>
             </div>
           </div>
         </div>
@@ -632,9 +701,9 @@ contract HelloWorld {
             <div className="flex items-center justify-between px-4 py-3 bg-gray-800 border-b border-gray-700">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
+                  <div className="w-3 h-3 rounded-full bg-gray-500" />
+                  <div className="w-3 h-3 rounded-full bg-gray-400" />
+                  <div className="w-3 h-3 rounded-full bg-gray-300" />
                 </div>
                 <span className="text-sm text-gray-400 ml-2">HelloWorld.sol</span>
               </div>
@@ -643,7 +712,7 @@ contract HelloWorld {
                   onClick={handleCopyCode}
                   className="flex items-center gap-2 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm text-white transition-colors"
                 >
-                  {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                  {copied ? <Check className="w-4 h-4 text-gray-300" /> : <Copy className="w-4 h-4" />}
                   {copied ? 'Copied!' : 'Copy'}
                 </button>
                 <Link
@@ -684,8 +753,8 @@ contract HelloWorld {
             <h2 className="text-2xl font-bold mb-2">Live Web3 Preview</h2>
             <p className="text-gray-600 dark:text-gray-400">Interactive HTML/CSS/JS demo - click the button to see it work!</p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <div className="bg-white dark:bg-black rounded-xl overflow-hidden shadow-lg dark:shadow-[0_0_30px_rgba(255,255,255,0.04)] border border-gray-200 dark:border-white/10">
+            <div className="p-4 border-b border-gray-200 dark:border-white/5 flex items-center justify-between">
               <span className="text-sm font-medium">Live Preview</span>
               <Link to="/ide?type=web" className="text-sm text-primary-600 hover:text-primary-700 flex items-center gap-1">
                 Open Web IDE <ExternalLink className="w-3 h-3" />
@@ -706,7 +775,7 @@ contract HelloWorld {
             <p className="text-gray-600 dark:text-gray-400">Real MetaMask integration - try connecting your wallet (optional)</p>
           </div>
           <div className="max-w-md mx-auto">
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-black rounded-xl p-6 shadow-lg dark:shadow-[0_0_30px_rgba(255,255,255,0.04)] border border-gray-200 dark:border-white/10">
               <WalletConnectInline />
             </div>
           </div>
@@ -739,7 +808,7 @@ contract HelloWorld {
   };
 
   return (
-    <div className="p-6 max-w-sm mx-auto bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl text-white">
+    <div className="p-6 max-w-sm mx-auto bg-gray-900 rounded-2xl text-white">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl">
           🪙
@@ -757,11 +826,10 @@ contract HelloWorld {
       
       <button
         onClick={handleStake}
-        className={\`w-full py-3 rounded-xl font-semibold transition-all \${
-          staked 
-            ? 'bg-green-500 hover:bg-green-600' 
-            : 'bg-white text-purple-600 hover:bg-gray-100'
-        }\`}
+        className={staked 
+          ? "w-full py-3 rounded-xl font-semibold transition-all bg-green-600 text-white hover:bg-green-700" 
+          : "w-full py-3 rounded-xl font-semibold transition-all bg-white text-gray-900 hover:bg-gray-100"
+        }
       >
         {staked ? '✓ Staked' : 'Stake Tokens'}
       </button>
@@ -783,7 +851,7 @@ render(<TokenCard />);`
             <h2 className="text-2xl font-bold mb-2">41 Contract Templates</h2>
             <p className="text-gray-600 dark:text-gray-400">Browse our library of production-ready smart contracts</p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="bg-white dark:bg-black rounded-xl shadow-lg dark:shadow-[0_0_30px_rgba(255,255,255,0.04)] border border-gray-200 dark:border-white/10 overflow-hidden">
             <div className="max-h-96 overflow-y-auto p-4">
               <TemplateSelector
                 onTemplateSelect={(template: ContractTemplate) => {
@@ -847,7 +915,7 @@ render(<TokenCard />);`
                   </p>
                 </div>
               </div>
-              <div className="flex items-center space-x-2 px-6 py-3 bg-white text-primary-600 rounded-xl font-semibold group-hover:bg-gray-100 transition-colors">
+              <div className="flex items-center space-x-2 px-6 py-3 bg-white text-gray-900 rounded-xl font-semibold group-hover:bg-gray-100 transition-colors">
                 <span>Try Now</span>
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -867,16 +935,16 @@ render(<TokenCard />);`
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Web Sandbox */}
-            <Link to="/ide?type=web" className="group card hover:border-blue-500 dark:hover:border-blue-400 transition-all">
+            <Link to="/ide?type=web" className="group card hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <Globe className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <Globe className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Production
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Web Sandbox
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -890,16 +958,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Solidity UDE */}
-            <Link to="/ide?type=solidity" className="group card hover:border-purple-500 dark:hover:border-purple-400 transition-all">
+            <Link to="/ide?type=solidity" className="group card hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <FileCode className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <FileCode className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Production
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Solidity UDE
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -913,16 +981,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Full-Stack Playground */}
-            <Link to="/fullstack-demo" className="group card hover:border-green-500 dark:hover:border-green-400 transition-all">
+            <Link to="/fullstack-demo" className="group card hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <Layers className="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <Layers className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Production
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Full-Stack Playground
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -935,16 +1003,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Learning Playground */}
-            <Link to="/learn" className="group card hover:border-yellow-500 dark:hover:border-yellow-400 transition-all">
+            <Link to="/learn" className="group card hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <BookOpen className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <BookOpen className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Production
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Learning Playground
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -957,16 +1025,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Markets */}
-            <Link to="/markets" className="group card hover:border-cyan-500 dark:hover:border-cyan-400 transition-all">
+            <Link to="/markets" className="group card hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-cyan-100 dark:bg-cyan-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <TrendingUp className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <TrendingUp className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Live Data
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Market Data
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -979,16 +1047,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Community Explore */}
-            <Link to="/explore" className="group card hover:border-pink-500 dark:hover:border-pink-400 transition-all">
+            <Link to="/explore" className="group card hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-pink-100 dark:bg-pink-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <Users className="w-6 h-6 text-pink-600 dark:text-pink-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <Users className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Community
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Explore Projects
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -1005,7 +1073,7 @@ render(<TokenCard />);`
         {/* Innovation Lab Section */}
         <div className="mb-12">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium mb-4">
               <TestTube className="w-4 h-4" />
               <span>Experimental Features</span>
             </div>
@@ -1017,16 +1085,16 @@ render(<TokenCard />);`
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* AI Code Whisperer */}
-            <Link to="/innovation" className="group card border-dashed hover:border-purple-500 dark:hover:border-purple-400 transition-all">
+            <Link to="/innovation" className="group card border-dashed hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <Brain className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <Brain className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Experimental
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 AI Code Whisperer
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -1039,16 +1107,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Contract Time Machine */}
-            <Link to="/innovation" className="group card border-dashed hover:border-indigo-500 dark:hover:border-indigo-400 transition-all">
+            <Link to="/innovation" className="group card border-dashed hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <History className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <History className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Experimental
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Contract Time Machine
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -1061,16 +1129,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Security Testing Lab */}
-            <Link to="/innovation" className="group card border-dashed hover:border-red-500 dark:hover:border-red-400 transition-all">
+            <Link to="/innovation" className="group card border-dashed hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <Shield className="w-6 h-6 text-red-600 dark:text-red-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <Shield className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Experimental
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Security Testing Lab
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -1083,16 +1151,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Collaborative Arena */}
-            <Link to="/innovation" className="group card border-dashed hover:border-violet-500 dark:hover:border-violet-400 transition-all">
+            <Link to="/innovation" className="group card border-dashed hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-violet-100 dark:bg-violet-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <Users className="w-6 h-6 text-violet-600 dark:text-violet-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <Users className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Experimental
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Collaborative Arena
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -1105,16 +1173,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Neural Gas Oracle */}
-            <Link to="/innovation" className="group card border-dashed hover:border-cyan-500 dark:hover:border-cyan-400 transition-all">
+            <Link to="/innovation" className="group card border-dashed hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-cyan-100 dark:bg-cyan-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <Cpu className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <Cpu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Experimental
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Neural Gas Oracle
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -1127,16 +1195,16 @@ render(<TokenCard />);`
             </Link>
 
             {/* Cross-Chain Deployer */}
-            <Link to="/innovation" className="group card border-dashed hover:border-emerald-500 dark:hover:border-emerald-400 transition-all">
+            <Link to="/innovation" className="group card border-dashed hover:border-gray-500 dark:hover:border-gray-400 transition-all">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                  <GitBranch className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl group-hover:scale-110 transition-transform">
+                  <GitBranch className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
                   Experimental
                 </span>
               </div>
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+              <h3 className="text-xl font-semibold mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                 Cross-Chain Deployer
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -1161,32 +1229,32 @@ render(<TokenCard />);`
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="card text-center">
-              <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl inline-block mb-3">
-                <MousePointer className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl inline-block mb-3">
+                <MousePointer className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </div>
               <h3 className="font-semibold mb-1">Dwell Click</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">Click by hovering</p>
             </div>
             
             <div className="card text-center">
-              <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl inline-block mb-3">
-                <Eye className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl inline-block mb-3">
+                <Eye className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </div>
               <h3 className="font-semibold mb-1">Reading Guide</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">Line follows cursor</p>
             </div>
             
             <div className="card text-center">
-              <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl inline-block mb-3">
-                <Palette className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl inline-block mb-3">
+                <Palette className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </div>
               <h3 className="font-semibold mb-1">Color Blind Filters</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">Multiple modes</p>
             </div>
             
             <div className="card text-center">
-              <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-xl inline-block mb-3">
-                <Languages className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl inline-block mb-3">
+                <Languages className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </div>
               <h3 className="font-semibold mb-1">10 Languages</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">Including RTL</p>
@@ -1210,10 +1278,10 @@ render(<TokenCard />);`
           
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             {/* Beginner Track */}
-            <div className="card border-2 border-green-200 dark:border-green-800 hover:border-green-400 dark:hover:border-green-600 transition-colors">
+            <div className="card border-2 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
-                  <Sprout className="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl">
+                  <Sprout className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
                 <div>
                   <h3 className="font-semibold">Beginner</h3>
@@ -1229,10 +1297,10 @@ render(<TokenCard />);`
             </div>
 
             {/* Intermediate Track */}
-            <div className="card border-2 border-yellow-200 dark:border-yellow-800 hover:border-yellow-400 dark:hover:border-yellow-600 transition-colors">
+            <div className="card border-2 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl">
-                  <Zap className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl">
+                  <Zap className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
                 <div>
                   <h3 className="font-semibold">Intermediate</h3>
@@ -1248,10 +1316,10 @@ render(<TokenCard />);`
             </div>
 
             {/* Advanced Track */}
-            <div className="card border-2 border-red-200 dark:border-red-800 hover:border-red-400 dark:hover:border-red-600 transition-colors">
+            <div className="card border-2 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-xl">
-                  <Brain className="w-6 h-6 text-red-600 dark:text-red-400" />
+                <div className="p-3 bg-gray-200 dark:bg-gray-700 rounded-xl">
+                  <Brain className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                 </div>
                 <div>
                   <h3 className="font-semibold">Advanced</h3>
@@ -1288,7 +1356,7 @@ render(<TokenCard />);`
               placeholder="Search examples..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow text-base"
+              className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 dark:border-white/10 bg-white dark:bg-black focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-shadow text-base"
             />
           </div>
 

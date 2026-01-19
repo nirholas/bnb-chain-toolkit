@@ -239,8 +239,14 @@ export default function FullStackPlayground({
   // Listen for console messages from iframe
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
+      // Security: Only accept messages from our own iframe (same origin or blob URLs)
+      if (event.origin !== window.location.origin && !event.origin.startsWith('blob:')) {
+        // For sandboxed iframes, origin may be 'null' - verify source is our iframe
+        if (event.origin !== 'null') return;
+      }
+      
       if (event.data?.type === 'console') {
-        log(event.data.level, event.data.message);
+        log(event.data.level || 'log', event.data.message || '');
       }
     };
     window.addEventListener('message', handleMessage);

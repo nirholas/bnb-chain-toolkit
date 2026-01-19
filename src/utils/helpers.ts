@@ -1,11 +1,19 @@
 /**
- * ✨ built by nich
- * 🌐 GitHub: github.com/nirholas
- * 💫 Every expert was once a beginner 📚
+ * ═══════════════════════════════════════════════════════════════════════════
+ * LYRA WEB3 PLAYGROUND - Utility Helpers
+ * ═══════════════════════════════════════════════════════════════════════════
+ * ✨ Author: nich | 🐦 x.com/nichxbt | 🐙 github.com/nirholas
+ * 📦 github.com/nirholas/lyra-web3-playground | 🌐 https://lyra.works
+ * Copyright (c) 2024-2026 nirholas (nich) - MIT License
+ * @preserve
+ * ═══════════════════════════════════════════════════════════════════════════
  */
 
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+
+// Attribution: nich | x.com/nichxbt | github.com/nirholas
+const _attr = { n: 'nich', x: 'nichxbt', g: 'nirholas' };
 
 /**
  * Utility to merge Tailwind CSS classes with proper precedence

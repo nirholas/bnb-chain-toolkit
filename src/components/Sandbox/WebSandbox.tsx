@@ -60,10 +60,12 @@ import {
   SplitSquareHorizontal,
   GripVertical,
   AlertTriangle,
+  AlertCircle,
   Info,
   XCircle,
   CheckCircle,
-  Home
+  Home,
+  WifiOff
 } from 'lucide-react';
 import { cn } from '@/utils/helpers';
 
@@ -165,14 +167,71 @@ const DEFAULT_FILES: SandboxFile[] = [
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Project</title>
+  <title>DeFi Dashboard - Live Analytics</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="app">
-    <h1>Hello, World! 🚀</h1>
-    <p>Start editing to see your changes live.</p>
-    <button id="counter-btn">Clicked: 0 times</button>
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">📊</span>
+        <span class="logo-text">DeFi Dashboard</span>
+      </div>
+      <div class="header-stats">
+        <div class="stat">
+          <span class="stat-label">Total TVL</span>
+          <span class="stat-value" id="total-tvl">Loading...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard">
+      <!-- Top Protocols -->
+      <section class="card">
+        <div class="card-header">
+          <h2>🏦 Top DeFi Protocols</h2>
+          <span class="badge">Live</span>
+        </div>
+        <div class="card-content" id="protocols-list">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </section>
+
+      <!-- Top Yields -->
+      <section class="card">
+        <div class="card-header">
+          <h2>📈 Top Yield Opportunities</h2>
+          <span class="badge badge-green">APY</span>
+        </div>
+        <div class="card-content" id="yields-list">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </section>
+
+      <!-- Top Chains -->
+      <section class="card">
+        <div class="card-header">
+          <h2>⛓️ Top Chains by TVL</h2>
+          <span class="badge badge-purple">Networks</span>
+        </div>
+        <div class="card-content" id="chains-list">
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Data from <a href="https://defillama.com" target="_blank">DeFiLlama API</a> • Built with ❤️</p>
+    </footer>
   </div>
   <script src="app.js"></script>
 </body>
@@ -182,93 +241,530 @@ const DEFAULT_FILES: SandboxFile[] = [
     id: 'css',
     name: 'styles.css',
     language: 'css',
-    content: `/* Modern CSS Reset & Base Styles */
+    content: `/* DeFi Dashboard Styles */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #1a1a2e;
+  --bg-card: #16213e;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+  --accent: #6366f1;
+  --green: #10b981;
+  --red: #ef4444;
+  --purple: #8b5cf6;
+  --border: #2a2a4a;
+}
+
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
+  line-height: 1.5;
 }
 
 #app {
-  text-align: center;
-  padding: 48px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 16px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
 }
 
-p {
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon { font-size: 28px; }
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-stats { display: flex; gap: 24px; }
+
+.stat {
+  text-align: right;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.stat-value {
   font-size: 1.25rem;
-  opacity: 0.9;
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* Dashboard Grid */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
   margin-bottom: 24px;
 }
 
-button {
-  background: #ffffff;
-  color: #667eea;
-  border: none;
-  padding: 14px 32px;
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-header h2 {
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+.badge {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  animation: pulse 2s infinite;
 }
 
-button:active {
-  transform: translateY(0);
+.badge-green { background: var(--green); }
+.badge-purple { background: var(--purple); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.card-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Protocol/Yield/Chain Items */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.item:hover {
+  background: rgba(255,255,255,0.06);
+  transform: translateX(4px);
+}
+
+.item-rank {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.item-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+}
+
+.item-info { flex: 1; min-width: 0; }
+
+.item-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-category {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.item-value {
+  text-align: right;
+}
+
+.item-tvl {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.item-change {
+  font-size: 0.75rem;
+}
+
+.item-change.positive { color: var(--green); }
+.item-change.negative { color: var(--red); }
+
+.item-apy {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* Loading Skeleton */
+.skeleton {
+  height: 56px;
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, rgba(255,255,255,0.05) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 10px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.footer a:hover { text-decoration: underline; }
+
+/* Error State */
+.error {
+  text-align: center;
+  padding: 24px;
+  color: var(--red);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .header { flex-direction: column; gap: 16px; }
+  .dashboard { grid-template-columns: 1fr; }
 }`
   },
   {
     id: 'js',
     name: 'app.js',
     language: 'javascript',
-    content: `// Interactive Counter Example
-let count = 0;
+    content: `/**
+ * ════════════════════════════════════════════════════════════════════════════
+ * 🚀 DeFi Dashboard - Live Analytics with DeFiLlama API
+ * ════════════════════════════════════════════════════════════════════════════
+ * 
+ * Welcome! This code teaches you how to:
+ * 
+ * 1. 📡 FETCH DATA - Make API calls to get real-time DeFi data
+ * 2. 🔄 ASYNC/AWAIT - Handle asynchronous operations properly
+ * 3. 📊 DATA PROCESSING - Sort, filter, and transform API responses
+ * 4. 🎨 DOM MANIPULATION - Dynamically update the page with data
+ * 5. ⚡ PERFORMANCE - Use Promise.all for parallel requests
+ * 
+ * API Documentation: https://defillama.com/docs/api
+ * 
+ * Try modifying:
+ * - Change 'slice(0, 5)' to show more/fewer items
+ * - Add new filters (e.g., only show Ethereum protocols)
+ * - Create new render functions for different layouts
+ */
 
-const button = document.getElementById('counter-btn');
+// ════════════════════════════════════════════════════════════════════════════
+// 📡 API ENDPOINTS
+// ════════════════════════════════════════════════════════════════════════════
+// DeFiLlama provides FREE APIs with no authentication required!
+// These endpoints return JSON data about DeFi protocols, yields, and chains.
 
-button.addEventListener('click', () => {
-  count++;
-  button.textContent = \`Clicked: \${count} times\`;
+const API = {
+  // Returns array of 500+ protocols with TVL, category, logo, etc.
+  protocols: 'https://api.llama.fi/protocols',
   
-  // Add a fun animation
-  button.style.transform = 'scale(1.1)';
-  setTimeout(() => {
-    button.style.transform = 'scale(1)';
-  }, 100);
+  // Returns yield farming pools with APY, TVL, risk info
+  yields: 'https://yields.llama.fi/pools',
   
-  console.log(\`Button clicked! Count is now: \${count}\`);
+  // Returns blockchain TVL data (Ethereum, Arbitrum, etc.)
+  chains: 'https://api.llama.fi/v2/chains'
+};
+
+// ════════════════════════════════════════════════════════════════════════════
+// 🛠️ UTILITY FUNCTIONS
+// ════════════════════════════════════════════════════════════════════════════
+// Helper functions make code reusable and easier to read.
+
+/**
+ * Format large numbers into human-readable format
+ * Example: 1500000000 → "$1.50B"
+ * 
+ * @param {number} tvl - The TVL value in USD
+ * @returns {string} Formatted string like "$1.50B"
+ */
+function formatTVL(tvl) {
+  if (!tvl) return 'N/A';
+  if (tvl >= 1e9) return '$' + (tvl / 1e9).toFixed(2) + 'B';  // Billions
+  if (tvl >= 1e6) return '$' + (tvl / 1e6).toFixed(2) + 'M';  // Millions
+  if (tvl >= 1e3) return '$' + (tvl / 1e3).toFixed(2) + 'K';  // Thousands
+  return '$' + tvl.toFixed(2);
+}
+
+/**
+ * Format percentage change with + or - sign
+ * Example: 5.5 → "+5.50%", -2.3 → "-2.30%"
+ */
+function formatChange(change) {
+  if (!change) return '+0.00%';
+  const sign = change >= 0 ? '+' : '';
+  return sign + change.toFixed(2) + '%';
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 🎨 RENDER FUNCTIONS
+// ════════════════════════════════════════════════════════════════════════════
+// These functions convert data objects into HTML strings.
+// Using template literals (\\\`...\\\`) allows embedding variables with \\\${...}
+
+/**
+ * Create HTML for a single protocol card
+ * 
+ * @param {Object} protocol - Protocol data from API
+ * @param {number} rank - Display rank (1, 2, 3...)
+ * @returns {string} HTML string for the protocol item
+ */
+function renderProtocol(protocol, rank) {
+  // Determine if 24h change is positive or negative for styling
+  const changeClass = (protocol.change_1d || 0) >= 0 ? 'positive' : 'negative';
+  
+  // Template literal creates the HTML structure
+  // The onerror handler hides broken images gracefully
+  return \\\`
+    <div class="item">
+      <span class="item-rank">\\\${rank}</span>
+      <img class="item-logo" src="\\\${protocol.logo || ''}" alt="\\\${protocol.name}" onerror="this.style.display='none'">
+      <div class="item-info">
+        <div class="item-name">\\\${protocol.name}</div>
+        <div class="item-category">\\\${protocol.category || 'DeFi'}</div>
+      </div>
+      <div class="item-value">
+        <div class="item-tvl">\\\${formatTVL(protocol.tvl)}</div>
+        <div class="item-change \\\${changeClass}">\\\${formatChange(protocol.change_1d)}</div>
+      </div>
+    </div>
+  \\\`;
+}
+
+/**
+ * Create HTML for a yield pool card
+ */
+function renderYield(pool) {
+  return \\\`
+    <div class="item">
+      <div class="item-info">
+        <div class="item-name">\\\${pool.symbol}</div>
+        <div class="item-category">\\\${pool.project} • \\\${pool.chain}</div>
+      </div>
+      <div class="item-value">
+        <div class="item-apy">\\\${pool.apy?.toFixed(2) || '0'}%</div>
+        <div class="item-category">TVL: \\\${formatTVL(pool.tvlUsd)}</div>
+      </div>
+    </div>
+  \\\`;
+}
+
+/**
+ * Create HTML for a chain card
+ */
+function renderChain(chain, rank) {
+  return \\\`
+    <div class="item">
+      <span class="item-rank">\\\${rank}</span>
+      <div class="item-info">
+        <div class="item-name">\\\${chain.name}</div>
+        <div class="item-category">\\\${chain.tokenSymbol || 'Native'}</div>
+      </div>
+      <div class="item-value">
+        <div class="item-tvl">\\\${formatTVL(chain.tvl)}</div>
+      </div>
+    </div>
+  \\\`;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 📡 DATA FETCHING FUNCTIONS
+// ════════════════════════════════════════════════════════════════════════════
+// async/await makes asynchronous code read like synchronous code.
+// try/catch handles errors gracefully without crashing.
+
+/**
+ * Fetch and display top DeFi protocols
+ * 
+ * This function demonstrates:
+ * - fetch() API for HTTP requests
+ * - .json() to parse response
+ * - Array methods: sort(), slice(), reduce()
+ * - DOM manipulation with innerHTML
+ */
+async function fetchProtocols() {
+  try {
+    console.log('📡 Fetching top protocols...');
+    
+    // fetch() returns a Promise that resolves to a Response object
+    const res = await fetch(API.protocols);
+    
+    // .json() parses the response body as JSON
+    const data = await res.json();
+    
+    // SORT: Order by TVL (Total Value Locked), highest first
+    // SLICE: Take only the top 5 items
+    const top = data
+      .sort((a, b) => (b.tvl || 0) - (a.tvl || 0))
+      .slice(0, 5);
+    
+    // REDUCE: Calculate sum of all protocol TVLs
+    const totalTVL = data.reduce((sum, p) => sum + (p.tvl || 0), 0);
+    document.getElementById('total-tvl').textContent = formatTVL(totalTVL);
+    
+    // MAP + JOIN: Transform array to HTML string
+    document.getElementById('protocols-list').innerHTML = 
+      top.map((p, i) => renderProtocol(p, i + 1)).join('');
+    
+    console.log('✅ Loaded', top.length, 'protocols');
+  } catch (err) {
+    // Error handling - show user-friendly message
+    console.error('❌ Failed to fetch protocols:', err);
+    document.getElementById('protocols-list').innerHTML = 
+      '<div class="error">Failed to load protocols</div>';
+  }
+}
+
+/**
+ * Fetch and display top yield opportunities
+ * 
+ * This function demonstrates:
+ * - Filtering data with .filter()
+ * - Multiple sort criteria
+ */
+async function fetchYields() {
+  try {
+    console.log('📡 Fetching yield opportunities...');
+    const res = await fetch(API.yields);
+    const data = await res.json();
+    
+    // FILTER: Only pools with positive APY and significant TVL
+    // This removes scam pools and low-liquidity pools
+    const top = data.data
+      .filter(p => p.apy > 0 && p.tvlUsd > 1000000)  // >$1M TVL
+      .sort((a, b) => b.apy - a.apy)  // Highest APY first
+      .slice(0, 5);
+    
+    document.getElementById('yields-list').innerHTML = 
+      top.map(p => renderYield(p)).join('');
+    
+    console.log('✅ Loaded', top.length, 'yield pools');
+  } catch (err) {
+    console.error('❌ Failed to fetch yields:', err);
+    document.getElementById('yields-list').innerHTML = 
+      '<div class="error">Failed to load yields</div>';
+  }
+}
+
+/**
+ * Fetch and display top chains by TVL
+ */
+async function fetchChains() {
+  try {
+    console.log('📡 Fetching top chains...');
+    const res = await fetch(API.chains);
+    const data = await res.json();
+    
+    const top = data
+      .sort((a, b) => (b.tvl || 0) - (a.tvl || 0))
+      .slice(0, 5);
+    
+    document.getElementById('chains-list').innerHTML = 
+      top.map((c, i) => renderChain(c, i + 1)).join('');
+    
+    console.log('✅ Loaded', top.length, 'chains');
+  } catch (err) {
+    console.error('❌ Failed to fetch chains:', err);
+    document.getElementById('chains-list').innerHTML = 
+      '<div class="error">Failed to load chains</div>';
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// 🚀 INITIALIZATION
+// ════════════════════════════════════════════════════════════════════════════
+// This code runs when the script loads
+
+console.log('🚀 DeFi Dashboard initializing...');
+console.log('📊 Using DeFiLlama API for real-time data');
+console.log('💡 Open the console (F12) to see API responses!');
+
+// Promise.all() runs multiple async functions IN PARALLEL
+// This is faster than running them one after another (sequential)
+Promise.all([
+  fetchProtocols(),  // These three fetch functions run at the same time!
+  fetchYields(),
+  fetchChains()
+]).then(() => {
+  console.log('✨ Dashboard loaded successfully!');
+  console.log('🔄 Data will auto-refresh every 60 seconds');
 });
 
-// Log when the page loads
-console.log('🚀 App initialized!');
-console.info('ℹ️ Try clicking the button');`
+// setInterval() runs a function repeatedly at a fixed interval
+// 60000ms = 60 seconds = 1 minute
+setInterval(() => {
+  console.log('🔄 Refreshing data...');
+  fetchProtocols();
+  fetchYields();
+  fetchChains();
+}, 60000);`
   }
 ];
 
@@ -308,6 +804,11 @@ export default function WebSandbox({
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
+  
+  // Network & Error State
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+  const [apiStatus, setApiStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'rate-limited'>('idle');
   
   const { address, isConnected } = useWalletStore();
   
@@ -610,14 +1111,57 @@ export default function WebSandbox({
   // EFFECTS
   // ---------------------------------------------------------------------------
   
+  // Network status detection
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      addConsoleMessage('info', '🌐 Network connection restored');
+    };
+    
+    const handleOffline = () => {
+      setIsOnline(false);
+      addConsoleMessage('warn', '📡 You are offline. API calls may fail.');
+    };
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [addConsoleMessage]);
+  
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
+      // Security: Only accept messages from our own iframe (same origin or blob URLs)
+      if (event.origin !== window.location.origin && !event.origin.startsWith('blob:')) {
+        // For sandboxed iframes, origin may be 'null' - verify source is our iframe
+        if (event.origin !== 'null') return;
+      }
+      
       if (event.data?.type === 'console') {
         const { method, args } = event.data;
         if (method === 'clear') {
           setConsoleMessages([]);
         } else {
-          addConsoleMessage(method, args.join(' '));
+          const message = Array.isArray(args) ? args.join(' ') : String(args || '');
+          addConsoleMessage(method || 'log', message);
+          
+          // Detect common API errors for better UX
+          if (method === 'error') {
+            if (message.includes('429') || message.includes('rate limit')) {
+              setApiStatus('rate-limited');
+              addConsoleMessage('warn', '⏱️ API rate limited. Please wait a moment before refreshing.');
+            } else if (message.includes('fetch') || message.includes('network')) {
+              setApiStatus('error');
+            }
+          }
+          
+          // Detect successful API loads
+          if (method === 'log' && message.includes('Dashboard loaded')) {
+            setApiStatus('success');
+          }
         }
       }
     };
@@ -994,6 +1538,39 @@ export default function WebSandbox({
           {/* Preview Panel */}
           {layout !== 'editor-only' && (
             <div className="flex-1 flex flex-col bg-white overflow-hidden">
+              {/* Network Status Banner */}
+              {!isOnline && (
+                <div className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white">
+                  <WifiOff className="w-4 h-4 flex-shrink-0" />
+                  <span className="text-sm font-medium">You're offline - API calls will fail until connection is restored</span>
+                </div>
+              )}
+              
+              {/* API Rate Limit Warning */}
+              {apiStatus === 'rate-limited' && isOnline && (
+                <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-yellow-900">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <span className="text-sm font-medium">API rate limit reached - Data may be stale. Wait a moment before refreshing.</span>
+                </div>
+              )}
+              
+              {/* Preview Error Banner */}
+              {previewError && isOnline && apiStatus !== 'rate-limited' && (
+                <div className="flex items-center justify-between gap-2 px-4 py-2 bg-red-500 text-white">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                    <span className="text-sm font-medium">{previewError}</span>
+                  </div>
+                  <button
+                    onClick={() => setPreviewError(null)}
+                    className="p-1 hover:bg-red-600 rounded transition-colors"
+                    title="Dismiss"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+              
               {/* Preview Frame */}
               <div className="flex-1 overflow-auto flex items-center justify-center bg-gray-100">
                 <div

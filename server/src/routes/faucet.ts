@@ -11,15 +11,19 @@ import { isValidEthereumAddress } from '../utils/validation.js';
 
 const router = Router();
 
+// Allowed testnet networks
+const ALLOWED_NETWORKS = ['sepolia', 'goerli', 'mumbai', 'fuji'] as const;
+type NetworkType = typeof ALLOWED_NETWORKS[number];
+
 // Request testnet funds
 router.post('/request', faucetRateLimiter, async (req, res, next) => {
   try {
     const { address, network } = req.body;
 
-    if (!address) {
+    if (!address || typeof address !== 'string') {
       return res.status(400).json({
         success: false,
-        error: 'Address is required'
+        error: 'Address is required and must be a string'
       });
     }
 
@@ -30,14 +34,19 @@ router.post('/request', faucetRateLimiter, async (req, res, next) => {
         error: 'Invalid Ethereum address'
       });
     }
+    
+    // Validate network
+    const safeNetwork: NetworkType = network && ALLOWED_NETWORKS.includes(network) 
+      ? network 
+      : 'sepolia';
 
-    const result = await fundAddress(address, network || 'sepolia');
+    const result = await fundAddress(address, safeNetwork);
 
     res.json({
       success: true,
       data: result
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     next(error);
   }
 });
