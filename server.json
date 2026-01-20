@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.nirholas/solidity-compiler",
+  "title": "Solidity Compiler IDE",
+  "description": "Free Solidity compiler Web3 IDE - deploy to Ethereum Polygon Base Arbitrum Solana smart contract dev",
+  "version": "1.0.0",
+  "keywords": [
+    "solidity",
+    "compiler",
+    "ide",
+    "web3",
+    "ethereum",
+    "polygon",
+    "base",
+    "arbitrum",
+    "solana",
+    "smart-contract",
+    "deploy",
+    "tokens",
+    "nft",
+    "defi",
+    "dao",
+    "remix",
+    "alternative",
+    "free",
+    "mcp",
+    "claude",
+    "ai"
+  ],
+  "repository": {
+    "url": "https://github.com/nirholas/lyra-web3-playground",
+    "source": "github"
+  },
+  "license": "MIT",
+  "packages": [
+    {
+      "registryType": "source",
+      "url": "https://github.com/nirholas/lyra-web3-playground",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
