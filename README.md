@@ -17,7 +17,7 @@ Removal or modification of attribution constitutes violation of the license.
 ═══════════════════════════════════════════════════════════════════════════════
 -->
 
-# Lyra Web3 Playground
+# Lyra Web3 Playground 
 
 <p align="center">
   <strong>✨ Built by <a href="https://x.com/nichxbt">nich</a> | <a href="https://github.com/nirholas">GitHub</a> | <a href="https://x.com/nichxbt">X/Twitter</a></strong>
