@@ -36,3 +36,4 @@ export const callOpenAI = async (
   return response.choices[0]?.message?.content || '';
 };
 
+
