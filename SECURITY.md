@@ -2,7 +2,7 @@
 
 ## Overview
 
-nina: nina
+defi-agents: DeFi agent definitions JSON API + MCP - Production-ready agents for Web3, crypto trading, portfolio management, and blockchain automation. MCP compatible.
 
 ## Reporting a Vulnerability
 

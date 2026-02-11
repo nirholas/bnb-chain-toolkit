@@ -1,10 +1,10 @@
-# nina Development Guidelines
+# defi-agents Development Guidelines
 
-> nina
+> DeFi agent definitions JSON API + MCP - Production-ready agents for Web3, crypto trading, portfolio management, and blockchain automation. MCP compatible.
 
 ## Project Overview
 
-nina is built with Python. See the README for full documentation.
+defi-agents is built with TypeScript. See the README for full documentation.
 
 ### Terminal Management
 

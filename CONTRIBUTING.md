@@ -1,4 +1,4 @@
-# Contributing to nina
+# Contributing to defi-agents
 
 Thanks for your interest in contributing! Every contribution helps make this project better.
 

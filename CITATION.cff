@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-message: "If you use nina, please cite it as below."
+message: "If you use defi-agents, please cite it as below."
 type: software
-title: "nina"
-abstract: "nina"
+title: "defi-agents"
+abstract: "DeFi agent definitions JSON API + MCP - Production-ready agents for Web3, crypto trading, portfolio management, and blockchain automation. MCP compatible."
 authors:
   - alias: nirholas
     name: nirholas
-repository-code: "https://github.com/nirholas/nina"
-url: "https://github.com/nirholas/nina"
+repository-code: "https://github.com/nirholas/defi-agents"
+url: "https://github.com/nirholas/defi-agents"
 license: MIT
 version: "1.0.0"
 date-released: "2026-02-11"

@@ -1,6 +1,6 @@
-# nina
+# defi-agents
 
-> nina
+> DeFi agent definitions JSON API + MCP - Production-ready agents for Web3, crypto trading, portfolio management, and blockchain automation. MCP compatible.
 
 ### Terminal Management
 

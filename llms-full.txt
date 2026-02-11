@@ -1,15 +1,15 @@
-# nina
+# defi-agents
 
-> nina
+> DeFi agent definitions JSON API + MCP - Production-ready agents for Web3, crypto trading, portfolio management, and blockchain automation. MCP compatible.
 
 ## Overview
 
-nina is an open-source project by nirholas. nina
+defi-agents is an open-source project by nirholas. DeFi agent definitions JSON API + MCP - Production-ready agents for Web3, crypto trading, portfolio management, and blockchain automation. MCP compatible.
 
 ## Repository
 
-- URL: https://github.com/nirholas/nina
-- Language: Python
+- URL: https://github.com/nirholas/defi-agents
+- Language: TypeScript
 - License: MIT
 - Author: nirholas
 
