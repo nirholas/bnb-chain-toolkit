@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use nina, please cite it as below."
+type: software
+title: "nina"
+abstract: "nina"
+authors:
+  - alias: nirholas
+    name: nirholas
+repository-code: "https://github.com/nirholas/nina"
+url: "https://github.com/nirholas/nina"
+license: MIT
+version: "1.0.0"
+date-released: "2026-02-11"
+keywords:
+  - open-source
+  - nirholas

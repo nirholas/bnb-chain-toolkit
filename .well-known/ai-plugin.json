@@ -1,0 +1,16 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "nina",
+    "name_for_model": "nina",
+    "description_for_human": "nina",
+    "description_for_model": "nina",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "none"
+    },
+    "logo_url": "https://github.com/nirholas.png",
+    "contact_email": "nirholas@users.noreply.github.com",
+    "legal_info_url": "https://github.com/nirholas/nina/blob/main/LICENSE"
+}

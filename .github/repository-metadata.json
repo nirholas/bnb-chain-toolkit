@@ -1,0 +1,13 @@
+{
+    "name": "nina",
+    "description": "nina",
+    "version": "1.0.0",
+    "publisher": "nirholas",
+    "repository": "https://github.com/nirholas/nina",
+    "language": "Python",
+    "topics": [
+        "nirholas",
+        "open-source",
+        "nina"
+    ]
+}

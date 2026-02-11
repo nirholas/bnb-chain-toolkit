@@ -1,0 +1,18 @@
+# nina
+
+> nina
+
+## Overview
+
+nina is an open-source project by nirholas. nina
+
+## Repository
+
+- URL: https://github.com/nirholas/nina
+- Language: Python
+- License: MIT
+- Author: nirholas
+
+## Contributing
+
+Contributions are welcome. See CONTRIBUTING.md for guidelines.

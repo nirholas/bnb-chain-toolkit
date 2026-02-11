@@ -1,0 +1,9 @@
+# nina
+
+> nina
+
+## Links
+
+- Repository: https://github.com/nirholas/nina
+- Author: https://github.com/nirholas
+- Full documentation: https://raw.githubusercontent.com/nirholas/nina/main/llms-full.txt
