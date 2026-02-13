@@ -189,7 +189,7 @@ export default function SharedProjectPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black">
         <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
       </div>
     );
@@ -197,7 +197,7 @@ export default function SharedProjectPage() {
 
   if (error || !project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Project Not Found</h2>
           <p className="text-gray-500 mb-4">This project may have been deleted or the link is invalid.</p>
@@ -216,15 +216,15 @@ export default function SharedProjectPage() {
   const currentFile = project.files[activeFile];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
                 to="/explore"
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg"
               >
                 <ArrowLeft className="w-5 h-5" />
               </Link>
@@ -262,7 +262,7 @@ export default function SharedProjectPage() {
                   "flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors",
                   liked
                     ? "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400"
-                    : "bg-gray-100 dark:bg-gray-700 hover:bg-red-100 dark:hover:bg-red-900/30"
+                    : "bg-gray-100 dark:bg-zinc-900 hover:bg-red-100 dark:hover:bg-red-900/30"
                 )}
               >
                 <Heart className={cn("w-4 h-4", liked && "fill-current")} />
@@ -272,7 +272,7 @@ export default function SharedProjectPage() {
               <button
                 onClick={handleFork}
                 disabled={forking}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg font-medium hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-zinc-900 rounded-lg font-medium hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors"
               >
                 {forking ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -292,17 +292,17 @@ export default function SharedProjectPage() {
                 </button>
 
                 {showShareMenu && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-20">
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-20">
                     <button
                       onClick={handleCopyLink}
-                      className="flex items-center gap-3 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="flex items-center gap-3 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-900"
                     >
                       {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
                       <span>Copy Link</span>
                     </button>
                     <button
                       onClick={handleCopyEmbed}
-                      className="flex items-center gap-3 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="flex items-center gap-3 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-900"
                     >
                       <Code2 className="w-4 h-4" />
                       <span>Copy Embed Code</span>
@@ -311,7 +311,7 @@ export default function SharedProjectPage() {
                       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Check out "${project.title}" on BNB Chain Playground!`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="flex items-center gap-3 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-900"
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>Share on Twitter</span>
@@ -337,9 +337,9 @@ export default function SharedProjectPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Code Editor */}
           <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
               {/* File tabs */}
-              <div className="flex items-center gap-1 px-2 py-2 bg-gray-100 dark:bg-gray-900 overflow-x-auto">
+              <div className="flex items-center gap-1 px-2 py-2 bg-gray-100 dark:bg-black overflow-x-auto">
                 {project.files.map((file, index) => (
                   <button
                     key={index}
@@ -347,8 +347,8 @@ export default function SharedProjectPage() {
                     className={cn(
                       "px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors",
                       activeFile === index
-                        ? "bg-white dark:bg-gray-800 shadow"
-                        : "hover:bg-gray-200 dark:hover:bg-gray-700"
+                        ? "bg-white dark:bg-[#0a0a0a] shadow"
+                        : "hover:bg-gray-200 dark:hover:bg-zinc-900"
                     )}
                   >
                     {file.name}
@@ -377,7 +377,7 @@ export default function SharedProjectPage() {
             </div>
 
             {/* Comments Section */}
-            <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="mt-6 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
                 <MessageCircle className="w-5 h-5" />
                 Comments ({comments.length})
@@ -402,7 +402,7 @@ export default function SharedProjectPage() {
                       placeholder={isConnected ? "Add a comment..." : "Connect wallet to comment"}
                       disabled={!isConnected}
                       rows={3}
-                      className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-900 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      className="w-full px-4 py-3 bg-gray-100 dark:bg-black rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                     <div className="flex justify-end mt-2">
                       <button
@@ -426,7 +426,7 @@ export default function SharedProjectPage() {
               <div className="space-y-4">
                 {comments.map((comment) => (
                   <div key={comment.id} className="flex gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-zinc-900 flex items-center justify-center flex-shrink-0">
                       {comment.author?.avatar_url ? (
                         <img
                           src={comment.author.avatar_url}
@@ -466,7 +466,7 @@ export default function SharedProjectPage() {
           <div className="space-y-6">
             {/* Description */}
             {project.description && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h3 className="font-semibold mb-3">About</h3>
                 <p className="text-gray-600 dark:text-gray-300">
                   {project.description}
@@ -475,7 +475,7 @@ export default function SharedProjectPage() {
             )}
 
             {/* Stats */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="font-semibold mb-4">Stats</h3>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
@@ -495,7 +495,7 @@ export default function SharedProjectPage() {
 
             {/* Tags */}
             {project.tags.length > 0 && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h3 className="font-semibold mb-3">Tags</h3>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag, i) => (
@@ -512,7 +512,7 @@ export default function SharedProjectPage() {
             )}
 
             {/* Files */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="font-semibold mb-3">Files ({project.files.length})</h3>
               <div className="space-y-2">
                 {project.files.map((file, index) => (
@@ -523,7 +523,7 @@ export default function SharedProjectPage() {
                       "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-left transition-colors",
                       activeFile === index
                         ? "bg-purple-100 dark:bg-purple-900/30 text-purple-600"
-                        : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                        : "hover:bg-gray-100 dark:hover:bg-zinc-900"
                     )}
                   >
                     <Code2 className="w-4 h-4" />
@@ -535,7 +535,7 @@ export default function SharedProjectPage() {
 
             {/* Author */}
             {project.author && (
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h3 className="font-semibold mb-4">Author</h3>
                 <div className="flex items-center gap-3">
                   {project.author.avatar_url ? (
@@ -545,7 +545,7 @@ export default function SharedProjectPage() {
                       className="w-12 h-12 rounded-full"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-zinc-900 flex items-center justify-center">
                       <User className="w-6 h-6 text-gray-400" />
                     </div>
                   )}
@@ -557,9 +557,9 @@ export default function SharedProjectPage() {
             )}
 
             {/* Embed Code */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               <h3 className="font-semibold mb-3">Embed</h3>
-              <div className="bg-gray-100 dark:bg-gray-900 rounded-lg p-3 text-xs font-mono break-all">
+              <div className="bg-gray-100 dark:bg-black rounded-lg p-3 text-xs font-mono break-all">
                 {generateEmbedCode(project.share_token)}
               </div>
               <button

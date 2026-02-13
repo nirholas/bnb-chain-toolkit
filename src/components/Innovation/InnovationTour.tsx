@@ -201,7 +201,7 @@ export default function InnovationTour({ onClose }: { onClose: () => void }) {
 
             {currentStep === steps.length - 1 ? (
               <Link
-                to="/sandbox"
+                to="/fullstack-demo"
                 onClick={onClose}
                 className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-lg font-bold transition-all shadow-lg"
               >

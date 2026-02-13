@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { Shield, Users, CheckCircle, XCircle, Clock, Send } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 interface Transaction {
   id: number;
@@ -18,6 +19,7 @@ interface Transaction {
 }
 
 export default function MultiSigWalletExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const owners = [
     '0x1111...1111',
     '0x2222...2222',
@@ -53,7 +55,7 @@ export default function MultiSigWalletExample() {
 
   const handleSubmitTransaction = () => {
     if (!newTx.to || !newTx.value || !newTx.description) {
-      alert('Please fill all fields');
+      notify('Please fill all fields', 'warning');
       return;
     }
 
@@ -92,7 +94,7 @@ export default function MultiSigWalletExample() {
   const handleExecute = (txId: number) => {
     const tx = transactions.find(t => t.id === txId);
     if (!tx || tx.approvals.length < requiredApprovals) {
-      alert('Not enough approvals to execute transaction');
+      notify('Not enough approvals to execute transaction', 'error');
       return;
     }
 
@@ -115,6 +117,7 @@ export default function MultiSigWalletExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Multi-Signature Wallet</h1>
         <p className="text-gray-600 dark:text-gray-400">

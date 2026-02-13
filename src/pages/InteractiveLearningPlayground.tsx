@@ -18,10 +18,12 @@ import { AnnotationsPanel, CodeAnnotation } from '@/components/Playground/Inline
 import TemplateSelector from '@/components/Sandbox/TemplateSelector';
 import { SandboxTemplate } from '@/utils/sandboxTemplates';
 import { ContractTemplate } from '@/utils/contractTemplates';
+import { useVisualFeedback } from '@/components/Accessibility/VisualFeedback';
 
 type ViewMode = 'tutorial' | 'challenge' | 'freeform';
 
 export default function InteractiveLearningPlayground() {
+  const { showToast } = useVisualFeedback();
   useSEO({
     title: 'Interactive Learning Playground',
     description: 'Master blockchain development with interactive tutorials, coding challenges, and progressive difficulty levels. Learn Solidity and Web3 step-by-step.',
@@ -370,9 +372,9 @@ contract SimpleWallet {
           showContractTemplates={true}
         />
       )}
-      <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+      <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
       {/* Header */}
-      <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <header className="flex-none bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
@@ -394,7 +396,7 @@ contract SimpleWallet {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                 viewMode === 'tutorial'
                   ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -405,7 +407,7 @@ contract SimpleWallet {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                 viewMode === 'challenge'
                   ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
               }`}
             >
               <Zap className="w-4 h-4" />
@@ -416,7 +418,7 @@ contract SimpleWallet {
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                 viewMode === 'freeform'
                   ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
               }`}
             >
               <Code2 className="w-4 h-4" />
@@ -436,7 +438,7 @@ contract SimpleWallet {
 
             <button
               onClick={() => setShowSidebar(!showSidebar)}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg transition-colors"
             >
               <Layout className="w-5 h-5" />
             </button>
@@ -449,7 +451,7 @@ contract SimpleWallet {
         <div className="h-full flex">
           {/* Left Sidebar - Levels */}
           {showSidebar && (
-            <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+            <div className="w-80 bg-white dark:bg-[#0a0a0a] border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
               <div className="p-6">
                 <ProgressiveLevels
                   levels={levels}
@@ -492,14 +494,14 @@ contract SimpleWallet {
           </div>
 
           {/* Right Sidebar - Tutorial/Challenge/Annotations */}
-          <div className="w-96 bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="w-96 bg-white dark:bg-[#0a0a0a] border-l border-gray-200 dark:border-gray-700 overflow-hidden">
             {viewMode === 'tutorial' && (
               <InteractiveTutorial
                 steps={tutorialSteps}
                 currentCode={tabs[0].code}
                 onCodeChange={handleTutorialCodeChange}
                 onStepChange={setCurrentStepIndex}
-                onComplete={() => alert('Tutorial completed! 🎉')}
+                onComplete={() => showToast('Tutorial completed! 🎉', 'success')}
               />
             )}
 
@@ -508,7 +510,7 @@ contract SimpleWallet {
                 challenge={challenge}
                 currentCode={tabs.find(t => t.id === 'javascript')?.code || ''}
                 onCodeChange={(code) => handleCodeChange('javascript', code)}
-                onComplete={(points) => alert(`Challenge completed! You earned ${points} points! 🏆`)}
+                onComplete={(points) => showToast(`Challenge completed! You earned ${points} points! 🏆`, 'success')}
               />
             )}
 

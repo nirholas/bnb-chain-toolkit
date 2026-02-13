@@ -6,8 +6,10 @@
 
 import { useState } from 'react';
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 export default function DeFiLendingExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [depositAmount, setDepositAmount] = useState('');
   const [borrowAmount, setBorrowAmount] = useState('');
   const [selectedAsset, setSelectedAsset] = useState('ETH');
@@ -37,7 +39,7 @@ export default function DeFiLendingExample() {
     const borrowValue = calculateTotalBorrow() + (parseFloat(borrowAmount) * getCurrentPrice());
     
     if (borrowValue > collateralValue * 0.75) {
-      alert('Insufficient collateral! You can borrow up to 75% of your collateral value.');
+      notify('Insufficient collateral! You can borrow up to 75% of your collateral value.', 'error');
       return;
     }
     
@@ -71,6 +73,7 @@ export default function DeFiLendingExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">DeFi Lending Protocol</h1>
         <p className="text-gray-600 dark:text-gray-400">

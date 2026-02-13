@@ -38,7 +38,7 @@ export default function SkipLinks({ links = defaultLinks }: SkipLinksProps) {
   return (
     <nav 
       aria-label="Skip links"
-      className="sr-only focus-within:not-sr-only focus-within:fixed focus-within:top-0 focus-within:left-0 focus-within:right-0 focus-within:z-[10001] focus-within:bg-white focus-within:dark:bg-gray-900 focus-within:shadow-lg"
+      className="sr-only focus-within:not-sr-only focus-within:fixed focus-within:top-0 focus-within:left-0 focus-within:right-0 focus-within:z-[10001] focus-within:bg-white focus-within:dark:bg-black focus-within:shadow-lg"
     >
       <ul className="flex gap-2 p-2">
         {links.map((link, index) => (

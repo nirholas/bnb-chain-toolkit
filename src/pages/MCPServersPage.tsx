@@ -194,7 +194,7 @@ export default function MCPServersPage() {
             {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
-                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 p-5 text-center"
+                className="rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]/50 p-5 text-center"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
@@ -224,7 +224,7 @@ export default function MCPServersPage() {
             ref={tabListRef}
             role="tablist"
             aria-label="MCP config format"
-            className="flex gap-1 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-900/60 p-1"
+            className="flex gap-1 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-[#0a0a0a]/60 p-1"
           >
             {tabs.map((tab) => (
               <button
@@ -239,7 +239,7 @@ export default function MCPServersPage() {
                 className={cn(
                   'flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-all',
                   activeTab === tab.id
-                    ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-800 dark:text-white'
+                    ? 'bg-white text-gray-900 shadow-sm dark:bg-[#0a0a0a] dark:text-white'
                     : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200',
                 )}
               >
@@ -263,9 +263,9 @@ export default function MCPServersPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    className="mt-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/70 p-1"
+                    className="mt-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]/70 p-1"
                   >
-                    <div className="flex items-center justify-between rounded-t-lg bg-gray-100 dark:bg-gray-800/60 px-4 py-2">
+                    <div className="flex items-center justify-between rounded-t-lg bg-gray-100 dark:bg-[#0a0a0a]/60 px-4 py-2">
                       <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
                         {tab.filename}
                       </span>
@@ -411,7 +411,7 @@ export default function MCPServersPage() {
           <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
             <table className="w-full min-w-[640px] text-left text-sm">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/60">
+                <tr className="border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]/60">
                   <th className="px-4 py-3 font-semibold text-gray-900 dark:text-white">Server</th>
                   <th className="px-4 py-3 font-semibold text-gray-900 dark:text-white">Language</th>
                   <th className="px-4 py-3 font-semibold text-gray-900 dark:text-white">Tools</th>
@@ -424,8 +424,8 @@ export default function MCPServersPage() {
                   <tr
                     key={server.id}
                     className={cn(
-                      'border-b border-gray-100 dark:border-gray-800/50 transition-colors hover:bg-gray-50 dark:hover:bg-gray-900/30',
-                      idx % 2 === 1 && 'bg-gray-50/50 dark:bg-gray-900/20',
+                      'border-b border-gray-100 dark:border-gray-800/50 transition-colors hover:bg-gray-50 dark:hover:bg-[#0a0a0a]/30',
+                      idx % 2 === 1 && 'bg-gray-50/50 dark:bg-[#0a0a0a]/20',
                     )}
                   >
                     <td className="px-4 py-3">
@@ -531,7 +531,7 @@ export default function MCPServersPage() {
               <Link
                 key={server.id}
                 to={`/mcp/${server.id}`}
-                className="group flex items-center justify-between rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/40 px-4 py-3 transition-colors hover:border-[#F0B90B]/40 hover:bg-gray-100 dark:hover:bg-gray-900/60"
+                className="group flex items-center justify-between rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]/40 px-4 py-3 transition-colors hover:border-[#F0B90B]/40 hover:bg-gray-100 dark:hover:bg-[#0a0a0a]/60"
                 aria-label={`Explore ${server.name}`}
               >
                 <span className="text-sm font-medium text-gray-900 dark:text-white">

@@ -119,7 +119,7 @@ export default function ChangelogPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-black py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <div className="inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold shadow-lg">
@@ -140,13 +140,13 @@ export default function ChangelogPage() {
             {releases.map((release) => (
               <div key={release.version} className="relative pl-12 md:pl-20">
                 {/* Timeline dot */}
-                <div className="absolute left-3 md:left-9 w-6 h-6 rounded-full bg-white dark:bg-gray-900 border-4 border-purple-500 shadow" aria-hidden="true" />
+                <div className="absolute left-3 md:left-9 w-6 h-6 rounded-full bg-white dark:bg-black border-4 border-purple-500 shadow" aria-hidden="true" />
                 
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div className="bg-white dark:bg-[#0a0a0a] rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                   {/* Header */}
                   <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center text-purple-600">
+                      <div className="w-10 h-10 rounded-full bg-white dark:bg-black flex items-center justify-center text-purple-600">
                         {release.icon}
                       </div>
                       <div>

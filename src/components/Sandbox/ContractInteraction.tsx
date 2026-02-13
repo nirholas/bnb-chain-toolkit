@@ -132,14 +132,14 @@ export default function ContractInteraction({ contract, onLog }: ContractInterac
   return (
     <div className="p-4">
       {/* Contract Info */}
-      <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+      <div className="mb-6 p-4 bg-gray-50 dark:bg-black rounded-lg">
         <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
           Deployed Contract
         </h3>
         <div className="space-y-2 text-sm">
           <div className="flex items-center justify-between">
             <span className="text-gray-600 dark:text-gray-400">Address:</span>
-            <code className="text-xs bg-white dark:bg-gray-800 px-2 py-1 rounded">
+            <code className="text-xs bg-white dark:bg-[#0a0a0a] px-2 py-1 rounded">
               {contract.address.substring(0, 10)}...{contract.address.substring(38)}
             </code>
           </div>
@@ -181,7 +181,7 @@ export default function ContractInteraction({ contract, onLog }: ContractInterac
                 {/* Function Header */}
                 <button
                   onClick={() => setExpandedFunction(isExpanded ? null : key)}
-                  className="w-full px-4 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-750 flex items-center justify-between"
+                  className="w-full px-4 py-3 bg-white dark:bg-[#0a0a0a] hover:bg-gray-50 dark:hover:bg-gray-750 flex items-center justify-between"
                 >
                   <div className="flex items-center gap-3">
                     {isReadOnly ? (
@@ -209,7 +209,7 @@ export default function ContractInteraction({ contract, onLog }: ContractInterac
 
                 {/* Function Body */}
                 {isExpanded && (
-                  <div className="p-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+                  <div className="p-4 bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-gray-700">
                     {/* Inputs */}
                     {func.inputs.length > 0 && (
                       <div className="mb-4 space-y-2">
@@ -224,7 +224,7 @@ export default function ContractInteraction({ contract, onLog }: ContractInterac
                               value={inputValues[`${func.name}_${input.name}`] || ''}
                               onChange={(e) => handleInputChange(func.name, input.name, e.target.value)}
                               placeholder={`Enter ${input.type}`}
-                              className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800"
+                              className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#0a0a0a]"
                             />
                           </div>
                         ))}
@@ -256,7 +256,7 @@ export default function ContractInteraction({ contract, onLog }: ContractInterac
 
                     {/* Result */}
                     {results[key] && (
-                      <div className="mt-3 p-3 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">
+                      <div className="mt-3 p-3 bg-white dark:bg-[#0a0a0a] rounded border border-gray-200 dark:border-gray-700">
                         <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
                           Result:
                         </div>

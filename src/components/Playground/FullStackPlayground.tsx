@@ -299,7 +299,7 @@ export default function FullStackPlayground({
                 onClick={() => setActiveFileId(file.id)}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-r border-gray-700 transition-colors ${
                   activeFileId === file.id
-                    ? 'bg-gray-900 text-white'
+                    ? 'bg-black text-white'
                     : 'text-gray-400 hover:text-white hover:bg-gray-700'
                 }`}
               >

@@ -51,7 +51,7 @@ export default function CollaborativeArenaPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Header */}
       <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -83,7 +83,7 @@ export default function CollaborativeArenaPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Code Editor */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden">
             <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-3">
               <h2 className="font-semibold text-gray-900 dark:text-white">Challenge Code</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">Complete the TODOs with help from AI teammates</p>
@@ -97,7 +97,7 @@ export default function CollaborativeArenaPage() {
           </div>
 
           {/* Arena Panel */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden">
             <CollaborativeArena 
               code={code}
               onCodeChange={setCode}
@@ -108,7 +108,7 @@ export default function CollaborativeArenaPage() {
 
         {/* Logs */}
         {logs.length > 0 && (
-          <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4">
+          <div className="mt-6 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg p-4">
             <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Arena Log</h3>
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {logs.slice(-10).reverse().map((log, i) => (
@@ -118,7 +118,7 @@ export default function CollaborativeArenaPage() {
                     log.type === 'error' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' :
                     log.type === 'warning' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' :
                     log.type === 'success' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' :
-                    'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300'
                   }`}
                 >
                   {log.message}
@@ -130,19 +130,19 @@ export default function CollaborativeArenaPage() {
 
         {/* AI Teammates */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg p-4 shadow">
             <h3 className="font-semibold text-violet-600 dark:text-violet-400">🤖 CodePilot</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Your AI pair programmer that suggests completions and fixes
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg p-4 shadow">
             <h3 className="font-semibold text-fuchsia-600 dark:text-fuchsia-400">👨‍🏫 Professor AI</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Explains concepts and provides educational guidance
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg p-4 shadow">
             <h3 className="font-semibold text-pink-600 dark:text-pink-400">🛡️ Security Auditor</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Reviews your code for vulnerabilities and best practices

@@ -159,7 +159,7 @@ export default function InteractiveCodePlayground({
               className={`px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium ${
                 showTutorial
                   ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
-                  : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  : 'bg-gray-100 dark:bg-[#0a0a0a] hover:bg-gray-200 dark:hover:bg-zinc-900'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -172,7 +172,7 @@ export default function InteractiveCodePlayground({
               className={`px-3 py-2 rounded-lg flex items-center gap-2 text-sm font-medium ${
                 showChallenges
                   ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'
-                  : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  : 'bg-gray-100 dark:bg-[#0a0a0a] hover:bg-gray-200 dark:hover:bg-zinc-900'
               }`}
             >
               <Zap className="w-4 h-4" />
@@ -197,7 +197,7 @@ export default function InteractiveCodePlayground({
                 key={index}
                 className={`p-4 rounded-lg border-2 transition-colors ${
                   currentStep === index
-                    ? 'border-purple-400 bg-white dark:bg-gray-800'
+                    ? 'border-purple-400 bg-white dark:bg-[#0a0a0a]'
                     : 'border-transparent bg-purple-100/50 dark:bg-purple-900/10'
                 }`}
               >
@@ -207,7 +207,7 @@ export default function InteractiveCodePlayground({
                       ? 'bg-green-500 text-white'
                       : currentStep === index
                       ? 'bg-purple-500 text-white'
-                      : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                      : 'bg-gray-300 dark:bg-zinc-900 text-gray-600 dark:text-gray-400'
                   }`}>
                     {currentStep > index ? '✓' : index + 1}
                   </div>
@@ -249,14 +249,14 @@ export default function InteractiveCodePlayground({
           <div className="space-y-4">
             {challenges.map((challenge, index) => (
               <details key={index} className="group">
-                <summary className="cursor-pointer p-4 bg-white dark:bg-gray-800 rounded-lg border border-orange-200 dark:border-orange-700 hover:border-orange-400 dark:hover:border-orange-500">
+                <summary className="cursor-pointer p-4 bg-white dark:bg-[#0a0a0a] rounded-lg border border-orange-200 dark:border-orange-700 hover:border-orange-400 dark:hover:border-orange-500">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold">{challenge.title}</span>
                     <Lightbulb className="w-4 h-4 text-orange-500 group-open:rotate-180 transition-transform" />
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{challenge.description}</p>
                 </summary>
-                <div className="mt-2 p-4 bg-white dark:bg-gray-800 rounded-lg border border-orange-200 dark:border-orange-700">
+                <div className="mt-2 p-4 bg-white dark:bg-[#0a0a0a] rounded-lg border border-orange-200 dark:border-orange-700">
                   <div className="mb-4">
                     <h4 className="font-medium text-sm mb-2">Task:</h4>
                     <p className="text-sm text-gray-700 dark:text-gray-300">{challenge.task}</p>
@@ -273,7 +273,7 @@ export default function InteractiveCodePlayground({
                     <summary className="cursor-pointer text-sm font-medium text-green-600 dark:text-green-400">
                       Show Solution
                     </summary>
-                    <pre className="mt-2 p-3 bg-gray-100 dark:bg-gray-900 rounded text-xs overflow-x-auto">
+                    <pre className="mt-2 p-3 bg-gray-100 dark:bg-black rounded text-xs overflow-x-auto">
                       <code>{challenge.solution}</code>
                     </pre>
                   </details>
@@ -285,9 +285,9 @@ export default function InteractiveCodePlayground({
       )}
 
       {/* Main Playground */}
-      <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800">
+      <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-[#0a0a0a]">
         {/* Toolbar */}
-        <div className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 px-4 py-2 flex items-center justify-between">
+        <div className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-black px-4 py-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {/* Language Tabs */}
             {tabs.map(tab => (
@@ -297,7 +297,7 @@ export default function InteractiveCodePlayground({
                 className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
                   activeTab === tab.id
                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-900'
                 }`}
               >
                 {tab.label}
@@ -327,21 +327,21 @@ export default function InteractiveCodePlayground({
             )}
             <button
               onClick={handleCopy}
-              className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+              className="p-1.5 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
               title="Copy code"
             >
               {copied ? <CheckCircle className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
             </button>
             <button
               onClick={handleDownload}
-              className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+              className="p-1.5 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
               title="Download"
             >
               <Download className="w-4 h-4" />
             </button>
             <button
               onClick={handleReset}
-              className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+              className="p-1.5 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
               title="Reset to original"
             >
               <RefreshCw className="w-4 h-4" />
@@ -349,7 +349,7 @@ export default function InteractiveCodePlayground({
             <div className="h-4 w-px bg-gray-300 dark:bg-gray-600" />
             <button
               onClick={() => setLayout(layout === 'split' ? 'editor' : layout === 'editor' ? 'preview' : 'split')}
-              className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+              className="p-1.5 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
               title="Toggle layout"
             >
               {layout === 'split' ? <Code2 className="w-4 h-4" /> : layout === 'editor' ? <Eye className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -390,7 +390,7 @@ export default function InteractiveCodePlayground({
 
           {/* Preview/Output */}
           {layout !== 'editor' && (livePreview || output || error) && (
-            <div className={`${layout === 'split' ? 'w-1/2' : 'w-full'} bg-gray-50 dark:bg-gray-900`}>
+            <div className={`${layout === 'split' ? 'w-1/2' : 'w-full'} bg-gray-50 dark:bg-black`}>
               {livePreview && previewComponent ? (
                 <div className="h-[500px] overflow-auto p-4">
                   {previewComponent}

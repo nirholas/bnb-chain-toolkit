@@ -132,9 +132,9 @@ export default function LivePreview({ code, language, output }: LivePreviewProps
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-white dark:bg-black">
       {/* Preview Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0a0a0a]">
         <div className="flex items-center space-x-2">
           <div className="w-3 h-3 rounded-full bg-red-400" />
           <div className="w-3 h-3 rounded-full bg-yellow-400" />
@@ -145,14 +145,14 @@ export default function LivePreview({ code, language, output }: LivePreviewProps
         <div className="flex items-center space-x-2">
           <button
             onClick={handleRefresh}
-            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
             title="Refresh preview"
           >
             <RefreshCw className="w-4 h-4" />
           </button>
           <button
             onClick={handleOpenInNewTab}
-            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
             title="Open in new tab"
           >
             <ExternalLink className="w-4 h-4" />
@@ -175,7 +175,7 @@ export default function LivePreview({ code, language, output }: LivePreviewProps
           </div>
         ) : output ? (
           <div className="p-6">
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 font-mono text-sm">
+            <div className="bg-gray-50 dark:bg-[#0a0a0a] rounded-lg p-4 font-mono text-sm">
               <pre className="whitespace-pre-wrap text-gray-800 dark:text-gray-200">
                 {output}
               </pre>

@@ -414,12 +414,12 @@ export default function ExamplePage() {
           <span>Back to Examples</span>
         </Link>
         <div className="text-center py-16">
-          <h2 className="text-2xl font-bold mb-4">Example Coming Soon</h2>
+          <h2 className="text-2xl font-bold mb-4">Example Not Found</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            This example is currently under development. Check back soon!
+            The requested example could not be found. It may have been moved or renamed.
           </p>
           <Link to="/" className="btn-primary">
-            Browse Other Examples
+            Browse All Examples
           </Link>
         </div>
       </div>

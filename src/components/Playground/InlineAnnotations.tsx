@@ -208,11 +208,11 @@ export function AnnotationsPanel({ annotations }: { annotations: CodeAnnotation[
         return (
           <div
             key={index}
-            className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-gray-800"
+            className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-[#0a0a0a]"
           >
             <button
               onClick={() => toggleAnnotation(index)}
-              className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+              className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition-colors"
             >
               <div className="flex items-center gap-3">
                 <span className="text-xl">{colors.icon}</span>

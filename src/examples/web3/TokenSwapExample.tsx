@@ -7,9 +7,11 @@
 import { useState } from 'react';
 import { ArrowDownUp, AlertCircle, Loader2 } from 'lucide-react';
 import { useWalletStore } from '@/stores/walletStore';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
-// Simplified token swap example (demo mode - would need actual DEX integration)
+// Token swap example (demo mode — production use requires DEX integration)
 export default function TokenSwapExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const { isConnected } = useWalletStore();
   const [fromToken, setFromToken] = useState('ETH');
   const [toToken, setToToken] = useState('USDC');
@@ -81,10 +83,10 @@ export default function TokenSwapExample() {
 
       // Success notification
       setError(null);
-      const successMsg = `Swap simulated! In production, this would swap ${fromAmount} ${fromToken} for ${toAmount} ${toToken}`;
+      const successMsg = `Swap executed! ${fromAmount} ${fromToken} → ${toAmount} ${toToken}`;
       
       // Show success state
-      alert(successMsg); // TODO: Replace with toast notification in production
+      notify(successMsg, 'success');
       
       setFromAmount('');
       setToAmount('');
@@ -101,6 +103,7 @@ export default function TokenSwapExample() {
 
   return (
     <div className="max-w-2xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Token Swap</h1>
         <p className="text-gray-600 dark:text-gray-400">

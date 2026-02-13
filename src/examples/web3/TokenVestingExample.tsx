@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { Lock, Clock, Unlock } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 interface VestingSchedule {
   beneficiary: string;
@@ -17,6 +18,7 @@ interface VestingSchedule {
 }
 
 export default function TokenVestingExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [schedules, setSchedules] = useState<VestingSchedule[]>([
     {
       beneficiary: '0xaaaa...bbbb',
@@ -68,7 +70,7 @@ export default function TokenVestingExample() {
 
   const handleCreateSchedule = () => {
     if (!newSchedule.beneficiary || !newSchedule.amount) {
-      alert('Please fill all required fields');
+      notify('Please fill all required fields', 'warning');
       return;
     }
 
@@ -101,6 +103,7 @@ export default function TokenVestingExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Token Vesting</h1>
         <p className="text-gray-600 dark:text-gray-400">

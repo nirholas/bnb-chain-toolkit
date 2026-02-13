@@ -37,4 +37,6 @@ interface EthereumProvider {
 
 interface Window {
   ethereum?: EthereumProvider;
+  SpeechRecognition?: typeof SpeechRecognition;
+  webkitSpeechRecognition?: typeof SpeechRecognition;
 }

@@ -61,7 +61,7 @@ function WalletButton() {
         <button
           onClick={connectWallet}
           disabled={loading}
-          className="w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg disabled:opacity-50 flex items-center justify-center gap-2 transition-all"
+          className="w-full py-3 px-6 bg-[#F0B90B] hover:bg-[#d4a20a] text-black font-semibold rounded-xl shadow-lg disabled:opacity-50 flex items-center justify-center gap-2 transition-all"
         >
           {loading ? (
             <>
@@ -82,7 +82,7 @@ function WalletButton() {
               <CheckCircle className="w-5 h-5" />
               <span className="font-semibold">Connected!</span>
             </div>
-            <div className="font-mono text-sm bg-white dark:bg-gray-800 p-2 rounded border">
+            <div className="font-mono text-sm bg-white dark:bg-[#0a0a0a] p-2 rounded border">
               {shortenAddress(address)}
             </div>
           </div>
@@ -179,15 +179,15 @@ contract WalletRegistry {
 /* Try editing these values! */
 
 .wallet-container {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #F0B90B 0%, #d4a20a 100%);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 40px rgba(240, 185, 11, 0.3);
 }
 
 .wallet-button {
   background: white;
-  color: #667eea;
+  color: #F0B90B;
   border: none;
   padding: 12px 24px;
   border-radius: 12px;
@@ -278,45 +278,45 @@ export default function FullStackDemoPage() {
           showContractTemplates={true}
         />
       )}
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white">
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-500 text-white">
+        <div className="bg-neutral-900 dark:bg-black text-white border-b border-white/10">
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Link 
               to="/examples" 
-              className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors"
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-[#F0B90B] mb-4 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Examples
             </Link>
             
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 bg-white/20 rounded-xl">
-                <Rocket className="w-8 h-8" />
+              <div className="p-3 bg-[#F0B90B]/10 rounded-xl">
+                <Rocket className="w-8 h-8 text-[#F0B90B]" />
               </div>
               <div>
                 <h1 className="text-3xl font-bold">Full-Stack Playground</h1>
-                <p className="text-white/80">Edit React + Solidity + CSS with live preview</p>
+                <p className="text-gray-400">Edit React + Solidity + CSS with live preview</p>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-2 mt-4">
               <button
                 onClick={() => setShowTemplateSelector(true)}
-                className="px-4 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-sm flex items-center gap-2 transition-colors"
+                className="px-4 py-1.5 bg-[#F0B90B] text-black hover:bg-[#F0B90B]/90 rounded-full text-sm font-medium flex items-center gap-2 transition-colors"
               >
                 <FileCode className="w-4 h-4" />
                 Load Template (46 available)
               </button>
-              <span className="px-3 py-1 bg-white/20 rounded-full text-sm flex items-center gap-1">
-                <Sparkles className="w-3 h-3" /> Live Preview
+              <span className="px-3 py-1 bg-white/10 rounded-full text-sm flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-[#F0B90B]" /> Live Preview
               </span>
-              <span className="px-3 py-1 bg-white/20 rounded-full text-sm flex items-center gap-1">
-                <Zap className="w-3 h-3" /> Multi-File Editor
+              <span className="px-3 py-1 bg-white/10 rounded-full text-sm flex items-center gap-1">
+                <Zap className="w-3 h-3 text-[#F0B90B]" /> Multi-File Editor
             </span>
-            <span className="px-3 py-1 bg-purple-400/30 rounded-full text-sm">React</span>
-            <span className="px-3 py-1 bg-blue-400/30 rounded-full text-sm">Solidity</span>
-            <span className="px-3 py-1 bg-pink-400/30 rounded-full text-sm">CSS</span>
+            <span className="px-3 py-1 bg-[#F0B90B]/20 text-[#F0B90B] rounded-full text-sm">React</span>
+            <span className="px-3 py-1 bg-[#F0B90B]/10 text-[#F0B90B] rounded-full text-sm">Solidity</span>
+            <span className="px-3 py-1 bg-[#F0B90B]/10 text-[#F0B90B] rounded-full text-sm">CSS</span>
           </div>
         </div>
       </div>
@@ -324,14 +324,14 @@ export default function FullStackDemoPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Info Banner */}
-        <div className="mb-8 p-4 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200 dark:border-purple-800 rounded-xl">
+        <div className="mb-8 p-4 bg-[#F0B90B]/5 dark:bg-[#F0B90B]/10 border border-[#F0B90B]/20 dark:border-[#F0B90B]/20 rounded-xl">
           <div className="flex items-start gap-3">
-            <Sparkles className="w-5 h-5 text-purple-600 dark:text-purple-400 mt-0.5" />
+            <Sparkles className="w-5 h-5 text-[#F0B90B] mt-0.5" />
             <div>
-              <h3 className="font-semibold text-purple-900 dark:text-purple-100">
+              <h3 className="font-semibold text-gray-900 dark:text-white">
                 🎉 New! Full-Stack Code Editing
               </h3>
-              <p className="text-sm text-purple-700 dark:text-purple-300 mt-1">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
                 Edit the React component and see changes instantly! The Solidity contract shows the backend logic. 
                 Switch between files using the tabs above the editor.
               </p>
@@ -348,21 +348,21 @@ export default function FullStackDemoPage() {
 
         {/* Next Steps */}
         <div className="mt-8 grid md:grid-cols-3 gap-4">
-          <div className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="p-4 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-white/10">
             <div className="text-2xl mb-2">1️⃣</div>
             <h4 className="font-semibold mb-1">Edit the React Code</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Try changing button colors, text, or add new features to the WalletButton component.
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="p-4 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-white/10">
             <div className="text-2xl mb-2">2️⃣</div>
             <h4 className="font-semibold mb-1">View the Contract</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Switch to the Solidity tab to see the smart contract that would power this on-chain.
             </p>
           </div>
-          <div className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="p-4 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-white/10">
             <div className="text-2xl mb-2">3️⃣</div>
             <h4 className="font-semibold mb-1">Customize Styles</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">

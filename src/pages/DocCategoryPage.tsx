@@ -126,7 +126,7 @@ export default function DocCategoryPage() {
 
   if (!category) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
         <div className="text-center">
           <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-400" />
           <h1 className="text-2xl font-bold mb-2">Category Not Found</h1>
@@ -146,9 +146,9 @@ export default function DocCategoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Breadcrumb */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center space-x-2 text-sm">
             <Link to="/docs" className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
@@ -185,7 +185,7 @@ export default function DocCategoryPage() {
               <Link
                 key={article.id}
                 to={`/docs/${category.id}/${article.id}`}
-                className="block bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all p-6 group"
+                className="block bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg hover:shadow-xl transition-all p-6 group"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">

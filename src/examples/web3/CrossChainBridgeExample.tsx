@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { Layers, ArrowRightLeft, Clock, CheckCircle } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 interface Bridge {
   name: string;
@@ -17,6 +18,7 @@ interface Bridge {
 }
 
 export default function CrossChainBridgeExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const bridges: Bridge[] = [
     { name: 'Ethereum ↔ Polygon', fromChain: 'Ethereum', toChain: 'Polygon', supportedTokens: ['ETH', 'USDC', 'DAI'], fee: 0.001, estimatedTime: '7-10 min' },
     { name: 'Ethereum ↔ Arbitrum', fromChain: 'Ethereum', toChain: 'Arbitrum', supportedTokens: ['ETH', 'USDC', 'USDT'], fee: 0.0005, estimatedTime: '10-15 min' },
@@ -30,7 +32,7 @@ export default function CrossChainBridgeExample() {
 
   const handleBridge = () => {
     if (!selectedBridge || !selectedToken || !amount) {
-      alert('Please fill all fields');
+      notify('Please fill all fields', 'warning');
       return;
     }
 
@@ -56,6 +58,7 @@ export default function CrossChainBridgeExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Cross-Chain Bridge</h1>
         <p className="text-gray-600 dark:text-gray-400">

@@ -32,7 +32,7 @@ function formatPrice(price: number): string {
 const COIN_SYMBOLS: Record<string, { symbol: string; color: string }> = {
   bitcoin: { symbol: '₿', color: 'text-orange-400' },
   ethereum: { symbol: 'Ξ', color: 'text-purple-400' },
-  solana: { symbol: '◎', color: 'text-gradient-to-r from-purple-500 to-cyan-500' },
+  solana: { symbol: '◎', color: 'bg-gradient-to-r from-purple-500 to-cyan-500 bg-clip-text text-transparent' },
   bnb: { symbol: 'BNB', color: 'text-yellow-400' },
   cardano: { symbol: 'ADA', color: 'text-blue-400' },
   polkadot: { symbol: 'DOT', color: 'text-pink-400' },
@@ -78,7 +78,7 @@ export default function PriceTicker({
           return (
             <div
               key={coin}
-              className={`flex items-center gap-2 ${compact ? 'gap-1' : 'gap-2'} group-hover:opacity-75 transition-opacity`}
+              className={`flex items-center ${compact ? 'gap-1' : 'gap-2'} group-hover:opacity-75 transition-opacity`}
             >
               <span className={coinInfo.color}>{coinInfo.symbol}</span>
               <span className="text-white font-medium">{formatPrice(priceData.usd)}</span>

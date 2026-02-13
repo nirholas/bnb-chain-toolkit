@@ -81,8 +81,8 @@ export class ErrorBoundary extends Component<Props, State> {
 
       // Default error UI
       return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center">
+        <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center p-4">
+          <div className="max-w-md w-full bg-white dark:bg-[#0a0a0a] rounded-2xl shadow-xl p-8 text-center">
             {/* Error Icon */}
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
               <AlertTriangle className="w-8 h-8 text-red-500" />
@@ -105,7 +105,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   <Bug className="w-4 h-4 inline mr-1" />
                   Error details
                 </summary>
-                <div className="mt-2 p-3 bg-gray-100 dark:bg-gray-900 rounded-lg overflow-auto max-h-40">
+                <div className="mt-2 p-3 bg-gray-100 dark:bg-black rounded-lg overflow-auto max-h-40">
                   <p className="text-sm font-mono text-red-600 dark:text-red-400 break-all">
                     {this.state.error.message}
                   </p>
@@ -129,7 +129,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </button>
               <button
                 onClick={this.handleGoHome}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-medium transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-gray-200 dark:bg-zinc-900 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-medium transition-colors"
               >
                 <Home className="w-4 h-4" />
                 Go Home

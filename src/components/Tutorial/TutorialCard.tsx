@@ -103,9 +103,9 @@ export default function TutorialCard({
     return (
       <Link
         to={`/tutorial/${tutorial.id}`}
-        className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all group"
+        className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all group"
       >
-        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-lg">
+        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-zinc-900 flex items-center justify-center text-lg">
           {categoryInfo.icon}
         </div>
         <div className="flex-1 min-w-0">
@@ -247,7 +247,7 @@ export default function TutorialCard({
   return (
     <Link
       to={`/tutorial/${tutorial.id}`}
-      className="group block bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all overflow-hidden"
+      className="group block bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm hover:shadow-md border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600 transition-all overflow-hidden"
     >
       {/* Card Header */}
       <div className="p-5">
@@ -261,7 +261,7 @@ export default function TutorialCard({
                 {tutorial.difficulty}
               </span>
               {tutorial.chain && (
-                <span className="ml-1.5 inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                <span className="ml-1.5 inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-zinc-900 text-gray-600 dark:text-gray-300">
                   {tutorial.chain}
                 </span>
               )}
@@ -271,7 +271,7 @@ export default function TutorialCard({
           {showBookmark && (
             <button
               onClick={handleBookmarkClick}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
               aria-label={bookmarked ? 'Remove bookmark' : 'Add bookmark'}
             >
               {bookmarked ? (
@@ -315,7 +315,7 @@ export default function TutorialCard({
             {tutorial.tags.slice(0, 4).map((tag, index) => (
               <span
                 key={index}
-                className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded"
+                className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-zinc-900 text-gray-600 dark:text-gray-300 rounded"
               >
                 {tag}
               </span>
@@ -334,7 +334,7 @@ export default function TutorialCard({
             {tutorial.languages.slice(0, 3).map((lang, index) => (
               <span
                 key={index}
-                className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded"
+                className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 rounded"
               >
                 {lang === 'solidity' ? '⚡ Solidity' :
                  lang === 'typescript' ? 'TS' :
@@ -364,7 +364,7 @@ export default function TutorialCard({
 
       {/* Card Footer with Progress */}
       {showProgress && (
-        <div className="px-5 py-3 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-600">
+        <div className="px-5 py-3 bg-gray-50 dark:bg-zinc-900/50 border-t border-gray-200 dark:border-gray-600">
           <div className="flex items-center justify-between">
             {status === 'completed' ? (
               <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
@@ -403,36 +403,36 @@ export default function TutorialCard({
 export function TutorialCardSkeleton({ variant = 'default' }: { variant?: 'default' | 'compact' }) {
   if (variant === 'compact') {
     return (
-      <div className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 animate-pulse">
-        <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-gray-700" />
+      <div className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-700 animate-pulse">
+        <div className="w-10 h-10 rounded-lg bg-gray-200 dark:bg-zinc-900" />
         <div className="flex-1">
-          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2" />
-          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
+          <div className="h-4 bg-gray-200 dark:bg-zinc-900 rounded w-3/4 mb-2" />
+          <div className="h-3 bg-gray-200 dark:bg-zinc-900 rounded w-1/2" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden animate-pulse">
+    <div className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden animate-pulse">
       <div className="p-5">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-gray-700" />
-            <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-20" />
+            <div className="w-12 h-12 rounded-lg bg-gray-200 dark:bg-zinc-900" />
+            <div className="h-5 bg-gray-200 dark:bg-zinc-900 rounded w-20" />
           </div>
-          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700" />
+          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-zinc-900" />
         </div>
-        <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-4" />
+        <div className="h-5 bg-gray-200 dark:bg-zinc-900 rounded w-3/4 mb-2" />
+        <div className="h-4 bg-gray-200 dark:bg-zinc-900 rounded w-full mb-2" />
+        <div className="h-4 bg-gray-200 dark:bg-zinc-900 rounded w-2/3 mb-4" />
         <div className="flex gap-2 mb-4">
-          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-16" />
-          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-20" />
+          <div className="h-6 bg-gray-200 dark:bg-zinc-900 rounded w-16" />
+          <div className="h-6 bg-gray-200 dark:bg-zinc-900 rounded w-20" />
         </div>
       </div>
-      <div className="px-5 py-3 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-600">
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3" />
+      <div className="px-5 py-3 bg-gray-50 dark:bg-zinc-900/50 border-t border-gray-200 dark:border-gray-600">
+        <div className="h-4 bg-gray-200 dark:bg-zinc-900 rounded w-1/3" />
       </div>
     </div>
   );

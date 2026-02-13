@@ -370,13 +370,13 @@ export default function InteractiveSandbox() {
           showContractTemplates={true}
         />
       )}
-      <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+      <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
       {/* Top Toolbar */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex items-center justify-between">
+      <div className="bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowFileTree(!showFileTree)}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
             title="Toggle file tree"
           >
             <FileCode className="w-4 h-4" />
@@ -384,11 +384,12 @@ export default function InteractiveSandbox() {
           
           <button
             onClick={() => setShowTemplateSelector(true)}
-            className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-sm font-medium flex items-center gap-2"
-            title="Load template"
+            className="px-3 py-1.5 bg-black dark:bg-white text-white dark:text-black hover:bg-[#0a0a0a] dark:hover:bg-gray-100 rounded-lg text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors"
+            title="Browse 60+ smart contract & workspace templates"
           >
-            <PlusCircle className="w-4 h-4" />
-            Template
+            <Zap className="w-4 h-4" />
+            Templates
+            <span className="px-1.5 py-0.5 bg-white/20 dark:bg-black/20 rounded-full text-xs font-bold">60+</span>
           </button>
           
           <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
@@ -396,7 +397,7 @@ export default function InteractiveSandbox() {
           <select
             value={solcVersion}
             onChange={(e) => setSolcVersion(e.target.value)}
-            className="px-2 py-1 text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded"
+            className="px-2 py-1 text-sm bg-gray-100 dark:bg-zinc-900 border border-gray-300 dark:border-gray-600 rounded"
           >
             <option value="0.8.20">v0.8.20</option>
             <option value="0.8.19">v0.8.19</option>
@@ -463,7 +464,7 @@ export default function InteractiveSandbox() {
           
           <button
             onClick={handleReset}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
             title="Reset sandbox"
           >
             <RefreshCw className="w-4 h-4" />
@@ -471,7 +472,7 @@ export default function InteractiveSandbox() {
 
           <button
             onClick={() => setShowAI(!showAI)}
-            className={`p-2 rounded ${showAI ? 'bg-purple-100 dark:bg-purple-900/30' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+            className={`p-2 rounded ${showAI ? 'bg-purple-100 dark:bg-purple-900/30' : 'hover:bg-gray-100 dark:hover:bg-zinc-900'}`}
             title="Toggle AI assistant"
           >
             <Zap className="w-4 h-4" />
@@ -481,7 +482,7 @@ export default function InteractiveSandbox() {
 
           <button
             onClick={handleShare}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
             title="Share"
           >
             <Share2 className="w-4 h-4" />
@@ -489,7 +490,7 @@ export default function InteractiveSandbox() {
 
           <button
             onClick={handleExport}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
             title="Export workspace"
           >
             <Download className="w-4 h-4" />
@@ -497,7 +498,7 @@ export default function InteractiveSandbox() {
 
           <button
             onClick={() => setLayout(layout === 'horizontal' ? 'vertical' : 'horizontal')}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
             title="Toggle layout"
           >
             {layout === 'horizontal' ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
@@ -511,7 +512,7 @@ export default function InteractiveSandbox() {
         <div className={`flex ${layout === 'horizontal' ? 'flex-1' : 'h-1/2'} border-r dark:border-gray-700`}>
           {/* File Tree */}
           {showFileTree && (
-            <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+            <div className="w-64 bg-white dark:bg-[#0a0a0a] border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
               <FileTree onLog={addLog} />
             </div>
           )}
@@ -520,15 +521,15 @@ export default function InteractiveSandbox() {
           <div className="flex-1 flex flex-col">
             {/* File Tabs */}
             {workspace && (
-              <div className="bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-2 py-1 flex items-center gap-1 overflow-x-auto">
+              <div className="bg-gray-100 dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-2 py-1 flex items-center gap-1 overflow-x-auto">
                 {workspace.files.map((file) => (
                   <button
                     key={file.id}
                     onClick={() => setActiveFile(workspace.id, file.id)}
                     className={`px-3 py-1.5 text-sm rounded flex items-center gap-2 ${
                       file.id === activeFile?.id
-                        ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white'
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        ? 'bg-white dark:bg-zinc-900 text-gray-900 dark:text-white'
+                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-900'
                     }`}
                   >
                     <FileCode className="w-4 h-4" />
@@ -572,7 +573,7 @@ export default function InteractiveSandbox() {
         </div>
 
         {/* Right/Bottom Panel - Interaction & Console */}
-        <div className={`flex flex-col ${layout === 'horizontal' ? 'w-1/2' : 'h-1/2'} bg-white dark:bg-gray-800`}>
+        <div className={`flex flex-col ${layout === 'horizontal' ? 'w-1/2' : 'h-1/2'} bg-white dark:bg-[#0a0a0a]`}>
           {/* Panel Tabs */}
           <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex items-center gap-2">
             <button
@@ -580,7 +581,7 @@ export default function InteractiveSandbox() {
               className={`px-3 py-1.5 text-sm rounded ${
                 activePanel === 'preview'
                   ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
               }`}
             >
               <Play className="w-4 h-4 inline mr-2" />
@@ -591,7 +592,7 @@ export default function InteractiveSandbox() {
               className={`px-3 py-1.5 text-sm rounded ${
                 activePanel === 'interaction'
                   ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
               }`}
             >
               <Box className="w-4 h-4 inline mr-2" />
@@ -602,7 +603,7 @@ export default function InteractiveSandbox() {
               className={`px-3 py-1.5 text-sm rounded ${
                 activePanel === 'console'
                   ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
               }`}
             >
               <Terminal className="w-4 h-4 inline mr-2" />
@@ -614,7 +615,7 @@ export default function InteractiveSandbox() {
                 className={`px-3 py-1.5 text-sm rounded ${
                   activePanel === 'ai'
                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
                 }`}
               >
                 <Zap className="w-4 h-4 inline mr-2" />
@@ -628,7 +629,7 @@ export default function InteractiveSandbox() {
               className={`ml-auto px-3 py-1.5 text-sm rounded font-bold ${
                 innovationMode
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white animate-pulse'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                  : 'bg-gray-200 dark:bg-zinc-900 text-gray-600 dark:text-gray-400'
               }`}
             >
               ✨ {innovationMode ? 'Innovation Mode ON' : 'Activate Innovation'}

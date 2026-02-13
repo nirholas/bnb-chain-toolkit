@@ -64,9 +64,9 @@ export default function MultiLanguageTabs({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="flex flex-col h-full bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       {/* Tab Headers */}
-      <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-2">
+      <div className="flex items-center justify-between bg-gray-50 dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-2">
         <div className="flex items-center overflow-x-auto">
           {tabs.map((tab) => (
             <button

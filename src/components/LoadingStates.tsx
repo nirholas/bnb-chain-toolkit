@@ -24,7 +24,7 @@ export function Skeleton({
   height,
   lines = 1,
 }: SkeletonProps) {
-  const baseClass = 'animate-pulse bg-gray-200 dark:bg-gray-700';
+  const baseClass = 'animate-pulse bg-gray-200 dark:bg-zinc-900';
   
   const variantClasses = {
     text: 'rounded h-4',
@@ -68,7 +68,7 @@ export function Skeleton({
  */
 export function CardSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700', className)}>
+    <div className={cn('p-6 bg-white dark:bg-[#0a0a0a] rounded-xl border border-gray-200 dark:border-gray-700', className)}>
       <div className="flex items-start gap-4">
         <Skeleton variant="circular" width={48} height={48} />
         <div className="flex-1 space-y-2">
@@ -188,7 +188,7 @@ export function ProgressBar({
           <span>{Math.round(clampedProgress)}%</span>
         </div>
       )}
-      <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-gray-200 dark:bg-zinc-900 rounded-full overflow-hidden">
         <div
           className="h-full bg-primary-500 rounded-full transition-all duration-300 ease-out"
           style={{ width: `${clampedProgress}%` }}
@@ -203,7 +203,7 @@ export function ProgressBar({
  */
 export function EditorSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('bg-gray-900 rounded-lg p-4 font-mono text-sm', className)}>
+    <div className={cn('bg-black rounded-lg p-4 font-mono text-sm', className)}>
       {/* Line numbers and code lines */}
       <div className="space-y-2">
         {Array.from({ length: 12 }).map((_, i) => (
@@ -236,7 +236,7 @@ export function DashboardSkeleton() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div key={i} className="p-6 bg-white dark:bg-[#0a0a0a] rounded-xl border border-gray-200 dark:border-gray-700">
             <Skeleton width={80} height={16} className="rounded mb-2" />
             <Skeleton width={120} height={32} className="rounded" />
           </div>

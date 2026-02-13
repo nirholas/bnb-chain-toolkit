@@ -12,6 +12,7 @@ import InteractiveTutorial, { TutorialStep } from '@/components/Playground/Inter
 import { useThemeStore } from '@/stores/themeStore';
 import { Copy, CheckCircle, Code2, Zap } from 'lucide-react';
 import { copyToClipboard } from '@/utils/helpers';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 // Language implementation definitions
 interface LanguageImplementation {
@@ -747,6 +748,7 @@ print(f"Balance: {eth_balance} ETH")
 ];
 
 export default function WalletConnectInteractive() {
+  const { notify, NotificationArea } = useInlineNotification();
   const { mode } = useThemeStore();
   const [viewMode, setViewMode] = useState<'tutorial' | 'challenge'>('tutorial');
   const [activeImpl, setActiveImpl] = useState(implementations[0]);
@@ -820,6 +822,7 @@ export default function WalletConnectInteractive() {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+      <NotificationArea />
       {/* Header */}
       <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
@@ -965,7 +968,7 @@ export default function WalletConnectInteractive() {
               currentCode={activeTab?.code || ''}
               onCodeChange={(code) => handleCodeChange(activeTabId, code)}
               onStepChange={() => {}}
-              onComplete={() => alert('🎉 Tutorial completed!')}
+              onComplete={() => notify('🎉 Tutorial completed!', 'success')}
             />
           </div>
         )}

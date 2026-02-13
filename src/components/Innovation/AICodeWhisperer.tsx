@@ -4,7 +4,7 @@
  * 💫 The future is being built right here 🏗️
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Brain,
   Sparkles,
@@ -60,6 +60,7 @@ export default function AICodeWhisperer({
   const [predictiveMode, setPredictiveMode] = useState(true);
   
   const analysisInterval = useRef<NodeJS.Timeout | null>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const thinkingPhrases = [
     "🧠 Analyzing contract architecture...",
     "🔍 Detecting potential vulnerabilities...",
@@ -200,34 +201,61 @@ export default function AICodeWhisperer({
     }
   };
 
-  // Voice Commands (Simulated - in production use Web Speech API)
-  const toggleVoiceControl = () => {
-    setIsListening(!isListening);
+  // Voice Commands — Real Web Speech API integration
+  const toggleVoiceControl = useCallback(() => {
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+
     if (!isListening) {
+      if (!SpeechRecognitionAPI) {
+        onLog('error', '🎤 Web Speech API is not supported in this browser. Try Chrome or Edge.');
+        return;
+      }
+
+      const recognition = new SpeechRecognitionAPI();
+      recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
+        const last = event.results[event.results.length - 1];
+        if (last.isFinal) {
+          const transcript = last[0].transcript.trim().toLowerCase();
+          onLog('info', `🎤 Heard: "${transcript}"`);
+          executeVoiceCommand(transcript);
+        }
+      };
+
+      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+        onLog('error', `🎤 Recognition error: ${event.error}`);
+        setIsListening(false);
+        recognitionRef.current = null;
+      };
+
+      recognition.onend = () => {
+        // Restart if still supposed to be listening
+        if (recognitionRef.current) {
+          try {
+            recognitionRef.current.start();
+          } catch {
+            // Already running or stopped intentionally
+          }
+        }
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+      setIsListening(true);
       onLog('info', '🎤 Voice control activated. Try: "Fix vulnerabilities", "Optimize gas", "Explain contract"');
-      simulateVoiceCommands();
     } else {
+      if (recognitionRef.current) {
+        const ref = recognitionRef.current;
+        recognitionRef.current = null;
+        ref.stop();
+      }
+      setIsListening(false);
       onLog('info', '🔇 Voice control deactivated');
     }
-  };
-
-  const simulateVoiceCommands = () => {
-    // In production, integrate Web Speech API
-    const commands = [
-      "analyze security",
-      "optimize gas usage", 
-      "explain this function",
-      "add documentation",
-      "suggest improvements"
-    ];
-    
-    setTimeout(() => {
-      if (isListening) {
-        const cmd = commands[Math.floor(Math.random() * commands.length)];
-        executeVoiceCommand(cmd);
-      }
-    }, 3000);
-  };
+  }, [isListening, onLog]);
 
   const executeVoiceCommand = (command: string) => {
     setVoiceCommands(prev => [...prev, { command, timestamp: Date.now(), executed: true }]);

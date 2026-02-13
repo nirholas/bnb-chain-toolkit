@@ -386,7 +386,7 @@ export default function CrossChainDreamWeaver({
                 className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
                   isSelected
                     ? 'border-emerald-400 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 shadow-lg'
-                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-emerald-300 dark:hover:border-emerald-700'
+                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0a0a0a] hover:border-emerald-300 dark:hover:border-emerald-700'
                 } ${chain.deployed ? 'ring-2 ring-green-400' : ''}`}
               >
                 <div className="flex items-center justify-between mb-3">
@@ -446,7 +446,7 @@ export default function CrossChainDreamWeaver({
                       <span>Deploying...</span>
                       <span>{progress}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-zinc-900 rounded-full h-2">
                       <div
                         className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all"
                         style={{ width: `${progress}%` }}
@@ -477,7 +477,7 @@ export default function CrossChainDreamWeaver({
               {bridges.map((bridge, i) => (
                 <div
                   key={i}
-                  className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-between"
+                  className="p-3 bg-white dark:bg-[#0a0a0a] rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-between"
                 >
                   <div className="flex items-center space-x-3">
                     <GitBranch className="w-4 h-4 text-teal-600" />
@@ -509,7 +509,7 @@ export default function CrossChainDreamWeaver({
           <button
             onClick={() => setSelectedChains([])}
             disabled={isDeploying}
-            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all disabled:opacity-50"
+            className="px-4 py-2 bg-gray-100 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-zinc-900 transition-all disabled:opacity-50"
           >
             Clear All
           </button>

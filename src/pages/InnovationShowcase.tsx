@@ -121,7 +121,7 @@ export default function InnovationShowcase() {
 
           <div className="flex items-center justify-center space-x-4 mb-12">
             <Link
-              to="/sandbox"
+              to="/fullstack-demo"
               className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-2xl hover:shadow-purple-500/50 hover:scale-105 flex items-center space-x-2"
             >
               <Rocket className="w-6 h-6 group-hover:animate-bounce" />
@@ -290,7 +290,7 @@ export default function InnovationShowcase() {
             Join thousands of developers learning Web3 with AI superpowers
           </p>
           <Link
-            to="/sandbox"
+            to="/fullstack-demo"
             className="inline-flex items-center space-x-3 px-10 py-5 bg-white text-purple-600 rounded-xl font-black text-xl hover:bg-gray-100 transition-all shadow-2xl hover:shadow-white/50 hover:scale-110"
           >
             <Rocket className="w-8 h-8" />

@@ -176,7 +176,7 @@ export default function ToolCatalogPage() {
             placeholder="Search tools…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 py-3 pl-10 pr-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-[#F0B90B] focus:outline-none focus:ring-1 focus:ring-[#F0B90B]"
+            className="w-full rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]/50 py-3 pl-10 pr-4 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-[#F0B90B] focus:outline-none focus:ring-1 focus:ring-[#F0B90B]"
           />
         </div>
       </section>
@@ -207,7 +207,7 @@ export default function ToolCatalogPage() {
                     href={`${GITHUB_BASE}${t.repoPath}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 px-3 py-1 text-xs text-gray-500 dark:text-gray-400 transition-colors hover:border-[#F0B90B] hover:text-[#F0B90B]"
+                    className="inline-flex items-center gap-1 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0a0a0a]/40 px-3 py-1 text-xs text-gray-500 dark:text-gray-400 transition-colors hover:border-[#F0B90B] hover:text-[#F0B90B]"
                   >
                     {t.detail}
                     <ExternalLink className="h-3 w-3" />
@@ -227,7 +227,7 @@ export default function ToolCatalogPage() {
 
       {/* Bottom CTA */}
       <section className="relative mx-auto max-w-4xl px-4 pb-24">
-        <div className="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 py-16 text-center">
+        <div className="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]/50 py-16 text-center">
           <div className="absolute inset-0">
             <SparklesCore
               id="tools-cta-sparkles"

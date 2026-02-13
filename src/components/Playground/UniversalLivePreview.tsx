@@ -382,9 +382,9 @@ export default function UniversalLivePreview({
     const events = Array.from(eventMatches).map(m => m[1]);
 
     return (
-      <div className="h-full p-4 bg-gray-50 dark:bg-gray-800 overflow-auto">
+      <div className="h-full p-4 bg-gray-50 dark:bg-[#0a0a0a] overflow-auto">
         <div className="space-y-4">
-          <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="p-4 bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-700">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
               <span className="text-purple-500">◆</span>
               {contractName}
@@ -393,7 +393,7 @@ export default function UniversalLivePreview({
           </div>
 
           {functions.length > 0 && (
-            <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div className="p-4 bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-700">
               <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Functions</h4>
               <div className="space-y-1">
                 {functions.map((fn, i) => (
@@ -409,7 +409,7 @@ export default function UniversalLivePreview({
           )}
 
           {events.length > 0 && (
-            <div className="p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div className="p-4 bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-700">
               <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Events</h4>
               <div className="space-y-1">
                 {events.map((event, i) => (
@@ -433,7 +433,7 @@ export default function UniversalLivePreview({
 
   // Render unsupported preview
   const renderUnsupportedPreview = () => (
-    <div className="h-full flex items-center justify-center bg-gray-50 dark:bg-gray-800">
+    <div className="h-full flex items-center justify-center bg-gray-50 dark:bg-[#0a0a0a]">
       <div className="text-center p-8">
         <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
@@ -472,9 +472,9 @@ export default function UniversalLivePreview({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="flex flex-col h-full bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-4">
           <h3 className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
             {title}
@@ -489,7 +489,7 @@ export default function UniversalLivePreview({
 
           {/* Viewport Buttons */}
           {previewType === 'html' && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="flex items-center gap-1 px-2 py-1 bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg">
               {(Object.keys(viewportSizes) as ViewportSize[]).map((size) => (
                 <button
                   key={size}
@@ -498,7 +498,7 @@ export default function UniversalLivePreview({
                     p-1.5 rounded transition-colors
                     ${viewport === size
                       ? 'bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-400'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#0a0a0a]'
                     }
                   `}
                   title={viewportSizes[size].label}
@@ -515,7 +515,7 @@ export default function UniversalLivePreview({
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg transition-colors disabled:opacity-50"
             title="Refresh preview"
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
@@ -524,7 +524,7 @@ export default function UniversalLivePreview({
           {allowFullscreen && previewType === 'html' && (
             <button
               onClick={handleOpenInNewTab}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg transition-colors"
               title="Open in new tab"
             >
               <ExternalLink className="w-4 h-4" />

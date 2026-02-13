@@ -53,7 +53,7 @@ export default function UserButton() {
     return (
       <button
         disabled
-        className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-400 cursor-not-allowed"
+        className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-zinc-900 rounded-lg text-gray-400 cursor-not-allowed"
         title="Auth not configured"
       >
         <User className="w-4 h-4" />
@@ -65,7 +65,7 @@ export default function UserButton() {
   // Loading state
   if (!ready) {
     return (
-      <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-gray-500">
+      <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-zinc-900 rounded-lg text-gray-500">
         <Loader2 className="w-4 h-4 animate-spin" />
         <span className="text-sm">Loading...</span>
       </button>
@@ -90,7 +90,7 @@ export default function UserButton() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+        className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
       >
         {/* Avatar */}
         {profile?.avatar ? (
@@ -115,7 +115,7 @@ export default function UserButton() {
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-50">
+        <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-50">
           {/* User Info */}
           <div className="p-4 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3">
@@ -145,7 +145,7 @@ export default function UserButton() {
               {profile?.linkedAccounts.map((account, i) => (
                 <div 
                   key={i}
-                  className="p-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg"
+                  className="p-1.5 bg-gray-100 dark:bg-zinc-900 rounded-lg"
                   title={account.type}
                 >
                   {account.type === 'email' && <Mail className="w-3 h-3" />}
@@ -170,7 +170,7 @@ export default function UserButton() {
             <Link
               to="/projects"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
             >
               <Folder className="w-4 h-4" />
               <span className="text-sm">My Projects</span>
@@ -179,7 +179,7 @@ export default function UserButton() {
             <Link
               to="/settings"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
             >
               <Settings className="w-4 h-4" />
               <span className="text-sm">Settings</span>
@@ -190,7 +190,7 @@ export default function UserButton() {
                 href={`https://sepolia.etherscan.io/address/${primaryWallet.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span className="text-sm">View on Explorer</span>

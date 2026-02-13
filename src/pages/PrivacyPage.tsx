@@ -120,7 +120,7 @@ export default function PrivacyPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto px-4 py-16">
@@ -180,7 +180,7 @@ export default function PrivacyPage() {
           {sections.map((section, index) => (
             <div 
               key={index}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
+              className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
             >
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -218,7 +218,7 @@ export default function PrivacyPage() {
         </div>
 
         {/* Contact */}
-        <div className="mt-12 p-6 bg-gray-100 dark:bg-gray-800 rounded-xl">
+        <div className="mt-12 p-6 bg-gray-100 dark:bg-[#0a0a0a] rounded-xl">
           <div className="flex items-start gap-4">
             <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-1" />
             <div>

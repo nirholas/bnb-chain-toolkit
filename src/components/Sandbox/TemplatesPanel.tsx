@@ -93,13 +93,15 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
   return (
     <div className="flex flex-col h-full bg-gray-800 text-white">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
-        <h2 className="font-semibold flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-primary-500" />
+      <div className="p-4 border-b border-gray-700 bg-gradient-to-r from-gray-800 to-gray-900">
+        <h2 className="font-bold text-lg flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-white" />
           Templates
+          <span className="ml-auto px-2 py-0.5 bg-white text-black rounded-full text-xs font-bold">{webTemplates.length}</span>
         </h2>
+        <p className="text-xs text-gray-400 mt-1">Ready-to-use starter projects</p>
         {onClose && (
-          <button onClick={onClose} className="p-1 hover:bg-gray-700 rounded">
+          <button onClick={onClose} className="absolute top-4 right-4 p-1 hover:bg-gray-700 rounded">
             <X className="w-5 h-5" />
           </button>
         )}

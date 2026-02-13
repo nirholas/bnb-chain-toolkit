@@ -70,27 +70,45 @@ export default function NeuralGasOracle({
   const [predictionHistory, setPredictionHistory] = useState<number[]>([]);
   const [realTimeMode, setRealTimeMode] = useState(false);
 
-  // Simulate real-time gas price updates
+  // Fetch real gas prices from BSC RPC
   useEffect(() => {
     if (realTimeMode) {
-      const interval = setInterval(() => {
-        setNetworkState(prev => {
-          const fluctuation = (Math.random() - 0.5) * 10;
-          const newGasPrice = Math.max(10, prev.gasPrice + fluctuation);
-          const newCongestion = 
-            newGasPrice > 100 ? 'extreme' :
-            newGasPrice > 60 ? 'high' :
-            newGasPrice > 30 ? 'medium' : 'low';
-          
-          return {
-            ...prev,
-            gasPrice: newGasPrice,
-            congestion: newCongestion,
-            trend: fluctuation / prev.gasPrice
-          };
-        });
-      }, 3000);
+      const fetchGasPrice = async () => {
+        try {
+          const response = await fetch('https://bsc-dataseed.binance.org/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0',
+              method: 'eth_gasPrice',
+              params: [],
+              id: 1,
+            }),
+          });
+          const data = await response.json();
+          if (data.result) {
+            const gasPriceGwei = parseInt(data.result, 16) / 1e9;
+            setNetworkState(prev => {
+              const trend = (gasPriceGwei - prev.gasPrice) / Math.max(prev.gasPrice, 1);
+              const newCongestion =
+                gasPriceGwei > 100 ? 'extreme' :
+                gasPriceGwei > 60 ? 'high' :
+                gasPriceGwei > 30 ? 'medium' : 'low';
+              return {
+                ...prev,
+                gasPrice: gasPriceGwei,
+                congestion: newCongestion,
+                trend,
+              };
+            });
+          }
+        } catch {
+          // Silently fall back — network state keeps last known values
+        }
+      };
 
+      fetchGasPrice();
+      const interval = setInterval(fetchGasPrice, 10000);
       return () => clearInterval(interval);
     }
   }, [realTimeMode]);
@@ -104,8 +122,8 @@ export default function NeuralGasOracle({
     setIsAnalyzing(true);
     onLog('info', '🧠 Neural network analyzing contract...');
 
-    // Simulate neural network processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Brief processing delay for UI responsiveness
+    await new Promise(resolve => setTimeout(resolve, 300));
 
     const operations = extractOperations(code);
     const newPredictions: GasPrediction[] = [];
@@ -184,13 +202,23 @@ export default function NeuralGasOracle({
     trend: 'up' | 'down' | 'stable';
     recommendations: string[];
   }> => {
-    // Simulate ML model inference
-    await new Promise(resolve => setTimeout(resolve, 300));
+    // Analyze the contract code — brief processing for UI responsiveness
+    await new Promise(resolve => setTimeout(resolve, 200));
 
-    const model = mlModels[selectedModel];
-    const optimizationFactor = 0.7 + (Math.random() * 0.2); // 70-90% of original
-    const optimized = Math.floor(currentCost * optimizationFactor);
-    const confidence = model.accuracy * (0.9 + Math.random() * 0.1);
+    // Deterministic optimization factors based on known Solidity patterns
+    const optimizationFactors: Record<string, number> = {
+      'Storage Mapping': 0.80,  // Packed storage saves ~20%
+      'Array Storage': 0.75,    // Fixed arrays save ~25%
+      'Loop Iteration': 0.70,   // Caching length + unchecked saves ~30%
+      'External Call': 0.85,    // Batching saves ~15%
+      'Arithmetic': 0.90,       // Unchecked blocks save ~10%
+      'Event Emission': 0.95,   // Indexed params save ~5%
+      'Contract Deployment': 0.82, // Optimizer + minimal proxy saves ~18%
+    };
+    
+    const factor = optimizationFactors[operation] ?? 0.85;
+    const optimized = Math.floor(currentCost * factor);
+    const confidence = mlModels[selectedModel].accuracy;
 
     // Determine trend based on network state
     const trend: 'up' | 'down' | 'stable' = 
@@ -222,10 +250,10 @@ export default function NeuralGasOracle({
   };
 
   const optimizeWithAI = async (prediction: GasPrediction) => {
-    onLog('info', `🤖 AI optimizing ${prediction.operation}...`);
+    onLog('info', `🤖 Applying optimization to ${prediction.operation}...`);
     
-    // Simulate AI code transformation
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Brief processing
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     onLog('success', `✨ Optimized! Saved ${prediction.optimizationPotential.toLocaleString()} gas`);
     
@@ -390,7 +418,7 @@ export default function NeuralGasOracle({
       </div>
 
       {/* ML Model Stats */}
-      <div className="p-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-4 bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
         <h4 className="text-sm font-bold mb-3 flex items-center">
           <Cpu className="w-4 h-4 mr-2" />
           Active Model: {mlModels[selectedModel].name}
@@ -399,7 +427,7 @@ export default function NeuralGasOracle({
           <div>
             <div className="text-gray-600 dark:text-gray-400 mb-1">Accuracy</div>
             <div className="flex items-center space-x-2">
-              <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+              <div className="flex-1 bg-gray-200 dark:bg-zinc-900 rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full"
                   style={{ width: `${mlModels[selectedModel].accuracy * 100}%` }}
@@ -437,7 +465,7 @@ export default function NeuralGasOracle({
         {predictions.map((prediction, i) => (
           <div
             key={i}
-            className="p-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-cyan-200 dark:border-cyan-800 hover:shadow-lg transition-all"
+            className="p-4 bg-white dark:bg-[#0a0a0a] rounded-xl border-2 border-cyan-200 dark:border-cyan-800 hover:shadow-lg transition-all"
           >
             <div className="flex items-start justify-between mb-3">
               <div>

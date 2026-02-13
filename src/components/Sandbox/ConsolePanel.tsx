@@ -105,9 +105,9 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
   ];
 
   return (
-    <div className="h-full flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-full flex flex-col bg-gray-50 dark:bg-black">
       {/* Toolbar */}
-      <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0a0a0a]">
         <div className="flex items-center gap-2 mb-2">
           {/* Search */}
           <div className="flex-1 relative">
@@ -117,7 +117,7 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search logs..."
-              className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
+              className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-zinc-900"
             />
           </div>
 
@@ -125,7 +125,7 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
           <button
             onClick={handleExport}
             disabled={logs.length === 0}
-            className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded disabled:opacity-50"
+            className="p-1.5 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded disabled:opacity-50"
             title="Export logs"
           >
             <Download className="w-4 h-4" />
@@ -133,7 +133,7 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
           <button
             onClick={onClear}
             disabled={logs.length === 0}
-            className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded disabled:opacity-50"
+            className="p-1.5 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded disabled:opacity-50"
             title="Clear console"
           >
             <Trash2 className="w-4 h-4" />
@@ -149,7 +149,7 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
               className={`px-2 py-1 text-xs rounded flex items-center gap-1 ${
                 filter === option.value
                   ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
               }`}
             >
               {option.label}
@@ -182,7 +182,7 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
             {filteredLogs.map((log) => (
               <div
                 key={log.id}
-                className="flex gap-2 px-2 py-1 hover:bg-white dark:hover:bg-gray-800 rounded"
+                className="flex gap-2 px-2 py-1 hover:bg-white dark:hover:bg-[#0a0a0a] rounded"
               >
                 <span className="text-gray-400 text-xs flex-shrink-0">
                   {formatTimestamp(log.timestamp)}
@@ -200,7 +200,7 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
       </div>
 
       {/* Status Bar */}
-      <div className="px-3 py-2 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs text-gray-500">
+      <div className="px-3 py-2 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0a0a0a] text-xs text-gray-500">
         {filteredLogs.length} / {logs.length} logs
       </div>
     </div>

@@ -603,10 +603,10 @@ export default function NavBar() {
               <UserButton />
 
               <Link
-                to="/sandbox"
-                className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-[#F0B90B] text-black hover:bg-[#F0B90B]/90 active:scale-[0.98] transition-all duration-200"
+                to="/fullstack-demo"
+                className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-[#F0B90B] text-black hover:bg-[#F0B90B]/90 active:scale-[0.98] transition-all duration-200 shadow-[0_0_16px_rgba(240,185,11,0.25)] hover:shadow-[0_0_24px_rgba(240,185,11,0.45)]"
               >
-                <Play className="w-3.5 h-3.5" />
+                <Zap className="w-3.5 h-3.5" />
                 <span>Start Building</span>
               </Link>
             </div>
@@ -739,11 +739,11 @@ export default function NavBar() {
                   <LanguageSelector />
 
                   <Link
-                    to="/sandbox"
+                    to="/fullstack-demo"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-[#F0B90B] text-black font-medium transition-all active:scale-[0.98]"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-[#F0B90B] text-black font-medium transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(240,185,11,0.3)]"
                   >
-                    <Play className="w-5 h-5" />
+                    <Zap className="w-5 h-5" />
                     <span>Start Building</span>
                   </Link>
 

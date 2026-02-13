@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { Image, Upload, Sparkles, ExternalLink } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 interface NFT {
   id: number;
@@ -19,6 +20,7 @@ interface NFT {
 }
 
 export default function NFTMarketplaceExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [nfts, setNfts] = useState<NFT[]>([
     {
       id: 1,
@@ -74,7 +76,7 @@ export default function NFTMarketplaceExample() {
         : n
     ));
     setSelectedNFT(null);
-    alert(`Successfully purchased ${nft.name} for ${nft.price} ETH!`);
+    notify(`Successfully purchased ${nft.name} for ${nft.price} ETH!`, 'success');
   };
 
   const handleListForSale = (nftId: number, price: number) => {
@@ -106,6 +108,7 @@ export default function NFTMarketplaceExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">NFT Marketplace</h1>
         <p className="text-gray-600 dark:text-gray-400">

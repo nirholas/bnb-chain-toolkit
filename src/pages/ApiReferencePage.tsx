@@ -266,9 +266,9 @@ export default function ApiReferencePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Breadcrumb */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center space-x-2 text-sm">
             <Link to="/docs" className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
@@ -300,13 +300,13 @@ export default function ApiReferencePage() {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto">
           {/* Base URL */}
-          <div className="mb-12 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <div className="mb-12 p-6 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg">
             <h2 className="text-lg font-bold mb-3 flex items-center">
               <Server className="w-5 h-5 mr-2 text-blue-600" />
               Base URL
             </h2>
             <div className="flex items-center space-x-3">
-              <code className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg font-mono text-sm">
+              <code className="flex-1 px-4 py-2 bg-gray-100 dark:bg-zinc-900 rounded-lg font-mono text-sm">
                 https://api.bnbchaintoolkit.com
               </code>
               <button
@@ -323,7 +323,7 @@ export default function ApiReferencePage() {
           </div>
 
           {/* Authentication */}
-          <div className="mb-12 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <div className="mb-12 p-6 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg">
             <h2 className="text-lg font-bold mb-3 flex items-center">
               <Shield className="w-5 h-5 mr-2 text-blue-600" />
               Authentication
@@ -344,7 +344,7 @@ export default function ApiReferencePage() {
           </div>
 
           {/* Rate Limiting */}
-          <div className="mb-12 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <div className="mb-12 p-6 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg">
             <h2 className="text-lg font-bold mb-3 flex items-center">
               <Zap className="w-5 h-5 mr-2 text-blue-600" />
               Rate Limiting
@@ -368,7 +368,7 @@ export default function ApiReferencePage() {
               {section.endpoints.map((endpoint, idx) => (
                 <div
                   key={idx}
-                  className="mb-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+                  className="mb-6 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden"
                 >
                   {/* Endpoint Header */}
                   <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center space-x-3">

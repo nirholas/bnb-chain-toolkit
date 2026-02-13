@@ -96,8 +96,8 @@ interface IconButtonProps {
 }
 
 const variantStyles = {
-  default: 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200',
-  ghost: 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400',
+  default: 'bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200',
+  ghost: 'hover:bg-gray-100 dark:hover:bg-zinc-900 text-gray-600 dark:text-gray-400',
   danger: 'hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400',
 };
 

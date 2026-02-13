@@ -15,16 +15,15 @@ import { useSEO } from '@/hooks/useSEO';
 import PriceTicker from '@/components/PriceTicker';
 import { TopProtocolsWidget, TopYieldsWidget, TopChainsWidget, DeFiSummaryBar } from '@/components/DeFiWidgets';
 import {
-    Shield, Globe, Bot, ChevronRight,
+    Shield, Globe, Bot, ChevronRight, Zap,
     Code, BookOpen, Terminal, Cpu, Users, Layers,
     Coins, GitBranch,
     ExternalLink, GraduationCap,
     BarChart3, Eye, Server, Wrench,
-    Activity, Network, Blocks, Plug, FileCode, Sparkles, Copy, Check
+    Activity, Network, Blocks, Plug, Sparkles, Copy, Check
 } from 'lucide-react';
 import { Spotlight } from '@/components/ui/spotlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
 import { SparklesCore } from '@/components/ui/sparkles';
 import { LampContainer } from '@/components/ui/lamp';
@@ -75,13 +74,31 @@ const supportedChains = [
     { name: 'Solana', type: 'L1', primary: false },
 ];
 
-const toolkitComponents = [
-    { name: 'AI Agents', count: '72+', icon: Bot, description: 'Pre-built agent definitions for every major BNB Chain protocol' },
-    { name: 'MCP Servers', count: '6', icon: Server, description: 'Model Context Protocol servers for direct blockchain access' },
-    { name: 'Tools', count: '900+', icon: Wrench, description: 'On-chain tools, exchange APIs, market data endpoints' },
-    { name: 'Chains', count: '60+', icon: Network, description: 'Multi-chain support with unified interfaces' },
-    { name: 'Languages', count: '30+', icon: Globe, description: 'Global accessibility with translations' },
-    { name: 'Standards', count: '2', icon: FileCode, description: 'ERC-8004 agent trust + W3AG accessibility' },
+const howItWorks = [
+    {
+        step: '1',
+        title: 'Pick an Agent',
+        description: 'Choose from 72+ pre-built agents — each one is a JSON file tuned for a specific protocol like PancakeSwap, Venus, or Binance Futures.',
+        icon: Bot,
+        link: '/agents',
+        linkText: 'Browse Agents',
+    },
+    {
+        step: '2',
+        title: 'Connect MCP Servers',
+        description: 'Point Claude, ChatGPT, or any LLM at one of 6 MCP servers. Your AI can now read on-chain data, fetch prices, and interact with protocols.',
+        icon: Plug,
+        link: '/mcp',
+        linkText: 'View Servers',
+    },
+    {
+        step: '3',
+        title: 'Execute On-Chain',
+        description: '900+ tools across 60+ networks — swap tokens, check yields, audit contracts, track wallets. All through natural language.',
+        icon: Wrench,
+        link: '/docs',
+        linkText: 'Read Docs',
+    },
 ];
 
 const featuredAgents = [
@@ -122,7 +139,7 @@ const exploreItems = [
     { title: 'Playground', desc: 'Try BNB Chain smart contracts live', icon: Code, href: '/playground', accent: '#F59E0B' },
     { title: 'Sandbox', desc: 'AI-powered development environment', icon: Terminal, href: '/sandbox', accent: '#8B5CF6' },
     { title: 'IDE', desc: 'Solidity and Web3 development studio', icon: Cpu, href: '/ide', accent: '#A855F7' },
-    { title: 'Full-Stack Demo', desc: 'Contract + frontend builder', icon: Layers, href: '/fullstack-demo', accent: '#22C55E' },
+    { title: 'Full-Stack Demo', desc: 'Contract + frontend builder', icon: Layers, href: '/fullstack-demo', accent: '#F0B90B' },
     { title: 'Innovation Lab', desc: 'AI tools & experimental features', icon: Sparkles, href: '/innovation', accent: '#EC4899' },
     { title: 'Community', desc: 'Connect with BNB Chain builders', icon: Users, href: '/community', accent: '#6366F1' },
 ];
@@ -272,11 +289,19 @@ export default function Homepage() {
 
                     {/* CTA buttons */}
                     <div className="flex flex-wrap justify-center gap-4 mb-14">
+                        <Link
+                            to="/fullstack-demo"
+                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(240,185,11,0.45)] hover:-translate-y-0.5 active:translate-y-0 shadow-[0_0_20px_rgba(240,185,11,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
+                        >
+                            <Zap className="w-5 h-5" />
+                            Start Building
+                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                        </Link>
                         <a
                             href="https://github.com/nirholas/bnb-chain-toolkit"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#F0B90B] text-black font-semibold rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(240,185,11,0.3)] hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
+                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-neutral-300 dark:border-white/[0.12] text-neutral-700 dark:text-neutral-300 hover:border-[#F0B90B]/50 hover:text-[#F0B90B] dark:hover:border-[#F0B90B]/40 dark:hover:text-[#F0B90B] hover:-translate-y-0.5"
                         >
                             <GitBranch className="w-5 h-5" />
                             View on GitHub
@@ -321,34 +346,52 @@ export default function Homepage() {
             </section>
 
             {/* ═══════════════════════════════════════════════════════════════
-                SECTION 3 — WHAT IS THIS? / VALUE PROPOSITION
+                SECTION 3 — HOW IT WORKS
             ═══════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32">
+            <section className="py-20 md:py-28">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        title="What Is BNB Chain AI Toolkit?"
-                        subtitle="Imagine giving Claude or ChatGPT a crypto wallet, a trading terminal, and 72 expert advisors. That's what this toolkit does."
+                        title="How It Works"
+                        subtitle="Give any AI model direct access to BNB Chain in three steps."
                     />
 
-                    <BentoGrid className="max-w-6xl mx-auto">
-                        {toolkitComponents.map((comp, i) => (
-                            <BentoGridItem
-                                key={comp.name}
-                                title={comp.name}
-                                description={comp.description}
-                                header={
-                                    <div className="flex items-center justify-between w-full p-4">
-                                        <div className="p-3 rounded-xl bg-[#F0B90B]/[0.08] border border-[#F0B90B]/[0.12]">
-                                            <comp.icon className="w-6 h-6 text-[#F0B90B]" />
-                                        </div>
-                                        <span className="text-3xl font-bold text-[#F0B90B]">{comp.count}</span>
+                    <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                        {howItWorks.map((item, i) => (
+                            <div
+                                key={item.step}
+                                className="relative group p-6 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300"
+                            >
+                                {/* Step number */}
+                                <div className="flex items-center gap-3 mb-4">
+                                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#F0B90B]/[0.08] border border-[#F0B90B]/[0.15] text-sm font-bold text-[#F0B90B]">
+                                        {item.step}
+                                    </span>
+                                    <item.icon className="w-5 h-5 text-neutral-400 dark:text-neutral-500" />
+                                </div>
+
+                                <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-2">
+                                    {item.title}
+                                </h3>
+                                <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed mb-4">
+                                    {item.description}
+                                </p>
+                                <Link
+                                    to={item.link}
+                                    className="inline-flex items-center gap-1.5 text-xs font-medium text-[#F0B90B] hover:underline"
+                                >
+                                    {item.linkText}
+                                    <ChevronRight className="w-3 h-3" />
+                                </Link>
+
+                                {/* Connector arrow (between cards, desktop only) */}
+                                {i < howItWorks.length - 1 && (
+                                    <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-neutral-300 dark:text-neutral-700" aria-hidden="true">
+                                        <ChevronRight className="w-5 h-5" />
                                     </div>
-                                }
-                                className={i === 0 || i === 2 ? 'md:col-span-2' : ''}
-                                icon={<comp.icon className="w-4 h-4 text-neutral-500" />}
-                            />
+                                )}
+                            </div>
                         ))}
-                    </BentoGrid>
+                    </div>
                 </div>
             </section>
 
@@ -655,11 +698,19 @@ export default function Homepage() {
                         72+ agents, 6 MCP servers, 900+ tools. Open source. Start building now.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
+                        <Link
+                            to="/fullstack-demo"
+                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_50px_rgba(240,185,11,0.5)] hover:-translate-y-0.5 shadow-[0_0_24px_rgba(240,185,11,0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                        >
+                            <Zap className="w-5 h-5" />
+                            Start Building
+                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                        </Link>
                         <a
                             href="https://github.com/nirholas/bnb-chain-toolkit"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(240,185,11,0.35)] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            className="group inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 border border-white/[0.15] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                         >
                             <GitBranch className="w-5 h-5" />
                             Star on GitHub

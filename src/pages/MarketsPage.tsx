@@ -489,7 +489,7 @@ function HeroSection() {
               </span>
               <PriceChange value={globalData.market_cap_change_percentage_24h_usd} />
             </div>
-            <div className="hidden sm:block w-px h-5 bg-gray-300 dark:bg-gray-700" />
+            <div className="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-900" />
             <div className="flex items-center gap-2">
               <span className="text-gray-500 dark:text-gray-400">Active Coins:</span>
               <span className="font-semibold text-gray-900 dark:text-white">

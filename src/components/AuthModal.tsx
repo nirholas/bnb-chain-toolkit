@@ -70,7 +70,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
       aria-labelledby="auth-modal-title"
       aria-describedby="auth-modal-description"
     >
-      <div className="relative w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-md bg-white dark:bg-[#0a0a0a] rounded-2xl shadow-2xl overflow-hidden">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -120,7 +120,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="johndoe"
                     autoComplete="username"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-zinc-900 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -141,7 +141,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
                   required
                   autoComplete="email"
                   aria-required="true"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-zinc-900 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
                   autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
                   aria-required="true"
                   aria-describedby={mode === 'signup' ? 'password-hint' : undefined}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-zinc-900 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
               {mode === 'signup' && (
@@ -195,7 +195,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
               <div className="w-full border-t border-gray-300 dark:border-gray-600" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white dark:bg-gray-800 text-gray-500">
+              <span className="px-2 bg-white dark:bg-[#0a0a0a] text-gray-500">
                 Or continue with
               </span>
             </div>
@@ -206,7 +206,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
             <button
               onClick={() => handleProviderSignIn('github')}
               disabled={isLoading}
-              className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Github className="w-5 h-5" />
               <span>GitHub</span>
@@ -214,7 +214,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
             <button
               onClick={() => handleProviderSignIn('google')}
               disabled={isLoading}
-              className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Chrome className="w-5 h-5" />
               <span>Google</span>

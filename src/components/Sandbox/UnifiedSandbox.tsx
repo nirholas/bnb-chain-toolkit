@@ -188,13 +188,13 @@ export default function ${contractName}App() {
           </button>
         ) : (
           <div className="space-y-6">
-            <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+            <div className="bg-[#0a0a0a]/50 rounded-xl p-4 border border-gray-700">
               <p className="text-sm text-gray-400">Connected Account</p>
               <p className="font-mono text-sm">{account.slice(0, 6)}...{account.slice(-4)}</p>
             </div>
             
             ${functions.map(func => `
-            <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+            <div className="bg-[#0a0a0a]/50 rounded-xl p-4 border border-gray-700">
               <h3 className="font-semibold mb-3">${func.name}()</h3>
               ${func.inputs.map(input => `
               <input

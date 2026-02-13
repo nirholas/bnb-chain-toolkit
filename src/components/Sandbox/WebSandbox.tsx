@@ -803,7 +803,7 @@ export default function WebSandbox({
   const [searchQuery, setSearchQuery] = useState('');
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
-  const [showTemplates, setShowTemplates] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(true);
   
   // Network & Error State
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -1250,13 +1250,19 @@ export default function WebSandbox({
             <button
               onClick={() => setShowTemplates(!showTemplates)}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors",
-                showTemplates ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
+                showTemplates 
+                  ? "bg-white text-black" 
+                  : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
               )}
-              title="Browse templates"
+              title="Browse 15+ web templates"
             >
               <Sparkles className="w-4 h-4" />
               Templates
+              <span className={cn(
+                "ml-1 px-1.5 py-0.5 rounded-full text-xs font-bold",
+                showTemplates ? "bg-black text-white" : "bg-white/20 text-white"
+              )}>15+</span>
             </button>
             
             <div className="w-px h-6 bg-gray-700" />
@@ -1371,7 +1377,7 @@ export default function WebSandbox({
                     "group flex items-center gap-2 px-3 py-1.5 cursor-pointer transition-colors",
                     activeFileId === file.id 
                       ? "bg-gray-700 text-white" 
-                      : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
+                      : "text-gray-400 hover:bg-[#0a0a0a] hover:text-gray-200"
                   )}
                   onClick={() => openFile(file.id)}
                 >
@@ -1394,7 +1400,7 @@ export default function WebSandbox({
             
             <button
               onClick={() => setShowSidebar(false)}
-              className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-700 text-xs text-gray-500 hover:text-gray-300 hover:bg-gray-800 transition-colors"
+              className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-700 text-xs text-gray-500 hover:text-gray-300 hover:bg-[#0a0a0a] transition-colors"
             >
               <PanelLeftClose className="w-4 h-4" />
               Hide Sidebar
@@ -1811,7 +1817,7 @@ export default function WebSandbox({
       {/* Wallet Connect Modal */}
       {showWalletModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Connect Wallet</h3>
               <button

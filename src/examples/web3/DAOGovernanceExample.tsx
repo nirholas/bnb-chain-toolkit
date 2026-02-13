@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { Vote, Users, TrendingUp, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 interface Proposal {
   id: number;
@@ -22,6 +23,7 @@ interface Proposal {
 }
 
 export default function DAOGovernanceExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [proposals, setProposals] = useState<Proposal[]>([
     {
       id: 1,
@@ -59,7 +61,7 @@ export default function DAOGovernanceExample() {
     setProposals(proposals.map(p => {
       if (p.id === proposalId) {
         if (p.voters.has(userAddress)) {
-          alert('You have already voted on this proposal!');
+          notify('You have already voted on this proposal!', 'warning');
           return p;
         }
 
@@ -80,7 +82,7 @@ export default function DAOGovernanceExample() {
 
   const handleCreateProposal = () => {
     if (!newProposal.title || !newProposal.description) {
-      alert('Please fill in all fields');
+      notify('Please fill in all fields', 'warning');
       return;
     }
 
@@ -116,6 +118,7 @@ export default function DAOGovernanceExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">DAO Governance</h1>
         <p className="text-gray-600 dark:text-gray-400">

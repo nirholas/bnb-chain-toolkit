@@ -5,9 +5,11 @@
  */
 
 import { useState } from 'react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 import { Coins, Send, Wallet } from 'lucide-react';
 
 export default function SolanaTokenExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [balance] = useState(10.5);
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
@@ -19,16 +21,17 @@ export default function SolanaTokenExample() {
 
   const handleSendSOL = () => {
     if (!recipient || !amount) {
-      alert('Please fill all fields');
+      notify('Please fill all fields', 'warning');
       return;
     }
-    alert(`Sent ${amount} SOL to ${recipient}`);
+    notify(`Sent ${amount} SOL to ${recipient}`, 'success');
     setRecipient('');
     setAmount('');
   };
 
   return (
     <div className="max-w-4xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Solana SPL Tokens</h1>
         <p className="text-gray-600 dark:text-gray-400">

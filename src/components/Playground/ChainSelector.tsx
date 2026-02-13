@@ -156,7 +156,7 @@ function ChainCard({
         ${isSelected
           ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 shadow-md'
           : isHovered
-          ? 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800'
+          ? 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#0a0a0a]'
           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
         }
         ${!chain.isActive ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
@@ -188,7 +188,7 @@ function ChainCard({
           ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
           : chain.language === 'rust'
           ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'
-          : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+          : 'bg-gray-100 dark:bg-[#0a0a0a] text-gray-600 dark:text-gray-400'
         }
       `}>
         {chain.language}
@@ -208,7 +208,7 @@ interface ChainDetailsProps {
 function ChainDetails({ chain, showTestnet }: ChainDetailsProps) {
   return (
     <div 
-      className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50"
+      className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0a0a0a]/50"
       style={{ borderLeftColor: chain.color, borderLeftWidth: '4px' }}
     >
       <div className="flex items-start justify-between">

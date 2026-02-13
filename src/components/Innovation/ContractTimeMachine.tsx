@@ -339,7 +339,7 @@ export default function ContractTimeMachine({
                 <div className={`p-4 rounded-xl border-2 ${
                   index === currentIndex
                     ? 'bg-indigo-100 dark:bg-indigo-900/40 border-indigo-400 dark:border-indigo-600 shadow-lg'
-                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                    : 'bg-white dark:bg-[#0a0a0a] border-gray-200 dark:border-gray-700'
                 }`}>
                   <div className="flex items-start justify-between mb-2">
                     <div>

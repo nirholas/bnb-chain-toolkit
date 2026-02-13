@@ -95,7 +95,7 @@ export default function TemplateSelector({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-5xl max-h-[85vh] flex flex-col">
+      <div className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-xl w-full max-w-5xl max-h-[85vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
           <div>
@@ -108,7 +108,7 @@ export default function TemplateSelector({
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
           >
             <X className="w-5 h-5" />
           </button>
@@ -124,7 +124,7 @@ export default function TemplateSelector({
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 ${
                   templateType === 'all'
                     ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 <Layers className="w-4 h-4" />
@@ -135,7 +135,7 @@ export default function TemplateSelector({
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 ${
                   templateType === 'workspace'
                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 <FileCode className="w-4 h-4" />
@@ -146,7 +146,7 @@ export default function TemplateSelector({
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 ${
                   templateType === 'contract'
                     ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 <Code2 className="w-4 h-4" />
@@ -161,7 +161,7 @@ export default function TemplateSelector({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search templates..."
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
           />
         </div>
 
@@ -175,7 +175,7 @@ export default function TemplateSelector({
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap ${
                   selectedCategory === cat.id
                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 {cat.label}
@@ -240,7 +240,7 @@ export default function TemplateSelector({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-black">
           <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
             {filteredTemplates.length} templates shown • Select a template to start coding
           </p>

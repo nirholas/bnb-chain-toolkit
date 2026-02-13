@@ -385,7 +385,7 @@ export default function CollaborativeArena({
 
       <div className="flex-1 flex overflow-hidden">
         {/* Participants Panel */}
-        <div className="w-64 border-r border-violet-200 dark:border-violet-800 bg-white/50 dark:bg-gray-800/50 overflow-y-auto">
+        <div className="w-64 border-r border-violet-200 dark:border-violet-800 bg-white/50 dark:bg-[#0a0a0a]/50 overflow-y-auto">
           <div className="p-4">
             <h4 className="text-sm font-bold mb-3 flex items-center">
               <Users className="w-4 h-4 mr-2" />
@@ -396,7 +396,7 @@ export default function CollaborativeArena({
               {participants.map((participant) => (
                 <div
                   key={participant.id}
-                  className="p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                  className="p-3 rounded-lg bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-700"
                   style={{ borderLeft: `4px solid ${participant.color}` }}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -470,7 +470,7 @@ export default function CollaborativeArena({
                     <button
                       key={ch.id}
                       onClick={() => startChallenge(ch.id)}
-                      className="w-full p-3 bg-white dark:bg-gray-800 rounded-lg text-left hover:shadow-lg transition-all border border-violet-200 dark:border-violet-700"
+                      className="w-full p-3 bg-white dark:bg-[#0a0a0a] rounded-lg text-left hover:shadow-lg transition-all border border-violet-200 dark:border-violet-700"
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-semibold text-sm">{ch.title}</span>
@@ -505,7 +505,7 @@ export default function CollaborativeArena({
                       ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                       : msg.type === 'hint'
                       ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200'
-                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200'
+                      : 'bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-200'
                   }`}
                 >
                   <div className="flex items-start space-x-2">
@@ -520,12 +520,12 @@ export default function CollaborativeArena({
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-violet-200 dark:border-violet-800 bg-white dark:bg-gray-800">
+            <div className="p-4 border-t border-violet-200 dark:border-violet-800 bg-white dark:bg-[#0a0a0a]">
               <div className="flex space-x-2">
                 <input
                   type="text"
                   placeholder="Send a message..."
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && e.currentTarget.value) {
                       addMessage('You', e.currentTarget.value, 'chat');

@@ -123,7 +123,7 @@ export default function SplitView({
         {showResizer && (
           <button
             onClick={handleMaximizeLeft}
-            className="absolute top-2 right-2 z-10 p-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="absolute top-2 right-2 z-10 p-1.5 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
             title={isLeftMaximized ? 'Restore' : 'Maximize'}
           >
             {isLeftMaximized ? (
@@ -145,7 +145,7 @@ export default function SplitView({
           className={`
             flex-shrink-0 relative group
             ${isHorizontal ? 'w-1 cursor-col-resize' : 'h-1 cursor-row-resize'}
-            ${isDragging ? 'bg-primary-500' : 'bg-gray-200 dark:bg-gray-700'}
+            ${isDragging ? 'bg-primary-500' : 'bg-gray-200 dark:bg-zinc-900'}
             hover:bg-primary-400 transition-colors
           `}
         >
@@ -176,7 +176,7 @@ export default function SplitView({
         {showResizer && (
           <button
             onClick={handleMaximizeRight}
-            className="absolute top-2 right-2 z-10 p-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="absolute top-2 right-2 z-10 p-1.5 bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
             title={isRightMaximized ? 'Restore' : 'Maximize'}
           >
             {isRightMaximized ? (

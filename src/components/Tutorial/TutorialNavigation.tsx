@@ -129,7 +129,7 @@ export default function TutorialNavigation({
             className={`p-2 rounded-lg transition-colors ${
               bookmarked 
                 ? 'text-primary-600 bg-primary-50 dark:bg-primary-900/30' 
-                : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700'
+                : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-900'
             }`}
             aria-label={bookmarked ? 'Remove bookmark' : 'Add bookmark'}
           >
@@ -144,19 +144,19 @@ export default function TutorialNavigation({
           <div className="relative">
             <button
               onClick={() => setShowShareMenu(!showShareMenu)}
-              className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
               aria-label="Share tutorial"
             >
               <Share2 className="w-5 h-5" />
             </button>
 
             {showShareMenu && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-[#0a0a0a] rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
                 <a
                   href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
                 >
                   <Twitter className="w-4 h-4" />
                   Share on Twitter
@@ -165,14 +165,14 @@ export default function TutorialNavigation({
                   href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
                 >
                   <Linkedin className="w-4 h-4" />
                   Share on LinkedIn
                 </a>
                 <button
                   onClick={handleCopyLink}
-                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-900"
                 >
                   {copied ? (
                     <>
@@ -213,7 +213,7 @@ export default function TutorialNavigation({
                       ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-medium'
                       : isCompleted
                       ? 'text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/20'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
                   }`}
                 >
                   <span className="flex-shrink-0">
@@ -258,7 +258,7 @@ export default function TutorialNavigation({
                 <Link
                   key={related.id}
                   to={`/tutorial/${related.id}`}
-                  className="block p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="block p-3 rounded-lg bg-gray-50 dark:bg-zinc-900/50 hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
                 >
                   <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
                     {related.title}
@@ -277,11 +277,11 @@ export default function TutorialNavigation({
 
       {/* Next Tutorial Footer */}
       {nextTutorial && (
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0a0a0a]/50">
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Up Next</p>
           <Link
             to={`/tutorial/${nextTutorial.id}`}
-            className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-primary-300 dark:hover:border-primary-600 transition-all group"
+            className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-600 hover:border-primary-300 dark:hover:border-primary-600 transition-all group"
           >
             <div className="min-w-0">
               <div className="text-sm font-medium text-gray-900 dark:text-white truncate group-hover:text-primary-600">
@@ -313,7 +313,7 @@ function LearningPathCard({
   const progress = Math.round(((currentIndex + 1) / path.tutorialIds.length) * 100);
 
   return (
-    <div className="p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700">
+    <div className="p-3 rounded-lg bg-gray-50 dark:bg-zinc-900/50 border border-gray-200 dark:border-gray-700">
       <div className="flex items-center gap-2 mb-2">
         <span className="text-lg">{path.icon}</span>
         <span className="text-sm font-medium text-gray-900 dark:text-white">
@@ -446,7 +446,7 @@ export function QuickNav({ steps, currentStepIndex, onStepChange, className = ''
       <select
         value={currentStepIndex}
         onChange={(e) => onStepChange(parseInt(e.target.value, 10))}
-        className="w-full px-4 py-2 pr-8 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-white appearance-none cursor-pointer focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+        className="w-full px-4 py-2 pr-8 bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-white appearance-none cursor-pointer focus:ring-2 focus:ring-primary-500 focus:border-transparent"
       >
         {steps.map((step, index) => (
           <option key={step.id} value={index}>

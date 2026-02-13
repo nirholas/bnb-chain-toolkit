@@ -158,16 +158,16 @@ export default function LivePreview({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="flex flex-col h-full bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-4">
           <h3 className="text-sm font-medium text-gray-900 dark:text-white">
             {title}
           </h3>
 
           {/* Viewport Buttons */}
-          <div className="flex items-center gap-1 px-2 py-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div className="flex items-center gap-1 px-2 py-1 bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg">
             {(Object.keys(viewportSizes) as ViewportSize[]).map((size) => (
               <button
                 key={size}
@@ -176,7 +176,7 @@ export default function LivePreview({
                   p-1.5 rounded transition-colors
                   ${viewport === size
                     ? 'bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#0a0a0a]'
                   }
                 `}
                 title={viewportSizes[size].label}
@@ -192,7 +192,7 @@ export default function LivePreview({
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg transition-colors disabled:opacity-50"
             title="Refresh preview"
           >
             <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
@@ -201,7 +201,7 @@ export default function LivePreview({
           {allowFullscreen && (
             <button
               onClick={handleOpenInNewTab}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg transition-colors"
               title="Open in new tab"
             >
               <ExternalLink className="w-4 h-4" />

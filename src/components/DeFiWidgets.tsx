@@ -38,7 +38,7 @@ function formatTVL(tvl: number | null | undefined): string {
 
 function ProtocolCard({ protocol, rank }: { protocol: ProtocolTVL; rank: number }) {
   return (
-    <div className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors">
+    <div className="flex items-center gap-3 p-3 bg-[#0a0a0a]/50 rounded-lg hover:bg-gray-700/50 transition-colors">
       <span className="text-gray-500 text-sm w-6">{rank}</span>
       {protocol.logo && (
         <img src={protocol.logo} alt={protocol.name} className="w-8 h-8 rounded-full" />
@@ -63,7 +63,7 @@ function ProtocolCard({ protocol, rank }: { protocol: ProtocolTVL; rank: number 
 
 function YieldCard({ pool }: { pool: YieldPool }) {
   return (
-    <div className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors">
+    <div className="flex items-center gap-3 p-3 bg-[#0a0a0a]/50 rounded-lg hover:bg-gray-700/50 transition-colors">
       <div className="flex-1 min-w-0">
         <div className="text-white font-medium truncate">{pool.symbol}</div>
         <div className="flex items-center gap-2 mt-1">
@@ -92,7 +92,7 @@ function YieldCard({ pool }: { pool: YieldPool }) {
 
 function ChainCard({ chain, rank }: { chain: ChainTVL; rank: number }) {
   return (
-    <div className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors">
+    <div className="flex items-center gap-3 p-3 bg-[#0a0a0a]/50 rounded-lg hover:bg-gray-700/50 transition-colors">
       <span className="text-gray-500 text-sm w-6">{rank}</span>
       <div className="flex-1 min-w-0">
         <div className="text-white font-medium truncate">{chain.name}</div>

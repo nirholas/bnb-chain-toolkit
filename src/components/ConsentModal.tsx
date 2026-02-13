@@ -87,7 +87,7 @@ export default function ConsentModal({ trigger, onAccept, onCancel }: ConsentMod
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white dark:bg-black rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in fade-in zoom-in-95 duration-200">
         {/* Header - Friendly gradient */}
         <div className="bg-gradient-to-r from-primary-500 to-secondary-500 p-5 text-white relative">
           <button
@@ -159,7 +159,7 @@ export default function ConsentModal({ trigger, onAccept, onCancel }: ConsentMod
         </div>
 
         {/* Checkbox & Button */}
-        <div className="border-t border-gray-200 dark:border-gray-700 p-5 bg-gray-50 dark:bg-gray-800/50">
+        <div className="border-t border-gray-200 dark:border-gray-700 p-5 bg-gray-50 dark:bg-[#0a0a0a]/50">
           <label className="flex items-start gap-3 cursor-pointer group mb-4">
             <input
               type="checkbox"
@@ -175,7 +175,7 @@ export default function ConsentModal({ trigger, onAccept, onCancel }: ConsentMod
           <div className="flex gap-3">
             <button
               onClick={onCancel}
-              className="flex-1 py-3 px-4 rounded-xl font-medium text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="flex-1 py-3 px-4 rounded-xl font-medium text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-zinc-900 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
               Cancel
             </button>
@@ -185,7 +185,7 @@ export default function ConsentModal({ trigger, onAccept, onCancel }: ConsentMod
               className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
                 accepted
                   ? 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white hover:from-primary-700 hover:to-secondary-700 shadow-lg hover:shadow-xl'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-200 dark:bg-zinc-900 text-gray-400 cursor-not-allowed'
               }`}
             >
               {accepted ? (
