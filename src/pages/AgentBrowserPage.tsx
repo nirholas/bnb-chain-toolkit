@@ -1031,7 +1031,7 @@ export default function AgentBrowserPage() {
             <h3 className="mb-3 text-center text-sm font-medium uppercase tracking-wider text-gray-400 dark:text-neutral-500">
               Agent JSON Schema
             </h3>
-            <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-gray-900 p-5 dark:border-white/[0.08]">
+            <div className="overflow-x-auto rounded-2xl border border-gray-200 bg-black p-5 dark:border-white/[0.08]">
               <pre className="text-xs leading-relaxed text-gray-300">
                 <code>{`{
   "identifier": "pancakeswap-expert",

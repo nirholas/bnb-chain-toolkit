@@ -112,7 +112,7 @@ contract ${filename.replace('.sol', '')} {
           </h3>
           <button
             onClick={() => setIsCreating(!isCreating)}
-            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+            className="p-1 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
             title="New file"
           >
             <Plus className="w-4 h-4" />
@@ -133,7 +133,7 @@ contract ${filename.replace('.sol', '')} {
                 }
               }}
               placeholder="filename.sol"
-              className="flex-1 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700"
+              className="flex-1 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-zinc-900"
               autoFocus
             />
             <button
@@ -165,7 +165,7 @@ contract ${filename.replace('.sol', '')} {
               <div
                 key={file.id}
                 onClick={() => setActiveFile(workspace.id, file.id)}
-                className={`group flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                className={`group flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-900 ${
                   file.id === activeFile?.id
                     ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
                     : 'text-gray-700 dark:text-gray-300'

@@ -301,9 +301,9 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
   };
 
   return (
-    <div className={`flex flex-col h-screen ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-gray-900' : ''}`}>
+    <div className={`flex flex-col h-screen ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-black' : ''}`}>
       {/* Header */}
-      <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0a0a0a]">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between mb-3">
             <div>
@@ -327,13 +327,13 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handleResetProgress}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded text-sm"
                 >
                   Reset Progress
                 </button>
                 <button
                   onClick={() => setIsFullscreen(!isFullscreen)}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
                 >
                   {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
                 </button>
@@ -343,7 +343,7 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
           
           {/* Progress Bar */}
           <div className="flex items-center space-x-4">
-            <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div className="flex-1 bg-gray-200 dark:bg-zinc-900 rounded-full h-2">
               <div
                 className="bg-primary-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progressPercentage}%` }}
@@ -359,7 +359,7 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar - Step Info */}
-        <div className="w-80 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-y-auto">
+        <div className="w-80 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0a0a0a] overflow-y-auto">
           <div className="p-6">
             <div className="flex items-center space-x-2 mb-4">
               <BookOpen className="w-5 h-5 text-primary-600" />
@@ -458,7 +458,7 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
                   className={`w-full text-left p-3 rounded-lg transition-colors ${
                     index === currentStepIndex
                       ? 'bg-primary-100 dark:bg-primary-900 border-2 border-primary-500'
-                      : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-primary-300'
+                      : 'bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-600 hover:border-primary-300'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -484,7 +484,7 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
         {/* Main Editor Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Language Tabs & Controls */}
-          <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+          <div className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0a0a0a]">
             <div className="flex items-center justify-between px-4 py-2">
               <div className="flex items-center space-x-1">
                 {tutorial.languages.map((lang) => (
@@ -493,7 +493,7 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
                     onClick={() => handleLanguageChange(lang)}
                     className={`px-4 py-2 text-sm font-medium rounded-t transition-colors ${
                       activeLanguage === lang
-                        ? 'bg-gray-100 dark:bg-gray-700 text-primary-600 dark:text-primary-400 border-b-2 border-primary-600'
+                        ? 'bg-gray-100 dark:bg-zinc-900 text-primary-600 dark:text-primary-400 border-b-2 border-primary-600'
                         : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                     }`}
                   >
@@ -507,14 +507,14 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
                 <div className="flex items-center space-x-1 mr-2">
                   <button
                     onClick={() => setViewMode('code')}
-                    className={`p-2 rounded ${viewMode === 'code' ? 'bg-gray-200 dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                    className={`p-2 rounded ${viewMode === 'code' ? 'bg-gray-200 dark:bg-zinc-900' : 'hover:bg-gray-100 dark:hover:bg-zinc-900'}`}
                     title="Code only"
                   >
                     <Code className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setViewMode('split')}
-                    className={`p-2 rounded ${viewMode === 'split' ? 'bg-gray-200 dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                    className={`p-2 rounded ${viewMode === 'split' ? 'bg-gray-200 dark:bg-zinc-900' : 'hover:bg-gray-100 dark:hover:bg-zinc-900'}`}
                     title="Split view"
                   >
                     <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
@@ -524,7 +524,7 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
                   </button>
                   <button
                     onClick={() => setViewMode('preview')}
-                    className={`p-2 rounded ${viewMode === 'preview' ? 'bg-gray-200 dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                    className={`p-2 rounded ${viewMode === 'preview' ? 'bg-gray-200 dark:bg-zinc-900' : 'hover:bg-gray-100 dark:hover:bg-zinc-900'}`}
                     title="Preview only"
                   >
                     <Eye className="w-4 h-4" />
@@ -533,14 +533,14 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
                 
                 <button
                   onClick={handleResetCode}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
                   title="Reset code"
                 >
                   <RefreshCw className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleCopyCode}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
                   title="Copy code"
                 >
                   {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
@@ -586,8 +586,8 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
             {/* Live Preview / Output */}
             {(viewMode === 'preview' || viewMode === 'split') && (
               <div className={viewMode === 'split' ? 'w-1/2' : 'w-full'}>
-                <div className="h-full flex flex-col bg-gray-50 dark:bg-gray-900">
-                  <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-2 bg-white dark:bg-gray-800">
+                <div className="h-full flex flex-col bg-gray-50 dark:bg-black">
+                  <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-2 bg-white dark:bg-[#0a0a0a]">
                     <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                       Output & Preview
                     </h3>
@@ -614,7 +614,7 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
       </div>
 
       {/* Footer Navigation */}
-      <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-6 py-4">
+      <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0a0a0a] px-6 py-4">
         <div className="flex items-center justify-between">
           <button
             onClick={handlePrevStep}

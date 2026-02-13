@@ -4,14 +4,16 @@
  * 💫 Today's code is tomorrow's innovation 🔮
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import SplitView from '@/components/Playground/SplitView';
 import MultiLanguageTabs, { LanguageTab } from '@/components/Playground/MultiLanguageTabs';
 import LivePreview from '@/components/Playground/LivePreview';
 import InteractiveTutorial, { TutorialStep } from '@/components/Playground/InteractiveTutorial';
 import { AnnotationsPanel, CodeAnnotation } from '@/components/Playground/InlineAnnotations';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 export default function TokenSwapInteractive() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [viewMode, setViewMode] = useState<'tutorial' | 'annotations'>('tutorial');
 
   const [tabs, setTabs] = useState<LanguageTab[]>([
@@ -695,8 +697,9 @@ function showStatus(message, type) {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
-      <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
+      <NotificationArea />
+      <header className="flex-none bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -755,14 +758,14 @@ function showStatus(message, type) {
           />
         </div>
 
-        <div className="w-96 bg-white dark:bg-gray-800 overflow-hidden">
+        <div className="w-96 bg-white dark:bg-[#0a0a0a] overflow-hidden">
           {viewMode === 'tutorial' ? (
             <InteractiveTutorial
               steps={tutorialSteps}
               currentCode={tabs[2].code}
               onCodeChange={(code) => handleCodeChange('javascript', code)}
               onStepChange={() => {}}
-              onComplete={() => alert('🎉 You mastered DeFi swaps!')}
+              onComplete={() => notify('🎉 You mastered DeFi swaps!', 'success')}
             />
           ) : (
             <div className="p-6 overflow-y-auto h-full">

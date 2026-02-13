@@ -61,8 +61,8 @@ export default function ExampleWithPlayground({
   // Fullscreen mode - code only
   if (isFullscreen) {
     return (
-      <div className="fixed inset-0 z-50 bg-gray-900">
-        <div className="flex items-center justify-between p-3 bg-gray-800 border-b border-gray-700">
+      <div className="fixed inset-0 z-50 bg-black">
+        <div className="flex items-center justify-between p-3 bg-[#0a0a0a] border-b border-gray-700">
           <div className="flex items-center space-x-3 text-white">
             <Code2 className="w-5 h-5" />
             <span className="font-semibold">{contractName}</span>
@@ -70,14 +70,14 @@ export default function ExampleWithPlayground({
           <div className="flex items-center space-x-2">
             <button
               onClick={handleCopy}
-              className="flex items-center space-x-1 px-3 py-1.5 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+              className="flex items-center space-x-1 px-3 py-1.5 text-sm bg-zinc-800 hover:bg-zinc-800 text-white rounded-lg transition-colors"
             >
               {copied ? <CheckCircle className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
               <span>{copied ? 'Copied!' : 'Copy'}</span>
             </button>
             <button
               onClick={() => setIsFullscreen(false)}
-              className="p-2 hover:bg-gray-700 rounded-lg text-white transition-colors"
+              className="p-2 hover:bg-zinc-900 rounded-lg text-white transition-colors"
             >
               <Minimize2 className="w-5 h-5" />
             </button>
@@ -118,7 +118,7 @@ export default function ExampleWithPlayground({
         </div>
         <div className="flex items-center space-x-2">
           {tags.map(tag => (
-            <span key={tag} className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
+            <span key={tag} className="px-2 py-1 text-xs bg-gray-100 dark:bg-zinc-900 text-gray-600 dark:text-gray-400 rounded">
               {tag}
             </span>
           ))}
@@ -138,7 +138,7 @@ export default function ExampleWithPlayground({
       {/* Side-by-Side Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left: Code Editor */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden order-2 lg:order-1">
+        <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden order-2 lg:order-1">
           {/* Code Header */}
           <div className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-800 to-gray-900 text-white">
             <div className="flex items-center space-x-2">
@@ -184,7 +184,7 @@ export default function ExampleWithPlayground({
           </div>
 
           {/* Code Footer */}
-          <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
               <Play className="w-3 h-3" />
               <span>Edit code, then deploy in sandbox</span>
@@ -200,7 +200,7 @@ export default function ExampleWithPlayground({
         </div>
 
         {/* Right: Live Demo Preview */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden order-1 lg:order-2">
+        <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden order-1 lg:order-2">
           {/* Demo Header */}
           <div className="flex items-center space-x-2 p-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
             <Sparkles className="w-4 h-4" />
@@ -216,7 +216,7 @@ export default function ExampleWithPlayground({
       </div>
 
       {/* Full Width Live Demo Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+      <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden">
         <div className="flex items-center justify-between p-4 bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
           <div className="flex items-center space-x-2">
             <Sparkles className="w-5 h-5" />

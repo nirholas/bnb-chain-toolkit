@@ -1794,7 +1794,7 @@ export default function DocArticlePage() {
 
   if (!category || !article) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
         <div className="text-center">
           <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-400" />
           <h1 className="text-2xl font-bold mb-2">Article Not Found</h1>
@@ -1814,9 +1814,9 @@ export default function DocArticlePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Breadcrumb */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center space-x-2 text-sm">
             <Link to="/docs" className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
@@ -1861,7 +1861,7 @@ export default function DocArticlePage() {
           {/* Article Content */}
           <div className="prose dark:prose-invert prose-lg max-w-none mb-12">
             <div 
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg"
+              className="bg-white dark:bg-[#0a0a0a] rounded-xl p-8 shadow-lg"
               dangerouslySetInnerHTML={{ 
                 __html: DOMPurify.sanitize(formatMarkdown(article.content)) 
               }} 
@@ -1908,7 +1908,7 @@ export default function DocArticlePage() {
           </div>
 
           {/* Sidebar: Related Articles */}
-          <div className="mt-12 p-6 bg-gray-100 dark:bg-gray-800 rounded-xl">
+          <div className="mt-12 p-6 bg-gray-100 dark:bg-[#0a0a0a] rounded-xl">
             <h3 className="font-bold mb-4">More in {category.title}</h3>
             <div className="space-y-2">
               {category.articles
@@ -1918,7 +1918,7 @@ export default function DocArticlePage() {
                   <Link
                     key={a.id}
                     to={`/docs/${category.id}/${a.id}`}
-                    className="block p-3 bg-white dark:bg-gray-700 rounded-lg hover:shadow-md transition-all"
+                    className="block p-3 bg-white dark:bg-zinc-900 rounded-lg hover:shadow-md transition-all"
                   >
                     <div className="font-medium">{a.title}</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">{a.readTime}</div>
@@ -1936,7 +1936,7 @@ export default function DocArticlePage() {
 function formatMarkdown(content: string): string {
   return content
     // Code blocks first (before other transformations)
-    .replace(/```(\w+)?\n([\s\S]*?)```/gim, '<pre class="bg-gray-900 text-gray-300 p-4 rounded-lg overflow-x-auto my-4 text-sm"><code>$2</code></pre>')
+    .replace(/```(\w+)?\n([\s\S]*?)```/gim, '<pre class="bg-black text-gray-300 p-4 rounded-lg overflow-x-auto my-4 text-sm"><code>$2</code></pre>')
     // Headers
     .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold mt-6 mb-3">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold mt-8 mb-4">$1</h2>')
@@ -1951,7 +1951,7 @@ function formatMarkdown(content: string): string {
       return `<tr>${cellsHtml}</tr>`;
     })
     // Inline code
-    .replace(/`([^`]+)`/gim, '<code class="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>')
+    .replace(/`([^`]+)`/gim, '<code class="bg-gray-200 dark:bg-zinc-900 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>')
     // Bold
     .replace(/\*\*([^*]+)\*\*/gim, '<strong>$1</strong>')
     // Links

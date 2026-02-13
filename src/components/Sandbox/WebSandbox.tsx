@@ -803,7 +803,7 @@ export default function WebSandbox({
   const [searchQuery, setSearchQuery] = useState('');
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
-  const [showTemplates, setShowTemplates] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(true);
   
   // Network & Error State
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -1200,22 +1200,22 @@ export default function WebSandbox({
     <div 
       ref={containerRef}
       className={cn(
-        "flex flex-col h-screen bg-gray-900 text-white overflow-hidden",
+        "flex flex-col h-screen bg-black text-white overflow-hidden",
         isFullscreen && "fixed inset-0 z-50"
       )}
     >
       {/* Header */}
       {showHeader && (
-        <header className="flex items-center justify-between px-4 h-12 bg-gray-800 border-b border-gray-700 flex-shrink-0">
+        <header className="flex items-center justify-between px-4 h-12 bg-[#0a0a0a] border-b border-gray-700 flex-shrink-0">
           <div className="flex items-center gap-3">
             <Link
               to="/"
-              className="flex items-center gap-1.5 px-2 py-1 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
+              className="flex items-center gap-1.5 px-2 py-1 text-gray-400 hover:text-white hover:bg-zinc-900 rounded transition-colors"
               title="Back to Home"
             >
               <Home className="w-4 h-4" />
             </Link>
-            <div className="w-px h-5 bg-gray-700" />
+            <div className="w-px h-5 bg-zinc-800" />
             <div className="flex items-center gap-2">
               <Code2 className="w-5 h-5 text-primary-500" />
               <span className="font-semibold text-sm">{title}</span>
@@ -1238,7 +1238,7 @@ export default function WebSandbox({
               onClick={() => setAutoRun(!autoRun)}
               className={cn(
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors",
-                autoRun ? "bg-primary-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                autoRun ? "bg-primary-600 text-white" : "bg-zinc-800 text-gray-300 hover:bg-zinc-800"
               )}
               title="Auto-run on change"
             >
@@ -1250,19 +1250,25 @@ export default function WebSandbox({
             <button
               onClick={() => setShowTemplates(!showTemplates)}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors",
-                showTemplates ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
+                showTemplates 
+                  ? "bg-white text-black" 
+                  : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
               )}
-              title="Browse templates"
+              title="Browse 15+ web templates"
             >
               <Sparkles className="w-4 h-4" />
               Templates
+              <span className={cn(
+                "ml-1 px-1.5 py-0.5 rounded-full text-xs font-bold",
+                showTemplates ? "bg-black text-white" : "bg-white/20 text-white"
+              )}>15+</span>
             </button>
             
-            <div className="w-px h-6 bg-gray-700" />
+            <div className="w-px h-6 bg-zinc-800" />
             
             {/* Layout Controls */}
-            <div className="flex items-center bg-gray-700 rounded-lg p-1">
+            <div className="flex items-center bg-zinc-800 rounded-lg p-1">
               <button
                 onClick={() => setLayout('horizontal')}
                 className={cn("p-1.5 rounded", layout === 'horizontal' && "bg-gray-600")}
@@ -1280,7 +1286,7 @@ export default function WebSandbox({
             </div>
             
             {/* Device Presets */}
-            <div className="flex items-center bg-gray-700 rounded-lg p-1">
+            <div className="flex items-center bg-zinc-800 rounded-lg p-1">
               {DEVICE_PRESETS.map(preset => (
                 <button
                   key={preset.name}
@@ -1296,12 +1302,12 @@ export default function WebSandbox({
               ))}
             </div>
             
-            <div className="w-px h-6 bg-gray-700" />
+            <div className="w-px h-6 bg-zinc-800" />
             
             {/* Actions */}
             <button
               onClick={copyShareLink}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-zinc-900 rounded-lg transition-colors"
               title="Share"
             >
               {copied ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4" />}
@@ -1309,7 +1315,7 @@ export default function WebSandbox({
             
             <button
               onClick={downloadProject}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-zinc-900 rounded-lg transition-colors"
               title="Download"
             >
               <Download className="w-4 h-4" />
@@ -1319,7 +1325,7 @@ export default function WebSandbox({
               onClick={() => setShowSettings(!showSettings)}
               className={cn(
                 "p-2 rounded-lg transition-colors",
-                showSettings ? "bg-gray-700" : "hover:bg-gray-700"
+                showSettings ? "bg-zinc-800" : "hover:bg-zinc-900"
               )}
               title="Settings"
             >
@@ -1328,7 +1334,7 @@ export default function WebSandbox({
             
             <button
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-zinc-900 rounded-lg transition-colors"
               title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
             >
               {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -1356,7 +1362,7 @@ export default function WebSandbox({
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Files</span>
               <button
                 onClick={createNewFile}
-                className="p-1 hover:bg-gray-700 rounded transition-colors"
+                className="p-1 hover:bg-zinc-900 rounded transition-colors"
                 title="New file"
               >
                 <Plus className="w-4 h-4" />
@@ -1370,8 +1376,8 @@ export default function WebSandbox({
                   className={cn(
                     "group flex items-center gap-2 px-3 py-1.5 cursor-pointer transition-colors",
                     activeFileId === file.id 
-                      ? "bg-gray-700 text-white" 
-                      : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
+                      ? "bg-zinc-800 text-white" 
+                      : "text-gray-400 hover:bg-[#0a0a0a] hover:text-gray-200"
                   )}
                   onClick={() => openFile(file.id)}
                 >
@@ -1384,7 +1390,7 @@ export default function WebSandbox({
                   )}
                   <button
                     onClick={(e) => { e.stopPropagation(); deleteFile(file.id); }}
-                    className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-gray-600 rounded transition-all"
+                    className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-zinc-800 rounded transition-all"
                   >
                     <Trash2 className="w-3 h-3 text-red-400" />
                   </button>
@@ -1394,7 +1400,7 @@ export default function WebSandbox({
             
             <button
               onClick={() => setShowSidebar(false)}
-              className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-700 text-xs text-gray-500 hover:text-gray-300 hover:bg-gray-800 transition-colors"
+              className="flex items-center justify-center gap-2 px-3 py-2 border-t border-gray-700 text-xs text-gray-500 hover:text-gray-300 hover:bg-[#0a0a0a] transition-colors"
             >
               <PanelLeftClose className="w-4 h-4" />
               Hide Sidebar
@@ -1406,7 +1412,7 @@ export default function WebSandbox({
         {!showSidebar && (
           <button
             onClick={() => setShowSidebar(true)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-gray-800 border border-gray-700 rounded-r-lg hover:bg-gray-700 transition-colors"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-[#0a0a0a] border border-gray-700 rounded-r-lg hover:bg-zinc-900 transition-colors"
           >
             <PanelLeftOpen className="w-4 h-4" />
           </button>
@@ -1421,7 +1427,7 @@ export default function WebSandbox({
           {layout !== 'preview-only' && (
             <div 
               className={cn(
-                "flex flex-col bg-gray-900 overflow-hidden",
+                "flex flex-col bg-black overflow-hidden",
                 layout === 'horizontal' && "border-r border-gray-700"
               )}
               style={{ 
@@ -1430,7 +1436,7 @@ export default function WebSandbox({
               }}
             >
               {/* Tabs */}
-              <div className="flex items-center bg-gray-800 border-b border-gray-700 overflow-x-auto">
+              <div className="flex items-center bg-[#0a0a0a] border-b border-gray-700 overflow-x-auto">
                 {openTabs.map(tabId => {
                   const file = files.find(f => f.id === tabId);
                   if (!file) return null;
@@ -1441,8 +1447,8 @@ export default function WebSandbox({
                       className={cn(
                         "group flex items-center gap-2 px-3 py-2 border-r border-gray-700 cursor-pointer transition-colors",
                         activeFileId === tabId 
-                          ? "bg-gray-900 text-white" 
-                          : "bg-gray-800 text-gray-400 hover:text-gray-200"
+                          ? "bg-black text-white" 
+                          : "bg-[#0a0a0a] text-gray-400 hover:text-gray-200"
                       )}
                       onClick={() => setActiveFileId(tabId)}
                     >
@@ -1450,7 +1456,7 @@ export default function WebSandbox({
                       <span className="text-sm whitespace-nowrap">{file.name}</span>
                       <button
                         onClick={(e) => closeTab(tabId, e)}
-                        className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-gray-700 rounded transition-all"
+                        className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-zinc-900 rounded transition-all"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -1496,7 +1502,7 @@ export default function WebSandbox({
           {layout !== 'preview-only' && layout !== 'editor-only' && (
             <div
               className={cn(
-                "flex items-center justify-center bg-gray-700 hover:bg-primary-600 transition-colors cursor-col-resize group",
+                "flex items-center justify-center bg-zinc-800 hover:bg-primary-600 transition-colors cursor-col-resize group",
                 layout === 'horizontal' ? "w-1" : "h-1 cursor-row-resize"
               )}
               onMouseDown={(e) => {
@@ -1596,13 +1602,13 @@ export default function WebSandbox({
               
               {/* Console */}
               {showConsole && (
-                <div className="h-48 bg-gray-900 border-t border-gray-700 flex flex-col">
-                  <div className="flex items-center justify-between px-3 py-1.5 bg-gray-800 border-b border-gray-700">
+                <div className="h-48 bg-black border-t border-gray-700 flex flex-col">
+                  <div className="flex items-center justify-between px-3 py-1.5 bg-[#0a0a0a] border-b border-gray-700">
                     <div className="flex items-center gap-2">
                       <Terminal className="w-4 h-4 text-gray-400" />
                       <span className="text-xs font-medium text-gray-400">Console</span>
                       {consoleMessages.length > 0 && (
-                        <span className="text-xs px-1.5 py-0.5 bg-gray-700 rounded text-gray-300">
+                        <span className="text-xs px-1.5 py-0.5 bg-zinc-800 rounded text-gray-300">
                           {consoleMessages.length}
                         </span>
                       )}
@@ -1610,14 +1616,14 @@ export default function WebSandbox({
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => setConsoleMessages([])}
-                        className="p-1 hover:bg-gray-700 rounded transition-colors"
+                        className="p-1 hover:bg-zinc-900 rounded transition-colors"
                         title="Clear console"
                       >
                         <Trash2 className="w-3.5 h-3.5 text-gray-400" />
                       </button>
                       <button
                         onClick={() => setShowConsole(false)}
-                        className="p-1 hover:bg-gray-700 rounded transition-colors"
+                        className="p-1 hover:bg-zinc-900 rounded transition-colors"
                         title="Hide console"
                       >
                         <PanelBottomClose className="w-3.5 h-3.5 text-gray-400" />
@@ -1651,7 +1657,7 @@ export default function WebSandbox({
                             {msg.content}
                           </span>
                           {msg.count && msg.count > 1 && (
-                            <span className="px-1.5 py-0.5 bg-gray-700 rounded text-gray-400 text-[10px]">
+                            <span className="px-1.5 py-0.5 bg-zinc-800 rounded text-gray-400 text-[10px]">
                               {msg.count}
                             </span>
                           )}
@@ -1669,7 +1675,7 @@ export default function WebSandbox({
               {!showConsole && (
                 <button
                   onClick={() => setShowConsole(true)}
-                  className="flex items-center justify-center gap-2 px-3 py-1.5 bg-gray-800 border-t border-gray-700 text-xs text-gray-500 hover:text-gray-300 transition-colors"
+                  className="flex items-center justify-center gap-2 px-3 py-1.5 bg-[#0a0a0a] border-t border-gray-700 text-xs text-gray-500 hover:text-gray-300 transition-colors"
                 >
                   <PanelBottomOpen className="w-4 h-4" />
                   Show Console
@@ -1686,12 +1692,12 @@ export default function WebSandbox({
         
         {/* Settings Panel */}
         {showSettings && (
-          <aside className="w-72 bg-gray-800 border-l border-gray-700 flex flex-col">
+          <aside className="w-72 bg-[#0a0a0a] border-l border-gray-700 flex flex-col">
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700">
               <span className="font-semibold">Settings</span>
               <button
                 onClick={() => setShowSettings(false)}
-                className="p-1 hover:bg-gray-700 rounded transition-colors"
+                className="p-1 hover:bg-zinc-900 rounded transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1704,7 +1710,7 @@ export default function WebSandbox({
                 <select
                   value={settings.theme}
                   onChange={(e) => setSettings(prev => ({ ...prev, theme: e.target.value }))}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm"
+                  className="w-full bg-zinc-800 border border-gray-600 rounded-lg px-3 py-2 text-sm"
                 >
                   {EDITOR_THEMES.map(theme => (
                     <option key={theme.id} value={theme.id}>{theme.name}</option>
@@ -1739,7 +1745,7 @@ export default function WebSandbox({
                         "flex-1 py-2 rounded-lg text-sm transition-colors",
                         settings.tabSize === size
                           ? "bg-primary-600 text-white"
-                          : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                          : "bg-zinc-800 text-gray-300 hover:bg-zinc-800"
                       )}
                     >
                       {size} spaces
@@ -1811,7 +1817,7 @@ export default function WebSandbox({
       {/* Wallet Connect Modal */}
       {showWalletModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Connect Wallet</h3>
               <button

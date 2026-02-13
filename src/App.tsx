@@ -64,6 +64,7 @@ const MCPServerPage = lazy(() => import('./pages/MCPServerPage'));
 const ToolCatalogPage = lazy(() => import('./pages/ToolCatalogPage'));
 const ToolReferencePage = lazy(() => import('./pages/ToolReferencePage'));
 const StandardsPage = lazy(() => import('./pages/StandardsPage'));
+const ERC8004Page = lazy(() => import('./pages/ERC8004Page'));
 
 // Innovation pages (experimental features - lazy loaded)
 const AICodeWhispererPage = lazy(() => import('./pages/innovation/AICodeWhispererPage'));
@@ -176,6 +177,7 @@ function AppContent() {
                   <Route path="/mcp/:serverId" element={<MCPServerPage />} />
                   <Route path="/tools" element={<ToolReferencePage />} />
                   <Route path="/standards" element={<StandardsPage />} />
+                  <Route path="/erc8004" element={<ERC8004Page />} />
                   <Route path="/shared/:token" element={<SharedProjectPage />} />
                 </Routes>
               </Suspense>

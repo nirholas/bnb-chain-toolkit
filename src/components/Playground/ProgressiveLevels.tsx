@@ -146,8 +146,8 @@ export default function ProgressiveLevels({
                 disabled={!levelInfo.unlocked}
                 className={`
                   w-full px-4 py-3 flex items-center justify-between
-                  ${isCurrent ? colors.bg : 'bg-white dark:bg-gray-800'}
-                  hover:bg-gray-50 dark:hover:bg-gray-700/50
+                  ${isCurrent ? colors.bg : 'bg-white dark:bg-[#0a0a0a]'}
+                  hover:bg-gray-50 dark:hover:bg-zinc-900/50
                   transition-colors disabled:cursor-not-allowed
                 `}
               >
@@ -189,7 +189,7 @@ export default function ProgressiveLevels({
 
               {/* Expanded Content */}
               {isExpanded && levelInfo.unlocked && (
-                <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0a0a0a]/50">
                   <div className="space-y-3">
                     {/* Topics */}
                     <div>
@@ -200,7 +200,7 @@ export default function ProgressiveLevels({
                         {levelInfo.topics.map((topic, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 rounded"
+                            className="px-2 py-1 bg-white dark:bg-black border border-gray-200 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300 rounded"
                           >
                             {topic}
                           </span>

@@ -91,15 +91,17 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-800 text-white">
+    <div className="flex flex-col h-full bg-[#0a0a0a] text-white">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
-        <h2 className="font-semibold flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-primary-500" />
+      <div className="p-4 border-b border-gray-700 bg-gradient-to-r from-gray-800 to-gray-900">
+        <h2 className="font-bold text-lg flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-white" />
           Templates
+          <span className="ml-auto px-2 py-0.5 bg-white text-black rounded-full text-xs font-bold">{webTemplates.length}</span>
         </h2>
+        <p className="text-xs text-gray-400 mt-1">Ready-to-use starter projects</p>
         {onClose && (
-          <button onClick={onClose} className="p-1 hover:bg-gray-700 rounded">
+          <button onClick={onClose} className="absolute top-4 right-4 p-1 hover:bg-zinc-900 rounded">
             <X className="w-5 h-5" />
           </button>
         )}
@@ -112,7 +114,7 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
           className={cn(
             "flex-1 py-3 text-sm font-medium transition-colors",
             activeTab === 'templates'
-              ? "text-primary-400 border-b-2 border-primary-500"
+              ? "text-white border-b-2 border-white"
               : "text-gray-400 hover:text-white"
           )}
         >
@@ -123,7 +125,7 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
           className={cn(
             "flex-1 py-3 text-sm font-medium transition-colors flex items-center justify-center gap-2",
             activeTab === 'ai'
-              ? "text-primary-400 border-b-2 border-primary-500"
+              ? "text-white border-b-2 border-white"
               : "text-gray-400 hover:text-white"
           )}
         >
@@ -143,13 +145,13 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
             value={aiPrompt}
             onChange={(e) => setAiPrompt(e.target.value)}
             placeholder="e.g., A crypto wallet dashboard with balance display..."
-            className="w-full h-32 p-3 bg-gray-900 border border-gray-700 rounded-lg text-sm resize-none focus:outline-none focus:border-primary-500"
+            className="w-full h-32 p-3 bg-black border border-gray-700 rounded-lg text-sm resize-none focus:outline-none focus:border-white"
           />
           
           <button
             onClick={handleAIGenerate}
             disabled={isGenerating || !aiPrompt.trim()}
-            className="w-full py-3 bg-gradient-to-r from-primary-600 to-purple-600 rounded-lg font-medium flex items-center justify-center gap-2 disabled:opacity-50 hover:opacity-90 transition-opacity"
+            className="w-full py-3 bg-white text-black rounded-lg font-bold flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-gray-200 transition-colors"
           >
             {isGenerating ? (
               <>
@@ -171,7 +173,7 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
                 <button
                   key={prompt}
                   onClick={() => setAiPrompt(prompt)}
-                  className="px-3 py-1.5 text-xs bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+                  className="px-3 py-1.5 text-xs bg-zinc-800 hover:bg-zinc-800 rounded-full transition-colors"
                 >
                   {prompt}
                 </button>
@@ -191,7 +193,7 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search templates..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary-500"
+                className="w-full pl-10 pr-4 py-2 bg-black border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-white"
               />
             </div>
           </div>
@@ -207,8 +209,8 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors",
                     selectedCategory === cat.id
-                      ? "bg-primary-600 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      ? "bg-white text-black"
+                      : "bg-zinc-800 text-gray-300 hover:bg-zinc-800"
                   )}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -229,18 +231,18 @@ export default function TemplatesPanel({ onSelectTemplate, onClose }: TemplatesP
                 <button
                   key={template.id}
                   onClick={() => handleSelectTemplate(template)}
-                  className="w-full p-4 bg-gray-900 hover:bg-gray-700 rounded-lg text-left transition-colors group"
+                  className="w-full p-4 bg-black hover:bg-zinc-900 rounded-lg text-left transition-colors group"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-sm truncate group-hover:text-primary-400 transition-colors">
+                      <h3 className="font-medium text-sm truncate group-hover:text-white transition-colors">
                         {template.name}
                       </h3>
                       <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                         {template.description}
                       </p>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-primary-400 flex-shrink-0 ml-2" />
+                    <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-white flex-shrink-0 ml-2" />
                   </div>
                   <div className="flex items-center gap-2 mt-2">
                     <span className={cn(

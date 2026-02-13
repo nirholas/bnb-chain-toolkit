@@ -176,7 +176,7 @@ contract SimpleEscrow {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Example: Create an ERC20 token with 1 million initial supply..."
-            className="w-full h-40 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 resize-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full h-40 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a] resize-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
 
           <button
@@ -197,7 +197,7 @@ contract SimpleEscrow {
                 <button
                   key={index}
                   onClick={() => setPrompt(example)}
-                  className="w-full text-left p-2 text-sm bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                  className="w-full text-left p-2 text-sm bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-[#0a0a0a] rounded transition-colors"
                 >
                   {example}
                 </button>
@@ -237,7 +237,7 @@ contract SimpleEscrow {
               </pre>
             </div>
           ) : (
-            <div className="flex items-center justify-center h-96 bg-gray-50 dark:bg-gray-900 rounded-lg">
+            <div className="flex items-center justify-center h-96 bg-gray-50 dark:bg-black rounded-lg">
               <p className="text-gray-500 dark:text-gray-400">
                 {isGenerating ? 'Generating your contract...' : 'Your generated contract will appear here'}
               </p>

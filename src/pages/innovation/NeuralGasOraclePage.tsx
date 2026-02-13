@@ -67,7 +67,7 @@ export default function NeuralGasOraclePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Header */}
       <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -99,7 +99,7 @@ export default function NeuralGasOraclePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Code Editor */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden">
             <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-3">
               <h2 className="font-semibold text-gray-900 dark:text-white">Contract to Analyze</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">AI will predict and optimize gas usage</p>
@@ -107,13 +107,13 @@ export default function NeuralGasOraclePage() {
             <textarea
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="w-full h-96 p-4 font-mono text-sm bg-gray-900 text-gray-100 resize-none focus:outline-none"
+              className="w-full h-96 p-4 font-mono text-sm bg-black text-gray-100 resize-none focus:outline-none"
               spellCheck={false}
             />
           </div>
 
           {/* Neural Gas Oracle Panel */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg overflow-hidden">
             <NeuralGasOracle 
               code={code}
               onLog={handleLog}
@@ -123,7 +123,7 @@ export default function NeuralGasOraclePage() {
 
         {/* Logs */}
         {logs.length > 0 && (
-          <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4">
+          <div className="mt-6 bg-white dark:bg-[#0a0a0a] rounded-xl shadow-lg p-4">
             <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Optimization Log</h3>
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {logs.slice(-10).reverse().map((log, i) => (
@@ -133,7 +133,7 @@ export default function NeuralGasOraclePage() {
                     log.type === 'error' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' :
                     log.type === 'warning' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' :
                     log.type === 'success' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' :
-                    'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                    'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300'
                   }`}
                 >
                   {log.message}
@@ -145,19 +145,19 @@ export default function NeuralGasOraclePage() {
 
         {/* ML Models */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg p-4 shadow">
             <h3 className="font-semibold text-cyan-600 dark:text-cyan-400">🧠 LSTM Predictor</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               94% accuracy trained on 100k+ contracts
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg p-4 shadow">
             <h3 className="font-semibold text-blue-600 dark:text-blue-400">🔄 Transformer Optimizer</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               91% accuracy for pattern-based optimizations
             </p>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg p-4 shadow">
             <h3 className="font-semibold text-indigo-600 dark:text-indigo-400">🎯 Pattern Matcher</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               89% accuracy for common gas patterns

@@ -45,39 +45,41 @@ export default function SandboxPage() {
 
   // Otherwise, show the selection screen
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-black to-black text-white">
       {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center h-12 px-4 bg-gray-900/80 backdrop-blur-sm border-b border-gray-800">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center h-12 px-4 bg-[#0a0a0a]/80 backdrop-blur-sm border-b border-gray-800">
         <Link
           to="/"
-          className="flex items-center gap-2 px-3 py-1.5 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
         >
           <Home className="w-4 h-4" />
           <span className="text-sm font-medium">Home</span>
         </Link>
         <div className="ml-4 flex items-center gap-2">
-          <Zap className="w-4 h-4 text-primary-500" />
+          <Zap className="w-4 h-4 text-white" />
           <span className="text-sm font-medium text-white">BNB Chain UDE</span>
         </div>
       </header>
 
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]" />
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:14px_24px]" />
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-20">
         {/* Header */}
         <div className="text-center mb-16 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500/20 text-primary-400 rounded-full text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-full text-sm font-medium mb-6 border border-white/20">
             <Sparkles className="w-4 h-4" />
+            <span>60+ Templates</span>
+            <span className="mx-1 text-white/40">·</span>
             <span>Premium Development Environment</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="text-white">
               Code Sandbox
             </span>
           </h1>
@@ -93,23 +95,26 @@ export default function SandboxPage() {
           {/* Web Sandbox */}
           <button
             onClick={() => selectType('web')}
-            className="group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 text-left hover:border-primary-500/50 hover:bg-gray-800/70 transition-all duration-300 overflow-hidden"
+            className="group relative bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-8 text-left hover:border-white/30 hover:bg-white/[0.06] transition-all duration-300 overflow-hidden"
           >
             {/* Glow Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             
             {/* Icon */}
             <div className="relative mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
-                <Globe className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                <Globe className="w-8 h-8 text-black" />
               </div>
             </div>
             
             {/* Content */}
             <div className="relative">
-              <h2 className="text-2xl font-bold mb-3 group-hover:text-primary-400 transition-colors">
-                Web Sandbox
-              </h2>
+              <div className="flex items-center gap-3 mb-3">
+                <h2 className="text-2xl font-bold group-hover:text-white transition-colors">
+                  Web Sandbox
+                </h2>
+                <span className="px-2 py-0.5 bg-white/10 border border-white/20 rounded-full text-xs font-bold text-white">15 templates</span>
+              </div>
               <p className="text-gray-400 mb-6">
                 Build web applications with HTML, CSS, JavaScript, React, Vue, Python, and more.
                 Real-time preview with hot reloading.
@@ -126,7 +131,7 @@ export default function SandboxPage() {
                   'Export & share projects'
                 ].map((feature, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm text-gray-400">
-                    <Zap className="w-4 h-4 text-primary-500" />
+                    <Zap className="w-4 h-4 text-white/50" />
                     <span>{feature}</span>
                   </div>
                 ))}
@@ -137,7 +142,7 @@ export default function SandboxPage() {
                 {['HTML', 'CSS', 'JS', 'React', 'Vue', 'Python'].map(lang => (
                   <span
                     key={lang}
-                    className="px-2 py-1 bg-gray-700/50 text-gray-300 text-xs rounded-md"
+                    className="px-2 py-1 bg-white/10 text-gray-300 text-xs rounded-md border border-white/10"
                   >
                     {lang}
                   </span>
@@ -147,14 +152,14 @@ export default function SandboxPage() {
             
             {/* Arrow */}
             <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">
-              <ArrowRight className="w-6 h-6 text-primary-400" />
+              <ArrowRight className="w-6 h-6 text-white" />
             </div>
           </button>
 
           {/* Solidity Sandbox */}
           <button
             onClick={() => selectType('solidity')}
-            className="group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 text-left hover:border-purple-500/50 hover:bg-gray-800/70 transition-all duration-300 overflow-hidden"
+            className="group relative bg-[#0a0a0a]/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 text-left hover:border-purple-500/50 hover:bg-[#0a0a0a]/70 transition-all duration-300 overflow-hidden"
           >
             {/* Glow Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -187,7 +192,7 @@ export default function SandboxPage() {
                   'ABI & bytecode export'
                 ].map((feature, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm text-gray-400">
-                    <Zap className="w-4 h-4 text-purple-500" />
+                    <Zap className="w-4 h-4 text-white/50" />
                     <span>{feature}</span>
                   </div>
                 ))}
@@ -198,7 +203,7 @@ export default function SandboxPage() {
                 {['Solidity', 'EVM', 'Web3', 'Ethereum', 'Polygon'].map(tag => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-md"
+                    className="px-2 py-1 bg-white/10 text-gray-300 text-xs rounded-md border border-white/10"
                   >
                     {tag}
                   </span>
@@ -208,21 +213,57 @@ export default function SandboxPage() {
             
             {/* Arrow */}
             <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">
-              <ArrowRight className="w-6 h-6 text-purple-400" />
+              <ArrowRight className="w-6 h-6 text-white" />
             </div>
           </button>
+        </div>
+
+        {/* Template Showcase */}
+        <div className="mt-16 w-full max-w-5xl">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Start from a Template</h2>
+                <p className="text-gray-400 mt-1">60+ ready-to-use templates across all categories</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1.5 bg-white text-black rounded-full text-sm font-bold">15 Web</span>
+                <span className="px-3 py-1.5 bg-white/10 text-white rounded-full text-sm font-medium border border-white/20">42 Contracts</span>
+                <span className="px-3 py-1.5 bg-white/10 text-white rounded-full text-sm font-medium border border-white/20">6 Workspace</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {[
+                { name: 'ERC-20 Token', category: 'Token', icon: '🪙' },
+                { name: 'NFT Collection', category: 'NFT', icon: '🖼️' },
+                { name: 'DeFi Staking', category: 'DeFi', icon: '📈' },
+                { name: 'DAO Governance', category: 'DAO', icon: '🏛️' },
+                { name: 'React dApp', category: 'Web3', icon: '⚛️' },
+                { name: 'Wallet Connect', category: 'Web3', icon: '👛' },
+                { name: 'DEX Swap', category: 'DeFi', icon: '🔄' },
+                { name: 'MultiSig Wallet', category: 'Security', icon: '🔒' },
+              ].map((t, i) => (
+                <div key={i} className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl p-3 cursor-pointer transition-all group">
+                  <div className="text-2xl mb-2">{t.icon}</div>
+                  <div className="text-sm font-medium text-white group-hover:text-white">{t.name}</div>
+                  <div className="text-xs text-gray-500 mt-0.5">{t.category}</div>
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-gray-500 text-sm mt-4">Choose a sandbox above to browse all templates →</p>
+          </div>
         </div>
 
         {/* Stats */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
+            { value: '60+', label: 'Templates' },
             { value: '10+', label: 'Languages' },
-            { value: '100ms', label: 'Hot Reload' },
             { value: '0.8.24', label: 'Solidity' },
             { value: '∞', label: 'Possibilities' },
           ].map((stat, i) => (
             <div key={i}>
-              <div className="text-3xl font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent">
+              <div className="text-3xl font-bold text-white">
                 {stat.value}
               </div>
               <div className="text-sm text-gray-500 mt-1">{stat.label}</div>

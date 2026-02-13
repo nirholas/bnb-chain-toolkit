@@ -4,7 +4,7 @@
  * 💫 Persistence beats perfection 🎖️
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Copy, Check, Download, Share2, BookOpen, Code2 } from 'lucide-react';
 
 export interface CodeSnippet {
@@ -28,6 +28,7 @@ export default function CodeSnippetManager({
   onInsert 
 }: CodeSnippetManagerProps) {
   const [copied, setCopied] = useState<string | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
@@ -76,7 +77,8 @@ export default function CodeSnippetManager({
     } else {
       // Fallback: copy link to clipboard
       await navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
     }
   };
 
@@ -105,11 +107,11 @@ export default function CodeSnippetManager({
       python: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
       rust: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
     };
-    return colors[language] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+    return colors[language] || 'bg-gray-100 text-gray-800 dark:bg-zinc-900 dark:text-gray-200';
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+    <div className="flex flex-col h-full bg-white dark:bg-black">
       {/* Header */}
       <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between mb-4">
@@ -130,7 +132,7 @@ export default function CodeSnippetManager({
           placeholder="Search snippets by name, description, or tags..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-[#0a0a0a] dark:text-white"
         />
 
         {/* Category Filter */}
@@ -142,7 +144,7 @@ export default function CodeSnippetManager({
               className={`px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === category
                   ? 'bg-primary-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-800'
               }`}
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -167,7 +169,7 @@ export default function CodeSnippetManager({
                 className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:border-primary-300 dark:hover:border-primary-700 transition-colors"
               >
                 {/* Snippet Header */}
-                <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                <div className="bg-gray-50 dark:bg-[#0a0a0a] px-4 py-3 border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
@@ -190,7 +192,7 @@ export default function CodeSnippetManager({
                         {snippet.tags.map((tag, index) => (
                           <span
                             key={index}
-                            className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded"
+                            className="px-2 py-1 text-xs bg-gray-100 dark:bg-zinc-900 text-gray-600 dark:text-gray-300 rounded"
                           >
                             #{tag}
                           </span>
@@ -201,18 +203,18 @@ export default function CodeSnippetManager({
                 </div>
 
                 {/* Code Preview */}
-                <div className="bg-gray-900 p-4 overflow-x-auto">
+                <div className="bg-black p-4 overflow-x-auto">
                   <pre className="text-sm text-gray-100 font-mono">
                     <code>{snippet.code}</code>
                   </pre>
                 </div>
 
                 {/* Actions */}
-                <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 flex items-center justify-between">
+                <div className="bg-gray-50 dark:bg-[#0a0a0a] px-4 py-3 flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => handleCopy(snippet)}
-                      className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+                      className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded transition-colors"
                     >
                       {copied === snippet.id ? (
                         <>
@@ -229,7 +231,7 @@ export default function CodeSnippetManager({
                     
                     <button
                       onClick={() => handleDownload(snippet)}
-                      className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+                      className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded transition-colors"
                     >
                       <Download className="w-4 h-4" />
                       <span>Download</span>
@@ -237,10 +239,10 @@ export default function CodeSnippetManager({
                     
                     <button
                       onClick={() => handleShare(snippet)}
-                      className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+                      className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded transition-colors"
                     >
-                      <Share2 className="w-4 h-4" />
-                      <span>Share</span>
+                      {linkCopied ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4" />}
+                      <span>{linkCopied ? 'Link Copied!' : 'Share'}</span>
                     </button>
                   </div>
 

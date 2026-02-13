@@ -28,6 +28,7 @@ import {
   Sparkles,
   FlaskConical,
   Code,
+  Bot,
   TrendingUp,
   Users,
   HelpCircle,
@@ -35,7 +36,7 @@ import {
 } from 'lucide-react';
 import { useThemeStore } from '@/stores/themeStore';
 import LanguageSelector from './LanguageSelector';
-import UserButton from './UserButton';
+import WalletButton from './WalletButton';
 import { useAnnounce, useFocusTrap } from './Accessibility';
 import { cn } from '@/utils/helpers';
 
@@ -398,6 +399,14 @@ export default function NavBar() {
           description: 'Pre-built smart contract templates for BSC',
           iconColor: 'text-orange-500',
         },
+        {
+          label: 'ERC-8004 Agents',
+          href: '/erc8004',
+          icon: Bot,
+          description: 'Create trustless AI agent identities on BSC',
+          badge: 'New',
+          iconColor: 'text-amber-500',
+        },
       ],
     },
     {
@@ -528,16 +537,16 @@ export default function NavBar() {
             {/* ── Brand ────────────────────────────────────────── */}
             <Link
               to="/"
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-2.5 group"
               aria-label="BNB Chain AI Toolkit - Home"
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#F0B90B] group-hover:scale-105 transition-transform duration-200">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#F0B90B] group-hover:scale-105 transition-transform duration-200 shadow-[0_0_12px_rgba(240,185,11,0.3)]">
                 <Zap className="w-4 h-4 text-black" />
               </div>
-              <span className="font-semibold text-base tracking-tight text-gray-900 dark:text-white hidden sm:block">
+              <span className="font-bold text-[15px] tracking-tight text-gray-900 dark:text-white hidden sm:block">
                 BNB Chain AI Toolkit
               </span>
-              <span className="font-semibold text-base tracking-tight text-gray-900 dark:text-white sm:hidden">
+              <span className="font-bold text-[15px] tracking-tight text-gray-900 dark:text-white sm:hidden">
                 BNBT
               </span>
             </Link>
@@ -600,13 +609,22 @@ export default function NavBar() {
                 aria-hidden="true"
               />
 
-              <UserButton />
+              <WalletButton />
 
               <Link
-                to="/sandbox"
-                className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-[#F0B90B] text-black hover:bg-[#F0B90B]/90 active:scale-[0.98] transition-all duration-200"
+                to="/erc8004"
+                className="ml-1.5 flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg border border-[#F0B90B]/40 text-[#F0B90B] hover:bg-[#F0B90B]/10 active:scale-[0.98] transition-all duration-200 tracking-tight relative overflow-hidden group"
               >
-                <Play className="w-3.5 h-3.5" />
+                <span className="absolute inset-0 bg-gradient-to-r from-[#F0B90B]/0 via-[#F0B90B]/5 to-[#F0B90B]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                <Bot className="w-3.5 h-3.5" />
+                <span>ERC-8004</span>
+              </Link>
+
+              <Link
+                to="/fullstack-demo"
+                className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg bg-[#F0B90B] text-black hover:bg-[#F0B90B]/90 active:scale-[0.98] transition-all duration-200 shadow-[0_0_16px_rgba(240,185,11,0.25)] hover:shadow-[0_0_24px_rgba(240,185,11,0.45)] tracking-tight"
+              >
+                <Zap className="w-3.5 h-3.5" />
                 <span>Start Building</span>
               </Link>
             </div>
@@ -739,16 +757,16 @@ export default function NavBar() {
                   <LanguageSelector />
 
                   <Link
-                    to="/sandbox"
+                    to="/fullstack-demo"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-[#F0B90B] text-black font-medium transition-all active:scale-[0.98]"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-[#F0B90B] text-black font-medium transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(240,185,11,0.3)]"
                   >
-                    <Play className="w-5 h-5" />
+                    <Zap className="w-5 h-5" />
                     <span>Start Building</span>
                   </Link>
 
                   <div className="flex items-center justify-center">
-                    <UserButton />
+                    <WalletButton />
                   </div>
                 </motion.div>
               </div>

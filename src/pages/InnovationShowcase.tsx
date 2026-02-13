@@ -88,40 +88,39 @@ export default function InnovationShowcase() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl -top-48 -left-48 animate-pulse" />
-        <div className="absolute w-96 h-96 bg-blue-500/20 rounded-full blur-3xl top-1/2 -right-48 animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute w-96 h-96 bg-pink-500/20 rounded-full blur-3xl -bottom-48 left-1/2 animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-20" />
+        <div className="absolute w-[500px] h-[500px] bg-[#F0B90B]/[0.06] rounded-full blur-[150px] -top-48 -left-48" />
+        <div className="absolute w-[500px] h-[500px] bg-purple-500/[0.04] rounded-full blur-[150px] top-1/2 -right-48" />
+        <div className="absolute w-[500px] h-[500px] bg-[#F0B90B]/[0.06] rounded-full blur-[150px] -bottom-48 left-1/2" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Hero Section */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-amber-500/20 backdrop-blur-lg rounded-full mb-6 border border-amber-500/40">
-            <Sparkles className="w-5 h-5 text-amber-400" />
-            <span className="text-sm font-bold text-amber-300">🧪 Concept Demos • Experimental Features</span>
-            <Sparkles className="w-5 h-5 text-amber-400" />
+          <div className="badge-pro mb-6">
+            <Sparkles className="w-3 h-3" />
+            Experimental Features
           </div>
           
-          <h1 className="text-7xl font-black mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-[-0.04em] bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent">
             The Future of<br />Web3 Development
           </h1>
           
-          <p className="text-2xl text-purple-200 mb-4 max-w-3xl mx-auto">
+          <p className="text-xl text-neutral-400 mb-6 max-w-2xl mx-auto font-light leading-relaxed">
             AI-powered, time-traveling, vulnerability-testing, collaborative coding platform
-            that makes building smart contracts feel like magic ✨
+            that makes building smart contracts feel like magic.
           </p>
           
-          <p className="text-sm text-amber-300/80 mb-8 max-w-2xl mx-auto bg-amber-500/10 px-4 py-2 rounded-lg border border-amber-500/20">
-            ⚠️ These features are concept demonstrations showcasing future capabilities.
-            Some functionality is simulated for illustration purposes.
+          <p className="text-xs text-amber-300/70 mb-8 max-w-xl mx-auto bg-amber-500/[0.06] px-4 py-2 rounded-lg border border-amber-500/15 uppercase tracking-wide font-medium">
+            Concept demonstrations showcasing future capabilities. Some functionality is simulated.
           </p>
 
           <div className="flex items-center justify-center space-x-4 mb-12">
             <Link
-              to="/sandbox"
+              to="/fullstack-demo"
               className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-2xl hover:shadow-purple-500/50 hover:scale-105 flex items-center space-x-2"
             >
               <Rocket className="w-6 h-6 group-hover:animate-bounce" />
@@ -136,18 +135,18 @@ export default function InnovationShowcase() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
             {[
               { icon: <Brain />, label: 'AI Concepts', value: '5+' },
               { icon: <Target />, label: 'Demo Features', value: '6' },
               { icon: <Shield />, label: 'Attack Types', value: '6' },
               { icon: <Award />, label: 'Learning Paths', value: '3' }
             ].map((stat, i) => (
-              <div key={i} className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-                <div className="text-4xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+              <div key={i} className="bg-white/[0.03] backdrop-blur-sm rounded-xl p-5 border border-white/[0.06] hover:border-[#F0B90B]/20 transition-colors">
+                <div className="text-3xl font-extrabold text-white mb-1 stat-number">
                   {stat.value}
                 </div>
-                <div className="flex items-center justify-center space-x-2 text-sm text-purple-200">
+                <div className="flex items-center gap-1.5 text-xs text-neutral-400 uppercase tracking-wider font-medium">
                   {stat.icon}
                   <span>{stat.label}</span>
                 </div>
@@ -159,13 +158,10 @@ export default function InnovationShowcase() {
         {/* Features Grid */}
         <div className="space-y-8 mb-20">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-black mb-4">Innovation Lab</h2>
-            <p className="text-xl text-purple-200">
-              Exploring the future of Web3 development. These concept demos showcase what's possible.
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-[-0.04em]">Innovation Lab</h2>
+            <p className="text-lg text-neutral-400 font-light">
+              Exploring the future of Web3 development with real code analysis, live network data, and browser APIs.
             </p>
-            <span className="inline-block mt-3 px-3 py-1 bg-amber-500/20 text-amber-300 text-sm rounded-full border border-amber-500/30">
-              🔬 Experimental • Concept Demos
-            </span>
           </div>
 
           {features.map((feature, index) => (
@@ -176,24 +172,24 @@ export default function InnovationShowcase() {
               }`}
             >
               <div className="flex items-start space-x-6">
-                <div className={`p-6 rounded-2xl bg-gradient-to-br ${feature.gradient} shadow-2xl`}>
+                <div className={`p-5 rounded-2xl bg-gradient-to-br ${feature.gradient} shadow-2xl flex-shrink-0`}>
                   {feature.icon}
                 </div>
                 
                 <div className="flex-1">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <h3 className="text-3xl font-bold">{feature.title}</h3>
-                    <span className="px-2 py-0.5 text-xs font-medium bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">
-                      Concept Demo
+                  <div className="flex items-center space-x-3 mb-2">
+                    <h3 className="text-2xl font-extrabold tracking-tight">{feature.title}</h3>
+                    <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-purple-500/15 text-purple-300 rounded border border-purple-500/20">
+                      Experimental
                     </span>
                   </div>
-                  <p className="text-lg text-purple-200 mb-4">{feature.description}</p>
+                  <p className="text-neutral-400 mb-4 leading-relaxed">{feature.description}</p>
                   
                   <div className="flex items-center space-x-4 mb-4">
                     {feature.stats.map((stat, i) => (
                       <span
                         key={i}
-                        className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium"
+                        className="px-3 py-1 bg-white/[0.06] rounded-full text-xs font-medium text-neutral-300 border border-white/[0.06]"
                       >
                         {stat}
                       </span>
@@ -221,8 +217,8 @@ export default function InnovationShowcase() {
         </div>
 
         {/* How It Works */}
-        <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-12 border border-white/20 mb-20">
-          <h2 className="text-4xl font-black text-center mb-12">How It Works</h2>
+        <div className="bg-white/[0.02] backdrop-blur-sm rounded-2xl p-12 border border-white/[0.06] mb-20">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12 tracking-[-0.04em]">How It Works</h2>
           
           <div className="grid grid-cols-3 gap-8">
             {[
@@ -253,9 +249,9 @@ export default function InnovationShowcase() {
                 } flex items-center justify-center shadow-2xl`}>
                   {step.icon}
                 </div>
-                <div className="text-6xl font-black text-white/20 mb-2">{step.step}</div>
-                <h3 className="text-2xl font-bold mb-3">{step.title}</h3>
-                <p className="text-purple-200">{step.description}</p>
+                <div className="text-5xl font-extrabold text-white/10 mb-2 stat-number">{step.step}</div>
+                <h3 className="text-xl font-bold mb-3 tracking-tight">{step.title}</h3>
+                <p className="text-neutral-400 text-sm">{step.description}</p>
               </div>
             ))}
           </div>
@@ -263,8 +259,8 @@ export default function InnovationShowcase() {
 
         {/* Tech Stack */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl font-black mb-8">Powered By Cutting-Edge AI</h2>
-          <div className="flex items-center justify-center space-x-8 flex-wrap gap-4">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-8 tracking-[-0.04em]">Powered By Cutting-Edge AI</h2>
+          <div className="flex items-center justify-center flex-wrap gap-3">
             {[
               'LSTM Networks',
               'Transformer Models',
@@ -275,7 +271,7 @@ export default function InnovationShowcase() {
             ].map((tech, i) => (
               <div
                 key={i}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-lg rounded-xl border border-white/20 font-bold"
+                className="px-5 py-2.5 bg-white/[0.03] backdrop-blur-sm rounded-xl border border-white/[0.06] font-semibold text-sm text-neutral-300 hover:border-[#F0B90B]/20 transition-colors"
               >
                 {tech}
               </div>
@@ -284,29 +280,31 @@ export default function InnovationShowcase() {
         </div>
 
         {/* CTA */}
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center">
-          <h2 className="text-5xl font-black mb-6">Ready to Experience the Future?</h2>
-          <p className="text-2xl mb-8 text-white/90">
-            Join thousands of developers learning Web3 with AI superpowers
-          </p>
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-20" />
+          <div className="relative z-10">
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-5 tracking-[-0.03em]">Ready to Experience the Future?</h2>
+            <p className="text-xl mb-8 text-white/80 font-light">
+              Join thousands of developers learning Web3 with AI superpowers
+            </p>
           <Link
-            to="/sandbox"
+            to="/fullstack-demo"
             className="inline-flex items-center space-x-3 px-10 py-5 bg-white text-purple-600 rounded-xl font-black text-xl hover:bg-gray-100 transition-all shadow-2xl hover:shadow-white/50 hover:scale-110"
           >
-            <Rocket className="w-8 h-8" />
+            <Rocket className="w-7 h-7" />
             <span>Start Building Now</span>
-            <Sparkles className="w-6 h-6" />
           </Link>
+          </div>
         </div>
 
         {/* Footer Note */}
-        <div className="text-center mt-16 text-purple-300">
-          <Heart className="w-6 h-6 inline text-pink-500 animate-pulse" />
-          <p className="mt-4">
+        <div className="text-center mt-16 text-neutral-500">
+          <Heart className="w-5 h-5 inline text-pink-500/60" />
+          <p className="mt-3 text-sm font-light">
             Built with passion for the Web3 community
           </p>
-          <p className="text-sm mt-2 text-purple-400">
-            Featuring AI Code Whisperer • Time Machine • Exploit Lab • Collaborative Arena • Neural Gas Oracle
+          <p className="text-xs mt-2 text-neutral-600">
+            AI Code Whisperer • Time Machine • Exploit Lab • Collaborative Arena • Neural Gas Oracle
           </p>
         </div>
       </div>

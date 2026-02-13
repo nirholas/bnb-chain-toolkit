@@ -590,9 +590,9 @@ export default NFTMinter;`
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
       {/* Header */}
-      <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <header className="flex-none bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -609,7 +609,7 @@ export default NFTMinter;`
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                   viewMode === 'tutorial'
                     ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
                 }`}
               >
                 <Code2 className="w-4 h-4" />
@@ -620,7 +620,7 @@ export default NFTMinter;`
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                   viewMode === 'challenge'
                     ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-900'
                 }`}
               >
                 <Zap className="w-4 h-4" />
@@ -646,7 +646,7 @@ export default NFTMinter;`
         </div>
 
         {/* Right Sidebar */}
-        <div className="w-96 bg-white dark:bg-gray-800 overflow-hidden">
+        <div className="w-96 bg-white dark:bg-[#0a0a0a] overflow-hidden">
           {viewMode === 'tutorial' ? (
             <InteractiveTutorial
               steps={tutorialSteps}

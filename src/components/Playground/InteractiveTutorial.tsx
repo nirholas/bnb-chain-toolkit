@@ -97,7 +97,7 @@ export default function InteractiveTutorial({
     : true;
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col h-full bg-white dark:bg-[#0a0a0a] border-l border-gray-200 dark:border-gray-700">
       {/* Header */}
       <div className="flex-none px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
@@ -122,7 +122,7 @@ export default function InteractiveTutorial({
                   ? 'bg-primary-600 text-white ring-2 ring-primary-300 dark:ring-primary-700' 
                   : completedSteps.has(idx)
                     ? 'bg-green-600 text-white hover:bg-green-700'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-200 dark:bg-zinc-900 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                 }
               `}
             >
@@ -159,7 +159,7 @@ export default function InteractiveTutorial({
                     flex items-start gap-3 p-3 rounded-lg border
                     ${checkpointsPassed.has(checkpoint.label)
                       ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
-                      : 'bg-gray-50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700'
+                      : 'bg-gray-50 dark:bg-[#0a0a0a]/50 border-gray-200 dark:border-gray-700'
                     }
                   `}
                 >
@@ -238,7 +238,7 @@ export default function InteractiveTutorial({
         {/* Load Code Button */}
         <button
           onClick={handleLoadStepCode}
-          className="w-full py-2 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors"
+          className="w-full py-2 px-4 bg-gray-100 dark:bg-zinc-900 hover:bg-gray-200 dark:hover:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors"
         >
           Load Step Code
         </button>
@@ -250,7 +250,7 @@ export default function InteractiveTutorial({
           <button
             onClick={handlePrevStep}
             disabled={isFirstStep}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
             Previous

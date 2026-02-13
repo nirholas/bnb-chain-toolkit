@@ -183,7 +183,7 @@ export default function AIAssistant({ onLog }: AIAssistantProps) {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="e.g., Create an ERC721 NFT contract with minting and royalties..."
-              className="w-full h-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 resize-none"
+              className="w-full h-24 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#0a0a0a] resize-none"
               disabled={isLoading}
             />
             <button
@@ -260,14 +260,14 @@ export default function AIAssistant({ onLog }: AIAssistantProps) {
       {/* Response Area */}
       {response && (
         <div className="flex-1 flex flex-col border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-          <div className="flex items-center justify-between px-3 py-2 bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between px-3 py-2 bg-gray-100 dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               AI Response
             </span>
             <div className="flex gap-2">
               <button
                 onClick={handleCopy}
-                className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                className="p-1 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
                 title="Copy"
               >
                 {copied ? (
@@ -287,7 +287,7 @@ export default function AIAssistant({ onLog }: AIAssistantProps) {
               )}
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 bg-white dark:bg-gray-900">
+          <div className="flex-1 overflow-y-auto p-4 bg-white dark:bg-black">
             <pre className="text-sm font-mono whitespace-pre-wrap text-gray-900 dark:text-gray-100">
               {response}
             </pre>

@@ -62,7 +62,7 @@ const typeConfig = {
   },
   pending: {
     icon: Clock,
-    bgColor: 'bg-gray-50 dark:bg-gray-800',
+    bgColor: 'bg-gray-50 dark:bg-[#0a0a0a]',
     borderColor: 'border-gray-200 dark:border-gray-700',
     textColor: 'text-gray-700 dark:text-gray-300',
     iconColor: 'text-gray-500',
@@ -70,7 +70,7 @@ const typeConfig = {
   },
   output: {
     icon: Terminal,
-    bgColor: 'bg-gray-900 dark:bg-gray-950',
+    bgColor: 'bg-black dark:bg-black',
     borderColor: 'border-gray-700 dark:border-gray-600',
     textColor: 'text-gray-100',
     iconColor: 'text-gray-400',
@@ -263,11 +263,11 @@ export function ConsoleOutput({
       role="region"
       aria-label={`Console output, ${lines.length} lines`}
       className={cn(
-        'bg-gray-900 rounded-lg overflow-hidden',
+        'bg-black rounded-lg overflow-hidden',
         className
       )}
     >
-      <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
+      <div className="flex items-center justify-between px-4 py-2 bg-[#0a0a0a] border-b border-gray-700">
         <span className="text-xs text-gray-400 uppercase tracking-wide">
           {language} Output
         </span>

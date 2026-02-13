@@ -122,7 +122,7 @@ export default function MCPServerPage() {
           {statItems.map((s) => (
             <div
               key={s.label}
-              className="relative rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 p-5 text-center"
+              className="relative rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#0a0a0a]/50 p-5 text-center"
             >
               <s.icon className="mx-auto mb-2 h-5 w-5 text-[#F0B90B]" />
               {s.label === 'Tools' ? (
@@ -200,7 +200,7 @@ export default function MCPServerPage() {
             </h2>
 
             {/* Install command */}
-            <div className="rounded-lg border border-gray-700 bg-gray-900 p-1">
+            <div className="rounded-lg border border-gray-700 bg-black p-1">
               <div className="flex items-center justify-between px-3 py-1.5">
                 <span className="text-xs text-gray-400">Install</span>
                 <button
@@ -221,7 +221,7 @@ export default function MCPServerPage() {
             </div>
 
             {/* Config snippet */}
-            <div className="rounded-lg border border-gray-700 bg-gray-900 p-1">
+            <div className="rounded-lg border border-gray-700 bg-black p-1">
               <div className="flex items-center justify-between px-3 py-1.5">
                 <span className="text-xs text-gray-400">
                   claude_desktop_config.json
@@ -246,7 +246,7 @@ export default function MCPServerPage() {
             {server.npmPackage && (
               <p className="text-center text-xs text-gray-400">
                 npm:{' '}
-                <code className="rounded bg-gray-800 px-1.5 py-0.5 text-[#F0B90B]">
+                <code className="rounded bg-[#0a0a0a] px-1.5 py-0.5 text-[#F0B90B]">
                   {server.npmPackage}
                 </code>
               </p>
@@ -283,7 +283,7 @@ export default function MCPServerPage() {
             {server.chains.map((chain) => (
               <span
                 key={chain}
-                className="rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 px-3 py-1 text-xs text-gray-600 dark:text-gray-400"
+                className="rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#0a0a0a]/50 px-3 py-1 text-xs text-gray-600 dark:text-gray-400"
               >
                 {chain}
               </span>

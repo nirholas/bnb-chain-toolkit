@@ -254,9 +254,9 @@ export default function FullStackPlayground({
   }, []);
 
   return (
-    <div className="h-screen flex flex-col bg-gray-900">
+    <div className="h-screen flex flex-col bg-black">
       {/* Header */}
-      <header className="flex-none bg-gray-800 border-b border-gray-700 px-4 py-3">
+      <header className="flex-none bg-[#0a0a0a] border-b border-gray-700 px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <h1 className="text-lg font-bold text-white">{title}</h1>
@@ -292,15 +292,15 @@ export default function FullStackPlayground({
         {/* Left: Code Editor */}
         <div className="w-1/2 flex flex-col border-r border-gray-700">
           {/* File Tabs */}
-          <div className="flex-none flex items-center bg-gray-800 border-b border-gray-700 overflow-x-auto">
+          <div className="flex-none flex items-center bg-[#0a0a0a] border-b border-gray-700 overflow-x-auto">
             {files.map(file => (
               <button
                 key={file.id}
                 onClick={() => setActiveFileId(file.id)}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-r border-gray-700 transition-colors ${
                   activeFileId === file.id
-                    ? 'bg-gray-900 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                    ? 'bg-black text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-zinc-900'
                 }`}
               >
                 <FileCode className="w-4 h-4" />
@@ -345,7 +345,7 @@ export default function FullStackPlayground({
         {/* Right: Preview + Contract Interaction */}
         <div className="w-1/2 flex flex-col">
           {/* Preview Header */}
-          <div className="flex-none flex items-center justify-between bg-gray-800 border-b border-gray-700 px-4 py-2">
+          <div className="flex-none flex items-center justify-between bg-[#0a0a0a] border-b border-gray-700 px-4 py-2">
             <div className="flex items-center gap-3">
               <Globe className="w-4 h-4 text-gray-400" />
               <span className="text-sm font-medium text-white">Live Preview</span>
@@ -356,14 +356,14 @@ export default function FullStackPlayground({
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-1 bg-gray-900 rounded-lg p-1">
+            <div className="flex items-center gap-1 bg-black rounded-lg p-1">
               {(Object.keys(viewportSizes) as ViewportSize[]).map(size => (
                 <button
                   key={size}
                   onClick={() => setViewport(size)}
                   className={`p-1.5 rounded transition-colors ${
                     viewport === size
-                      ? 'bg-gray-700 text-white'
+                      ? 'bg-zinc-800 text-white'
                       : 'text-gray-500 hover:text-white'
                   }`}
                   title={viewportSizes[size].label}
@@ -393,7 +393,7 @@ export default function FullStackPlayground({
 
             {/* Contract Interaction Panel */}
             {contractAddress && contractFunctions.length > 0 && (
-              <div className="flex-none bg-gray-800 border-t border-gray-700 p-4 max-h-48 overflow-auto">
+              <div className="flex-none bg-[#0a0a0a] border-t border-gray-700 p-4 max-h-48 overflow-auto">
                 <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
                   <Terminal className="w-4 h-4" />
                   Contract Functions
@@ -402,7 +402,7 @@ export default function FullStackPlayground({
                   {contractFunctions.map(fn => (
                     <div
                       key={fn.name}
-                      className="bg-gray-900 rounded-lg p-3"
+                      className="bg-black rounded-lg p-3"
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-mono text-white">{fn.name}()</span>
@@ -419,7 +419,7 @@ export default function FullStackPlayground({
                           key={input.name}
                           type="text"
                           placeholder={`${input.name} (${input.type})`}
-                          className="w-full px-2 py-1 text-xs bg-gray-800 border border-gray-700 rounded text-white mb-2"
+                          className="w-full px-2 py-1 text-xs bg-[#0a0a0a] border border-gray-700 rounded text-white mb-2"
                           onChange={e => setFunctionInputs(prev => ({
                             ...prev,
                             [fn.name]: { ...prev[fn.name], [input.name]: e.target.value }
@@ -444,7 +444,7 @@ export default function FullStackPlayground({
           </div>
 
           {/* Console */}
-          <div className={`flex-none bg-gray-900 border-t border-gray-700 transition-all ${showConsole ? 'h-32' : 'h-8'}`}>
+          <div className={`flex-none bg-black border-t border-gray-700 transition-all ${showConsole ? 'h-32' : 'h-8'}`}>
             <button
               onClick={() => setShowConsole(!showConsole)}
               className="w-full flex items-center justify-between px-4 py-1 text-sm text-gray-400 hover:text-white"
@@ -453,7 +453,7 @@ export default function FullStackPlayground({
                 <Terminal className="w-4 h-4" />
                 Console
                 {consoleMessages.length > 0 && (
-                  <span className="px-1.5 py-0.5 bg-gray-700 rounded text-xs">
+                  <span className="px-1.5 py-0.5 bg-zinc-800 rounded text-xs">
                     {consoleMessages.length}
                   </span>
                 )}

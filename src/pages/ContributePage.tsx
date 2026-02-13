@@ -124,7 +124,7 @@ export default function ContributePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Hero */}
       <div className="bg-gradient-to-r from-green-600 via-teal-600 to-blue-600 text-white">
         <div className="max-w-6xl mx-auto px-4 py-16">
@@ -197,7 +197,7 @@ export default function ContributePage() {
           {contributionTypes.map((type, index) => (
             <div 
               key={index}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow"
+              className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow"
             >
               <div className={`inline-flex p-3 rounded-xl mb-4 ${
                 type.color === 'blue' ? 'bg-blue-100 dark:bg-blue-900/30' :
@@ -230,7 +230,7 @@ export default function ContributePage() {
       </div>
 
       {/* Getting Started */}
-      <div className="bg-gray-100 dark:bg-gray-800/50 py-16">
+      <div className="bg-gray-100 dark:bg-[#0a0a0a]/50 py-16">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4">Getting Started</h2>
           <p className="text-center text-gray-600 dark:text-gray-400 mb-12">
@@ -241,7 +241,7 @@ export default function ContributePage() {
             {getStartedSteps.map((step) => (
               <div 
                 key={step.step}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
+                className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6"
               >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold">
@@ -250,7 +250,7 @@ export default function ContributePage() {
                   <div className="flex-1">
                     <h3 className="text-lg font-bold mb-1">{step.title}</h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-3">{step.description}</p>
-                    <pre className="bg-gray-900 text-green-400 p-3 rounded-lg text-sm overflow-x-auto">
+                    <pre className="bg-black text-green-400 p-3 rounded-lg text-sm overflow-x-auto">
                       <code>{step.code}</code>
                     </pre>
                   </div>
@@ -268,7 +268,7 @@ export default function ContributePage() {
           Please follow these guidelines to ensure smooth collaboration
         </p>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+        <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
           <div className="grid md:grid-cols-2 gap-4">
             {guidelines.map((guideline, index) => (
               <div key={index} className="flex items-start gap-3">

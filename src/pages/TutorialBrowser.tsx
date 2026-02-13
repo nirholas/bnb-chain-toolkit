@@ -57,7 +57,7 @@ export default function TutorialBrowser() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-black py-12">
       <div className="container">
         {/* Header */}
         <div className="text-center mb-12">
@@ -70,7 +70,7 @@ export default function TutorialBrowser() {
         </div>
 
         {/* Search & Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
+        <div className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm p-6 mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="flex-1">
@@ -81,7 +81,7 @@ export default function TutorialBrowser() {
                   placeholder="Search tutorials..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-zinc-900 dark:text-white"
                 />
               </div>
             </div>
@@ -92,7 +92,7 @@ export default function TutorialBrowser() {
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-zinc-900 dark:text-white"
               >
                 {difficulties.map(diff => (
                   <option key={diff} value={diff}>
@@ -107,7 +107,7 @@ export default function TutorialBrowser() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-zinc-900 dark:text-white"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>
@@ -136,7 +136,7 @@ export default function TutorialBrowser() {
               <Link
                 key={tutorial.id}
                 to={`/tutorial/${tutorial.id}`}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
+                className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
               >
                 {/* Tutorial Card Header */}
                 <div className="p-6">
@@ -179,7 +179,7 @@ export default function TutorialBrowser() {
                     {tutorial.languages.slice(0, 3).map((lang, index) => (
                       <span
                         key={index}
-                        className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded"
+                        className="px-2 py-1 text-xs bg-gray-100 dark:bg-zinc-900 text-gray-600 dark:text-gray-300 rounded"
                       >
                         {lang}
                       </span>
@@ -213,7 +213,7 @@ export default function TutorialBrowser() {
                 </div>
 
                 {/* Card Footer */}
-                <div className="px-6 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
+                <div className="px-6 py-3 bg-gray-50 dark:bg-zinc-900 border-t border-gray-200 dark:border-gray-600">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600 dark:text-gray-400">
                       Start learning
@@ -228,7 +228,7 @@ export default function TutorialBrowser() {
 
         {/* Stats Section */}
         <div className="mt-12 grid md:grid-cols-3 gap-6">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm p-6 text-center">
             <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center mx-auto mb-3">
               <BookOpen className="w-6 h-6 text-primary-600 dark:text-primary-400" />
             </div>
@@ -240,7 +240,7 @@ export default function TutorialBrowser() {
             </p>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm p-6 text-center">
             <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-3">
               <Code className="w-6 h-6 text-green-600 dark:text-green-400" />
             </div>
@@ -252,7 +252,7 @@ export default function TutorialBrowser() {
             </p>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 text-center">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm p-6 text-center">
             <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-3">
               <CheckCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             </div>

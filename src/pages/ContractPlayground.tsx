@@ -21,7 +21,10 @@ import {
   X,
   Wallet,
   Network,
-  Loader2
+  Loader2,
+  Wand2,
+  LayoutTemplate,
+  ArrowRight
 } from 'lucide-react';
 import { copyToClipboard } from '@/utils/helpers';
 import { contractTemplates, ContractTemplate, searchTemplates } from '@/utils/contractTemplates';
@@ -34,8 +37,8 @@ export default function ContractPlayground() {
   const { mode } = useThemeStore();
   
   useSEO({
-    title: 'AI Contract Playground',
-    description: 'Generate and deploy smart contracts with AI. 40+ templates for ERC-20, ERC-721, DeFi, DAO, and more. Compile and deploy to any EVM chain in seconds.',
+    title: 'Smart Contract Playground — Write, Compile & Deploy',
+    description: 'Write, compile, and deploy Solidity smart contracts directly in your browser. Use 40+ templates or AI to generate ERC-20, ERC-721, DeFi, DAO contracts. Deploy to BNB Chain, Ethereum, and more.',
     path: '/playground'
   });
   
@@ -366,38 +369,45 @@ export default function ContractPlayground() {
   ];
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
       {/* Header */}
-      <div className="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center px-4 flex-shrink-0">
+      <div className="h-16 bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800 flex items-center px-4 flex-shrink-0">
         <button
           onClick={() => setShowSidebar(!showSidebar)}
-          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg mr-4"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-neutral-800 rounded-lg mr-4"
+          aria-label={showSidebar ? 'Close sidebar' : 'Open sidebar'}
         >
           {showSidebar ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
         
         <div className="flex items-center space-x-3 flex-1">
-          <Sparkles className="w-6 h-6 text-primary-600" />
-          <h1 className="text-xl font-bold">AI Contract Playground</h1>
+          <div className="w-8 h-8 rounded-lg bg-black dark:bg-white flex items-center justify-center">
+            <Code2 className="w-4 h-4 text-white dark:text-black" />
+          </div>
+          <div>
+            <h1 className="text-lg font-bold leading-tight">Smart Contract Playground</h1>
+            <p className="text-xs text-gray-500 dark:text-neutral-400 leading-tight">Write, compile & deploy Solidity contracts</p>
+          </div>
         </div>
 
         <div className="flex items-center space-x-3">
           {isConnected ? (
-            <div className="flex items-center space-x-2 px-3 py-2 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-              <Wallet className="w-4 h-4 text-green-600" />
-              <span className="text-sm font-medium text-green-700 dark:text-green-300">
+            <div className="flex items-center space-x-2 px-3 py-2 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10">
+              <Wallet className="w-4 h-4 text-black dark:text-white" />
+              <span className="text-sm font-medium">
                 {address?.substring(0, 6)}...{address?.substring(address.length - 4)}
               </span>
-              <Network className="w-4 h-4 text-green-600" />
+              <Network className="w-4 h-4 text-gray-400" />
             </div>
           ) : (
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="text-sm text-gray-500 dark:text-neutral-400 flex items-center gap-1.5">
+              <Wallet className="w-3.5 h-3.5" />
               Connect wallet to deploy
             </div>
           )}
           
-          <Link to="/" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600">
-            Back to Examples
+          <Link to="/" className="text-sm text-gray-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">
+            Back to Home
           </Link>
         </div>
       </div>
@@ -405,41 +415,76 @@ export default function ContractPlayground() {
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar */}
         {showSidebar && (
-          <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+          <div className="w-80 bg-white dark:bg-neutral-950 border-r border-gray-200 dark:border-neutral-800 flex flex-col">
+            {/* How It Works - Quick Guide */}
+            {!selectedTemplate && !code && (
+              <div className="p-4 border-b border-gray-200 dark:border-neutral-800">
+                <h2 className="text-sm font-semibold mb-3 uppercase tracking-wider text-gray-500 dark:text-neutral-400">How It Works</h2>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-xs font-bold flex-shrink-0">1</div>
+                    <div>
+                      <p className="text-sm font-medium">Choose a template or describe a contract</p>
+                      <p className="text-xs text-gray-500 dark:text-neutral-500">Pick from 40+ templates or use AI to generate</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-xs font-bold flex-shrink-0">2</div>
+                    <div>
+                      <p className="text-sm font-medium">Edit & compile</p>
+                      <p className="text-xs text-gray-500 dark:text-neutral-500">Modify code in the editor, then compile</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-xs font-bold flex-shrink-0">3</div>
+                    <div>
+                      <p className="text-sm font-medium">Deploy to any EVM chain</p>
+                      <p className="text-xs text-gray-500 dark:text-neutral-500">Connect wallet and deploy in one click</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* AI Prompt Section */}
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-semibold mb-3 flex items-center">
-                <Sparkles className="w-5 h-5 mr-2 text-primary-600" />
+            <div className="p-4 border-b border-gray-200 dark:border-neutral-800">
+              <h2 className="text-sm font-semibold mb-3 flex items-center uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+                <Wand2 className="w-4 h-4 mr-2" />
                 AI Generator
               </h2>
               
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Describe your contract..."
-                className="w-full h-24 p-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 resize-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                placeholder="Describe the contract you want to build..."
+                className="w-full h-20 p-3 text-sm rounded-lg border border-gray-200 dark:border-neutral-700 bg-gray-50 dark:bg-neutral-900 resize-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-black/30 dark:focus:border-white/30 placeholder:text-gray-400 dark:placeholder:text-neutral-500"
               />
 
               <button
                 onClick={handleGenerate}
                 disabled={isGenerating || !prompt.trim()}
-                className="w-full mt-2 btn-primary py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                className="w-full mt-2 py-2.5 text-sm font-semibold rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center bg-black text-white dark:bg-white dark:text-black hover:bg-[#0a0a0a] dark:hover:bg-gray-200"
               >
-                <Sparkles className="w-4 h-4 mr-2" />
-                {isGenerating ? 'Generating...' : 'Generate'}
+                {isGenerating ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Sparkles className="w-4 h-4 mr-2" />
+                )}
+                {isGenerating ? 'Generating...' : 'Generate Contract'}
               </button>
 
               {/* Example Prompts */}
               <div className="mt-3">
-                <p className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Examples:</p>
+                <p className="text-xs font-medium text-gray-500 dark:text-neutral-500 mb-1.5">Try these:</p>
                 <div className="space-y-1">
                   {examplePrompts.slice(0, 3).map((example, index) => (
                     <button
                       key={index}
                       onClick={() => setPrompt(example)}
-                      className="w-full text-left p-1.5 text-xs bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
+                      className="w-full text-left p-2 text-xs rounded-lg bg-gray-50 dark:bg-neutral-900 hover:bg-gray-100 dark:hover:bg-neutral-800 border border-transparent hover:border-gray-200 dark:hover:border-neutral-700 transition-all flex items-center gap-2 group"
                     >
-                      {example}
+                      <ArrowRight className="w-3 h-3 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors flex-shrink-0" />
+                      <span className="text-gray-600 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors">{example}</span>
                     </button>
                   ))}
                 </div>
@@ -448,9 +493,9 @@ export default function ContractPlayground() {
 
             {/* Templates Section */}
             <div className="flex-1 overflow-auto p-4">
-              <h2 className="text-lg font-semibold mb-3 flex items-center">
-                <FileCode className="w-5 h-5 mr-2" />
-                Templates
+              <h2 className="text-sm font-semibold mb-3 flex items-center uppercase tracking-wider text-gray-500 dark:text-neutral-400">
+                <LayoutTemplate className="w-4 h-4 mr-2" />
+                Templates ({contractTemplates.length})
               </h2>
 
               {/* Search */}
@@ -459,11 +504,11 @@ export default function ContractPlayground() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search templates..."
-                className="w-full p-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 mb-3 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full p-2.5 text-sm rounded-lg border border-gray-200 dark:border-neutral-700 bg-gray-50 dark:bg-neutral-900 mb-3 focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-black/30 dark:focus:border-white/30 placeholder:text-gray-400 dark:placeholder:text-neutral-500"
               />
 
               {/* Categories */}
-              <div className="space-y-1 mb-4">
+              <div className="space-y-0.5 mb-4">
                 {categories.map((category) => (
                   <button
                     key={category.id}
@@ -471,45 +516,45 @@ export default function ContractPlayground() {
                       setSelectedCategory(category.id);
                       setSearchQuery('');
                     }}
-                    className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors flex items-center justify-between ${
+                    className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-all flex items-center justify-between ${
                       selectedCategory === category.id
-                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 font-medium'
-                        : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                        ? 'bg-black dark:bg-white text-white dark:text-black font-medium'
+                        : 'text-gray-600 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-neutral-800'
                     }`}
                   >
                     <span>{category.name}</span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{category.count}</span>
+                    <span className={`text-xs ${selectedCategory === category.id ? 'text-white/70 dark:text-black/60' : 'text-gray-400 dark:text-neutral-500'}`}>{category.count}</span>
                   </button>
                 ))}
               </div>
 
               {/* Template List */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {filteredTemplates.map((template) => (
                   <button
                     key={template.id}
                     onClick={() => setSelectedTemplate(template)}
-                    className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                    className={`w-full text-left p-3 rounded-lg border transition-all ${
                       selectedTemplate?.id === template.id
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700'
+                        ? 'border-black dark:border-white bg-black/5 dark:bg-white/5 ring-1 ring-black/10 dark:ring-white/10'
+                        : 'border-gray-200 dark:border-neutral-800 hover:border-gray-400 dark:hover:border-neutral-600 hover:bg-gray-50 dark:hover:bg-neutral-900'
                     }`}
                   >
                     <div className="font-medium text-sm mb-1">{template.name}</div>
-                    <div className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                    <div className="text-xs text-gray-500 dark:text-neutral-500 line-clamp-2">
                       {template.description}
                     </div>
                     <div className="flex items-center space-x-2 mt-2">
-                      <span className={`text-xs px-2 py-0.5 rounded ${
+                      <span className={`text-xs px-2 py-0.5 rounded font-medium ${
                         template.difficulty === 'beginner' 
-                          ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                          ? 'bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-300'
                           : template.difficulty === 'intermediate'
-                          ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300'
-                          : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
+                          ? 'bg-gray-200 dark:bg-neutral-700 text-gray-700 dark:text-neutral-200'
+                          : 'bg-black dark:bg-white text-white dark:text-black'
                       }`}>
                         {template.difficulty}
                       </span>
-                      <span className="text-xs px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
+                      <span className="text-xs px-2 py-0.5 rounded bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-400">
                         {template.blockchain}
                       </span>
                     </div>
@@ -523,11 +568,11 @@ export default function ContractPlayground() {
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col">
           {/* Toolbar */}
-          <div className="h-14 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center px-4 space-x-2">
+          <div className="h-14 bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800 flex items-center px-4 space-x-2">
             <button
               onClick={handleCompile}
               disabled={!code.trim() || isCompiling}
-              className="btn-secondary text-sm flex items-center disabled:opacity-50"
+              className="px-4 py-2 text-sm font-medium rounded-lg border border-gray-300 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-all flex items-center disabled:opacity-40"
             >
               {isCompiling ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -540,7 +585,7 @@ export default function ContractPlayground() {
             <button
               onClick={handleDeploy}
               disabled={!compileResult?.success || isDeploying || !isConnected}
-              className="btn-primary text-sm flex items-center disabled:opacity-50"
+              className="px-4 py-2 text-sm font-semibold rounded-lg transition-all flex items-center disabled:opacity-40 bg-black text-white dark:bg-white dark:text-black hover:bg-[#0a0a0a] dark:hover:bg-gray-200"
             >
               <Rocket className="w-4 h-4 mr-2" />
               {isDeploying ? 'Deploying...' : 'Deploy'}
@@ -551,7 +596,7 @@ export default function ContractPlayground() {
             <button
               onClick={handleCopy}
               disabled={!code.trim()}
-              className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 flex items-center disabled:opacity-50"
+              className="text-sm text-gray-500 dark:text-neutral-400 hover:text-black dark:hover:text-white flex items-center disabled:opacity-40 transition-colors"
             >
               {copied ? (
                 <>
@@ -567,20 +612,56 @@ export default function ContractPlayground() {
             </button>
           </div>
 
+          {/* Empty state - shown when no code loaded */}
+          {!code && !selectedTemplate && !error && (
+            <div className="flex-1 flex items-center justify-center p-8">
+              <div className="text-center max-w-md">
+                <div className="w-16 h-16 rounded-2xl bg-black/5 dark:bg-white/5 flex items-center justify-center mx-auto mb-6">
+                  <Code2 className="w-8 h-8 text-gray-400 dark:text-neutral-500" />
+                </div>
+                <h2 className="text-xl font-bold mb-2">Start Building</h2>
+                <p className="text-gray-500 dark:text-neutral-400 mb-6 text-sm">
+                  Select a template from the sidebar, use the AI generator to describe your contract, or create a new .sol file to start from scratch.
+                </p>
+                <div className="flex items-center justify-center gap-3">
+                  <button
+                    onClick={() => setShowSidebar(true)}
+                    className="px-4 py-2.5 text-sm font-semibold rounded-lg bg-black text-white dark:bg-white dark:text-black hover:bg-[#0a0a0a] dark:hover:bg-gray-200 transition-all flex items-center gap-2"
+                  >
+                    <LayoutTemplate className="w-4 h-4" />
+                    Browse Templates
+                  </button>
+                  <button
+                    onClick={() => {
+                      const solFile = { name: 'Contract.sol', content: '// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ncontract MyContract {\n    \n}' };
+                      setFiles(prev => [...prev, solFile]);
+                      setSelectedFile('Contract.sol');
+                      setCode(solFile.content);
+                    }}
+                    className="px-4 py-2.5 text-sm font-medium rounded-lg border border-gray-300 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-all flex items-center gap-2"
+                  >
+                    <FileCode className="w-4 h-4" />
+                    New Contract
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Error/Status Messages */}
           {(error || deploymentStatus || compilerLog.length > 0) && (
-            <div className="px-4 pt-4 space-y-2">
+            <div className="px-4 pt-3 space-y-2">
               {error && (
-                <div className="flex items-start space-x-2 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <div className="flex items-start space-x-2 p-3 bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900/50 rounded-lg">
                   <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
                   <pre className="text-sm text-red-800 dark:text-red-200 whitespace-pre-wrap font-mono">{error}</pre>
                 </div>
               )}
               
               {compilerLog.length > 0 && isCompiling && (
-                <div className="flex items-start space-x-2 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                  <Loader2 className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5 animate-spin" />
-                  <div className="text-sm text-blue-800 dark:text-blue-200 font-mono">
+                <div className="flex items-start space-x-2 p-3 bg-gray-50 dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-lg">
+                  <Loader2 className="w-5 h-5 text-gray-600 dark:text-neutral-400 flex-shrink-0 mt-0.5 animate-spin" />
+                  <div className="text-sm text-gray-700 dark:text-neutral-300 font-mono">
                     {compilerLog.map((log, i) => (
                       <div key={i}>{log}</div>
                     ))}
@@ -589,9 +670,9 @@ export default function ContractPlayground() {
               )}
               
               {deploymentStatus && (
-                <div className="flex items-start space-x-2 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                  <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-                  <pre className="text-sm text-green-800 dark:text-green-200 whitespace-pre-wrap font-mono">
+                <div className="flex items-start space-x-2 p-3 bg-gray-50 dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-lg">
+                  <CheckCircle className="w-5 h-5 text-black dark:text-white flex-shrink-0 mt-0.5" />
+                  <pre className="text-sm text-gray-800 dark:text-neutral-200 whitespace-pre-wrap font-mono">
                     {deploymentStatus}
                   </pre>
                 </div>
@@ -602,13 +683,13 @@ export default function ContractPlayground() {
           {/* Editor / Multi-file Playground */}
           <div className="flex-1 overflow-hidden flex">
             {/* Left: Editor area with file tabs */}
-            <div className={`${showPreview ? 'w-1/2' : 'flex-1'} border-r border-gray-200 dark:border-gray-700 flex flex-col bg-white dark:bg-gray-800`}>
-              <div className="flex items-center px-3 py-2 border-b border-gray-100 dark:border-gray-700 gap-2">
+            <div className={`${showPreview ? 'w-1/2' : 'flex-1'} border-r border-gray-200 dark:border-neutral-800 flex flex-col bg-white dark:bg-neutral-950`}>
+              <div className="flex items-center px-3 py-2 border-b border-gray-100 dark:border-neutral-800 gap-2">
                 <div className="flex-1 flex items-center gap-1 overflow-x-auto">
                   {files.map((f) => (
                     <div
                       key={f.name}
-                      className={`group flex items-center text-sm px-3 py-1 rounded-t-lg -mb-px cursor-pointer ${selectedFile === f.name ? 'bg-white dark:bg-gray-800 border border-b-0 border-gray-200 dark:border-gray-700 font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                      className={`group flex items-center text-sm px-3 py-1.5 rounded-t-lg -mb-px cursor-pointer transition-colors ${selectedFile === f.name ? 'bg-white dark:bg-neutral-900 border border-b-0 border-gray-200 dark:border-neutral-700 font-medium' : 'text-gray-500 dark:text-neutral-500 hover:bg-gray-50 dark:hover:bg-neutral-800 hover:text-gray-900 dark:hover:text-white'}`}
                       onClick={() => setSelectedFile(f.name)}
                     >
                       <span>{f.name}</span>
@@ -628,14 +709,14 @@ export default function ContractPlayground() {
                   <button
                     onClick={() => setNewFileModalOpen(true)}
                     title="New file"
-                    className="px-2 py-1 text-xs rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="px-2 py-1 text-xs rounded hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium"
                   >
                     +
                   </button>
                   <button
                     onClick={() => setShowPreview(s => !s)}
                     title="Toggle preview"
-                    className="px-2 py-1 text-xs rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="px-2 py-1 text-xs rounded hover:bg-gray-100 dark:hover:bg-neutral-800"
                   >
                     {showPreview ? 'Hide Preview' : 'Show Preview'}
                   </button>
@@ -706,18 +787,18 @@ export default function ContractPlayground() {
               </div>
 
               {showConsole && (
-              <div className="h-48 bg-gray-900 border-t border-gray-700 flex flex-col">
-                <div className="flex items-center justify-between px-3 py-1.5 bg-gray-800 border-b border-gray-700">
+              <div className="h-48 bg-black border-t border-gray-700 flex flex-col">
+                <div className="flex items-center justify-between px-3 py-1.5 bg-[#0a0a0a] border-b border-gray-700">
                   <div className="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-terminal w-4 h-4 text-gray-400"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" x2="20" y1="19" y2="19"></line></svg>
                     <span className="text-xs font-medium text-gray-400">Console</span>
-                    <span className="text-xs px-1.5 py-0.5 bg-gray-700 rounded text-gray-300">{consoleLogs.length}</span>
+                    <span className="text-xs px-1.5 py-0.5 bg-zinc-800 rounded text-gray-300">{consoleLogs.length}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <button onClick={() => setConsoleLogs([])} className="p-1 hover:bg-gray-700 rounded transition-colors" title="Clear console">
+                    <button onClick={() => setConsoleLogs([])} className="p-1 hover:bg-zinc-900 rounded transition-colors" title="Clear console">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash2 w-3.5 h-3.5 text-gray-400"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg>
                     </button>
-                    <button onClick={() => setShowConsole(false)} className="p-1 hover:bg-gray-700 rounded transition-colors" title="Hide console">
+                    <button onClick={() => setShowConsole(false)} className="p-1 hover:bg-zinc-900 rounded transition-colors" title="Hide console">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-panel-bottom-close w-3.5 h-3.5 text-gray-400"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><line x1="3" x2="21" y1="15" y2="15"></line><path d="m15 8-3 3-3-3"></path></svg>
                     </button>
                   </div>
@@ -737,7 +818,7 @@ export default function ContractPlayground() {
               {!showConsole && (
                 <button
                   onClick={() => setShowConsole(true)}
-                  className="h-8 bg-gray-800 border-t border-gray-700 flex items-center justify-center gap-2 text-xs text-gray-400 hover:bg-gray-700 transition-colors"
+                  className="h-8 bg-[#0a0a0a] border-t border-gray-700 flex items-center justify-center gap-2 text-xs text-gray-400 hover:bg-zinc-900 transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" x2="20" y1="19" y2="19"></line></svg>
                   Console ({consoleLogs.length})
@@ -749,19 +830,19 @@ export default function ContractPlayground() {
 
           {/* Footer Info */}
           {selectedTemplate && (
-            <div className="h-auto bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+            <div className="h-auto bg-gray-50 dark:bg-neutral-950 border-t border-gray-200 dark:border-neutral-800 p-4">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-semibold mb-1">{selectedTemplate.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{selectedTemplate.description}</p>
+                  <h3 className="font-semibold mb-1 text-sm">{selectedTemplate.name}</h3>
+                  <p className="text-xs text-gray-500 dark:text-neutral-400">{selectedTemplate.description}</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className={`text-xs px-2 py-1 rounded ${
+                  <span className={`text-xs px-2 py-1 rounded font-medium ${
                     selectedTemplate.difficulty === 'beginner' 
-                      ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                      ? 'bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-neutral-300'
                       : selectedTemplate.difficulty === 'intermediate'
-                      ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300'
-                      : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
+                      ? 'bg-gray-200 dark:bg-neutral-700 text-gray-700 dark:text-neutral-200'
+                      : 'bg-black dark:bg-white text-white dark:text-black'
                   }`}>
                     {selectedTemplate.difficulty}
                   </span>
@@ -774,15 +855,15 @@ export default function ContractPlayground() {
 
       {/* New File Modal */}
       {newFileModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-neutral-900 rounded-xl shadow-2xl p-6 w-full max-w-md mx-4 border border-gray-200 dark:border-neutral-800">
             <h3 className="text-lg font-semibold mb-4">Create New File</h3>
             <input
               type="text"
               value={newFileName}
               onChange={(e) => setNewFileName(e.target.value)}
               placeholder="filename.html, styles.css, script.js, contract.sol..."
-              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 mb-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-200 dark:border-neutral-700 rounded-lg bg-gray-50 dark:bg-neutral-800 mb-4 focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 focus:border-black/30 dark:focus:border-white/30"
               autoFocus
               onKeyDown={(e) => {
                 if (e.key === 'Enter') addNewFile();
@@ -792,14 +873,14 @@ export default function ContractPlayground() {
             <div className="flex gap-2 justify-end">
               <button
                 onClick={() => { setNewFileModalOpen(false); setNewFileName(''); }}
-                className="px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={addNewFile}
                 disabled={!newFileName.trim()}
-                className="px-4 py-2 text-sm rounded-lg bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50"
+                className="px-4 py-2 text-sm font-semibold rounded-lg bg-black text-white dark:bg-white dark:text-black hover:bg-[#0a0a0a] dark:hover:bg-gray-200 disabled:opacity-40 transition-all"
               >
                 Create
               </button>

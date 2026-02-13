@@ -15,16 +15,16 @@ import { useSEO } from '@/hooks/useSEO';
 import PriceTicker from '@/components/PriceTicker';
 import { TopProtocolsWidget, TopYieldsWidget, TopChainsWidget, DeFiSummaryBar } from '@/components/DeFiWidgets';
 import {
-    Shield, Globe, Bot, ChevronRight,
+    Shield, Globe, Bot, ChevronRight, Zap,
     Code, BookOpen, Terminal, Cpu, Users, Layers,
     Coins, GitBranch,
     ExternalLink, GraduationCap,
     BarChart3, Eye, Server, Wrench,
-    Activity, Network, Blocks, Plug, FileCode, Sparkles, Copy, Check
+    Activity, Network, Blocks, Plug, Sparkles, Copy, Check,
+    Fingerprint, BadgeCheck, ArrowRight
 } from 'lucide-react';
 import { Spotlight } from '@/components/ui/spotlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
 import { SparklesCore } from '@/components/ui/sparkles';
 import { LampContainer } from '@/components/ui/lamp';
@@ -66,22 +66,33 @@ const supportedChains = [
     { name: 'BNB Smart Chain', type: 'L1', primary: true },
     { name: 'opBNB', type: 'L2', primary: true },
     { name: 'BNB Greenfield', type: 'Storage', primary: true },
-    { name: 'Ethereum', type: 'L1', primary: false },
-    { name: 'Polygon', type: 'L1/L2', primary: false },
-    { name: 'Arbitrum', type: 'L2', primary: false },
-    { name: 'Base', type: 'L2', primary: false },
-    { name: 'Optimism', type: 'L2', primary: false },
-    { name: 'Avalanche', type: 'L1', primary: false },
-    { name: 'Solana', type: 'L1', primary: false },
 ];
 
-const toolkitComponents = [
-    { name: 'AI Agents', count: '72+', icon: Bot, description: 'Pre-built agent definitions for every major BNB Chain protocol' },
-    { name: 'MCP Servers', count: '6', icon: Server, description: 'Model Context Protocol servers for direct blockchain access' },
-    { name: 'Tools', count: '900+', icon: Wrench, description: 'On-chain tools, exchange APIs, market data endpoints' },
-    { name: 'Chains', count: '60+', icon: Network, description: 'Multi-chain support with unified interfaces' },
-    { name: 'Languages', count: '30+', icon: Globe, description: 'Global accessibility with translations' },
-    { name: 'Standards', count: '2', icon: FileCode, description: 'ERC-8004 agent trust + W3AG accessibility' },
+const howItWorks = [
+    {
+        step: '1',
+        title: 'Pick an Agent',
+        description: 'Choose from 72+ pre-built agents — each one is a JSON file tuned for a specific protocol like PancakeSwap, Venus, or Binance Futures.',
+        icon: Bot,
+        link: '/agents',
+        linkText: 'Browse Agents',
+    },
+    {
+        step: '2',
+        title: 'Connect MCP Servers',
+        description: 'Point Claude, ChatGPT, or any LLM at one of 6 MCP servers. Your AI can now read on-chain data, fetch prices, and interact with protocols.',
+        icon: Plug,
+        link: '/mcp',
+        linkText: 'View Servers',
+    },
+    {
+        step: '3',
+        title: 'Execute On-Chain',
+        description: '900+ tools across 60+ networks — swap tokens, check yields, audit contracts, track wallets. All through natural language.',
+        icon: Wrench,
+        link: '/docs',
+        linkText: 'Read Docs',
+    },
 ];
 
 const featuredAgents = [
@@ -111,20 +122,19 @@ const chainMarqueeItems = [
     ...supportedChains.map((c) => ({
         quote: c.type,
         name: c.name,
-        title: c.primary ? 'Primary' : 'Supported',
+        title: 'Primary',
     })),
-    { quote: '', name: '+ 50 more', title: 'networks' },
 ];
 
 const exploreItems = [
+    { title: 'ERC-8004 Agents', desc: 'Create trustless AI agent identities on BSC', icon: Bot, href: '/erc8004', accent: '#F0B90B' },
     { title: 'Documentation', desc: 'Comprehensive guides and API references', icon: BookOpen, href: '/docs', accent: '#3B82F6' },
     { title: 'Tutorials', desc: 'Step-by-step interactive learning paths', icon: GraduationCap, href: '/tutorials', accent: '#10B981' },
     { title: 'Playground', desc: 'Try BNB Chain smart contracts live', icon: Code, href: '/playground', accent: '#F59E0B' },
     { title: 'Sandbox', desc: 'AI-powered development environment', icon: Terminal, href: '/sandbox', accent: '#8B5CF6' },
     { title: 'IDE', desc: 'Solidity and Web3 development studio', icon: Cpu, href: '/ide', accent: '#A855F7' },
-    { title: 'Full-Stack Demo', desc: 'Contract + frontend builder', icon: Layers, href: '/fullstack-demo', accent: '#22C55E' },
+    { title: 'Full-Stack Demo', desc: 'Contract + frontend builder', icon: Layers, href: '/fullstack-demo', accent: '#F0B90B' },
     { title: 'Innovation Lab', desc: 'AI tools & experimental features', icon: Sparkles, href: '/innovation', accent: '#EC4899' },
-    { title: 'Community', desc: 'Connect with BNB Chain builders', icon: Users, href: '/community', accent: '#6366F1' },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -188,16 +198,16 @@ function SectionHeading({ badge, badgeIcon: BadgeIcon, title, subtitle }: {
     return (
         <div className="text-center mb-16">
             {badge && (
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border backdrop-blur-sm bg-neutral-100 text-neutral-600 border-neutral-200/60 dark:bg-white/[0.03] dark:text-neutral-400 dark:border-white/[0.06]">
-                    {BadgeIcon && <BadgeIcon className="w-3.5 h-3.5 text-[#F0B90B]" />}
+                <div className="badge-pro mb-6">
+                    {BadgeIcon && <BadgeIcon className="w-3.5 h-3.5" />}
                     {badge}
                 </div>
             )}
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-neutral-900 dark:text-white mb-4">
                 {title}
             </h2>
             {subtitle && (
-                <p className="text-base md:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-base md:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed font-light">
                     {subtitle}
                 </p>
             )}
@@ -243,64 +253,78 @@ export default function Homepage() {
                 {/* Spotlight effect */}
                 <Spotlight className="absolute -top-40 left-0 md:left-60 md:-top-20" fill="#F0B90B" />
 
-                {/* Subtle radial glow — not a blob gradient */}
+                {/* Grid background with radial mask */}
+                <div className="absolute inset-0 pointer-events-none bg-grid-pro bg-grid-pro-mask opacity-60" />
+
+                {/* Subtle radial glow */}
                 <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#F0B90B]/[0.03] blur-[120px]" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#F0B90B]/[0.04] blur-[150px]" />
                 </div>
 
                 <div className="relative z-10 container mx-auto px-4 pt-24 pb-20 text-center">
-                    {/* Hackathon badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-10 border backdrop-blur-sm bg-neutral-100 border-neutral-200/60 text-neutral-600 dark:bg-white/[0.03] dark:border-white/[0.08] dark:text-neutral-400">
-                        <span className="w-2 h-2 rounded-full bg-[#F0B90B] animate-pulse" />
+                    {/* Hackathon badge — professional pill */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide mb-10 border backdrop-blur-md bg-[#F0B90B]/[0.04] border-[#F0B90B]/20 text-[#F0B90B] uppercase animate-border-glow">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0B90B] opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F0B90B]" />
+                        </span>
                         BNB Chain &quot;Good Vibes Only&quot; Hackathon — Track 1: Agent
                     </div>
 
-                    {/* Main headline */}
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] mb-6">
+                    {/* Main headline — tighter, bolder */}
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-[-0.05em] mb-6 leading-[0.95]">
                         <span className="text-neutral-900 dark:text-white">BNB Chain</span>
                         <br />
                         <TextGenerateEffect
                             words="AI Toolkit"
-                            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-[-0.04em] bg-gradient-to-r from-[#F0B90B] via-amber-400 to-[#F0B90B] bg-clip-text text-transparent"
+                            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold tracking-[-0.05em] bg-gradient-to-r from-[#F0B90B] via-amber-300 to-[#F0B90B] bg-clip-text text-transparent animate-text-shimmer"
                         />
                     </h1>
 
-                    {/* Sub-headline */}
-                    <p className="text-lg md:text-xl text-neutral-500 dark:text-neutral-400 max-w-xl mx-auto mb-10 leading-relaxed font-light">
-                        72+ AI Agents. 6 MCP Servers. 900+ Tools. One Repo.
+                    {/* Sub-headline — sharper */}
+                    <p className="text-lg md:text-xl text-neutral-500 dark:text-neutral-400 max-w-lg mx-auto mb-12 leading-relaxed font-light tracking-wide">
+                        72+ AI Agents &middot; 6 MCP Servers &middot; 900+ Tools &middot; One Repo
                     </p>
 
-                    {/* CTA buttons */}
-                    <div className="flex flex-wrap justify-center gap-4 mb-14">
+                    {/* CTA buttons — hierarchy: primary > secondary > tertiary */}
+                    <div className="flex flex-wrap justify-center gap-3 mb-16">
+                        <Link
+                            to="/erc8004"
+                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(240,185,11,0.45)] hover:-translate-y-0.5 active:translate-y-0 animate-glow-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
+                        >
+                            <Bot className="w-5 h-5" />
+                            Create ERC-8004 Agent
+                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                        <Link
+                            to="/fullstack-demo"
+                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-neutral-200 dark:border-white/[0.1] text-neutral-600 dark:text-neutral-300 hover:border-[#F0B90B]/40 hover:text-[#F0B90B] hover:-translate-y-0.5 bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm"
+                        >
+                            <Zap className="w-5 h-5" />
+                            Start Building
+                        </Link>
                         <a
                             href="https://github.com/nirholas/bnb-chain-toolkit"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#F0B90B] text-black font-semibold rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(240,185,11,0.3)] hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
+                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-neutral-200 dark:border-white/[0.1] text-neutral-600 dark:text-neutral-300 hover:border-[#F0B90B]/40 hover:text-[#F0B90B] hover:-translate-y-0.5 bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm"
                         >
                             <GitBranch className="w-5 h-5" />
-                            View on GitHub
-                            <ExternalLink className="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
+                            GitHub
+                            <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
                         </a>
-                        <Link
-                            to="/docs"
-                            className="inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-neutral-300 dark:border-white/[0.12] text-neutral-700 dark:text-neutral-300 hover:border-[#F0B90B]/50 hover:text-[#F0B90B] dark:hover:border-[#F0B90B]/40 dark:hover:text-[#F0B90B] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
-                        >
-                            <BookOpen className="w-5 h-5" />
-                            Read Docs
-                        </Link>
                     </div>
 
-                    {/* Stats */}
-                    <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                    {/* Stats — sharp professional counters */}
+                    <div className="flex flex-wrap justify-center gap-4 md:gap-6">
                         {heroStats.map(({ label, value, Icon }) => (
                             <div
                                 key={label}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl border bg-white dark:bg-white/[0.03] border-neutral-200 dark:border-white/[0.06] backdrop-blur-sm"
+                                className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl border bg-white/80 dark:bg-white/[0.03] border-neutral-200/80 dark:border-white/[0.06] backdrop-blur-sm"
                             >
                                 <Icon className="w-4 h-4 text-[#F0B90B]" />
-                                <span className="font-bold text-neutral-900 dark:text-white text-sm">{value}</span>
-                                <span className="text-xs text-neutral-500 dark:text-neutral-500">{label}</span>
+                                <span className="font-bold text-neutral-900 dark:text-white text-sm stat-number">{value}</span>
+                                <span className="text-[11px] text-neutral-400 dark:text-neutral-500 uppercase tracking-wider font-medium">{label}</span>
                             </div>
                         ))}
                     </div>
@@ -317,38 +341,170 @@ export default function Homepage() {
                 SECTION 2 — LIVE MARKET DATA STRIP
             ═══════════════════════════════════════════════════════════════ */}
             <section className="py-3 border-y border-neutral-200 dark:border-white/[0.06] bg-neutral-50/50 dark:bg-white/[0.01]">
-                <PriceTicker />
+                <div className="container mx-auto px-4">
+                    <PriceTicker />
+                </div>
             </section>
 
             {/* ═══════════════════════════════════════════════════════════════
-                SECTION 3 — WHAT IS THIS? / VALUE PROPOSITION
+                SECTION 2.5 — ERC-8004 TRUSTLESS AGENTS (HERO HIGHLIGHT)
             ═══════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32">
+            <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950">
+                {/* Ambient glow */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-[#F0B90B]/[0.04] blur-[150px]" />
+                    <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-amber-500/[0.03] blur-[120px]" />
+                </div>
+                <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-20 pointer-events-none" />
+
+                <div className="container mx-auto px-4 relative z-10">
+                    {/* Badge */}
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide mb-8 border backdrop-blur-md bg-[#F0B90B]/[0.06] border-[#F0B90B]/25 text-[#F0B90B] uppercase">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0B90B] opacity-75" />
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F0B90B]" />
+                            </span>
+                            Now Live on BSC
+                        </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-white mb-5">
+                            Create{' '}
+                            <span className="bg-gradient-to-r from-[#F0B90B] via-amber-300 to-[#F0B90B] bg-clip-text text-transparent">ERC-8004 Agents</span>
+                            {' '}on BSC
+                        </h2>
+                        <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-light">
+                            Give your AI agent a portable, censorship-resistant on-chain identity. Each agent gets an ERC-721 NFT
+                            — discoverable, transferable, and trusted across the entire agent economy.
+                        </p>
+                    </div>
+
+                    {/* Three pillars */}
+                    <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto mb-14">
+                        <div className="group relative p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-[#F0B90B]/10 border border-[#F0B90B]/20">
+                                <Fingerprint className="w-6 h-6 text-[#F0B90B]" />
+                            </div>
+                            <h3 className="font-bold text-white text-lg mb-2 tracking-tight">Identity Registry</h3>
+                            <p className="text-sm text-neutral-400 leading-relaxed">ERC-721 agent identity. Portable, browsable, transferable. Your agent&apos;s permanent on-chain handle.</p>
+                        </div>
+                        <div className="group relative p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-amber-500/10 border border-amber-500/20">
+                                <BadgeCheck className="w-6 h-6 text-amber-400" />
+                            </div>
+                            <h3 className="font-bold text-white text-lg mb-2 tracking-tight">Reputation Registry</h3>
+                            <p className="text-sm text-neutral-400 leading-relaxed">Standardized feedback signals. Clients rate agents on-chain — scores, uptime, response time, revenue.</p>
+                        </div>
+                        <div className="group relative p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-amber-600/10 border border-amber-600/20">
+                                <Shield className="w-6 h-6 text-amber-500" />
+                            </div>
+                            <h3 className="font-bold text-white text-lg mb-2 tracking-tight">Validation Registry</h3>
+                            <p className="text-sm text-neutral-400 leading-relaxed">Independent verification via stakers, zkML proofs, or TEE oracles. Pluggable trust models.</p>
+                        </div>
+                    </div>
+
+                    {/* Stats row */}
+                    <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-12">
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">0x8004</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">Vanity Prefix</div>
+                        </div>
+                        <div className="w-px h-12 bg-white/10 hidden md:block" />
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">16+</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">Chains Deployed</div>
+                        </div>
+                        <div className="w-px h-12 bg-white/10 hidden md:block" />
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">3</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">On-Chain Registries</div>
+                        </div>
+                        <div className="w-px h-12 bg-white/10 hidden md:block" />
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">Free</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">No Fees (Just Gas)</div>
+                        </div>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <Link
+                            to="/erc8004"
+                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_50px_rgba(240,185,11,0.5)] hover:-translate-y-0.5 animate-glow-pulse"
+                        >
+                            <Bot className="w-5 h-5" />
+                            Create Your Agent Now
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                        <a
+                            href="https://testnet.bscscan.com/tx/0xfc55d83d20e6d92ff522f302fd3424d3fd5557f25c06f4bfc38ecf3246dc1962"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-white/[0.12] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5"
+                        >
+                            See Our First Agent on BSC
+                            <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                        </a>
+                        <a
+                            href="https://www.8004.org"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 text-neutral-400 hover:text-[#F0B90B] hover:-translate-y-0.5"
+                        >
+                            Read the ERC-8004 Spec
+                            <ExternalLink className="w-3.5 h-3.5 opacity-40" />
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            {/* ═══════════════════════════════════════════════════════════════
+                SECTION 3 — HOW IT WORKS
+            ═══════════════════════════════════════════════════════════════ */}
+            <section className="py-20 md:py-28">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        title="What Is BNB Chain AI Toolkit?"
-                        subtitle="Imagine giving Claude or ChatGPT a crypto wallet, a trading terminal, and 72 expert advisors. That's what this toolkit does."
+                        title="How It Works"
+                        subtitle="Give any AI model direct access to BNB Chain in three steps."
                     />
 
-                    <BentoGrid className="max-w-6xl mx-auto">
-                        {toolkitComponents.map((comp, i) => (
-                            <BentoGridItem
-                                key={comp.name}
-                                title={comp.name}
-                                description={comp.description}
-                                header={
-                                    <div className="flex items-center justify-between w-full p-4">
-                                        <div className="p-3 rounded-xl bg-[#F0B90B]/[0.08] border border-[#F0B90B]/[0.12]">
-                                            <comp.icon className="w-6 h-6 text-[#F0B90B]" />
-                                        </div>
-                                        <span className="text-3xl font-bold text-[#F0B90B]">{comp.count}</span>
+                    <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                        {howItWorks.map((item, i) => (
+                            <div
+                                key={item.step}
+                                className="relative group p-7 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[#F0B90B]/[0.03]"
+                            >
+                                {/* Step number */}
+                                <div className="flex items-center gap-3 mb-5">
+                                    <span className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#F0B90B]/10 text-sm font-extrabold text-[#F0B90B] stat-number">
+                                        {item.step}
+                                    </span>
+                                    <item.icon className="w-5 h-5 text-neutral-400 dark:text-neutral-500" />
+                                </div>
+
+                                <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-2 tracking-tight">
+                                    {item.title}
+                                </h3>
+                                <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed mb-5">
+                                    {item.description}
+                                </p>
+                                <Link
+                                    to={item.link}
+                                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#F0B90B] hover:underline uppercase tracking-wide"
+                                >
+                                    {item.linkText}
+                                    <ChevronRight className="w-3 h-3" />
+                                </Link>
+
+                                {/* Connector arrow (between cards, desktop only) */}
+                                {i < howItWorks.length - 1 && (
+                                    <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-neutral-300 dark:text-neutral-700" aria-hidden="true">
+                                        <ChevronRight className="w-5 h-5" />
                                     </div>
-                                }
-                                className={i === 0 || i === 2 ? 'md:col-span-2' : ''}
-                                icon={<comp.icon className="w-4 h-4 text-neutral-500" />}
-                            />
+                                )}
+                            </div>
                         ))}
-                    </BentoGrid>
+                    </div>
                 </div>
             </section>
 
@@ -371,13 +527,13 @@ export default function Homepage() {
                             {mcpServers.map((s) => (
                                 <div
                                     key={s.name}
-                                    className="flex items-center justify-between px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02]"
+                                    className="flex items-center justify-between px-4 py-3 rounded-xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/20 transition-colors"
                                 >
                                     <div className="flex items-center gap-2">
-                                        <s.icon className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
-                                        <span className="text-xs text-neutral-600 dark:text-neutral-400 truncate">{s.name}</span>
+                                        <s.icon className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
+                                        <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300 truncate">{s.name}</span>
                                     </div>
-                                    <span className="text-xs font-bold text-[#F0B90B] ml-2">{s.tools}</span>
+                                    <span className="text-xs font-bold text-[#F0B90B] ml-2 stat-number">{s.tools}</span>
                                 </div>
                             ))}
                         </div>
@@ -436,13 +592,13 @@ export default function Homepage() {
                         {agentCategories.map((cat) => (
                             <div
                                 key={cat.name}
-                                className="group p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-0.5"
+                                className="group p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[#F0B90B]/[0.03]"
                             >
                                 <div className="flex items-center gap-3 mb-3">
                                     <cat.icon className={`w-5 h-5 ${cat.color}`} />
-                                    <span className="text-2xl font-bold text-neutral-900 dark:text-white">{cat.count}</span>
+                                    <span className="text-2xl font-extrabold text-neutral-900 dark:text-white stat-number">{cat.count}</span>
                                 </div>
-                                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white mb-1">{cat.name}</h3>
+                                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white mb-1 tracking-tight">{cat.name}</h3>
                                 <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">{cat.description}</p>
                             </div>
                         ))}
@@ -480,8 +636,8 @@ export default function Homepage() {
                     <SectionHeading
                         badge="Multi-Chain"
                         badgeIcon={Network}
-                        title="60+ Supported Networks"
-                        subtitle="BNB Chain first, but cross-chain by design."
+                        title="BNB Chain Networks"
+                        subtitle="Purpose-built for the BNB Chain ecosystem."
                     />
 
                     <div className="max-w-5xl mx-auto">
@@ -507,9 +663,6 @@ export default function Homepage() {
                                 <span className="ml-1.5 text-xs opacity-50">{chain.type}</span>
                             </div>
                         ))}
-                        <div className="px-4 py-2 rounded-xl text-sm border border-dashed border-neutral-300 dark:border-white/[0.08] text-neutral-400">
-                            + 50 more
-                        </div>
                     </div>
                 </div>
             </section>
@@ -549,8 +702,8 @@ export default function Homepage() {
 
                     <div className="max-w-4xl mx-auto">
                         <BackgroundGradient className="rounded-2xl">
-                            <div className="bg-[#0a0a0a] rounded-2xl p-6 md:p-8 font-mono text-sm text-neutral-300 leading-relaxed overflow-x-auto">
-                                <div className="text-[#F0B90B] mb-3 font-bold">bnb-chain-toolkit/</div>
+                            <div className="bg-[#0a0a0a] rounded-2xl p-6 md:p-8 font-mono text-sm text-neutral-300 leading-relaxed overflow-x-auto border border-white/[0.04]">
+                                <div className="text-[#F0B90B] mb-3 font-extrabold tracking-tight text-base">bnb-chain-toolkit/</div>
                                 <div className="ml-4 space-y-1.5">
                                     <div><span className="text-blue-400">├── agents/</span><span className="text-neutral-600 ml-4"># 72+ AI Agent definitions</span></div>
                                     <div className="ml-4 text-neutral-500">
@@ -580,10 +733,17 @@ export default function Homepage() {
             {/* ═══════════════════════════════════════════════════════════════
                 SECTION 10 — WHY THIS TOOLKIT
             ═══════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 bg-neutral-900 dark:bg-neutral-950">
-                <div className="container mx-auto px-4">
+            <section className="py-24 md:py-32 bg-neutral-900 dark:bg-neutral-950 relative overflow-hidden">
+                {/* Subtle grid bg */}
+                <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-30 pointer-events-none" />
+
+                <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
+                        <div className="badge-pro mb-6">
+                            <Shield className="w-3 h-3" />
+                            Why This Toolkit
+                        </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-white mb-4">
                             Why BNB Chain AI Toolkit?
                         </h2>
                     </div>
@@ -608,7 +768,7 @@ export default function Homepage() {
                             <Link
                                 key={item.title}
                                 to={item.href}
-                                className="group relative p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[#F0B90B]/[0.03]"
+                                className="group relative p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[#F0B90B]/[0.04]"
                             >
                                 <div
                                     className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
@@ -616,11 +776,11 @@ export default function Homepage() {
                                 >
                                     <item.icon className="w-5 h-5" style={{ color: item.accent }} />
                                 </div>
-                                <h3 className="font-semibold text-neutral-900 dark:text-white mb-1 group-hover:text-[#F0B90B] transition-colors">
+                                <h3 className="font-bold text-neutral-900 dark:text-white mb-1 group-hover:text-[#F0B90B] transition-colors tracking-tight">
                                     {item.title}
                                 </h3>
                                 <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">{item.desc}</p>
-                                <ChevronRight className="w-4 h-4 text-neutral-300 dark:text-neutral-600 mt-3 group-hover:translate-x-1 group-hover:text-[#F0B90B] transition-all" />
+                                <ChevronRight className="w-4 h-4 text-neutral-300 dark:text-neutral-600 mt-4 group-hover:translate-x-1 group-hover:text-[#F0B90B] transition-all" />
                             </Link>
                         ))}
                     </div>
@@ -631,6 +791,9 @@ export default function Homepage() {
                 SECTION 12 — FINAL CTA
             ═══════════════════════════════════════════════════════════════ */}
             <section className="relative py-28 md:py-36 overflow-hidden bg-neutral-900 dark:bg-black">
+                {/* Grid background */}
+                <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-40 pointer-events-none" />
+
                 {/* Sparkles particle background */}
                 <div className="absolute inset-0 w-full h-full">
                     <SparklesCore
@@ -645,28 +808,40 @@ export default function Homepage() {
                 </div>
 
                 {/* Radial glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#F0B90B]/[0.04] blur-[100px] pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#F0B90B]/[0.05] blur-[120px] pointer-events-none" />
 
                 <div className="relative z-10 container mx-auto px-4 text-center">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-0.03em] text-white mb-5">
+                    <div className="badge-pro mb-6">
+                        <Zap className="w-3 h-3" />
+                        Open Source
+                    </div>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] text-white mb-5">
                         Ready to Build on BNB Chain?
                     </h2>
-                    <p className="text-neutral-400 text-lg mb-10 max-w-xl mx-auto">
+                    <p className="text-neutral-400 text-lg mb-12 max-w-lg mx-auto font-light">
                         72+ agents, 6 MCP servers, 900+ tools. Open source. Start building now.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
+                        <Link
+                            to="/fullstack-demo"
+                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_50px_rgba(240,185,11,0.5)] hover:-translate-y-0.5 animate-glow-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                        >
+                            <Zap className="w-5 h-5" />
+                            Start Building
+                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
                         <a
                             href="https://github.com/nirholas/bnb-chain-toolkit"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(240,185,11,0.35)] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            className="group inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 border border-white/[0.12] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5"
                         >
                             <GitBranch className="w-5 h-5" />
                             Star on GitHub
                         </a>
                         <Link
                             to="/docs"
-                            className="inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 border border-white/[0.15] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            className="inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 text-neutral-400 hover:text-[#F0B90B] hover:-translate-y-0.5"
                         >
                             <BookOpen className="w-5 h-5" />
                             Get Started

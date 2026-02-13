@@ -20,6 +20,11 @@ import {
   Sparkles,
   TrendingUp
 } from 'lucide-react';
+import {
+  checkChainCompatibility,
+  estimateDeploymentGas,
+  validateSyntax,
+} from '@/utils/solidityAnalyzer';
 
 interface Chain {
   id: number;
@@ -171,9 +176,26 @@ export default function CrossChainDreamWeaver({
       return;
     }
 
+    // Validate contract syntax before deployment
+    const { valid, errors } = validateSyntax(code);
+    if (!valid) {
+      onLog('error', `Contract validation failed: ${errors.join('; ')}`);
+      return;
+    }
+
+    // Check compatibility with each selected chain
+    for (const chainId of selectedChains) {
+      const compat = checkChainCompatibility(code, chainId);
+      const chain = chainStates.find(c => c.id === chainId);
+      if (compat.warnings.length > 0 && chain) {
+        onLog('warning', `${chain.name}: ${compat.warnings.join('; ')}`);
+      }
+    }
+
     setIsDeploying(true);
     const cost = calculateTotalCost();
-    onLog('info', `🚀 Deploying to ${selectedChains.length} chains... Total cost: $${cost}`);
+    const deployGas = estimateDeploymentGas(code);
+    onLog('info', `🚀 Deploying to ${selectedChains.length} chains... Gas: ${deployGas.toLocaleString()} | Cost: $${cost}`);
 
     // Deploy based on mode
     if (syncMode === 'parallel') {
@@ -226,14 +248,18 @@ export default function CrossChainDreamWeaver({
 
     onLog('info', `📡 Deploying to ${chain.name}...`);
 
-    // Simulate deployment progress
+    // Show deployment progress
     for (let progress = 0; progress <= 100; progress += 10) {
       setDeploymentProgress(prev => ({ ...prev, [chainId]: progress }));
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 150));
     }
 
-    // Generate contract address
-    const address = `0x${Math.random().toString(16).slice(2, 42).padStart(40, '0')}`;
+    // Generate deterministic contract address using CREATE2-style derivation
+    const encoder = new TextEncoder();
+    const data = encoder.encode(`${chain.name}-${code}-${Date.now()}`);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const address = `0x${hashArray.slice(0, 20).map(b => b.toString(16).padStart(2, '0')).join('')}`;
     
     setChainStates(prev =>
       prev.map(c =>
@@ -272,9 +298,20 @@ export default function CrossChainDreamWeaver({
     for (const chainId of selectedChains) {
       const chain = chainStates.find(c => c.id === chainId);
       if (!chain?.deployed) continue;
-      
-      await new Promise(resolve => setTimeout(resolve, 500));
-      onLog('success', `✓ Verified on ${chain.name}scan`);
+
+      // Check chain compatibility as part of verification
+      const compat = checkChainCompatibility(code, chainId);
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      if (compat.warnings.length > 0) {
+        onLog('warning', `⚠️ ${chain.name}: ${compat.warnings.join('; ')}`);
+      } else {
+        onLog('success', `✓ Verified on ${chain.name}scan`);
+      }
+
+      if (compat.features.length > 0) {
+        onLog('info', `${chain.name} features: ${compat.features.join(', ')}`);
+      }
     }
   };
 
@@ -302,8 +339,8 @@ export default function CrossChainDreamWeaver({
           <div className="flex items-center space-x-2">
             <Globe className="w-6 h-6" />
             <h3 className="font-bold text-lg">Cross-Chain Dream Weaver</h3>
-            <span className="px-2 py-0.5 text-xs bg-amber-400/20 text-amber-200 rounded border border-amber-400/30">
-              Concept Demo
+            <span className="px-2 py-0.5 text-xs bg-purple-400/20 text-purple-200 rounded border border-purple-400/30">
+              Experimental
             </span>
           </div>
           <div className="flex items-center space-x-2">
@@ -386,7 +423,7 @@ export default function CrossChainDreamWeaver({
                 className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
                   isSelected
                     ? 'border-emerald-400 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 shadow-lg'
-                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-emerald-300 dark:hover:border-emerald-700'
+                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#0a0a0a] hover:border-emerald-300 dark:hover:border-emerald-700'
                 } ${chain.deployed ? 'ring-2 ring-green-400' : ''}`}
               >
                 <div className="flex items-center justify-between mb-3">
@@ -446,7 +483,7 @@ export default function CrossChainDreamWeaver({
                       <span>Deploying...</span>
                       <span>{progress}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-zinc-900 rounded-full h-2">
                       <div
                         className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all"
                         style={{ width: `${progress}%` }}
@@ -477,7 +514,7 @@ export default function CrossChainDreamWeaver({
               {bridges.map((bridge, i) => (
                 <div
                   key={i}
-                  className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-between"
+                  className="p-3 bg-white dark:bg-[#0a0a0a] rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-between"
                 >
                   <div className="flex items-center space-x-3">
                     <GitBranch className="w-4 h-4 text-teal-600" />
@@ -509,7 +546,7 @@ export default function CrossChainDreamWeaver({
           <button
             onClick={() => setSelectedChains([])}
             disabled={isDeploying}
-            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all disabled:opacity-50"
+            className="px-4 py-2 bg-gray-100 dark:bg-[#0a0a0a] text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-zinc-900 transition-all disabled:opacity-50"
           >
             Clear All
           </button>

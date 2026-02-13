@@ -107,7 +107,7 @@ export default function ChallengeSystem({
   const totalTests = challenge.tests.length;
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col h-full bg-white dark:bg-black border-l border-gray-200 dark:border-gray-700">
       {/* Header */}
       <div className="flex-none px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-start justify-between mb-3">
@@ -183,7 +183,7 @@ export default function ChallengeSystem({
                         ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
                         : passed === false
                           ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'
-                          : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                          : 'bg-gray-50 dark:bg-[#0a0a0a] border-gray-200 dark:border-gray-700'
                       }
                     `}
                   >
@@ -271,7 +271,7 @@ export default function ChallengeSystem({
 
           <button
             onClick={resetChallenge}
-            className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#0a0a0a] rounded-lg transition-colors"
             title="Reset challenge"
           >
             <RotateCcw className="w-4 h-4" />

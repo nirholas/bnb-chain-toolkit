@@ -251,7 +251,7 @@ export default function TemplateSelector({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search templates..."
-            className="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-black focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -436,7 +436,7 @@ function FilterChip({ label, isActive, onClick, count, colorClass }: FilterChipP
         px-2 py-1 text-xs rounded-full transition-colors
         ${isActive
           ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-medium'
-          : colorClass || 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+          : colorClass || 'bg-gray-100 dark:bg-[#0a0a0a] text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-zinc-900'
         }
       `}
     >
@@ -486,7 +486,7 @@ function TemplateSection({
       {/* Section header */}
       <button
         onClick={handleToggle}
-        className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+        className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-[#0a0a0a]/50 transition-colors"
       >
         <span className="font-medium text-sm text-gray-900 dark:text-gray-100">
           {title}
@@ -557,7 +557,7 @@ function TemplateCard({
           flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors
           ${isSelected
             ? 'bg-primary-50 dark:bg-primary-900/20 border border-primary-500'
-            : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent'
+            : 'hover:bg-gray-50 dark:hover:bg-[#0a0a0a] border border-transparent'
           }
         `}
       >
@@ -577,7 +577,7 @@ function TemplateCard({
             e.stopPropagation();
             onToggleFavorite();
           }}
-          className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+          className="p-1 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
         >
           {isFavorite ? (
             <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -615,7 +615,7 @@ function TemplateCard({
             e.stopPropagation();
             onToggleFavorite();
           }}
-          className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded -mr-1 -mt-1"
+          className="p-1 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded -mr-1 -mt-1"
         >
           {isFavorite ? (
             <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
@@ -652,7 +652,7 @@ function TemplateCard({
           {template.examplePrompts.slice(0, 2).map((prompt, idx) => (
             <span
               key={idx}
-              className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 truncate max-w-[120px]"
+              className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 dark:bg-[#0a0a0a] text-gray-600 dark:text-gray-400 truncate max-w-[120px]"
               title={prompt}
             >
               {prompt.substring(0, 20)}...

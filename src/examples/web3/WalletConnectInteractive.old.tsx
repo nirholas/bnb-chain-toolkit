@@ -479,9 +479,9 @@ if (window.ethereum) {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
       {/* Header */}
-      <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <header className="flex-none bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -531,7 +531,7 @@ if (window.ethereum) {
         </div>
 
         {/* Right Sidebar - Tutorial */}
-        <div className="w-96 bg-white dark:bg-gray-800 overflow-hidden">
+        <div className="w-96 bg-white dark:bg-[#0a0a0a] overflow-hidden">
           <InteractiveTutorial
             steps={tutorialSteps}
             currentCode={tabs.find(t => t.id === 'javascript')?.code || ''}

@@ -21,6 +21,14 @@ import {
   Star,
   Rocket
 } from 'lucide-react';
+import {
+  detectVulnerabilities,
+  estimateGas,
+  analyzeContract,
+  calculateSecurityScore,
+  parseFunctions,
+  validateChallengeSolution,
+} from '@/utils/solidityAnalyzer';
 
 interface Participant {
   id: string;
@@ -188,25 +196,53 @@ export default function CollaborativeArena({
   };
 
   const aiContribute = (ai: Participant, type: 'copilot' | 'mentor' | 'critic') => {
-    const contributions = {
-      copilot: [
-        '💡 I can optimize this loop for better gas efficiency',
-        '🔧 Let me add error handling here',
-        '✨ I\'ll implement the missing function'
-      ],
-      mentor: [
-        '📚 This pattern is called "Checks-Effects-Interactions"',
-        '🎓 Consider using OpenZeppelin\'s implementation',
-        '💭 Here\'s why we use this approach...'
-      ],
-      critic: [
-        '⚠️ This could be vulnerable to reentrancy',
-        '🔒 Missing access control on this function',
-        '🛡️ Add input validation here'
-      ]
+    // Progressive AI contributions using real code analysis
+    const vulns = detectVulnerabilities(code);
+    const gasOps = estimateGas(code);
+    const info = analyzeContract(code);
+    const funcs = parseFunctions(code);
+    const score = calculateSecurityScore(code);
+
+    const getContextualContribution = (): string => {
+      if (type === 'copilot') {
+        // Progressive: each call analyzes different aspect
+        const topGasOp = gasOps.sort((a, b) => b.savings - a.savings)[0];
+        if (topGasOp && topGasOp.savings > 1000) {
+          return `💡 Biggest gas save: ${topGasOp.operation} — ${topGasOp.recommendations[0]} (saves ~${topGasOp.savings.toLocaleString()} gas)`;
+        }
+        const publicViewFuncs = funcs.filter(f => f.visibility === 'public' && (f.mutability === 'view' || f.mutability === 'pure'));
+        if (publicViewFuncs.length > 0) {
+          return `🔧 ${publicViewFuncs.length} public view function(s) could be external — saves ~22,100 gas each: ${publicViewFuncs.map(f => f.name).join(', ')}`;
+        }
+        if (!code.includes('emit') && info.functionCount > 0) return '✨ Add events for key state changes — essential for frontend indexing';
+        if (info.type.includes('ERC20')) return '💡 Consider adding pause(), burn(), and snapshot() for production ERC20';
+        return `🔧 Contract has ${info.functionCount} functions, complexity ${info.complexity} — looking good!`;
+      }
+
+      if (type === 'mentor') {
+        if (info.complexity > 15) return `🎓 Cyclomatic complexity is ${info.complexity} — consider splitting into library contracts for maintainability`;
+        if (!info.pragmaVersion) return '📚 Always start with a pragma directive: pragma solidity ^0.8.20;';
+        if (info.stateVarCount > 5) return `💭 ${info.stateVarCount} state variables — pack adjacent uint types into single 256-bit slots to save SSTORE costs`;
+        if (funcs.some(f => f.modifiers.length === 0 && f.visibility !== 'private' && f.visibility !== 'internal')) {
+          return '🎓 Some external/public functions lack modifiers — consider access control for sensitive operations';
+        }
+        return `🎓 Security score: ${score}/100 — ${score >= 80 ? 'excellent!' : score >= 50 ? 'room for improvement' : 'needs attention'}`;
+      }
+
+      // critic
+      if (vulns.length > 0) {
+        const critical = vulns.find(v => v.severity === 'critical');
+        if (critical) return `⚠️ CRITICAL: ${critical.title} — ${critical.fix}`;
+        return `🛡️ Found ${vulns.length} issue(s): ${vulns[0].title} — ${vulns[0].fix}`;
+      }
+      if (score < 60) return `🛡️ Security score ${score}/100 — add ReentrancyGuard, input validation, and access control`;
+      if (!code.includes('require') && !code.includes('revert') && info.functionCount > 0) {
+        return '⚠️ No require/revert statements found — add input validation to all public functions';
+      }
+      return `✅ Security looks solid (${score}/100). No critical vulnerabilities detected.`;
     };
 
-    const contribution = contributions[type][Math.floor(Math.random() * contributions[type].length)];
+    const contribution = getContextualContribution();
     addMessage(ai.name, contribution, 'hint');
 
     // Simulate AI typing
@@ -272,24 +308,34 @@ export default function CollaborativeArena({
   const submitSolution = () => {
     if (!challenge) return;
 
-    // Simulate testing
     onLog('info', '🧪 Testing solution...');
-    
+
+    // Deterministic validation using shared analyzer
+    const result = validateChallengeSolution(code, challenge.id);
+
+    // Brief delay for visual feedback
     setTimeout(() => {
-      const success = Math.random() > 0.3; // 70% success rate for demo
-      
-      if (success) {
+      if (result.passed) {
         endChallenge(true);
-        
-        // Award points to all participants
+
+        // Award points scaled by solution quality
+        const earnedPoints = Math.floor(50 * (result.score / 100));
         setParticipants(prev =>
-          prev.map(p => ({ ...p, score: p.score + 50 }))
+          prev.map(p => ({ ...p, score: p.score + earnedPoints }))
         );
+
+        // Show feedback
+        for (const fb of result.feedback.slice(0, 5)) {
+          addMessage('system', fb, 'system');
+        }
       } else {
-        addMessage('system', '❌ Tests failed. Check the hints!', 'system');
-        onLog('error', '❌ Solution doesn\'t pass all test cases');
+        addMessage('system', `❌ Score: ${result.score}/100 — need 50+ to pass`, 'system');
+        for (const fb of result.feedback.filter(f => f.startsWith('❌') || f.startsWith('⚠️')).slice(0, 3)) {
+          addMessage('system', fb, 'hint');
+        }
+        onLog('error', `❌ Solution scored ${result.score}/100. Check the hints!`);
       }
-    }, 1500);
+    }, 200);
   };
 
   const getDifficultyColor = (diff: string) => {
@@ -320,8 +366,8 @@ export default function CollaborativeArena({
           <div className="flex items-center space-x-2">
             <Users className="w-6 h-6" />
             <h3 className="font-bold text-lg">Collaborative Arena</h3>
-            <span className="px-2 py-0.5 text-xs bg-amber-400/20 text-amber-200 rounded border border-amber-400/30">
-              Concept Demo
+            <span className="px-2 py-0.5 text-xs bg-purple-400/20 text-purple-200 rounded border border-purple-400/30">
+              Experimental
             </span>
           </div>
           <div className="flex items-center space-x-2">
@@ -385,7 +431,7 @@ export default function CollaborativeArena({
 
       <div className="flex-1 flex overflow-hidden">
         {/* Participants Panel */}
-        <div className="w-64 border-r border-violet-200 dark:border-violet-800 bg-white/50 dark:bg-gray-800/50 overflow-y-auto">
+        <div className="w-64 border-r border-violet-200 dark:border-violet-800 bg-white/50 dark:bg-[#0a0a0a]/50 overflow-y-auto">
           <div className="p-4">
             <h4 className="text-sm font-bold mb-3 flex items-center">
               <Users className="w-4 h-4 mr-2" />
@@ -396,7 +442,7 @@ export default function CollaborativeArena({
               {participants.map((participant) => (
                 <div
                   key={participant.id}
-                  className="p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                  className="p-3 rounded-lg bg-white dark:bg-[#0a0a0a] border border-gray-200 dark:border-gray-700"
                   style={{ borderLeft: `4px solid ${participant.color}` }}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -470,7 +516,7 @@ export default function CollaborativeArena({
                     <button
                       key={ch.id}
                       onClick={() => startChallenge(ch.id)}
-                      className="w-full p-3 bg-white dark:bg-gray-800 rounded-lg text-left hover:shadow-lg transition-all border border-violet-200 dark:border-violet-700"
+                      className="w-full p-3 bg-white dark:bg-[#0a0a0a] rounded-lg text-left hover:shadow-lg transition-all border border-violet-200 dark:border-violet-700"
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-semibold text-sm">{ch.title}</span>
@@ -505,7 +551,7 @@ export default function CollaborativeArena({
                       ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                       : msg.type === 'hint'
                       ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200'
-                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200'
+                      : 'bg-white dark:bg-[#0a0a0a] text-gray-800 dark:text-gray-200'
                   }`}
                 >
                   <div className="flex items-start space-x-2">
@@ -520,12 +566,12 @@ export default function CollaborativeArena({
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-violet-200 dark:border-violet-800 bg-white dark:bg-gray-800">
+            <div className="p-4 border-t border-violet-200 dark:border-violet-800 bg-white dark:bg-[#0a0a0a]">
               <div className="flex space-x-2">
                 <input
                   type="text"
                   placeholder="Send a message..."
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && e.currentTarget.value) {
                       addMessage('You', e.currentTarget.value, 'chat');

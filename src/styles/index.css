@@ -857,3 +857,77 @@ textarea:focus-visible,
     background-size: 32px 32px;
   }
 }
+
+/* ======================================
+   PROFESSIONAL ANIMATIONS & EFFECTS
+   Hackathon-grade visual polish
+   ====================================== */
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(240, 185, 11, 0.15); }
+  50% { box-shadow: 0 0 32px rgba(240, 185, 11, 0.3); }
+}
+
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(240, 185, 11, 0.15); }
+  50% { border-color: rgba(240, 185, 11, 0.35); }
+}
+
+@keyframes text-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-subtle-float {
+  animation: subtle-float 6s ease-in-out infinite;
+}
+
+.animate-border-glow {
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+.animate-text-shimmer {
+  background-size: 200% auto;
+  animation: text-shimmer 4s linear infinite;
+}
+
+/* Professional grid background with fade edges */
+.bg-grid-pro {
+  background-image:
+    linear-gradient(rgba(240, 185, 11, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 185, 11, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.bg-grid-pro-mask {
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* Sharp stat counter style */
+.stat-number {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  letter-spacing: -0.04em;
+}
+
+/* Professional badge pill */
+.badge-pro {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-[0.08em];
+  @apply border border-[#F0B90B]/20 bg-[#F0B90B]/[0.06] text-[#F0B90B];
+}
+
+/* Section divider with gradient */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240, 185, 11, 0.2), transparent);
+}

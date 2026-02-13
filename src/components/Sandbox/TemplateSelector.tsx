@@ -95,20 +95,25 @@ export default function TemplateSelector({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-5xl max-h-[85vh] flex flex-col">
+      <div className="bg-white dark:bg-[#0a0a0a] rounded-lg shadow-xl w-full max-w-5xl max-h-[85vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-[#0a0a0a]">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <Zap className="w-5 h-5" />
               Choose a Template
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              {totalCount} templates available ({workspaceCount} workspace, {contractCount} contracts)
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+              {totalCount} templates available
+              <span className="ml-2 inline-flex items-center gap-1.5">
+                <span className="px-1.5 py-0.5 bg-black dark:bg-white text-white dark:text-black rounded text-xs font-bold">{workspaceCount} workspace</span>
+                <span className="px-1.5 py-0.5 bg-gray-200 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 rounded text-xs font-bold">{contractCount} contracts</span>
+              </span>
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded"
           >
             <X className="w-5 h-5" />
           </button>
@@ -123,8 +128,8 @@ export default function TemplateSelector({
                 onClick={() => setTemplateType('all')}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 ${
                   templateType === 'all'
-                    ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-[#F0B90B]/10 text-[#F0B90B]'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-800'
                 }`}
               >
                 <Layers className="w-4 h-4" />
@@ -134,8 +139,8 @@ export default function TemplateSelector({
                 onClick={() => setTemplateType('workspace')}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 ${
                   templateType === 'workspace'
-                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-[#F0B90B]/10 text-[#F0B90B]'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-800'
                 }`}
               >
                 <FileCode className="w-4 h-4" />
@@ -146,7 +151,7 @@ export default function TemplateSelector({
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 ${
                   templateType === 'contract'
                     ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-800'
                 }`}
               >
                 <Code2 className="w-4 h-4" />
@@ -161,7 +166,7 @@ export default function TemplateSelector({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search templates..."
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-white"
           />
         </div>
 
@@ -174,8 +179,8 @@ export default function TemplateSelector({
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap ${
                   selectedCategory === cat.id
-                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-black dark:bg-white text-white dark:text-black'
+                    : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-800'
                 }`}
               >
                 {cat.label}
@@ -197,17 +202,17 @@ export default function TemplateSelector({
                 <button
                   key={`${template._type}-${template.id}`}
                   onClick={() => handleSelect(template)}
-                  className="text-left p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all group"
+                  className="text-left p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg hover:border-black dark:hover:border-white hover:shadow-lg transition-all group"
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         {template._type === 'contract' ? (
-                          <Code2 className="w-4 h-4 text-purple-500" />
+                          <Code2 className="w-4 h-4 text-[#F0B90B]/70" />
                         ) : (
-                          <FileCode className="w-4 h-4 text-blue-500" />
+                          <FileCode className="w-4 h-4 text-[#F0B90B]" />
                         )}
-                        <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 text-sm">
+                        <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-[#F0B90B] text-sm">
                           {template.name}
                         </h3>
                       </div>
@@ -240,7 +245,7 @@ export default function TemplateSelector({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-black">
           <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
             {filteredTemplates.length} templates shown • Select a template to start coding
           </p>

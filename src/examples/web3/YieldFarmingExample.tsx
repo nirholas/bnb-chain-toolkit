@@ -135,7 +135,7 @@ export default function YieldFarmingExample() {
             <select
               value={selectedPool}
               onChange={(e) => setSelectedPool(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             >
               <option value="">Choose a pool</option>
               {pools.map(pool => (
@@ -153,7 +153,7 @@ export default function YieldFarmingExample() {
               value={stakeAmount}
               onChange={(e) => setStakeAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
         </div>

@@ -27,7 +27,7 @@ export default function LanguageSelector({ compact = false }: Props) {
       <button
         onClick={() => setOpen(!open)}
         disabled={isLoading}
-        className={`flex items-center space-x-2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-50 ${compact ? 'text-sm' : ''}`}
+        className={`flex items-center space-x-2 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#0a0a0a] transition-colors disabled:opacity-50 ${compact ? 'text-sm' : ''}`}
         aria-haspopup="listbox"
         aria-expanded={open}
       >
@@ -41,14 +41,14 @@ export default function LanguageSelector({ compact = false }: Props) {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50">
+        <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50">
           <div className="max-h-64 overflow-auto py-1" role="listbox">
             {languages.map(lang => (
               <button
                 key={lang.code}
                 onClick={() => handleLanguageChange(lang.code)}
                 disabled={isLoading}
-                className={`w-full text-left px-4 py-2 flex items-center space-x-3 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 ${lang.code === language ? 'bg-gray-50 dark:bg-gray-800' : ''}`}
+                className={`w-full text-left px-4 py-2 flex items-center space-x-3 hover:bg-gray-100 dark:hover:bg-[#0a0a0a] disabled:opacity-50 ${lang.code === language ? 'bg-gray-50 dark:bg-[#0a0a0a]' : ''}`}
                 role="option"
                 aria-selected={lang.code === language}
               >

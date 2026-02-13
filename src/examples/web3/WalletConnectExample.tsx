@@ -952,7 +952,7 @@ async function connectWallet(type: WalletType) {
 
         <div className="grid gap-6 md:grid-cols-2">
           {/* Connection Card */}
-          <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg">
+          <div className="p-6 bg-gray-50 dark:bg-black rounded-lg">
             <div className="flex items-center space-x-3 mb-4">
               <Wallet className="w-6 h-6 text-primary-600" />
               <h3 className="text-xl font-semibold">Connection Status</h3>
@@ -1016,7 +1016,7 @@ async function connectWallet(type: WalletType) {
                       <button
                         onClick={() => fetchBalance()}
                         disabled={isFetchingBalance}
-                        className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                        className="p-1 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"
                       >
                         <RefreshCw className={`w-4 h-4 ${isFetchingBalance ? 'animate-spin' : ''}`} />
                       </button>
@@ -1031,7 +1031,7 @@ async function connectWallet(type: WalletType) {
 
                 <button
                   onClick={disconnect}
-                  className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-900 dark:text-white rounded-lg font-medium"
+                  className="w-full px-4 py-2 bg-gray-200 dark:bg-zinc-900 hover:bg-gray-300 dark:hover:bg-zinc-800 text-gray-900 dark:text-white rounded-lg font-medium"
                 >
                   Disconnect
                 </button>
@@ -1040,7 +1040,7 @@ async function connectWallet(type: WalletType) {
           </div>
 
           {/* Networks Card */}
-          <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-lg">
+          <div className="p-6 bg-gray-50 dark:bg-black rounded-lg">
             <h3 className="text-xl font-semibold mb-4">Available Networks</h3>
             
             <div className="space-y-3">

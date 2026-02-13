@@ -5,9 +5,11 @@
  */
 
 import { useState } from 'react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 import { Coins, Send, Wallet } from 'lucide-react';
 
 export default function SolanaTokenExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [balance] = useState(10.5);
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
@@ -19,16 +21,17 @@ export default function SolanaTokenExample() {
 
   const handleSendSOL = () => {
     if (!recipient || !amount) {
-      alert('Please fill all fields');
+      notify('Please fill all fields', 'warning');
       return;
     }
-    alert(`Sent ${amount} SOL to ${recipient}`);
+    notify(`Sent ${amount} SOL to ${recipient}`, 'success');
     setRecipient('');
     setAmount('');
   };
 
   return (
     <div className="max-w-4xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Solana SPL Tokens</h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -52,7 +55,7 @@ export default function SolanaTokenExample() {
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
               placeholder="Enter Solana address"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -63,7 +66,7 @@ export default function SolanaTokenExample() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -83,7 +86,7 @@ export default function SolanaTokenExample() {
         
         <div className="space-y-3">
           {splTokens.map((token, idx) => (
-            <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
               <div>
                 <p className="font-bold">{token.symbol}</p>
                 <p className="text-xs text-gray-500 font-mono">{token.mint}</p>

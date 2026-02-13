@@ -57,7 +57,8 @@ import {
   Search,
   Share2,
   Home,
-  BookOpen
+  BookOpen,
+  Sparkles
 } from 'lucide-react';
 import { cn } from '@/utils/helpers';
 
@@ -817,7 +818,7 @@ contract ${name.replace('.sol', '')} {
         <select
           value={solcVersion.version}
           onChange={(e) => setSolcVersion(SOLIDITY_VERSIONS.find(v => v.version === e.target.value) || SOLIDITY_VERSIONS[0])}
-          className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm"
+          className="w-full bg-zinc-800 border border-gray-600 rounded-lg px-3 py-2 text-sm"
         >
           {SOLIDITY_VERSIONS.map(v => (
             <option key={v.version} value={v.version}>{v.version}</option>
@@ -895,7 +896,7 @@ contract ${name.replace('.sol', '')} {
           
           {/* Compiled Contracts */}
           {compiledContracts.map((contract, i) => (
-            <div key={i} className="p-3 bg-gray-700/50 rounded-lg">
+            <div key={i} className="p-3 bg-zinc-800/50 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium">{contract.name}</span>
                 <div className="flex items-center gap-2">
@@ -932,7 +933,7 @@ contract ${name.replace('.sol', '')} {
         <select
           value={selectedNetwork.id}
           onChange={(e) => setSelectedNetwork(NETWORKS.find(n => n.id === e.target.value) || NETWORKS[0])}
-          className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm"
+          className="w-full bg-zinc-800 border border-gray-600 rounded-lg px-3 py-2 text-sm"
         >
           {NETWORKS.map(n => (
             <option key={n.id} value={n.id}>{n.icon} {n.name}</option>
@@ -946,7 +947,7 @@ contract ${name.replace('.sol', '')} {
         <select
           value={selectedAccount.address}
           onChange={(e) => setSelectedAccount(accounts.find(a => a.address === e.target.value) || accounts[0])}
-          className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm font-mono"
+          className="w-full bg-zinc-800 border border-gray-600 rounded-lg px-3 py-2 text-sm font-mono"
         >
           {accounts.map(a => (
             <option key={a.address} value={a.address}>
@@ -963,7 +964,7 @@ contract ${name.replace('.sol', '')} {
           type="text"
           value={gasLimit}
           onChange={(e) => setGasLimit(e.target.value)}
-          className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm"
+          className="w-full bg-zinc-800 border border-gray-600 rounded-lg px-3 py-2 text-sm"
         />
       </div>
       
@@ -975,12 +976,12 @@ contract ${name.replace('.sol', '')} {
             type="text"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm"
+            className="flex-1 bg-zinc-800 border border-gray-600 rounded-lg px-3 py-2 text-sm"
           />
           <select
             value={valueUnit}
             onChange={(e) => setValueUnit(e.target.value as any)}
-            className="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm"
+            className="bg-zinc-800 border border-gray-600 rounded-lg px-3 py-2 text-sm"
           >
             <option value="wei">Wei</option>
             <option value="gwei">Gwei</option>
@@ -993,7 +994,7 @@ contract ${name.replace('.sol', '')} {
       <div>
         <label className="block text-xs font-medium text-gray-400 mb-2">CONTRACT</label>
         {compiledContracts.length === 0 ? (
-          <div className="text-sm text-gray-500 p-4 bg-gray-700/50 rounded-lg text-center">
+          <div className="text-sm text-gray-500 p-4 bg-zinc-800/50 rounded-lg text-center">
             No compiled contracts. Compile first.
           </div>
         ) : (
@@ -1024,11 +1025,11 @@ contract ${name.replace('.sol', '')} {
         </div>
       ) : (
         deployedContracts.map(contract => (
-          <div key={contract.id} className="bg-gray-700/50 rounded-lg overflow-hidden">
+          <div key={contract.id} className="bg-zinc-800/50 rounded-lg overflow-hidden">
             {/* Header */}
             <button
               onClick={() => toggleContractExpanded(contract.id)}
-              className="w-full flex items-center justify-between p-3 hover:bg-gray-700/70 transition-colors"
+              className="w-full flex items-center justify-between p-3 hover:bg-zinc-900/70 transition-colors"
             >
               <div className="flex items-center gap-2">
                 {expandedContracts.has(contract.id) ? (
@@ -1048,12 +1049,12 @@ contract ${name.replace('.sol', '')} {
               <div className="border-t border-gray-600 p-3 space-y-3">
                 <div className="flex items-center gap-2 text-xs text-gray-400">
                   <span>at</span>
-                  <span className="font-mono bg-gray-800 px-2 py-0.5 rounded">
+                  <span className="font-mono bg-[#0a0a0a] px-2 py-0.5 rounded">
                     {contract.address}
                   </span>
                   <button
                     onClick={() => navigator.clipboard.writeText(contract.address)}
-                    className="p-1 hover:bg-gray-600 rounded"
+                    className="p-1 hover:bg-zinc-800 rounded"
                   >
                     <Copy className="w-3 h-3" />
                   </button>
@@ -1077,7 +1078,7 @@ contract ${name.replace('.sol', '')} {
                                 placeholder={`${input.name} (${input.type})`}
                                 value={functionInputs[contract.id]?.[func.name]?.[input.name] || ''}
                                 onChange={(e) => updateFunctionInput(contract.id, func.name, input.name, e.target.value)}
-                                className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1.5 text-sm font-mono"
+                                className="w-full bg-[#0a0a0a] border border-gray-600 rounded px-2 py-1.5 text-sm font-mono"
                               />
                             ))}
                           </div>
@@ -1120,7 +1121,7 @@ contract ${name.replace('.sol', '')} {
         </div>
       ) : (
         transactions.map(tx => (
-          <div key={tx.id} className="p-3 bg-gray-700/50 rounded-lg">
+          <div key={tx.id} className="p-3 bg-zinc-800/50 rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 {tx.status === 'success' ? (
@@ -1164,21 +1165,21 @@ contract ${name.replace('.sol', '')} {
     <div 
       ref={containerRef}
       className={cn(
-        "flex flex-col h-screen bg-gray-900 text-white overflow-hidden",
+        "flex flex-col h-screen bg-black text-white overflow-hidden",
         isFullscreen && "fixed inset-0 z-50"
       )}
     >
       {/* Header */}
-      <header className="flex items-center justify-between px-4 h-12 bg-gray-800 border-b border-gray-700 flex-shrink-0">
+      <header className="flex items-center justify-between px-4 h-12 bg-[#0a0a0a] border-b border-gray-700 flex-shrink-0">
         <div className="flex items-center gap-3">
           <Link
             to="/"
-            className="flex items-center gap-1.5 px-2 py-1 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1 text-gray-400 hover:text-white hover:bg-zinc-900 rounded transition-colors"
             title="Back to Home"
           >
             <Home className="w-4 h-4" />
           </Link>
-          <div className="w-px h-5 bg-gray-700" />
+          <div className="w-px h-5 bg-zinc-800" />
           <Code2 className="w-5 h-5 text-purple-500" />
           <span className="font-semibold text-sm">Solidity UDE</span>
           <span className="text-xs px-2 py-0.5 bg-purple-600/30 text-purple-400 rounded">
@@ -1196,14 +1197,14 @@ contract ${name.replace('.sol', '')} {
             {isCompiling ? 'Compiling...' : 'Compile'}
           </button>
           
-          <div className="w-px h-6 bg-gray-700" />
+          <div className="w-px h-6 bg-zinc-800" />
           
           <div className="flex items-center gap-1 text-sm text-gray-400">
             <span className="w-2 h-2 bg-green-500 rounded-full" />
             <span>{selectedNetwork.icon} {selectedNetwork.name}</span>
           </div>
           
-          <div className="w-px h-6 bg-gray-700" />
+          <div className="w-px h-6 bg-zinc-800" />
           
           <button
             onClick={() => {
@@ -1213,7 +1214,7 @@ contract ${name.replace('.sol', '')} {
                 setShowShareModal(true);
               }
             }}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-zinc-900 rounded-lg transition-colors"
             title="Share"
           >
             <Share2 className="w-4 h-4" />
@@ -1221,7 +1222,7 @@ contract ${name.replace('.sol', '')} {
           
           <button
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-zinc-900 rounded-lg transition-colors"
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
@@ -1238,14 +1239,14 @@ contract ${name.replace('.sol', '')} {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setShowTemplateSelector(true)}
-                  className="p-1 hover:bg-gray-700 rounded transition-colors"
-                  title="Browse 41 contract templates"
+                  className="p-1 hover:bg-zinc-900 rounded transition-colors"
+                  title="Browse 42 contract templates"
                 >
-                  <BookOpen className="w-4 h-4 text-purple-400" />
+                  <BookOpen className="w-4 h-4 text-white" />
                 </button>
                 <button
                   onClick={createNewFile}
-                  className="p-1 hover:bg-gray-700 rounded transition-colors"
+                  className="p-1 hover:bg-zinc-900 rounded transition-colors"
                   title="New file"
                 >
                   <Plus className="w-4 h-4" />
@@ -1256,10 +1257,11 @@ contract ${name.replace('.sol', '')} {
             {/* Templates Quick Access */}
             <button
               onClick={() => setShowTemplateSelector(true)}
-              className="mx-2 mt-2 px-3 py-2 bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 rounded-lg text-purple-400 text-xs font-medium flex items-center gap-2 transition-colors"
+              className="mx-2 mt-2 px-3 py-2.5 bg-white hover:bg-gray-100 rounded-lg text-black text-xs font-bold flex items-center gap-2 transition-all shadow-sm"
             >
-              <BookOpen className="w-3.5 h-3.5" />
-              41 Templates Available
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Browse Templates</span>
+              <span className="px-1.5 py-0.5 bg-black text-white rounded-full text-[10px] font-bold">42</span>
             </button>
             
             <div className="flex-1 overflow-y-auto py-2">
@@ -1269,8 +1271,8 @@ contract ${name.replace('.sol', '')} {
                   className={cn(
                     "group flex items-center gap-2 px-3 py-1.5 cursor-pointer transition-colors",
                     activeFileId === file.id 
-                      ? "bg-gray-700 text-white" 
-                      : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
+                      ? "bg-zinc-800 text-white" 
+                      : "text-gray-400 hover:bg-[#0a0a0a] hover:text-gray-200"
                   )}
                   onClick={() => openFile(file.id)}
                 >
@@ -1278,7 +1280,7 @@ contract ${name.replace('.sol', '')} {
                   <span className="flex-1 text-sm truncate">{file.name}</span>
                   <button
                     onClick={(e) => { e.stopPropagation(); deleteFile(file.id); }}
-                    className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-gray-600 rounded transition-all"
+                    className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-zinc-800 rounded transition-all"
                   >
                     <Trash2 className="w-3 h-3 text-red-400" />
                   </button>
@@ -1290,11 +1292,11 @@ contract ${name.replace('.sol', '')} {
         
         {/* Editor */}
         <div 
-          className="flex-1 flex flex-col bg-gray-900 overflow-hidden border-r border-gray-700"
+          className="flex-1 flex flex-col bg-black overflow-hidden border-r border-gray-700"
           style={{ width: `${splitPosition}%` }}
         >
           {/* Tabs */}
-          <div className="flex items-center bg-gray-800 border-b border-gray-700 overflow-x-auto">
+          <div className="flex items-center bg-[#0a0a0a] border-b border-gray-700 overflow-x-auto">
             {openTabs.map(tabId => {
               const file = files.find(f => f.id === tabId);
               if (!file) return null;
@@ -1305,8 +1307,8 @@ contract ${name.replace('.sol', '')} {
                   className={cn(
                     "group flex items-center gap-2 px-3 py-2 border-r border-gray-700 cursor-pointer transition-colors",
                     activeFileId === tabId 
-                      ? "bg-gray-900 text-white" 
-                      : "bg-gray-800 text-gray-400 hover:text-gray-200"
+                      ? "bg-black text-white" 
+                      : "bg-[#0a0a0a] text-gray-400 hover:text-gray-200"
                   )}
                   onClick={() => setActiveFileId(tabId)}
                 >
@@ -1314,7 +1316,7 @@ contract ${name.replace('.sol', '')} {
                   <span className="text-sm whitespace-nowrap">{file.name}</span>
                   <button
                     onClick={(e) => closeTab(tabId, e)}
-                    className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-gray-700 rounded transition-all"
+                    className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-zinc-900 rounded transition-all"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -1347,7 +1349,7 @@ contract ${name.replace('.sol', '')} {
         </div>
         
         {/* Right Panel */}
-        <div className="w-80 bg-gray-800 flex flex-col flex-shrink-0">
+        <div className="w-80 bg-[#0a0a0a] flex flex-col flex-shrink-0">
           {/* Panel Tabs */}
           <div className="flex border-b border-gray-700">
             {[
@@ -1362,8 +1364,8 @@ contract ${name.replace('.sol', '')} {
                 className={cn(
                   "flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-medium transition-colors",
                   activePanel === tab.id
-                    ? "bg-gray-900 text-white border-b-2 border-primary-500"
-                    : "text-gray-400 hover:text-gray-200 hover:bg-gray-700/50"
+                    ? "bg-black text-white border-b-2 border-white"
+                    : "text-gray-400 hover:text-gray-200 hover:bg-zinc-900/50"
                 )}
               >
                 <tab.icon className="w-4 h-4" />
@@ -1384,8 +1386,8 @@ contract ${name.replace('.sol', '')} {
       
       {/* Console */}
       {showConsole && (
-        <div className="h-40 bg-gray-900 border-t border-gray-700 flex flex-col flex-shrink-0">
-          <div className="flex items-center justify-between px-3 py-1.5 bg-gray-800 border-b border-gray-700">
+        <div className="h-40 bg-black border-t border-gray-700 flex flex-col flex-shrink-0">
+          <div className="flex items-center justify-between px-3 py-1.5 bg-[#0a0a0a] border-b border-gray-700">
             <div className="flex items-center gap-2">
               <Terminal className="w-4 h-4 text-gray-400" />
               <span className="text-xs font-medium text-gray-400">Console</span>
@@ -1393,13 +1395,13 @@ contract ${name.replace('.sol', '')} {
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setConsoleMessages([])}
-                className="p-1 hover:bg-gray-700 rounded transition-colors"
+                className="p-1 hover:bg-zinc-900 rounded transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5 text-gray-400" />
               </button>
               <button
                 onClick={() => setShowConsole(false)}
-                className="p-1 hover:bg-gray-700 rounded transition-colors"
+                className="p-1 hover:bg-zinc-900 rounded transition-colors"
               >
                 <X className="w-3.5 h-3.5 text-gray-400" />
               </button>
@@ -1444,7 +1446,7 @@ contract ${name.replace('.sol', '')} {
       {/* Wallet Connect Modal */}
       {showWalletModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Connect Wallet</h3>
               <button
@@ -1465,15 +1467,21 @@ contract ${name.replace('.sol', '')} {
       {/* Template Selector Modal */}
       {showTemplateSelector && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-6xl max-h-[90vh] mx-4 shadow-2xl flex flex-col overflow-hidden">
-            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-[#0a0a0a] rounded-xl w-full max-w-6xl max-h-[90vh] mx-4 shadow-2xl flex flex-col overflow-hidden">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-white/10">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Contract Templates</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">41 pre-built smart contract templates</p>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <Sparkles className="w-5 h-5" />
+                  Contract Templates
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  42 pre-built smart contract templates
+                  <span className="ml-2 px-1.5 py-0.5 bg-black dark:bg-white text-white dark:text-black rounded text-xs font-bold">42</span>
+                </p>
               </div>
               <button
                 onClick={() => setShowTemplateSelector(false)}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 rounded-lg text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
               >
                 <X className="w-5 h-5" />
               </button>

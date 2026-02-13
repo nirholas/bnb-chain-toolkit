@@ -373,7 +373,7 @@ export default function NFTMinterExample() {
                           {nft.attributes.map((attr, idx) => (
                             <span 
                               key={idx}
-                              className="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded"
+                              className="text-xs bg-gray-100 dark:bg-[#0a0a0a] px-2 py-1 rounded"
                             >
                               {attr.trait_type}: {attr.value}
                             </span>

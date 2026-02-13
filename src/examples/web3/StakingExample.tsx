@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { Lock, TrendingUp, Coins, Clock } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 interface StakingPool {
   id: string;
@@ -17,6 +18,7 @@ interface StakingPool {
 }
 
 export default function StakingExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const pools: StakingPool[] = [
     { id: '1', name: 'Flexible Staking', apy: 5.5, minStake: 0.1, lockPeriod: 0, totalStaked: 1250000 },
     { id: '2', name: '30-Day Lock', apy: 12.5, minStake: 1, lockPeriod: 30, totalStaked: 850000 },
@@ -57,7 +59,7 @@ export default function StakingExample() {
     
     const pool = pools.find(p => p.id === selectedPool);
     if (!pool || parseFloat(stakeAmount) < pool.minStake) {
-      alert(`Minimum stake is ${pool?.minStake} tokens`);
+      notify(`Minimum stake is ${pool?.minStake} tokens`, 'warning');
       return;
     }
 
@@ -83,7 +85,7 @@ export default function StakingExample() {
     if (pool && position) {
       const elapsed = (Date.now() - position.timestamp) / (86400000);
       if (pool.lockPeriod > 0 && elapsed < pool.lockPeriod) {
-        alert(`Lock period not complete. ${(pool.lockPeriod - elapsed).toFixed(1)} days remaining.`);
+        notify(`Lock period not complete. ${(pool.lockPeriod - elapsed).toFixed(1)} days remaining.`, 'warning');
         return;
       }
     }
@@ -107,6 +109,7 @@ export default function StakingExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Token Staking</h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -151,7 +154,7 @@ export default function StakingExample() {
             <select
               value={selectedPool}
               onChange={(e) => setSelectedPool(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             >
               <option value="">Choose a pool</option>
               {pools.map(pool => (
@@ -169,7 +172,7 @@ export default function StakingExample() {
               value={stakeAmount}
               onChange={(e) => setStakeAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
         </div>

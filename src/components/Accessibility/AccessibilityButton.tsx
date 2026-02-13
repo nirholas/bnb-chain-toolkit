@@ -129,7 +129,7 @@ export default function AccessibilityButton() {
       {/* Quick Menu Popup */}
       {isQuickMenuOpen && (
         <div
-          className="fixed z-50 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-4 border border-gray-200 dark:border-gray-700 min-w-[280px]"
+          className="fixed z-50 bg-white dark:bg-black rounded-2xl shadow-2xl p-4 border border-gray-200 dark:border-gray-700 min-w-[280px]"
           style={{ 
             left: Math.min(position.x, window.innerWidth - 300),
             top: Math.max(20, position.y - 280)
@@ -144,7 +144,7 @@ export default function AccessibilityButton() {
             </h3>
             <button
               onClick={() => setIsQuickMenuOpen(false)}
-              className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded"
+              className="p-1 hover:bg-gray-100 dark:hover:bg-[#0a0a0a] rounded"
               aria-label="Close quick menu"
             >
               <X className="w-5 h-5" />
@@ -153,12 +153,12 @@ export default function AccessibilityButton() {
 
           <div className="space-y-3">
             {/* Font Size Controls */}
-            <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
+            <div className="flex items-center justify-between p-2 bg-gray-50 dark:bg-[#0a0a0a] rounded-lg">
               <span className="text-sm font-medium">Text Size</span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={decreaseFontSize}
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition"
+                  className="p-2 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded-lg transition"
                   aria-label="Decrease font size"
                   disabled={settings.fontSize === 'normal'}
                 >
@@ -167,7 +167,7 @@ export default function AccessibilityButton() {
                 <span className="text-sm min-w-[60px] text-center capitalize">{settings.fontSize}</span>
                 <button
                   onClick={increaseFontSize}
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition"
+                  className="p-2 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded-lg transition"
                   aria-label="Increase font size"
                   disabled={settings.fontSize === 'xx-large'}
                 >
@@ -179,7 +179,7 @@ export default function AccessibilityButton() {
             {/* Quick Toggles */}
             <button
               onClick={toggleDarkMode}
-              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition"
+              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-[#0a0a0a] rounded-lg transition"
               role="menuitem"
             >
               <span className="flex items-center gap-3">
@@ -193,7 +193,7 @@ export default function AccessibilityButton() {
               <span className={`text-xs px-2 py-1 rounded ${
                 document.documentElement.classList.contains('dark') 
                   ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
-                  : 'bg-gray-100 dark:bg-gray-700'
+                  : 'bg-gray-100 dark:bg-zinc-900'
               }`}>
                 {document.documentElement.classList.contains('dark') ? 'On' : 'Off'}
               </span>
@@ -201,7 +201,7 @@ export default function AccessibilityButton() {
 
             <button
               onClick={toggleHighContrast}
-              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition"
+              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-[#0a0a0a] rounded-lg transition"
               role="menuitem"
             >
               <span className="flex items-center gap-3">
@@ -211,7 +211,7 @@ export default function AccessibilityButton() {
               <span className={`text-xs px-2 py-1 rounded ${
                 settings.highContrast 
                   ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
-                  : 'bg-gray-100 dark:bg-gray-700'
+                  : 'bg-gray-100 dark:bg-zinc-900'
               }`}>
                 {settings.highContrast ? 'On' : 'Off'}
               </span>
@@ -219,7 +219,7 @@ export default function AccessibilityButton() {
 
             <button
               onClick={toggleTextToSpeech}
-              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition"
+              className="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-[#0a0a0a] rounded-lg transition"
               role="menuitem"
             >
               <span className="flex items-center gap-3">
@@ -233,7 +233,7 @@ export default function AccessibilityButton() {
               <span className={`text-xs px-2 py-1 rounded ${
                 settings.textToSpeech 
                   ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
-                  : 'bg-gray-100 dark:bg-gray-700'
+                  : 'bg-gray-100 dark:bg-zinc-900'
               }`}>
                 {settings.textToSpeech ? 'On' : 'Off'}
               </span>
@@ -253,7 +253,7 @@ export default function AccessibilityButton() {
             </button>
 
             <p className="text-xs text-gray-500 text-center mt-2">
-              Keyboard shortcut: <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">Alt + A</kbd>
+              Keyboard shortcut: <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-zinc-900 rounded">Alt + A</kbd>
             </p>
           </div>
         </div>

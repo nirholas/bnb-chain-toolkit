@@ -1242,9 +1242,6 @@ function formatResponse(entry: KnowledgeEntry): BNBResponse {
  * helpful responses about smart contracts and Web3.
  */
 export async function generateBNBResponse(userMessage: string): Promise<BNBResponse> {
-  // Simulate network delay for realistic feel
-  await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
-  
   // Find best matching knowledge entry
   const match = findBestMatch(userMessage);
   

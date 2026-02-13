@@ -489,7 +489,7 @@ function HeroSection() {
               </span>
               <PriceChange value={globalData.market_cap_change_percentage_24h_usd} />
             </div>
-            <div className="hidden sm:block w-px h-5 bg-gray-300 dark:bg-gray-700" />
+            <div className="hidden sm:block w-px h-5 bg-gray-300 dark:bg-zinc-900" />
             <div className="flex items-center gap-2">
               <span className="text-gray-500 dark:text-gray-400">Active Coins:</span>
               <span className="font-semibold text-gray-900 dark:text-white">
@@ -825,7 +825,7 @@ function ChainsTab() {
                   className={cn(barColors[i], 'transition-all relative group/bar cursor-pointer')}
                   style={{ width: `${percent}%` }}
                 >
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded bg-gray-900 dark:bg-white text-white dark:text-black text-xs font-medium opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded bg-black dark:bg-white text-white dark:text-black text-xs font-medium opacity-0 group-hover/bar:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
                     {chain.name}: {percent.toFixed(1)}%
                   </div>
                 </div>

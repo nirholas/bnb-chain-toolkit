@@ -6,8 +6,10 @@
 
 import { useState } from 'react';
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 export default function DeFiLendingExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const [depositAmount, setDepositAmount] = useState('');
   const [borrowAmount, setBorrowAmount] = useState('');
   const [selectedAsset, setSelectedAsset] = useState('ETH');
@@ -37,7 +39,7 @@ export default function DeFiLendingExample() {
     const borrowValue = calculateTotalBorrow() + (parseFloat(borrowAmount) * getCurrentPrice());
     
     if (borrowValue > collateralValue * 0.75) {
-      alert('Insufficient collateral! You can borrow up to 75% of your collateral value.');
+      notify('Insufficient collateral! You can borrow up to 75% of your collateral value.', 'error');
       return;
     }
     
@@ -71,6 +73,7 @@ export default function DeFiLendingExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">DeFi Lending Protocol</h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -124,7 +127,7 @@ export default function DeFiLendingExample() {
             <select
               value={selectedAsset}
               onChange={(e) => setSelectedAsset(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             >
               {assets.map(asset => (
                 <option key={asset.symbol} value={asset.symbol}>
@@ -141,7 +144,7 @@ export default function DeFiLendingExample() {
               value={depositAmount}
               onChange={(e) => setDepositAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -177,7 +180,7 @@ export default function DeFiLendingExample() {
             <select
               value={selectedAsset}
               onChange={(e) => setSelectedAsset(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             >
               {assets.map(asset => (
                 <option key={asset.symbol} value={asset.symbol}>
@@ -194,7 +197,7 @@ export default function DeFiLendingExample() {
               value={borrowAmount}
               onChange={(e) => setBorrowAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
             <p className="text-xs text-gray-500 mt-1">
               Available to borrow: ${(collateralValue * 0.75 - borrowValue).toFixed(2)}

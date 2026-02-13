@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import { Shield, Users, CheckCircle, XCircle, Clock, Send } from 'lucide-react';
+import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
 interface Transaction {
   id: number;
@@ -18,6 +19,7 @@ interface Transaction {
 }
 
 export default function MultiSigWalletExample() {
+  const { notify, NotificationArea } = useInlineNotification();
   const owners = [
     '0x1111...1111',
     '0x2222...2222',
@@ -53,7 +55,7 @@ export default function MultiSigWalletExample() {
 
   const handleSubmitTransaction = () => {
     if (!newTx.to || !newTx.value || !newTx.description) {
-      alert('Please fill all fields');
+      notify('Please fill all fields', 'warning');
       return;
     }
 
@@ -92,7 +94,7 @@ export default function MultiSigWalletExample() {
   const handleExecute = (txId: number) => {
     const tx = transactions.find(t => t.id === txId);
     if (!tx || tx.approvals.length < requiredApprovals) {
-      alert('Not enough approvals to execute transaction');
+      notify('Not enough approvals to execute transaction', 'error');
       return;
     }
 
@@ -115,6 +117,7 @@ export default function MultiSigWalletExample() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <NotificationArea />
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Multi-Signature Wallet</h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -161,7 +164,7 @@ export default function MultiSigWalletExample() {
               value={newTx.to}
               onChange={(e) => setNewTx({ ...newTx, to: e.target.value })}
               placeholder="0x..."
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -172,7 +175,7 @@ export default function MultiSigWalletExample() {
               value={newTx.value}
               onChange={(e) => setNewTx({ ...newTx, value: e.target.value })}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -183,7 +186,7 @@ export default function MultiSigWalletExample() {
               value={newTx.description}
               onChange={(e) => setNewTx({ ...newTx, description: e.target.value })}
               placeholder="Payment purpose"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -230,7 +233,7 @@ export default function MultiSigWalletExample() {
                   </div>
 
                   {/* Approval Status */}
-                  <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="mb-4 p-3 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Approvals</span>
                       <span className="text-sm font-bold">
@@ -299,7 +302,7 @@ export default function MultiSigWalletExample() {
           <h2 className="text-xl font-bold mb-4">Transaction History</h2>
           <div className="space-y-2">
             {executedTransactions.map(tx => (
-              <div key={tx.id} className="card bg-gray-50 dark:bg-gray-800/50">
+              <div key={tx.id} className="card bg-gray-50 dark:bg-[#0a0a0a]/50">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <p className="font-medium text-sm">{tx.description}</p>

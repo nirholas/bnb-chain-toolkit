@@ -22,6 +22,11 @@ import {
   TrendingUp,
   AlertTriangle
 } from 'lucide-react';
+import {
+  estimateDeploymentGas,
+  calculateSecurityScore as analyzerSecurityScore,
+  simulateScenario,
+} from '@/utils/solidityAnalyzer';
 
 interface TimelineSnapshot {
   id: string;
@@ -87,25 +92,11 @@ export default function ContractTimeMachine({
   };
 
   const estimateGas = (code: string): number => {
-    // Simplified gas estimation
-    let gas = 21000; // Base transaction
-    gas += code.length * 200; // Deployment cost
-    gas += (code.match(/function/g) || []).length * 5000; // Function gas
-    gas += (code.match(/storage/g) || []).length * 20000; // Storage operations
-    return gas;
+    return estimateDeploymentGas(code);
   };
 
   const calculateSecurityScore = (code: string): number => {
-    let score = 100;
-    
-    // Deduct points for risky patterns
-    if (code.includes('.call{value:') && !code.includes('ReentrancyGuard')) score -= 30;
-    if (code.includes('tx.origin')) score -= 20;
-    if (!code.includes('pragma solidity ^0.8')) score -= 15;
-    if (!code.includes('require') && !code.includes('revert')) score -= 10;
-    if (code.includes('selfdestruct')) score -= 25;
-    
-    return Math.max(0, score);
+    return analyzerSecurityScore(code);
   };
 
   const travelToSnapshot = (index: number) => {
@@ -152,34 +143,35 @@ export default function ContractTimeMachine({
 
   const simulateFuture = async () => {
     onLog('info', '🔮 Simulating contract execution across multiple scenarios...');
-    
-    // Simulate different scenarios
-    const scenarios = [
-      { name: 'Normal Operation', successRate: 0.95 },
-      { name: 'High Traffic', successRate: 0.7 },
-      { name: 'Attack Scenario', successRate: 0.3 },
-      { name: 'Edge Cases', successRate: 0.6 }
+
+    const scenarioTypes: Array<{ name: string; key: 'normal' | 'high-traffic' | 'attack' | 'edge-cases' }> = [
+      { name: 'Normal Operation', key: 'normal' },
+      { name: 'High Traffic', key: 'high-traffic' },
+      { name: 'Attack Scenario', key: 'attack' },
+      { name: 'Edge Cases', key: 'edge-cases' }
     ];
 
     const results: SimulationResult[] = [];
 
-    for (const scenario of scenarios) {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      const success = Math.random() < scenario.successRate;
+    for (const scenario of scenarioTypes) {
+      // Brief UI delay between scenarios for visual progression
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Use shared analyzer for deterministic simulation
+      const sim = simulateScenario(currentCode, scenario.key);
       const result: SimulationResult = {
-        success,
-        gasUsed: estimateGas(currentCode) * (Math.random() * 0.5 + 0.75),
-        outcome: success ? '✅ Executed successfully' : '❌ Transaction reverted',
+        success: sim.success,
+        gasUsed: sim.gasUsed,
+        outcome: sim.outcome,
         stateChanges: {
-          balance: success ? 'increased' : 'unchanged',
-          storage: success ? 'updated' : 'reverted'
+          balance: sim.success ? 'increased' : 'unchanged',
+          storage: sim.success ? 'updated' : 'reverted'
         },
-        events: success ? ['Transfer', 'Approval'] : ['Revert']
+        events: sim.details
       };
 
       results.push(result);
-      onLog(success ? 'success' : 'error', `${scenario.name}: ${result.outcome}`);
+      onLog(sim.success ? 'success' : 'error', `${scenario.name}: ${sim.outcome}`);
     }
 
     setSimulationResults(results);
@@ -216,8 +208,8 @@ export default function ContractTimeMachine({
           <div className="flex items-center space-x-2">
             <History className="w-6 h-6" />
             <h3 className="font-bold text-lg">Contract Time Machine</h3>
-            <span className="px-2 py-0.5 text-xs bg-amber-400/20 text-amber-200 rounded border border-amber-400/30">
-              Concept Demo
+            <span className="px-2 py-0.5 text-xs bg-purple-400/20 text-purple-200 rounded border border-purple-400/30">
+              Experimental
             </span>
           </div>
           <div className="flex items-center space-x-2">
@@ -339,7 +331,7 @@ export default function ContractTimeMachine({
                 <div className={`p-4 rounded-xl border-2 ${
                   index === currentIndex
                     ? 'bg-indigo-100 dark:bg-indigo-900/40 border-indigo-400 dark:border-indigo-600 shadow-lg'
-                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                    : 'bg-white dark:bg-[#0a0a0a] border-gray-200 dark:border-gray-700'
                 }`}>
                   <div className="flex items-start justify-between mb-2">
                     <div>

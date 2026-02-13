@@ -159,7 +159,7 @@ export default function WalletConnect({ onClose, onConnect }: WalletConnectProps
       aria-modal="true"
       aria-labelledby="wallet-modal-title"
     >
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-slide-up">
+      <div className="bg-white dark:bg-[#0a0a0a] rounded-xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-slide-up">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 id="wallet-modal-title" className="text-xl font-bold">
@@ -167,7 +167,7 @@ export default function WalletConnect({ onClose, onConnect }: WalletConnectProps
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-zinc-900 transition-colors"
             aria-label="Close wallet dialog"
           >
             <X className="w-5 h-5" aria-hidden="true" />
@@ -238,7 +238,7 @@ export default function WalletConnect({ onClose, onConnect }: WalletConnectProps
               </div>
 
               <div className="space-y-3" role="group" aria-label="Wallet details">
-                <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                <div className="p-4 bg-gray-50 dark:bg-black rounded-lg">
                   <p className="text-xs text-gray-500 dark:text-gray-400 mb-1" id="address-label">
                     Address
                   </p>
@@ -248,7 +248,7 @@ export default function WalletConnect({ onClose, onConnect }: WalletConnectProps
                 </div>
 
                 {balance && (
-                  <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                  <div className="p-4 bg-gray-50 dark:bg-black rounded-lg">
                     <p className="text-xs text-gray-500 dark:text-gray-400 mb-1" id="balance-label">
                       Balance
                     </p>
