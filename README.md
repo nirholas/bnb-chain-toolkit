@@ -277,14 +277,6 @@ bun run sweep --wallet 0xYourAddress --target USDC  # Execute
 | **BNB Smart Chain (BSC)** | L1 | ✅ |
 | **opBNB** | L2 | ✅ |
 | **BNB Greenfield** | Storage | ✅ |
-| Ethereum | L1 | ✅ |
-| Polygon | L1/L2 | ✅ |
-| Arbitrum | L2 | ✅ |
-| Base | L2 | ✅ |
-| Optimism | L2 | ✅ |
-| Avalanche | L1 | ✅ |
-| Solana | L1 | ✅ |
-| + 50 more | Various | ✅ |
 
 ---
 

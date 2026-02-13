@@ -20,7 +20,8 @@ import {
     Coins, GitBranch,
     ExternalLink, GraduationCap,
     BarChart3, Eye, Server, Wrench,
-    Activity, Network, Blocks, Plug, Sparkles, Copy, Check
+    Activity, Network, Blocks, Plug, Sparkles, Copy, Check,
+    Fingerprint, BadgeCheck, ArrowRight
 } from 'lucide-react';
 import { Spotlight } from '@/components/ui/spotlight';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
@@ -65,13 +66,6 @@ const supportedChains = [
     { name: 'BNB Smart Chain', type: 'L1', primary: true },
     { name: 'opBNB', type: 'L2', primary: true },
     { name: 'BNB Greenfield', type: 'Storage', primary: true },
-    { name: 'Ethereum', type: 'L1', primary: false },
-    { name: 'Polygon', type: 'L1/L2', primary: false },
-    { name: 'Arbitrum', type: 'L2', primary: false },
-    { name: 'Base', type: 'L2', primary: false },
-    { name: 'Optimism', type: 'L2', primary: false },
-    { name: 'Avalanche', type: 'L1', primary: false },
-    { name: 'Solana', type: 'L1', primary: false },
 ];
 
 const howItWorks = [
@@ -128,12 +122,12 @@ const chainMarqueeItems = [
     ...supportedChains.map((c) => ({
         quote: c.type,
         name: c.name,
-        title: c.primary ? 'Primary' : 'Supported',
+        title: 'Primary',
     })),
-    { quote: '', name: '+ 50 more', title: 'networks' },
 ];
 
 const exploreItems = [
+    { title: 'ERC-8004 Agents', desc: 'Create trustless AI agent identities on BSC', icon: Bot, href: '/erc8004', accent: '#F0B90B' },
     { title: 'Documentation', desc: 'Comprehensive guides and API references', icon: BookOpen, href: '/docs', accent: '#3B82F6' },
     { title: 'Tutorials', desc: 'Step-by-step interactive learning paths', icon: GraduationCap, href: '/tutorials', accent: '#10B981' },
     { title: 'Playground', desc: 'Try BNB Chain smart contracts live', icon: Code, href: '/playground', accent: '#F59E0B' },
@@ -141,7 +135,6 @@ const exploreItems = [
     { title: 'IDE', desc: 'Solidity and Web3 development studio', icon: Cpu, href: '/ide', accent: '#A855F7' },
     { title: 'Full-Stack Demo', desc: 'Contract + frontend builder', icon: Layers, href: '/fullstack-demo', accent: '#F0B90B' },
     { title: 'Innovation Lab', desc: 'AI tools & experimental features', icon: Sparkles, href: '/innovation', accent: '#EC4899' },
-    { title: 'Community', desc: 'Connect with BNB Chain builders', icon: Users, href: '/community', accent: '#6366F1' },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -296,12 +289,19 @@ export default function Homepage() {
                     {/* CTA buttons — hierarchy: primary > secondary > tertiary */}
                     <div className="flex flex-wrap justify-center gap-3 mb-16">
                         <Link
-                            to="/fullstack-demo"
+                            to="/erc8004"
                             className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(240,185,11,0.45)] hover:-translate-y-0.5 active:translate-y-0 animate-glow-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
+                        >
+                            <Bot className="w-5 h-5" />
+                            Create ERC-8004 Agent
+                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                        <Link
+                            to="/fullstack-demo"
+                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-neutral-200 dark:border-white/[0.1] text-neutral-600 dark:text-neutral-300 hover:border-[#F0B90B]/40 hover:text-[#F0B90B] hover:-translate-y-0.5 bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm"
                         >
                             <Zap className="w-5 h-5" />
                             Start Building
-                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </Link>
                         <a
                             href="https://github.com/nirholas/bnb-chain-toolkit"
@@ -310,16 +310,9 @@ export default function Homepage() {
                             className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-neutral-200 dark:border-white/[0.1] text-neutral-600 dark:text-neutral-300 hover:border-[#F0B90B]/40 hover:text-[#F0B90B] hover:-translate-y-0.5 bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm"
                         >
                             <GitBranch className="w-5 h-5" />
-                            View on GitHub
+                            GitHub
                             <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
                         </a>
-                        <Link
-                            to="/docs"
-                            className="inline-flex items-center gap-2 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 text-neutral-500 dark:text-neutral-400 hover:text-[#F0B90B] hover:-translate-y-0.5"
-                        >
-                            <BookOpen className="w-5 h-5" />
-                            Docs
-                        </Link>
                     </div>
 
                     {/* Stats — sharp professional counters */}
@@ -348,7 +341,121 @@ export default function Homepage() {
                 SECTION 2 — LIVE MARKET DATA STRIP
             ═══════════════════════════════════════════════════════════════ */}
             <section className="py-3 border-y border-neutral-200 dark:border-white/[0.06] bg-neutral-50/50 dark:bg-white/[0.01]">
-                <PriceTicker />
+                <div className="container mx-auto px-4">
+                    <PriceTicker />
+                </div>
+            </section>
+
+            {/* ═══════════════════════════════════════════════════════════════
+                SECTION 2.5 — ERC-8004 TRUSTLESS AGENTS (HERO HIGHLIGHT)
+            ═══════════════════════════════════════════════════════════════ */}
+            <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950">
+                {/* Ambient glow */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-[#F0B90B]/[0.04] blur-[150px]" />
+                    <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-amber-500/[0.03] blur-[120px]" />
+                </div>
+                <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-20 pointer-events-none" />
+
+                <div className="container mx-auto px-4 relative z-10">
+                    {/* Badge */}
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide mb-8 border backdrop-blur-md bg-[#F0B90B]/[0.06] border-[#F0B90B]/25 text-[#F0B90B] uppercase">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0B90B] opacity-75" />
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F0B90B]" />
+                            </span>
+                            Now Live on BSC
+                        </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-white mb-5">
+                            Create{' '}
+                            <span className="bg-gradient-to-r from-[#F0B90B] via-amber-300 to-[#F0B90B] bg-clip-text text-transparent">ERC-8004 Agents</span>
+                            {' '}on BSC
+                        </h2>
+                        <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-light">
+                            Give your AI agent a portable, censorship-resistant on-chain identity. Each agent gets an ERC-721 NFT
+                            — discoverable, transferable, and trusted across the entire agent economy.
+                        </p>
+                    </div>
+
+                    {/* Three pillars */}
+                    <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto mb-14">
+                        <div className="group relative p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-[#F0B90B]/10 border border-[#F0B90B]/20">
+                                <Fingerprint className="w-6 h-6 text-[#F0B90B]" />
+                            </div>
+                            <h3 className="font-bold text-white text-lg mb-2 tracking-tight">Identity Registry</h3>
+                            <p className="text-sm text-neutral-400 leading-relaxed">ERC-721 agent identity. Portable, browsable, transferable. Your agent&apos;s permanent on-chain handle.</p>
+                        </div>
+                        <div className="group relative p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-amber-500/10 border border-amber-500/20">
+                                <BadgeCheck className="w-6 h-6 text-amber-400" />
+                            </div>
+                            <h3 className="font-bold text-white text-lg mb-2 tracking-tight">Reputation Registry</h3>
+                            <p className="text-sm text-neutral-400 leading-relaxed">Standardized feedback signals. Clients rate agents on-chain — scores, uptime, response time, revenue.</p>
+                        </div>
+                        <div className="group relative p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-amber-600/10 border border-amber-600/20">
+                                <Shield className="w-6 h-6 text-amber-500" />
+                            </div>
+                            <h3 className="font-bold text-white text-lg mb-2 tracking-tight">Validation Registry</h3>
+                            <p className="text-sm text-neutral-400 leading-relaxed">Independent verification via stakers, zkML proofs, or TEE oracles. Pluggable trust models.</p>
+                        </div>
+                    </div>
+
+                    {/* Stats row */}
+                    <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-12">
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">0x8004</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">Vanity Prefix</div>
+                        </div>
+                        <div className="w-px h-12 bg-white/10 hidden md:block" />
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">16+</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">Chains Deployed</div>
+                        </div>
+                        <div className="w-px h-12 bg-white/10 hidden md:block" />
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">3</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">On-Chain Registries</div>
+                        </div>
+                        <div className="w-px h-12 bg-white/10 hidden md:block" />
+                        <div className="text-center">
+                            <div className="text-3xl md:text-4xl font-extrabold text-white stat-number">Free</div>
+                            <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">No Fees (Just Gas)</div>
+                        </div>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <Link
+                            to="/erc8004"
+                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_50px_rgba(240,185,11,0.5)] hover:-translate-y-0.5 animate-glow-pulse"
+                        >
+                            <Bot className="w-5 h-5" />
+                            Create Your Agent Now
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                        <a
+                            href="https://testnet.bscscan.com/tx/0xfc55d83d20e6d92ff522f302fd3424d3fd5557f25c06f4bfc38ecf3246dc1962"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-white/[0.12] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5"
+                        >
+                            See Our First Agent on BSC
+                            <ExternalLink className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 transition-opacity" />
+                        </a>
+                        <a
+                            href="https://www.8004.org"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 text-neutral-400 hover:text-[#F0B90B] hover:-translate-y-0.5"
+                        >
+                            Read the ERC-8004 Spec
+                            <ExternalLink className="w-3.5 h-3.5 opacity-40" />
+                        </a>
+                    </div>
+                </div>
             </section>
 
             {/* ═══════════════════════════════════════════════════════════════
@@ -529,8 +636,8 @@ export default function Homepage() {
                     <SectionHeading
                         badge="Multi-Chain"
                         badgeIcon={Network}
-                        title="60+ Supported Networks"
-                        subtitle="BNB Chain first, but cross-chain by design."
+                        title="BNB Chain Networks"
+                        subtitle="Purpose-built for the BNB Chain ecosystem."
                     />
 
                     <div className="max-w-5xl mx-auto">
@@ -556,9 +663,6 @@ export default function Homepage() {
                                 <span className="ml-1.5 text-xs opacity-50">{chain.type}</span>
                             </div>
                         ))}
-                        <div className="px-4 py-2 rounded-xl text-sm border border-dashed border-neutral-300 dark:border-white/[0.08] text-neutral-400">
-                            + 50 more
-                        </div>
                     </div>
                 </div>
             </section>
