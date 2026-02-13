@@ -1,0 +1,91 @@
+# Lyra Web3 Playground - robots.txt
+# https://lyra.works
+# Last Updated: 2026-01-19
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# ============================================
+# AI Crawlers - explicitly allowed
+# ============================================
+
+# OpenAI
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# X.AI (Grok)
+User-agent: Grok
+Allow: /
+
+User-agent: xai-grok
+Allow: /
+
+# Google AI
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+# Microsoft/Bing
+User-agent: Bingbot
+Allow: /
+
+User-agent: BingPreview
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Common Crawl (used by many AI training datasets)
+User-agent: CCBot
+Allow: /
+
+# ============================================
+# AI Discovery Files
+# ============================================
+# llms.txt - LLM-focused site description
+# ai.txt - AI agent quick reference
+# .well-known/ai-plugin.json - ChatGPT plugin manifest
+# openapi.json - API specification for AI tools
+
+# Sitemap location
+Sitemap: https://lyra.works/sitemap.xml
+
+# Crawl-delay for politeness (optional)
+Crawl-delay: 1

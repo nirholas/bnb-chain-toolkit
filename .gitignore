@@ -1,71 +1,40 @@
-# Gitignore for SperaxOS
-################################################################
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# general
-.DS_Store
-.idea
-.vscode
-.history
-.temp
-.env.local
-venv
-temp
-tmp
+# Build outputs
+dist/
+build/
+.vite/
+*.local
 
-# dependencies
-node_modules
-*.log
-*.lock
-package-lock.json
-
-# ci
-.coverage
-.eslintcache
-.stylelintcache
-
-# production
-dist
-es
-logs
-test-output
-
-# umi
-.umi
-.umi-production
-.umi-test
-.dumi/tmp*
-
-# husky
-.husky/prepare-commit-msg
-
-# misc
-public
+# Environment variables
 .env
-.env.*
+.env.local
+.env.production
+.env.development
 
-# macOS
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
 .DS_Store
-__MACOSX
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Python
-__pycache__
-*.pyc
-.venv
-*.egg-info
+# Testing
+coverage/
 
-# Build artifacts
-dist
-build
-out
-*.wasm
-*.snap
+# Logs
+logs/
+*.log
 
-# Large files
-*.mov
-*.mp4
-*.sketch
-vendor/
-archive/
-
-
-
+# OS files
+.DS_Store
+Thumbs.db
