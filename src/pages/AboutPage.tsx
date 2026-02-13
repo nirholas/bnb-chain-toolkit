@@ -117,7 +117,7 @@ export default function AboutPage() {
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
             Built for BNB Chain.
             <br />
-            Built by the Community.
+            Built by nich.
           </h1>
           <p className="mt-6 text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
             The most comprehensive open-source AI toolkit for blockchain — 72+
@@ -157,8 +157,8 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold mb-8">Mission</h2>
           <div className="space-y-6 text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
             <p>
-              We believe AI should be a force multiplier for every Web3
-              developer. The BNB Chain AI Toolkit provides pre-built agent
+              I believe AI should be a force multiplier for every Web3
+              developer. BNB Chain AI Toolkit provides pre-built agent
               definitions, Model Context Protocol servers, and hundreds of
               composable tools — so builders can focus on what matters rather
               than re-inventing infrastructure.
@@ -330,8 +330,9 @@ export default function AboutPage() {
             <div>
               <h3 className="text-xl font-semibold">nich</h3>
               <p className="text-gray-500 dark:text-gray-400 mt-1">
-                Independent builder. Focused on open-source AI and Web3
-                infrastructure for the BNB Chain ecosystem.
+                Independent builder shipping open-source AI and Web3
+                infrastructure for the BNB Chain ecosystem. Building this toolkit
+                for the BNB Chain &quot;Good Vibes Only&quot; hackathon.
               </p>
               <div className="flex items-center gap-4 mt-4">
                 <a

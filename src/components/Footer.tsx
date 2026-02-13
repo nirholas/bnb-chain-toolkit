@@ -125,9 +125,9 @@ export default function Footer() {
           </nav>
 
           {/* Company */}
-          <nav aria-label="Company links">
+          <nav aria-label="Project links">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">
-              Company
+              Project
             </h3>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
@@ -159,7 +159,9 @@ export default function Footer() {
         {/* ── Bottom bar ────────────────────────────────────── */}
         <div className="border-t border-white/5 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
           <span>
-            © {new Date().getFullYear()} BNB Chain AI Toolkit · MIT License
+            © {new Date().getFullYear()} BNB Chain AI Toolkit · Built by{' '}
+            <a href="https://x.com/nichxbt" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">nich</a>
+            {' '}· MIT License
           </span>
           <nav
             aria-label="Legal links"

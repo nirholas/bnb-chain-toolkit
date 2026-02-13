@@ -123,8 +123,4 @@ function CardDescription({
   );
 }
 
-/** Alias used by the barrel export in index.ts */
-export { HoverEffect as CardHoverEffect };
-export type { HoverEffectProps as CardHoverEffectProps };
-
 export default HoverEffect;
