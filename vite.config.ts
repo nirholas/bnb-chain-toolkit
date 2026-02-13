@@ -61,5 +61,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['@solana/web3.js'],
+    entries: [
+      'index.html',
+      'public/erc8004.html',
+      'src/**/*.{ts,tsx}',
+    ],
   },
 })

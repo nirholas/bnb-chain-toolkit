@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+═══════════════════════════════════════════════════════════════════════════════
+ERC-8004 AGENT CREATOR — BNB Chain AI Toolkit
+═══════════════════════════════════════════════════════════════════════════════
+
+✨ Original Author: nich
+🐦 Twitter/X: x.com/nichxbt
+🐙 GitHub: github.com/nirholas
+📦 Repository: github.com/nirholas/bnb-chain-toolkit
+🌐 Website: https://bnbchaintoolkit.com
+
+Powered by ERC-8004: Trustless Agents
+https://www.8004.org
+
+Copyright (c) 2024-2026 nirholas (nich)
+Licensed under MIT License
+═══════════════════════════════════════════════════════════════════════════════
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERC-8004 Agent Creator — BNB Chain AI Toolkit</title>
+  <meta name="description" content="Create ERC-8004 Trustless Agents on BNB Smart Chain. Register your AI agent on-chain with a portable, censorship-resistant identity." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Ethers.js v6 -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* RESET & BASE                                                       */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-card-hover: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.08);
+      --border-focus: rgba(240,185,11,0.5);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #666;
+      --accent: #F0B90B;
+      --accent-dim: rgba(240,185,11,0.15);
+      --accent-glow: rgba(240,185,11,0.3);
+      --success: #00C48C;
+      --error: #FF4D4F;
+      --warning: #FAAD14;
+      --info: #1890FF;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* BACKGROUND EFFECTS                                                  */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow {
+      position: fixed;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(240,185,11,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-glow-2 {
+      position: fixed;
+      bottom: -30%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(240,185,11,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* LAYOUT                                                              */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .app { position: relative; z-index: 1; }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* HEADER / NAV                                                        */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(10,10,10,0.8);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: #000;
+      letter-spacing: -0.5px;
+    }
+    .logo-text {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+    }
+    .logo-text span { color: var(--accent); }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* BUTTONS                                                             */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: #d4a20a;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--bg-card-hover);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 8px 12px;
+    }
+    .btn-ghost:hover { color: var(--text-primary); }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+    .btn-lg { padding: 14px 28px; font-size: 15px; }
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+    }
+    .btn-success { background: var(--success); color: #000; }
+    .btn-danger { background: var(--error); color: #fff; }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* HERO                                                                */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .hero {
+      padding: 80px 0 48px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(240,185,11,0.2);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent) 0%, #FFD700 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding-top: 16px;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--font-mono);
+    }
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* NETWORK SELECTOR                                                    */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .network-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 0;
+    }
+    .network-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-sans);
+    }
+    .network-btn:hover { border-color: rgba(255,255,255,0.15); }
+    .network-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .network-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .network-dot.testnet { background: var(--warning); }
+    .network-dot.mainnet { background: var(--success); }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* CARDS                                                               */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      backdrop-filter: blur(10px);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .card-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* STEPPER                                                             */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .stepper {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .step-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      border: 2px solid var(--border);
+      color: var(--text-muted);
+      background: var(--bg-secondary);
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+    .step.active .step-circle {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+    .step.completed .step-circle {
+      border-color: var(--success);
+      background: var(--success);
+      color: #000;
+    }
+    .step-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: 8px;
+      font-weight: 500;
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .step-label { display: block; }
+    }
+    .step.active .step-label, .step.completed .step-label {
+      color: var(--text-secondary);
+    }
+    .step-line {
+      width: 40px;
+      height: 2px;
+      background: var(--border);
+      margin: 0 8px;
+      flex-shrink: 0;
+    }
+    .step-line.completed { background: var(--success); }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* FORMS                                                               */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.3px;
+    }
+    .form-label .required {
+      color: var(--error);
+      margin-left: 2px;
+    }
+    .form-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      transition: all var(--transition);
+      outline: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(240,185,11,0.1);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.5;
+    }
+    .form-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+    .form-select option {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* SERVICE ENTRIES                                                     */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .service-entry {
+      display: grid;
+      grid-template-columns: 140px 1fr 100px 40px;
+      gap: 8px;
+      align-items: start;
+      padding: 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    @media (max-width: 640px) {
+      .service-entry {
+        grid-template-columns: 1fr;
+      }
+    }
+    .service-entry .form-input, .service-entry .form-select {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    .btn-remove {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: rgba(255,77,79,0.1);
+      border: 1px solid rgba(255,77,79,0.2);
+      color: var(--error);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all var(--transition);
+    }
+    .btn-remove:hover {
+      background: rgba(255,77,79,0.2);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* METADATA ENTRIES                                                    */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .metadata-entry {
+      display: grid;
+      grid-template-columns: 1fr 2fr 40px;
+      gap: 8px;
+      align-items: start;
+      padding: 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    @media (max-width: 640px) {
+      .metadata-entry {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* TRUST CHECKBOXES                                                    */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .checkbox-item:hover { border-color: rgba(255,255,255,0.15); }
+    .checkbox-item.checked {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .checkbox-item input { display: none; }
+    .check-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      transition: all var(--transition);
+    }
+    .checkbox-item.checked .check-icon {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* REVIEW PANEL                                                        */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .review-json {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .review-section {
+      margin-bottom: 20px;
+    }
+    .review-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .review-value {
+      font-size: 14px;
+      color: var(--text-primary);
+      word-break: break-all;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* FORM NAVIGATION                                                     */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .form-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* WALLET CONNECTION                                                   */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .wallet-connected {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+    }
+    .wallet-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* STATUS / TOAST                                                      */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .toast-container {
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      backdrop-filter: blur(12px);
+      border: 1px solid;
+      animation: toast-in 300ms ease-out;
+      max-width: 400px;
+    }
+    .toast.success {
+      background: rgba(0,196,140,0.1);
+      border-color: rgba(0,196,140,0.3);
+      color: var(--success);
+    }
+    .toast.error {
+      background: rgba(255,77,79,0.1);
+      border-color: rgba(255,77,79,0.3);
+      color: var(--error);
+    }
+    .toast.info {
+      background: rgba(24,144,255,0.1);
+      border-color: rgba(24,144,255,0.3);
+      color: var(--info);
+    }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* TX RESULT                                                           */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .tx-result {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .tx-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 40px;
+    }
+    .tx-icon.success {
+      background: rgba(0,196,140,0.15);
+      color: var(--success);
+    }
+    .tx-icon.pending {
+      background: var(--accent-dim);
+      color: var(--accent);
+      animation: spin 1.5s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .tx-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .tx-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .tx-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .tx-link:hover { text-decoration: underline; }
+    .tx-details {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: left;
+    }
+    .tx-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .tx-detail-row:last-child { border-bottom: none; }
+    .tx-detail-label { color: var(--text-muted); }
+    .tx-detail-value { color: var(--text-primary); font-family: var(--font-mono); font-size: 12px; }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* AGENT DASHBOARD                                                     */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .dashboard {
+      margin-top: 48px;
+      margin-bottom: 80px;
+    }
+    .agent-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .agent-card {
+      padding: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: all var(--transition);
+    }
+    .agent-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      background: var(--bg-card-hover);
+    }
+    .agent-card-id {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .agent-card-uri {
+      font-size: 13px;
+      color: var(--text-secondary);
+      word-break: break-all;
+      margin-bottom: 12px;
+    }
+    .agent-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* FOOTER                                                              */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    .footer a:hover { color: var(--accent); }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 12px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* URI GENERATION OPTIONS                                              */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .uri-options {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .uri-option {
+      flex: 1;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .uri-option:hover { border-color: rgba(255,255,255,0.15); }
+    .uri-option.active {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .uri-option-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .uri-option-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .uri-option.active .uri-option-title { color: var(--accent); }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* CONNECT PROMPT                                                      */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .connect-prompt {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .connect-prompt-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    .connect-prompt h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .connect-prompt p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* LOADING SPINNER                                                     */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .spinner-light {
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* TABS                                                                */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+    .tab {
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition);
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: var(--font-sans);
+    }
+    .tab:hover { color: var(--text-secondary); }
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* HIDDEN UTILITY                                                      */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    .hidden { display: none !important; }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* SCROLLBAR                                                           */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* RESPONSIVE                                                          */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    @media (max-width: 640px) {
+      .hero { padding: 48px 0 32px; }
+      .hero-stats { gap: 24px; }
+      .card { padding: 20px; }
+      .container { padding: 0 16px; }
+      .header-inner { padding: 0 16px; }
+      .stepper { gap: 0; }
+      .step-line { width: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="app">
+    <!-- ═══ HEADER ═══ -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="#" class="logo" onclick="location.reload(); return false;">
+          <div class="logo-icon">8004</div>
+          <div class="logo-text"><span>ERC-8004</span> Agent Creator</div>
+        </a>
+        <div class="header-actions">
+          <div id="walletArea"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          <div class="dot"></div>
+          Live on BNB Smart Chain
+        </div>
+        <h1>Create <span class="gradient">Trustless Agents</span><br>on BNB Chain</h1>
+        <p>Register your AI agent on-chain with ERC-8004. Get a portable, censorship-resistant identity backed by an ERC-721 NFT — discoverable across the entire agent economy.</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="statAgents">—</div>
+            <div class="hero-stat-label">Agents Registered</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">16+</div>
+            <div class="hero-stat-label">Chains Deployed</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">v2.0</div>
+            <div class="hero-stat-label">Registry Version</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ NETWORK BAR ═══ -->
+    <div class="container">
+      <div class="network-bar">
+        <button class="network-btn active" data-network="testnet" onclick="switchNetwork('testnet')">
+          <span class="network-dot testnet"></span>
+          BSC Testnet
+        </button>
+        <button class="network-btn" data-network="mainnet" onclick="switchNetwork('mainnet')">
+          <span class="network-dot mainnet"></span>
+          BSC Mainnet
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main class="container">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="create" onclick="switchTab('create')">Create Agent</button>
+        <button class="tab" data-tab="dashboard" onclick="switchTab('dashboard')">My Agents</button>
+      </div>
+
+      <!-- ═══ CREATE TAB ═══ -->
+      <div id="createTab">
+        <!-- Connect Prompt (shown when wallet not connected) -->
+        <div id="connectPrompt" class="card">
+          <div class="connect-prompt">
+            <div class="connect-prompt-icon">🔗</div>
+            <h3>Connect Your Wallet</h3>
+            <p>Connect your wallet to create an ERC-8004 agent identity on BNB Smart Chain.</p>
+            <button class="btn btn-primary btn-lg" onclick="connectWallet()">
+              Connect Wallet
+            </button>
+          </div>
+        </div>
+
+        <!-- Stepper (shown when wallet connected) -->
+        <div id="wizardSection" class="hidden">
+          <div class="stepper" id="stepper">
+            <div class="step active" data-step="1">
+              <div class="step-circle">1</div>
+              <span class="step-label">Identity</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="2">
+              <div class="step-circle">2</div>
+              <span class="step-label">Services</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="3">
+              <div class="step-circle">3</div>
+              <span class="step-label">Configuration</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="4">
+              <div class="step-circle">4</div>
+              <span class="step-label">Deploy</span>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 1: Agent Identity ═══ -->
+          <div id="step1" class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Agent Identity</div>
+                <div class="card-subtitle">Define your agent's core identity — name, description, and image.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Agent Name <span class="required">*</span></label>
+              <input class="form-input" type="text" id="agentName" placeholder="e.g., DeFi Yield Optimizer" maxlength="100" />
+              <div class="form-hint">A short, memorable name for your agent (max 100 chars)</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Description <span class="required">*</span></label>
+              <textarea class="form-textarea" id="agentDescription" placeholder="Describe what your agent does, how it works, pricing model, and interaction methods..." rows="4" maxlength="1000"></textarea>
+              <div class="form-hint">Clear description of your agent's capabilities (max 1000 chars)</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Image URL</label>
+              <input class="form-input" type="url" id="agentImage" placeholder="https://example.com/agent-avatar.png or ipfs://..." />
+              <div class="form-hint">Avatar or logo for your agent (displayed in NFT viewers)</div>
+            </div>
+
+            <div class="form-nav">
+              <div></div>
+              <button class="btn btn-primary" onclick="goToStep(2)">
+                Next: Services →
+              </button>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 2: Services & Endpoints ═══ -->
+          <div id="step2" class="card hidden">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Services & Endpoints</div>
+                <div class="card-subtitle">Advertise how other agents and users can reach your agent.</div>
+              </div>
+              <button class="btn btn-secondary btn-sm" onclick="addService()">+ Add Service</button>
+            </div>
+
+            <div class="service-list" id="serviceList">
+              <!-- Services are added dynamically -->
+            </div>
+
+            <div style="margin-top: 12px;">
+              <button class="btn btn-ghost btn-sm" onclick="addService()">+ Add another service</button>
+            </div>
+
+            <div class="form-nav">
+              <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+              <button class="btn btn-primary" onclick="goToStep(3)">Next: Configuration →</button>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 3: Configuration ═══ -->
+          <div id="step3" class="card hidden">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Trust & Metadata</div>
+                <div class="card-subtitle">Configure trust models and on-chain metadata for your agent.</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Supported Trust Models</label>
+              <div class="checkbox-group" id="trustModels">
+                <label class="checkbox-item" onclick="toggleCheck(this)">
+                  <input type="checkbox" value="reputation" />
+                  <span class="check-icon">✓</span>
+                  Reputation
+                </label>
+                <label class="checkbox-item" onclick="toggleCheck(this)">
+                  <input type="checkbox" value="crypto-economic" />
+                  <span class="check-icon">✓</span>
+                  Crypto-Economic
+                </label>
+                <label class="checkbox-item" onclick="toggleCheck(this)">
+                  <input type="checkbox" value="tee-attestation" />
+                  <span class="check-icon">✓</span>
+                  TEE Attestation
+                </label>
+              </div>
+              <div class="form-hint">Select which trust verification methods your agent supports</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">x402 Payment Support</label>
+              <div class="checkbox-group">
+                <label class="checkbox-item" onclick="toggleCheck(this)" id="x402Toggle">
+                  <input type="checkbox" value="x402" />
+                  <span class="check-icon">✓</span>
+                  Enable x402 Payments
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">URI Storage Method</label>
+              <div class="uri-options">
+                <div class="uri-option active" data-uri="onchain" onclick="selectUriOption('onchain')">
+                  <div class="uri-option-title">On-Chain</div>
+                  <div class="uri-option-desc">Base64 data URI — no hosting needed</div>
+                </div>
+                <div class="uri-option" data-uri="ipfs" onclick="selectUriOption('ipfs')">
+                  <div class="uri-option-title">IPFS URL</div>
+                  <div class="uri-option-desc">Provide your own IPFS CID</div>
+                </div>
+                <div class="uri-option" data-uri="https" onclick="selectUriOption('https')">
+                  <div class="uri-option-title">HTTPS URL</div>
+                  <div class="uri-option-desc">Host on your own domain</div>
+                </div>
+              </div>
+              <div id="customUriField" class="hidden">
+                <input class="form-input" type="url" id="customUri" placeholder="ipfs://... or https://..." />
+                <div class="form-hint">Enter the URI where your registration JSON will be hosted</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">On-Chain Metadata (Optional)</label>
+              <div class="service-list" id="metadataList">
+                <!-- Metadata entries added dynamically -->
+              </div>
+              <div style="margin-top: 8px;">
+                <button class="btn btn-ghost btn-sm" onclick="addMetadata()">+ Add metadata key</button>
+              </div>
+              <div class="form-hint">Custom key-value pairs stored directly on-chain (e.g., "category" → "DeFi")</div>
+            </div>
+
+            <div class="form-nav">
+              <button class="btn btn-secondary" onclick="goToStep(2)">← Back</button>
+              <button class="btn btn-primary" onclick="goToStep(4)">Review & Deploy →</button>
+            </div>
+          </div>
+
+          <!-- ═══ STEP 4: Review & Deploy ═══ -->
+          <div id="step4" class="card hidden">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Review & Deploy</div>
+                <div class="card-subtitle">Review your agent configuration before registering on-chain.</div>
+              </div>
+            </div>
+
+            <div class="review-section">
+              <div class="review-label">Agent Registration JSON</div>
+              <pre class="review-json" id="reviewJson"></pre>
+            </div>
+
+            <div class="review-section" id="reviewUriSection">
+              <div class="review-label">Agent URI</div>
+              <div class="review-value" id="reviewUri" style="font-family:var(--font-mono);font-size:12px;"></div>
+            </div>
+
+            <div class="review-section" id="reviewMetadataSection" class="hidden">
+              <div class="review-label">On-Chain Metadata</div>
+              <div id="reviewMetadata"></div>
+            </div>
+
+            <div class="review-section">
+              <div class="review-label">Network</div>
+              <div class="review-value" id="reviewNetwork"></div>
+            </div>
+
+            <div class="review-section">
+              <div class="review-label">Contract</div>
+              <div class="review-value" id="reviewContract" style="font-family:var(--font-mono);font-size:12px;"></div>
+            </div>
+
+            <div class="review-section">
+              <div class="review-label">Estimated Gas</div>
+              <div class="review-value" id="reviewGas">Calculated on submission</div>
+            </div>
+
+            <div class="form-nav">
+              <button class="btn btn-secondary" onclick="goToStep(3)">← Back</button>
+              <button class="btn btn-primary btn-lg" id="deployBtn" onclick="deployAgent()">
+                🚀 Register Agent On-Chain
+              </button>
+            </div>
+          </div>
+
+          <!-- ═══ DEPLOY RESULT ═══ -->
+          <div id="deployResult" class="card hidden">
+            <!-- Filled dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ DASHBOARD TAB ═══ -->
+      <div id="dashboardTab" class="hidden">
+        <div id="dashboardContent">
+          <div id="dashboardConnectPrompt" class="card">
+            <div class="connect-prompt">
+              <div class="connect-prompt-icon">📋</div>
+              <h3>Connect to View Your Agents</h3>
+              <p>Connect your wallet to see agents you've registered.</p>
+              <button class="btn btn-primary btn-lg" onclick="connectWallet()">Connect Wallet</button>
+            </div>
+          </div>
+          <div id="dashboardAgents" class="hidden">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Your Registered Agents</div>
+                  <div class="card-subtitle" id="agentCount">Loading...</div>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="loadMyAgents()">↻ Refresh</button>
+              </div>
+              <div id="agentsList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer" style="margin-top: 80px;">
+      <div class="container">
+        <div class="footer-links">
+          <a href="https://www.8004.org" target="_blank" rel="noopener">ERC-8004 Spec</a>
+          <a href="https://github.com/erc-8004/erc-8004-contracts" target="_blank" rel="noopener">Contracts</a>
+          <a href="https://bnbchaintoolkit.com" target="_blank" rel="noopener">BNB Chain AI Toolkit</a>
+          <a href="https://github.com/nirholas/bnb-chain-toolkit" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <p>Built by <a href="https://x.com/nichxbt" target="_blank" rel="noopener">nich</a> · Powered by <a href="https://www.8004.org" target="_blank" rel="noopener">ERC-8004</a> · <a href="https://bnbchaintoolkit.com" target="_blank" rel="noopener">BNB Chain AI Toolkit</a></p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════════
+    // ERC-8004 AGENT CREATOR — Application Logic
+    // ═══════════════════════════════════════════════════════════════════
+
+    // ─── NETWORK CONFIG ───
+    const NETWORKS = {
+      testnet: {
+        name: 'BSC Testnet',
+        chainId: 97,
+        chainIdHex: '0x61',
+        rpcUrl: 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
+        explorer: 'https://testnet.bscscan.com',
+        currency: { name: 'tBNB', symbol: 'tBNB', decimals: 18 },
+        contracts: {
+          identity: '0x8004A818BFB912233c491871b3d84c89A494BD9e',
+          reputation: '0x8004B663056A597Dffe9eCcC1965A193B7388713',
+          validation: '0x8004Cb1BF31DAf7788923b405b754f57acEB4272'
+        },
+        agentRegistry: 'eip155:97:0x8004A818BFB912233c491871b3d84c89A494BD9e'
+      },
+      mainnet: {
+        name: 'BSC Mainnet',
+        chainId: 56,
+        chainIdHex: '0x38',
+        rpcUrl: 'https://bsc-dataseed.bnbchain.org',
+        explorer: 'https://bscscan.com',
+        currency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+        contracts: {
+          identity: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
+          reputation: '0x8004BAa17C55a88189AE136b182e5fdA19dE9b63',
+          validation: '0x8004Cb1BF31DAf7788923b405b754f57acEB4272'
+        },
+        agentRegistry: 'eip155:56:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432'
+      }
+    };
+
+    // ─── IDENTITY REGISTRY ABI (Minimal — only what we need) ───
+    const IDENTITY_ABI = [
+      "function register() external returns (uint256 agentId)",
+      "function register(string agentURI) external returns (uint256 agentId)",
+      "function register(string agentURI, tuple(string metadataKey, bytes metadataValue)[] metadata) external returns (uint256 agentId)",
+      "function setAgentURI(uint256 agentId, string newURI) external",
+      "function setMetadata(uint256 agentId, string metadataKey, bytes metadataValue) external",
+      "function getMetadata(uint256 agentId, string metadataKey) external view returns (bytes)",
+      "function getAgentWallet(uint256 agentId) external view returns (address)",
+      "function tokenURI(uint256 tokenId) external view returns (string)",
+      "function ownerOf(uint256 tokenId) external view returns (address)",
+      "function balanceOf(address owner) external view returns (uint256)",
+      "function getVersion() external pure returns (string)",
+      "function name() external view returns (string)",
+      "function symbol() external view returns (string)",
+      "event Registered(uint256 indexed agentId, string agentURI, address indexed owner)",
+      "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)"
+    ];
+
+    // ─── STATE ───
+    let currentNetwork = 'testnet';
+    let currentStep = 1;
+    let provider = null;
+    let signer = null;
+    let userAddress = null;
+    let identityContract = null;
+    let uriMethod = 'onchain';
+    let serviceCounter = 0;
+    let metadataCounter = 0;
+
+    // ─── INITIALIZATION ───
+    document.addEventListener('DOMContentLoaded', () => {
+      addService(); // add one default service entry
+      fetchAgentCount();
+      renderWalletArea();
+    });
+
+    // ─── TOAST NOTIFICATIONS ───
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(50px)';
+        toast.style.transition = 'all 300ms ease-in';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // ─── WALLET CONNECTION ───
+    async function connectWallet() {
+      if (!window.ethereum) {
+        showToast('No wallet detected. Please install MetaMask or another Web3 wallet.', 'error');
+        return;
+      }
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        userAddress = accounts[0];
+        provider = new ethers.BrowserProvider(window.ethereum);
+        signer = await provider.getSigner();
+
+        // Switch to correct network
+        await ensureNetwork();
+
+        // Setup contract
+        const net = NETWORKS[currentNetwork];
+        identityContract = new ethers.Contract(net.contracts.identity, IDENTITY_ABI, signer);
+
+        renderWalletArea();
+        updateUIForConnected();
+        showToast('Wallet connected successfully!', 'success');
+
+        // Listen for account/network changes
+        window.ethereum.on('accountsChanged', handleAccountsChanged);
+        window.ethereum.on('chainChanged', () => location.reload());
+      } catch (err) {
+        console.error('Wallet connection error:', err);
+        showToast('Failed to connect wallet: ' + (err.message || err), 'error');
+      }
+    }
+
+    async function handleAccountsChanged(accounts) {
+      if (accounts.length === 0) {
+        userAddress = null;
+        signer = null;
+        identityContract = null;
+        renderWalletArea();
+        updateUIForDisconnected();
+      } else {
+        userAddress = accounts[0];
+        signer = await provider.getSigner();
+        const net = NETWORKS[currentNetwork];
+        identityContract = new ethers.Contract(net.contracts.identity, IDENTITY_ABI, signer);
+        renderWalletArea();
+      }
+    }
+
+    async function ensureNetwork() {
+      const net = NETWORKS[currentNetwork];
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: net.chainIdHex }]
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: net.chainIdHex,
+              chainName: net.name,
+              nativeCurrency: net.currency,
+              rpcUrls: [net.rpcUrl],
+              blockExplorerUrls: [net.explorer]
+            }]
+          });
+        } else {
+          throw switchError;
+        }
+      }
+    }
+
+    function renderWalletArea() {
+      const area = document.getElementById('walletArea');
+      if (userAddress) {
+        const short = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+        area.innerHTML = `<div class="wallet-connected"><span class="wallet-dot"></span>${short}</div>`;
+      } else {
+        area.innerHTML = `<button class="btn btn-primary btn-sm" onclick="connectWallet()">Connect Wallet</button>`;
+      }
+    }
+
+    function updateUIForConnected() {
+      document.getElementById('connectPrompt').classList.add('hidden');
+      document.getElementById('wizardSection').classList.remove('hidden');
+      document.getElementById('dashboardConnectPrompt').classList.add('hidden');
+      document.getElementById('dashboardAgents').classList.remove('hidden');
+      loadMyAgents();
+    }
+
+    function updateUIForDisconnected() {
+      document.getElementById('connectPrompt').classList.remove('hidden');
+      document.getElementById('wizardSection').classList.add('hidden');
+      document.getElementById('dashboardConnectPrompt').classList.remove('hidden');
+      document.getElementById('dashboardAgents').classList.add('hidden');
+    }
+
+    // ─── NETWORK SWITCHING ───
+    async function switchNetwork(network) {
+      currentNetwork = network;
+      document.querySelectorAll('.network-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.network === network);
+      });
+      if (userAddress) {
+        await ensureNetwork();
+        const net = NETWORKS[currentNetwork];
+        identityContract = new ethers.Contract(net.contracts.identity, IDENTITY_ABI, signer);
+        loadMyAgents();
+      }
+      fetchAgentCount();
+    }
+
+    // ─── TAB SWITCHING ───
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+      document.getElementById('createTab').classList.toggle('hidden', tab !== 'create');
+      document.getElementById('dashboardTab').classList.toggle('hidden', tab !== 'dashboard');
+      if (tab === 'dashboard' && userAddress) loadMyAgents();
+    }
+
+    // ─── STEPPER ───
+    function goToStep(step) {
+      // Validate current step before proceeding
+      if (step > currentStep) {
+        if (currentStep === 1 && !validateStep1()) return;
+      }
+
+      currentStep = step;
+      
+      // Update step visibility
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`step${i}`);
+        el.classList.toggle('hidden', i !== step);
+      }
+      document.getElementById('deployResult').classList.add('hidden');
+
+      // Update stepper indicators
+      document.querySelectorAll('.step').forEach(s => {
+        const sn = parseInt(s.dataset.step);
+        s.classList.remove('active', 'completed');
+        if (sn === step) s.classList.add('active');
+        else if (sn < step) s.classList.add('completed');
+      });
+      document.querySelectorAll('.step-line').forEach((line, i) => {
+        line.classList.toggle('completed', i < step - 1);
+      });
+
+      // Populate review on step 4
+      if (step === 4) populateReview();
+
+      window.scrollTo({ top: 200, behavior: 'smooth' });
+    }
+
+    function validateStep1() {
+      const name = document.getElementById('agentName').value.trim();
+      const desc = document.getElementById('agentDescription').value.trim();
+      if (!name) {
+        showToast('Agent name is required.', 'error');
+        document.getElementById('agentName').focus();
+        return false;
+      }
+      if (!desc) {
+        showToast('Agent description is required.', 'error');
+        document.getElementById('agentDescription').focus();
+        return false;
+      }
+      return true;
+    }
+
+    // ─── SERVICE MANAGEMENT ───
+    function addService() {
+      serviceCounter++;
+      const id = serviceCounter;
+      const list = document.getElementById('serviceList');
+      const entry = document.createElement('div');
+      entry.className = 'service-entry';
+      entry.id = `service-${id}`;
+      entry.innerHTML = `
+        <select class="form-select" onchange="updateServicePlaceholder(${id})">
+          <option value="web">Web</option>
+          <option value="A2A">A2A (Agent-to-Agent)</option>
+          <option value="MCP">MCP (Model Context)</option>
+          <option value="OASF">OASF</option>
+          <option value="ENS">ENS</option>
+          <option value="DID">DID</option>
+          <option value="email">Email</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input class="form-input" type="text" placeholder="https://your-agent.com/" data-field="endpoint" />
+        <input class="form-input" type="text" placeholder="Version" data-field="version" style="font-size:12px;" />
+        <button class="btn-remove" onclick="removeService(${id})">×</button>
+      `;
+      list.appendChild(entry);
+    }
+
+    function removeService(id) {
+      const el = document.getElementById(`service-${id}`);
+      if (el) el.remove();
+    }
+
+    function updateServicePlaceholder(id) {
+      const entry = document.getElementById(`service-${id}`);
+      const type = entry.querySelector('select').value;
+      const endpoint = entry.querySelector('[data-field="endpoint"]');
+      const placeholders = {
+        web: 'https://your-agent.com/',
+        A2A: 'https://agent.example/.well-known/agent-card.json',
+        MCP: 'https://mcp.your-agent.com/',
+        OASF: 'ipfs://{cid}',
+        ENS: 'yourname.eth',
+        DID: 'did:method:identifier',
+        email: 'agent@example.com',
+        custom: 'https://...'
+      };
+      endpoint.placeholder = placeholders[type] || 'https://...';
+    }
+
+    // ─── METADATA MANAGEMENT ───
+    function addMetadata() {
+      metadataCounter++;
+      const id = metadataCounter;
+      const list = document.getElementById('metadataList');
+      const entry = document.createElement('div');
+      entry.className = 'metadata-entry';
+      entry.id = `metadata-${id}`;
+      entry.innerHTML = `
+        <input class="form-input" type="text" placeholder="Key (e.g., category)" data-field="key" style="font-size:13px;" />
+        <input class="form-input" type="text" placeholder="Value (e.g., DeFi)" data-field="value" style="font-size:13px;" />
+        <button class="btn-remove" onclick="removeMetadata(${id})">×</button>
+      `;
+      list.appendChild(entry);
+    }
+
+    function removeMetadata(id) {
+      const el = document.getElementById(`metadata-${id}`);
+      if (el) el.remove();
+    }
+
+    // ─── CHECKBOX TOGGLE ───
+    function toggleCheck(el) {
+      el.classList.toggle('checked');
+      const cb = el.querySelector('input[type="checkbox"]');
+      cb.checked = !cb.checked;
+    }
+
+    // ─── URI OPTION ───
+    function selectUriOption(method) {
+      uriMethod = method;
+      document.querySelectorAll('.uri-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.uri === method);
+      });
+      const customField = document.getElementById('customUriField');
+      customField.classList.toggle('hidden', method === 'onchain');
+      if (method === 'ipfs') {
+        document.getElementById('customUri').placeholder = 'ipfs://Qm...';
+      } else if (method === 'https') {
+        document.getElementById('customUri').placeholder = 'https://example.com/agent.json';
+      }
+    }
+
+    // ─── BUILD REGISTRATION JSON ───
+    function buildRegistrationJson() {
+      const name = document.getElementById('agentName').value.trim();
+      const description = document.getElementById('agentDescription').value.trim();
+      const image = document.getElementById('agentImage').value.trim();
+      const net = NETWORKS[currentNetwork];
+
+      // Gather services
+      const services = [];
+      document.querySelectorAll('.service-entry').forEach(entry => {
+        const type = entry.querySelector('select').value;
+        const endpoint = entry.querySelector('[data-field="endpoint"]').value.trim();
+        const version = entry.querySelector('[data-field="version"]').value.trim();
+        if (endpoint) {
+          const svc = { name: type, endpoint };
+          if (version) svc.version = version;
+          services.push(svc);
+        }
+      });
+
+      // Gather trust models
+      const supportedTrust = [];
+      document.querySelectorAll('#trustModels .checkbox-item.checked input').forEach(cb => {
+        supportedTrust.push(cb.value);
+      });
+
+      const x402 = document.getElementById('x402Toggle').classList.contains('checked');
+
+      const json = {
+        type: "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+        name,
+        description,
+        image: image || undefined,
+        services,
+        x402Support: x402,
+        active: true,
+        registrations: [{
+          agentId: "PENDING",
+          agentRegistry: net.agentRegistry
+        }],
+        ...(supportedTrust.length > 0 ? { supportedTrust } : {})
+      };
+
+      // Remove undefined values
+      Object.keys(json).forEach(k => json[k] === undefined && delete json[k]);
+
+      return json;
+    }
+
+    function buildAgentUri(registrationJson) {
+      if (uriMethod === 'onchain') {
+        const jsonStr = JSON.stringify(registrationJson);
+        const base64 = btoa(unescape(encodeURIComponent(jsonStr)));
+        return `data:application/json;base64,${base64}`;
+      } else {
+        return document.getElementById('customUri').value.trim();
+      }
+    }
+
+    function getMetadataEntries() {
+      const entries = [];
+      document.querySelectorAll('.metadata-entry').forEach(entry => {
+        const key = entry.querySelector('[data-field="key"]').value.trim();
+        const value = entry.querySelector('[data-field="value"]').value.trim();
+        if (key && value) {
+          entries.push({ key, value });
+        }
+      });
+      return entries;
+    }
+
+    // ─── REVIEW ───
+    function populateReview() {
+      const json = buildRegistrationJson();
+      document.getElementById('reviewJson').textContent = JSON.stringify(json, null, 2);
+
+      const uri = buildAgentUri(json);
+      document.getElementById('reviewUri').textContent = uriMethod === 'onchain'
+        ? `data:application/json;base64,... (${uri.length} chars, fully on-chain)`
+        : uri;
+
+      const net = NETWORKS[currentNetwork];
+      document.getElementById('reviewNetwork').textContent = net.name + ` (Chain ID: ${net.chainId})`;
+      document.getElementById('reviewContract').textContent = net.contracts.identity;
+
+      // Metadata
+      const metadata = getMetadataEntries();
+      const metaSection = document.getElementById('reviewMetadataSection');
+      const metaDiv = document.getElementById('reviewMetadata');
+      if (metadata.length > 0) {
+        metaSection.classList.remove('hidden');
+        metaDiv.innerHTML = metadata.map(m =>
+          `<div class="tx-detail-row"><span class="tx-detail-label">${m.key}</span><span class="tx-detail-value">${m.value}</span></div>`
+        ).join('');
+      } else {
+        metaSection.classList.add('hidden');
+      }
+    }
+
+    // ─── DEPLOY AGENT ───
+    async function deployAgent() {
+      if (!signer || !identityContract) {
+        showToast('Please connect your wallet first.', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('deployBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Registering...';
+
+      try {
+        await ensureNetwork();
+
+        const json = buildRegistrationJson();
+        const uri = buildAgentUri(json);
+        const metadata = getMetadataEntries();
+
+        if (!uri && uriMethod !== 'onchain') {
+          showToast('Please provide an agent URI.', 'error');
+          btn.disabled = false;
+          btn.innerHTML = '🚀 Register Agent On-Chain';
+          return;
+        }
+
+        let tx;
+        if (metadata.length > 0) {
+          // Use register(string, tuple[])
+          const metaTuples = metadata.map(m => ({
+            metadataKey: m.key,
+            metadataValue: ethers.toUtf8Bytes(m.value)
+          }));
+          tx = await identityContract['register(string,(string,bytes)[])'](uri, metaTuples);
+        } else if (uri) {
+          // Use register(string)
+          tx = await identityContract['register(string)'](uri);
+        } else {
+          // Use register()
+          tx = await identityContract['register()']();
+        }
+
+        showToast('Transaction submitted! Waiting for confirmation...', 'info');
+        showDeployPending(tx.hash);
+
+        const receipt = await tx.wait();
+
+        // Parse the Registered event to get agentId
+        let agentId = null;
+        for (const log of receipt.logs) {
+          try {
+            const parsed = identityContract.interface.parseLog({ topics: log.topics, data: log.data });
+            if (parsed && parsed.name === 'Registered') {
+              agentId = parsed.args.agentId.toString();
+              break;
+            }
+          } catch (e) { /* skip non-matching logs */ }
+        }
+
+        // If we used on-chain URI with "PENDING" agentId, update with real agentId
+        if (uriMethod === 'onchain' && agentId) {
+          try {
+            json.registrations[0].agentId = parseInt(agentId);
+            const updatedUri = buildAgentUri(json);
+            // Set the correct agentId in the URI
+            const updateTx = await identityContract.setAgentURI(agentId, updatedUri);
+            await updateTx.wait();
+            showToast('Agent URI updated with correct agentId!', 'success');
+          } catch (updateErr) {
+            console.warn('Failed to update URI with agentId:', updateErr);
+            // Non-critical — the agent is still registered
+          }
+        }
+
+        showDeploySuccess(tx.hash, agentId, receipt);
+        showToast(`Agent #${agentId} registered successfully!`, 'success');
+
+      } catch (err) {
+        console.error('Deploy error:', err);
+        const msg = err.reason || err.message || 'Transaction failed';
+        showToast(msg, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '🚀 Register Agent On-Chain';
+      }
+    }
+
+    function showDeployPending(txHash) {
+      const net = NETWORKS[currentNetwork];
+      currentStep = 5;
+      for (let i = 1; i <= 4; i++) document.getElementById(`step${i}`).classList.add('hidden');
+      const result = document.getElementById('deployResult');
+      result.classList.remove('hidden');
+      result.innerHTML = `
+        <div class="tx-result">
+          <div class="tx-icon pending">⟳</div>
+          <div class="tx-title">Transaction Pending</div>
+          <div class="tx-subtitle">Your agent is being registered on ${net.name}...</div>
+          <a class="tx-link" href="${net.explorer}/tx/${txHash}" target="_blank" rel="noopener">
+            View on BscScan →
+          </a>
+        </div>
+      `;
+    }
+
+    function showDeploySuccess(txHash, agentId, receipt) {
+      const net = NETWORKS[currentNetwork];
+      const result = document.getElementById('deployResult');
+      result.innerHTML = `
+        <div class="tx-result">
+          <div class="tx-icon success">✓</div>
+          <div class="tx-title">Agent Registered!</div>
+          <div class="tx-subtitle">Your ERC-8004 agent has been successfully created on ${net.name}.</div>
+          <a class="tx-link" href="${net.explorer}/tx/${txHash}" target="_blank" rel="noopener">
+            View Transaction on BscScan →
+          </a>
+          <div class="tx-details">
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">Agent ID</span>
+              <span class="tx-detail-value" style="color:var(--accent);font-weight:700;font-size:16px;">#${agentId}</span>
+            </div>
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">Token Standard</span>
+              <span class="tx-detail-value">ERC-721 (ERC-8004)</span>
+            </div>
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">Owner</span>
+              <span class="tx-detail-value">${userAddress}</span>
+            </div>
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">Registry</span>
+              <span class="tx-detail-value">${net.contracts.identity}</span>
+            </div>
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">Network</span>
+              <span class="tx-detail-value">${net.name} (${net.chainId})</span>
+            </div>
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">Block</span>
+              <span class="tx-detail-value">${receipt.blockNumber}</span>
+            </div>
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">Gas Used</span>
+              <span class="tx-detail-value">${receipt.gasUsed.toString()}</span>
+            </div>
+            <div class="tx-detail-row">
+              <span class="tx-detail-label">NFT</span>
+              <span class="tx-detail-value">
+                <a href="${net.explorer}/token/${net.contracts.identity}?a=${agentId}" target="_blank" rel="noopener" style="color:var(--accent);">
+                  View Agent NFT →
+                </a>
+              </span>
+            </div>
+          </div>
+          <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="resetWizard()">Create Another Agent</button>
+            <button class="btn btn-secondary" onclick="switchTab('dashboard')">View My Agents</button>
+          </div>
+        </div>
+      `;
+      fetchAgentCount();
+    }
+
+    function resetWizard() {
+      document.getElementById('agentName').value = '';
+      document.getElementById('agentDescription').value = '';
+      document.getElementById('agentImage').value = '';
+      document.getElementById('serviceList').innerHTML = '';
+      document.getElementById('metadataList').innerHTML = '';
+      document.querySelectorAll('.checkbox-item.checked').forEach(el => {
+        el.classList.remove('checked');
+        el.querySelector('input').checked = false;
+      });
+      serviceCounter = 0;
+      metadataCounter = 0;
+      addService();
+      goToStep(1);
+      document.getElementById('deployBtn').disabled = false;
+      document.getElementById('deployBtn').innerHTML = '🚀 Register Agent On-Chain';
+    }
+
+    // ─── DASHBOARD: LOAD MY AGENTS ───
+    async function loadMyAgents() {
+      if (!userAddress || !identityContract) return;
+
+      const agentsList = document.getElementById('agentsList');
+      const agentCount = document.getElementById('agentCount');
+      agentsList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);">Loading your agents...</div>';
+
+      try {
+        const balance = await identityContract.balanceOf(userAddress);
+        const count = Number(balance);
+        agentCount.textContent = `${count} agent${count !== 1 ? 's' : ''} found`;
+
+        if (count === 0) {
+          agentsList.innerHTML = `
+            <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+              <div style="font-size:32px;margin-bottom:12px;">🤖</div>
+              <p>No agents registered yet. Create your first one!</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Try to discover agent IDs by scanning Transfer events
+        const net = NETWORKS[currentNetwork];
+        const readProvider = new ethers.JsonRpcProvider(net.rpcUrl);
+        const readContract = new ethers.Contract(net.contracts.identity, IDENTITY_ABI, readProvider);
+
+        // Get Transfer events TO user (minting = from 0x0)
+        const filter = readContract.filters.Transfer(ethers.ZeroAddress, userAddress);
+        let events = [];
+        try {
+          events = await readContract.queryFilter(filter, -100000);
+        } catch (e) {
+          // If range too large, try smaller
+          try {
+            events = await readContract.queryFilter(filter, -10000);
+          } catch (e2) {
+            console.warn('Could not query events:', e2);
+          }
+        }
+
+        const agentIds = events.map(e => e.args[2].toString());
+
+        if (agentIds.length === 0 && count > 0) {
+          agentsList.innerHTML = `
+            <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+              <p>You own ${count} agent(s), but we couldn't load their details from recent blocks.</p>
+              <p style="margin-top:8px;font-size:12px;">Try checking <a href="${net.explorer}/address/${userAddress}" target="_blank" rel="noopener" style="color:var(--accent);">BscScan</a> for your agent NFTs.</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '<div class="agent-cards">';
+        for (const id of agentIds) {
+          let uri = '';
+          let name = `Agent #${id}`;
+          try {
+            uri = await readContract.tokenURI(id);
+            // Try to parse the registration JSON
+            if (uri.startsWith('data:application/json;base64,')) {
+              const base64 = uri.replace('data:application/json;base64,', '');
+              const decoded = JSON.parse(decodeURIComponent(escape(atob(base64))));
+              if (decoded.name) name = decoded.name;
+            }
+          } catch (e) { /* ignore parsing errors */ }
+
+          html += `
+            <div class="agent-card">
+              <div class="agent-card-id">Agent #${id}</div>
+              <div style="font-weight:600;margin-bottom:4px;">${escapeHtml(name)}</div>
+              <div class="agent-card-uri">${uri ? escapeHtml(uri.substring(0, 80)) + (uri.length > 80 ? '...' : '') : '<em>No URI set</em>'}</div>
+              <div class="agent-card-actions">
+                <a class="btn btn-secondary btn-sm" href="${net.explorer}/token/${net.contracts.identity}?a=${id}" target="_blank" rel="noopener">View on BscScan</a>
+              </div>
+            </div>
+          `;
+        }
+        html += '</div>';
+        agentsList.innerHTML = html;
+
+      } catch (err) {
+        console.error('Load agents error:', err);
+        agentsList.innerHTML = `<div style="text-align:center;padding:20px;color:var(--error);">Error loading agents: ${err.message}</div>`;
+      }
+    }
+
+    // ─── FETCH AGENT COUNT ───
+    async function fetchAgentCount() {
+      try {
+        const net = NETWORKS[currentNetwork];
+        const readProvider = new ethers.JsonRpcProvider(net.rpcUrl);
+        const readContract = new ethers.Contract(net.contracts.identity, IDENTITY_ABI, readProvider);
+        const name = await readContract.name();
+        // We can't directly get total supply, but we can try to get version to verify contract is live
+        const version = await readContract.getVersion();
+        document.getElementById('statAgents').textContent = version ? 'Live ✓' : '—';
+      } catch (err) {
+        console.warn('Could not fetch agent stats:', err);
+      }
+    }
+
+    // ─── UTILITIES ───
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
