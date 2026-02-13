@@ -1,0 +1,55 @@
+{
+  "name": "@nirholas/erc8004-agent-runtime",
+  "version": "0.1.0",
+  "description": "ERC-8004 agent runtime with A2A messaging and x402 micropayments",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "erc-8004",
+    "a2a-protocol",
+    "x402",
+    "ai-agent",
+    "bnb-chain",
+    "web3",
+    "micropayments",
+    "agent-to-agent"
+  ],
+  "author": "nirholas",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.13.4",
+    "hono": "^4.6.0",
+    "@hono/node-server": "^1.13.0",
+    "uuid": "^10.0.0",
+    "winston": "^3.14.0",
+    "zod": "^3.24.0",
+    "eventemitter3": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

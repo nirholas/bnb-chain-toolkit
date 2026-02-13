@@ -9,7 +9,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -20,6 +20,7 @@ import {
   MoreHorizontal,
 } from 'lucide-react';
 import { cn } from '@/utils/helpers';
+import useI18n from '@/stores/i18nStore';
 
 interface BottomNavItem {
   path: string;
@@ -27,15 +28,16 @@ interface BottomNavItem {
   label: string;
 }
 
-const navItems: BottomNavItem[] = [
-  { path: '/', icon: Home, label: 'Home' },
-  { path: '/playground', icon: Terminal, label: 'Playground' },
-  { path: '/sandbox', icon: Sparkles, label: 'Sandbox' },
-  { path: '/docs', icon: BookOpen, label: 'Docs' },
-  { path: '/explore', icon: MoreHorizontal, label: 'More' },
-];
-
 export default function MobileBottomNav() {
+  const { t } = useI18n();
+
+  const navItems: BottomNavItem[] = useMemo(() => [
+    { path: '/', icon: Home, label: t('nav.home') },
+    { path: '/playground', icon: Terminal, label: t('nav.playground') },
+    { path: '/sandbox', icon: Sparkles, label: t('nav.sandbox') },
+    { path: '/docs', icon: BookOpen, label: t('nav.docs_short') },
+    { path: '/explore', icon: MoreHorizontal, label: t('nav.more') },
+  ], [t]);
   const location = useLocation();
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);

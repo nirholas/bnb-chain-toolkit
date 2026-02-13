@@ -1,0 +1,69 @@
+{
+  "name": "@nirholas/erc8004-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for ERC-8004 trustless AI agent on-chain identity — register, discover, and manage agents across BSC, Ethereum, and 60+ networks",
+  "keywords": [
+    "erc-8004",
+    "erc8004",
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "on-chain-identity",
+    "agent-nft",
+    "erc-721",
+    "a2a-protocol",
+    "agent-discovery",
+    "agent-reputation",
+    "web3-ai",
+    "defi-agents",
+    "autonomous-agents",
+    "agent-registry",
+    "bsc",
+    "bnb-chain",
+    "ethereum",
+    "multi-chain",
+    "trustless-agents",
+    "vibecoder",
+    "vibe-coding"
+  ],
+  "author": "nirholas",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "erc8004-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "ethers": "^6.13.4",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nirholas/erc8004-agent-creator",
+    "directory": "mcp-server"
+  },
+  "homepage": "https://erc8004.agency",
+  "bugs": {
+    "url": "https://github.com/nirholas/erc8004-agent-creator/issues"
+  }
+}

@@ -9,7 +9,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSEO } from '@/hooks/useSEO';
 import useI18n from '@/stores/i18nStore';
@@ -69,32 +69,7 @@ const supportedChains = [
     { name: 'BNB Greenfield', type: 'Storage', primary: true },
 ];
 
-const howItWorks = [
-    {
-        step: '1',
-        title: 'Pick an Agent',
-        description: 'Choose from 72+ pre-built agents — each one is a JSON file tuned for a specific protocol like PancakeSwap, Venus, or Binance Futures.',
-        icon: Bot,
-        link: '/agents',
-        linkText: 'Browse Agents',
-    },
-    {
-        step: '2',
-        title: 'Connect MCP Servers',
-        description: 'Point Claude, ChatGPT, or any LLM at one of 6 MCP servers. Your AI can now read on-chain data, fetch prices, and interact with protocols.',
-        icon: Plug,
-        link: '/mcp',
-        linkText: 'View Servers',
-    },
-    {
-        step: '3',
-        title: 'Execute On-Chain',
-        description: '900+ tools across 60+ networks — swap tokens, check yields, audit contracts, track wallets. All through natural language.',
-        icon: Wrench,
-        link: '/docs',
-        linkText: 'Read Docs',
-    },
-];
+// howItWorks is now built inside the component so it can use t()
 
 const featuredAgents = [
     { name: 'PancakeSwap Expert', description: 'Swap, LP, farm — DeFi trading intelligence on BSC', category: 'BNB Chain', color: '#F0B90B' },
@@ -240,6 +215,33 @@ const claudeConfigCode = `{
 
 export default function Homepage() {
     const { t } = useI18n();
+
+    const howItWorks = useMemo(() => [
+        {
+            step: '1',
+            title: t('home.step1.title'),
+            description: t('home.step1.desc'),
+            icon: Bot,
+            link: '/agents',
+            linkText: t('home.step1.link'),
+        },
+        {
+            step: '2',
+            title: t('home.step2.title'),
+            description: t('home.step2.desc'),
+            icon: Plug,
+            link: '/mcp',
+            linkText: t('home.step2.link'),
+        },
+        {
+            step: '3',
+            title: t('home.step3.title'),
+            description: t('home.step3.desc'),
+            icon: Wrench,
+            link: '/docs',
+            linkText: t('home.step3.link'),
+        },
+    ], [t]);
     useSEO({
         title: 'BNB Chain AI Toolkit — 72+ Agents, 6 MCP Servers, 900+ Tools',
         description: 'The most comprehensive open-source AI toolkit for BNB Chain. 72+ specialized agents, 6 MCP servers, 900+ tools, 60+ chains.',
@@ -295,7 +297,7 @@ export default function Homepage() {
                             className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_40px_rgba(240,185,11,0.45)] hover:-translate-y-0.5 active:translate-y-0 animate-glow-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black"
                         >
                             <Bot className="w-5 h-5" />
-                            Create ERC-8004 Agent
+                            {t('home.create_erc8004')}
                             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </Link>
                         <Link
@@ -303,7 +305,7 @@ export default function Homepage() {
                             className="group inline-flex items-center gap-2.5 px-7 py-3.5 font-semibold rounded-xl transition-all duration-300 border border-neutral-200 dark:border-white/[0.1] text-neutral-600 dark:text-neutral-300 hover:border-[#F0B90B]/40 hover:text-[#F0B90B] hover:-translate-y-0.5 bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm"
                         >
                             <Zap className="w-5 h-5" />
-                            Start Building
+                            {t('home.start_building')}
                         </Link>
                         <a
                             href="https://github.com/nirholas/bnb-chain-toolkit"
@@ -516,10 +518,10 @@ export default function Homepage() {
             <section className="py-24 md:py-32 bg-neutral-50 dark:bg-white/[0.01]">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        badge="Model Context Protocol"
+                        badge={t('home.mcp.badge')}
                         badgeIcon={Plug}
-                        title="6 MCP Servers, 900+ Tools"
-                        subtitle="Give AI assistants direct blockchain access. Connect Claude, ChatGPT, or any LLM to BNB Chain, Binance, and 60+ networks."
+                        title={t('home.mcp.title')}
+                        subtitle={t('home.mcp.subtitle')}
                     />
 
                     <div className="max-w-5xl mx-auto mb-16">
@@ -554,10 +556,10 @@ export default function Homepage() {
             <section className="py-24 md:py-32">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        badge="72+ Specialized Agents"
+                        badge={t('home.agents.badge')}
                         badgeIcon={Bot}
-                        title="Pre-Built AI Agents for Every Protocol"
-                        subtitle="From PancakeSwap trading to Venus lending, BNB staking to opBNB optimization — purpose-built agents for every major BNB Chain protocol."
+                        title={t('home.agents.title')}
+                        subtitle={t('home.agents.subtitle')}
                     />
 
                     {/* Featured agents — 3D cards */}
@@ -616,10 +618,10 @@ export default function Homepage() {
                     <div className="container mx-auto px-4 relative z-10">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
-                                Get Started in 60 Seconds
+                                {t('home.quickstart.title')}
                             </h2>
                             <p className="text-neutral-500 dark:text-neutral-400 text-base md:text-lg">
-                                Clone, install, run. It&apos;s that simple.
+                                {t('home.quickstart.subtitle')}
                             </p>
                         </div>
 
@@ -636,10 +638,10 @@ export default function Homepage() {
             <section className="py-24 md:py-32">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        badge="Multi-Chain"
+                        badge={t('home.chains.badge')}
                         badgeIcon={Network}
-                        title="BNB Chain Networks"
-                        subtitle="Purpose-built for the BNB Chain ecosystem."
+                        title={t('home.chains.title')}
+                        subtitle={t('home.chains.subtitle')}
                     />
 
                     <div className="max-w-5xl mx-auto">
@@ -675,10 +677,10 @@ export default function Homepage() {
             <section className="py-24 md:py-32 bg-neutral-50 dark:bg-white/[0.01]">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        badge="Real-Time"
+                        badge={t('home.defi.badge')}
                         badgeIcon={Activity}
-                        title="Live DeFi Data"
-                        subtitle="Real-time market data from CoinGecko, DeFiLlama, and 200+ sources."
+                        title={t('home.defi.title')}
+                        subtitle={t('home.defi.subtitle')}
                     />
 
                     <div className="max-w-7xl mx-auto">
@@ -698,8 +700,8 @@ export default function Homepage() {
             <section className="py-24 md:py-32">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        title="Repository Architecture"
-                        subtitle="A single monorepo with everything integrated and production-ready."
+                        title={t('home.architecture.title')}
+                        subtitle={t('home.architecture.subtitle')}
                     />
 
                     <div className="max-w-4xl mx-auto">
@@ -743,10 +745,10 @@ export default function Homepage() {
                     <div className="text-center mb-16">
                         <div className="badge-pro mb-6">
                             <Shield className="w-3 h-3" />
-                            Why This Toolkit
+                            {t('home.why.badge')}
                         </div>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-white mb-4">
-                            Why BNB Chain AI Toolkit?
+                            {t('home.why.title')}
                         </h2>
                     </div>
 
@@ -762,7 +764,7 @@ export default function Homepage() {
             <section className="py-24 md:py-32">
                 <div className="container mx-auto px-4">
                     <SectionHeading
-                        title="Explore the Toolkit"
+                        title={t('home.explore')}
                     />
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3 max-w-6xl mx-auto">
@@ -818,10 +820,10 @@ export default function Homepage() {
                         Open Source
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] text-white mb-5">
-                        Ready to Build on BNB Chain?
+                        {t('home.cta.title')}
                     </h2>
                     <p className="text-neutral-400 text-lg mb-12 max-w-lg mx-auto font-light">
-                        72+ agents, 6 MCP servers, 900+ tools. Open source. Start building now.
+                        {t('home.cta.subtitle')}
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link
@@ -829,7 +831,7 @@ export default function Homepage() {
                             className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_50px_rgba(240,185,11,0.5)] hover:-translate-y-0.5 animate-glow-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                         >
                             <Zap className="w-5 h-5" />
-                            Start Building
+                            {t('home.start_building')}
                             <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </Link>
                         <a
@@ -839,14 +841,14 @@ export default function Homepage() {
                             className="group inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 border border-white/[0.12] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5"
                         >
                             <GitBranch className="w-5 h-5" />
-                            Star on GitHub
+                            {t('home.star_github')}
                         </a>
                         <Link
                             to="/docs"
                             className="inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 text-neutral-400 hover:text-[#F0B90B] hover:-translate-y-0.5"
                         >
                             <BookOpen className="w-5 h-5" />
-                            Get Started
+                            {t('common.get_started')}
                             <ChevronRight className="w-4 h-4" />
                         </Link>
                     </div>

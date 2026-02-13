@@ -9,29 +9,10 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Twitter } from 'lucide-react';
 import useI18n from '@/stores/i18nStore';
-
-const productLinks = [
-  { label: 'Playground', href: '/playground' },
-  { label: 'Sandbox', href: '/sandbox' },
-  { label: 'Documentation', href: '/docs' },
-  { label: 'Markets', href: '/markets' },
-];
-
-const resourceLinks = [
-  { label: 'Tutorials', href: '/tutorials' },
-  { label: 'Examples', href: '/projects' },
-  { label: 'Innovation Lab', href: '/innovation' },
-  { label: 'API Reference', href: '/docs/api' },
-];
-
-const companyLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Changelog', href: '/changelog' },
-  { label: 'FAQ', href: '/faq' },
-];
 
 const socialLinks = [
   {
@@ -48,6 +29,26 @@ const socialLinks = [
 
 export default function Footer() {
   const { t } = useI18n();
+
+  const productLinks = useMemo(() => [
+    { label: t('nav.playground'), href: '/playground' },
+    { label: t('nav.sandbox'), href: '/sandbox' },
+    { label: t('nav.docs'), href: '/docs' },
+    { label: t('nav.markets'), href: '/markets' },
+  ], [t]);
+
+  const resourceLinks = useMemo(() => [
+    { label: t('footer.tutorials'), href: '/tutorials' },
+    { label: t('footer.examples'), href: '/projects' },
+    { label: t('footer.innovation_lab'), href: '/innovation' },
+    { label: t('footer.api_reference'), href: '/docs/api' },
+  ], [t]);
+
+  const companyLinks = useMemo(() => [
+    { label: t('nav.about'), href: '/about' },
+    { label: t('footer.changelog'), href: '/changelog' },
+    { label: t('nav.faq'), href: '/faq' },
+  ], [t]);
 
   return (
     <footer
@@ -68,8 +69,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-gray-500 max-w-xs font-light">
-              72+ AI agents, 6 MCP servers, and 900+ tools for BNB Chain and
-              60+ networks. Open source and community-driven.
+              {t('footer.brand_description')}
             </p>
 
             {/* Social icons */}
@@ -92,7 +92,7 @@ export default function Footer() {
           {/* Product */}
           <nav aria-label="Product links">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">
-              Product
+              {t('footer.product')}
             </h3>
             <ul className="space-y-3">
               {productLinks.map((link) => (
@@ -111,7 +111,7 @@ export default function Footer() {
           {/* Resources */}
           <nav aria-label="Resource links">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">
-              Resources
+              {t('footer.resources')}
             </h3>
             <ul className="space-y-3">
               {resourceLinks.map((link) => (
@@ -130,7 +130,7 @@ export default function Footer() {
           {/* Company */}
           <nav aria-label="Project links">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">
-              Project
+              {t('footer.project')}
             </h3>
             <ul className="space-y-3">
               {companyLinks.map((link) => (

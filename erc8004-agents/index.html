@@ -8,22 +8,120 @@ ERC-8004 AGENT CREATOR — BNB Chain AI Toolkit
 ✨ Original Author: nich
 🐦 Twitter/X: x.com/nichxbt
 🐙 GitHub: github.com/nirholas
-📦 Repository: github.com/nirholas/bnb-chain-toolkit
-🌐 Website: https://bnbchaintoolkit.com
+📦 Repository: github.com/nirholas/erc8004-agent-creator
+🌐 Website: https://erc8004.agency
 
 Powered by ERC-8004: Trustless Agents
 https://www.8004.org
 
 Copyright (c) 2024-2026 nirholas (nich)
-Licensed under MIT License
+Licensed under Apache License 2.0
 ═══════════════════════════════════════════════════════════════════════════════
 -->
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ERC-8004 Agent Creator — BNB Chain AI Toolkit</title>
-  <meta name="description" content="Create ERC-8004 Trustless Agents on BNB Smart Chain. Register your AI agent on-chain with a portable, censorship-resistant identity." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ERC-8004 Agent Creator — Register Trustless AI Agents On-Chain</title>
+  <meta name="description" content="Create and register ERC-8004 trustless AI agents on BNB Chain and any EVM network. Mint ERC-721 NFT agent identities with service endpoints, reputation, validation, A2A/MCP discovery, and x402 payment support. Zero dependencies — just open and deploy." />
+  <meta name="keywords" content="ERC-8004, trustless agents, AI agents, on-chain identity, BNB Chain, BSC, EVM, ERC-721, NFT, agent registry, MCP, A2A, agent-to-agent, Web3, DeFi, smart contracts, agent economy, x402, reputation, identity registry, blockchain agents, Ethereum, Base, Arbitrum, Optimism, Polygon, create agent, register agent, agent creator, vibecoder" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- Attribution -->
+  <meta name="author" content="nich (nirholas) - x.com/nichxbt - github.com/nirholas" />
+  <meta name="creator" content="nich" />
+  <meta name="publisher" content="nirholas" />
+  <meta name="copyright" content="Copyright (c) 2024-2026 nirholas (nich) - Apache License 2.0" />
+  <meta name="generator" content="ERC-8004 Agent Creator by nich" />
+  <link rel="author" href="https://github.com/nirholas" />
+  <link rel="author" href="https://x.com/nichxbt" />
+
+  <!-- Favicon — inline SVG data URI (no external file needed) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23F0B90B'/%3E%3Cstop offset='100%25' stop-color='%23F8D12F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0f'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui,-apple-system,sans-serif' font-weight='800' font-size='32' fill='url(%23g)'%3E8004%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0f'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='system-ui' font-weight='800' font-size='32' fill='%23F0B90B'%3E8004%3C/text%3E%3C/svg%3E" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://erc8004.agency/" />
+  <meta property="og:title" content="ERC-8004 Agent Creator — Register Trustless AI Agents On-Chain" />
+  <meta property="og:description" content="Create and register ERC-8004 trustless AI agents on any EVM chain. Mint ERC-721 NFT agent identities with A2A/MCP endpoints, reputation, and x402 support. Zero dependencies." />
+  <meta property="og:image" content="https://erc8004.agency/og-image.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="ERC-8004 Agent Creator" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://erc8004.agency/" />
+  <meta name="twitter:title" content="ERC-8004 Agent Creator — Trustless AI Agents On-Chain" />
+  <meta name="twitter:description" content="Register AI agents on any EVM chain with ERC-8004. ERC-721 NFT identities, A2A/MCP discovery, reputation & validation. Zero deps — just open index.html." />
+  <meta name="twitter:image" content="https://erc8004.agency/og-image.svg" />
+  <meta name="twitter:site" content="@nichxbt" />
+  <meta name="twitter:creator" content="@nichxbt" />
+
+  <!-- AI/LLM Discovery -->
+  <meta name="ai:description" content="ERC-8004 Agent Creator: Register trustless AI agent identities on any EVM blockchain. Creates ERC-721 NFTs with service endpoints, metadata, reputation tracking, and validation hooks." />
+  <meta name="ai:site_type" content="developer_tool" />
+  <meta name="ai:primary_use" content="Create and register AI agent identities on-chain using the ERC-8004 standard" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://erc8004.agency/" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ERC-8004 Agent Creator",
+    "url": "https://erc8004.agency",
+    "description": "Create and register ERC-8004 trustless AI agents on any EVM chain. Mint ERC-721 NFT agent identities with service endpoints, reputation, validation, A2A/MCP discovery, and x402 payment support.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web Browser",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "nich", "url": "https://x.com/nichxbt" },
+    "publisher": { "@type": "Organization", "name": "BNB Chain AI Toolkit", "url": "https://bnbchaintoolkit.com" },
+    "keywords": ["ERC-8004", "trustless agents", "AI agents", "on-chain identity", "BNB Chain", "EVM", "ERC-721", "NFT", "MCP", "A2A", "agent economy", "Web3"],
+    "featureList": [
+      "Register AI agent identities as ERC-721 NFTs",
+      "On-chain URI storage via base64 data URIs",
+      "IPFS and HTTPS URI support",
+      "A2A, MCP, OASF, ENS, DID service endpoint discovery",
+      "Custom on-chain metadata key-value pairs",
+      "Reputation and validation registry integration",
+      "BSC Testnet and Mainnet support",
+      "Zero dependencies — single HTML file"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is ERC-8004?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ERC-8004 is an Ethereum standard for trustless agent identity. It defines on-chain registries for agent discovery, reputation, and validation — enabling AI agents to interact across organizational boundaries without pre-existing trust." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I register an AI agent on-chain?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Connect your Web3 wallet (MetaMask), fill in your agent's name, description, and service endpoints, then click Register. The ERC-8004 Agent Creator handles the transaction — your agent gets an ERC-721 NFT identity on BNB Chain." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it cost money to register an agent?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Registration costs a small gas fee (typically ~0.001-0.005 BNB on BSC). You can test for free using BSC Testnet with free tBNB from the BNB Chain faucet." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which blockchains are supported?",
+        "acceptedAnswer": { "@type": "Answer", "text": "ERC-8004 contracts are deployed on BNB Smart Chain (BSC) testnet and mainnet, Ethereum Sepolia testnet, and Ethereum mainnet. The contracts use deterministic CREATE2 addresses and can be deployed to any EVM-compatible chain." }
+      }
+    ]
+  }
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1385,7 +1483,7 @@ Licensed under MIT License
           <a href="https://www.8004.org" target="_blank" rel="noopener">ERC-8004 Spec</a>
           <a href="https://github.com/erc-8004/erc-8004-contracts" target="_blank" rel="noopener">Contracts</a>
           <a href="https://bnbchaintoolkit.com" target="_blank" rel="noopener">BNB Chain AI Toolkit</a>
-          <a href="https://github.com/nirholas/bnb-chain-toolkit" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/nirholas/erc8004-agent-creator" target="_blank" rel="noopener">GitHub</a>
         </div>
         <p>Built by <a href="https://x.com/nichxbt" target="_blank" rel="noopener">nich</a> · Powered by <a href="https://www.8004.org" target="_blank" rel="noopener">ERC-8004</a> · <a href="https://bnbchaintoolkit.com" target="_blank" rel="noopener">BNB Chain AI Toolkit</a></p>
       </div>

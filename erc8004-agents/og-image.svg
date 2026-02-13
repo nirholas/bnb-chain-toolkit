@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#12121a"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F0B90B"/>
+      <stop offset="100%" stop-color="#F8D12F"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0B90B" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#F0B90B" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Subtle grid -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Glow effect -->
+  <ellipse cx="600" cy="250" rx="500" ry="300" fill="url(#glow)"/>
+  
+  <!-- Border -->
+  <rect x="1" y="1" width="1198" height="628" rx="0" fill="none" stroke="rgba(240,185,11,0.2)" stroke-width="2"/>
+  
+  <!-- 8004 badge -->
+  <rect x="80" y="80" width="120" height="50" rx="12" fill="rgba(240,185,11,0.12)" stroke="rgba(240,185,11,0.3)" stroke-width="1.5"/>
+  <text x="140" y="113" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="800" font-size="24" fill="#F0B90B">8004</text>
+  
+  <!-- Main title -->
+  <text x="80" y="220" font-family="system-ui,-apple-system,sans-serif" font-weight="800" font-size="64" fill="#ffffff" letter-spacing="-2">ERC-8004</text>
+  <text x="80" y="290" font-family="system-ui,-apple-system,sans-serif" font-weight="800" font-size="56" fill="url(#gold)" letter-spacing="-1.5">Agent Creator</text>
+  
+  <!-- Subtitle -->
+  <text x="80" y="350" font-family="system-ui,-apple-system,sans-serif" font-weight="400" font-size="24" fill="rgba(255,255,255,0.6)">Register trustless AI agents on any EVM chain</text>
+  
+  <!-- Feature pills -->
+  <rect x="80" y="400" width="140" height="38" rx="19" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="150" y="424" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.7)">ERC-721 NFT</text>
+  
+  <rect x="235" y="400" width="100" height="38" rx="19" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="285" y="424" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.7)">A2A</text>
+  
+  <rect x="350" y="400" width="100" height="38" rx="19" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="400" y="424" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.7)">MCP</text>
+  
+  <rect x="465" y="400" width="130" height="38" rx="19" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="530" y="424" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.7)">Reputation</text>
+  
+  <rect x="610" y="400" width="130" height="38" rx="19" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="675" y="424" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="14" fill="rgba(255,255,255,0.7)">Zero Deps</text>
+  
+  <!-- Chain logos area -->
+  <text x="80" y="500" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="14" fill="rgba(255,255,255,0.35)">BNB Chain · Ethereum · Base · Arbitrum · Optimism · Polygon · Any EVM</text>
+  
+  <!-- Bottom bar -->
+  <rect x="0" y="570" width="1200" height="60" fill="rgba(240,185,11,0.05)"/>
+  <text x="80" y="607" font-family="system-ui,-apple-system,sans-serif" font-weight="600" font-size="16" fill="rgba(255,255,255,0.5)">erc8004.agency</text>
+  <text x="1120" y="607" text-anchor="end" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="14" fill="rgba(255,255,255,0.35)">by nich · BNB Chain AI Toolkit</text>
+</svg>

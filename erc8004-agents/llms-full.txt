@@ -1,0 +1,290 @@
+# ERC-8004 Agent Creator — Full Technical Reference
+
+> Comprehensive reference for AI assistants integrating with ERC-8004 trustless AI agent on-chain identity.
+
+## Overview
+
+ERC-8004 defines a standard for registering AI agents as ERC-721 NFTs on EVM-compatible blockchains. The standard introduces three registries:
+
+1. **IdentityRegistry** — Extends ERC-721 with `agentURI`, on-chain metadata, and wallet binding
+2. **ReputationRegistry** — On-chain scored feedback (-128 to +127) with comments
+3. **ValidationRegistry** — Third-party attestation and verification
+
+Live at https://erc8004.agency. Source at https://github.com/nirholas/erc8004-agent-creator.
+
+---
+
+## Contract Addresses
+
+All addresses share the `0x8004` vanity prefix deployed via CREATE2 through the SAFE Singleton Factory.
+
+### BSC Testnet (Chain ID: 97)
+- IdentityRegistry: `0x8004A818BFB912233c491871b3d84c89A494BD9e`
+- ReputationRegistry: `0x8004B663056A597Dffe9eCcC1965A193B7388713`
+- ValidationRegistry: `0x8004Cb1BF31DAf7788923b405b754f57acEB4272`
+- RPC: `https://data-seed-prebsc-1-s1.bnbchain.org:8545`
+- Explorer: `https://testnet.bscscan.com`
+
+### BSC Mainnet (Chain ID: 56)
+- IdentityRegistry: `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`
+- ReputationRegistry: `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63`
+- RPC: `https://bsc-dataseed.bnbchain.org`
+- Explorer: `https://bscscan.com`
+
+### Ethereum Mainnet (Chain ID: 1)
+- IdentityRegistry: `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`
+- ReputationRegistry: `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63`
+- RPC: `https://eth.llamarpc.com`
+- Explorer: `https://etherscan.io`
+
+### Ethereum Sepolia (Chain ID: 11155111)
+- IdentityRegistry: `0x8004A818BFB912233c491871b3d84c89A494BD9e`
+- ReputationRegistry: `0x8004B663056A597Dffe9eCcC1965A193B7388713`
+- RPC: `https://rpc.sepolia.org`
+- Explorer: `https://sepolia.etherscan.io`
+
+### CAIP-10 Agent Registry Format
+```
+eip155:97:0x8004A818BFB912233c491871b3d84c89A494BD9e     # BSC Testnet
+eip155:56:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432     # BSC Mainnet
+eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432      # Ethereum
+eip155:11155111:0x8004A818BFB912233c491871b3d84c89A494BD9e # Sepolia
+```
+
+---
+
+## ABI — IdentityRegistry
+
+```solidity
+// Registration
+function register() external returns (uint256 agentId)
+function register(string agentURI) external returns (uint256 agentId)
+function register(string agentURI, MetadataEntry[] metadata) external returns (uint256 agentId)
+
+// URI Management
+function setAgentURI(uint256 agentId, string newURI) external
+function tokenURI(uint256 tokenId) external view returns (string)
+
+// Metadata
+function setMetadata(uint256 agentId, string metadataKey, bytes metadataValue) external
+function getMetadata(uint256 agentId, string metadataKey) external view returns (bytes)
+
+// Ownership
+function getAgentWallet(uint256 agentId) external view returns (address)
+function ownerOf(uint256 tokenId) external view returns (address)
+function balanceOf(address owner) external view returns (uint256)
+
+// Info
+function getVersion() external pure returns (string)
+function name() external view returns (string)
+function symbol() external view returns (string)
+
+// Events
+event Registered(uint256 indexed agentId, string agentURI, address indexed owner)
+event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)
+
+// MetadataEntry struct
+struct MetadataEntry {
+    string metadataKey;
+    bytes metadataValue;
+}
+```
+
+## ABI — ReputationRegistry
+
+```solidity
+function submitFeedback(uint256 agentId, int8 score, string comment) external
+function getFeedbackCount(uint256 agentId) external view returns (uint256)
+function getAverageScore(uint256 agentId) external view returns (int256)
+function getFeedback(uint256 agentId, uint256 index) external view returns (
+    address reviewer, int8 score, string comment, uint256 timestamp
+)
+
+event FeedbackSubmitted(uint256 indexed agentId, address indexed reviewer, int8 score, string comment)
+```
+
+## ABI — ValidationRegistry
+
+```solidity
+function validate(uint256 agentId, string attestationType, bytes attestationData) external
+function isValidated(uint256 agentId, string attestationType) external view returns (bool)
+function getValidation(uint256 agentId, string attestationType) external view returns (
+    address validator, bytes attestationData, uint256 timestamp
+)
+
+event Validated(uint256 indexed agentId, address indexed validator, string attestationType)
+```
+
+---
+
+## Agent Metadata JSON Schema
+
+When registering via the web UI, the agent URI points to JSON metadata:
+
+```json
+{
+  "name": "My DeFi Agent",
+  "description": "Autonomous DeFi trading agent on BSC",
+  "version": "1.0.0",
+  "agentId": "42",
+  "agentRegistry": "eip155:97:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+  "services": [
+    {
+      "type": "a2a",
+      "endpoint": "https://myagent.com/.well-known/agent.json"
+    },
+    {
+      "type": "mcp",
+      "endpoint": "https://myagent.com/mcp"
+    }
+  ],
+  "trustModels": ["reputation", "crypto-economic"],
+  "x402Enabled": true,
+  "metadata": {
+    "did": "did:web:myagent.com",
+    "ens": "myagent.eth"
+  }
+}
+```
+
+### URI Storage Options
+1. **On-chain base64**: `data:application/json;base64,eyJuYW1l...` (stored directly in contract)
+2. **IPFS**: `ipfs://QmXx...` (content-addressed, immutable)
+3. **HTTPS**: `https://myagent.com/agent.json` (mutable, requires hosting)
+
+---
+
+## Code Examples
+
+### Register an Agent (ethers.js v6)
+
+```javascript
+import { ethers } from 'ethers';
+
+const IDENTITY_ABI = [
+  "function register(string agentURI) external returns (uint256 agentId)",
+  "event Registered(uint256 indexed agentId, string agentURI, address indexed owner)"
+];
+
+const provider = new ethers.BrowserProvider(window.ethereum);
+const signer = await provider.getSigner();
+const registry = new ethers.Contract(
+  '0x8004A818BFB912233c491871b3d84c89A494BD9e',
+  IDENTITY_ABI,
+  signer
+);
+
+const metadata = {
+  name: "My Agent",
+  description: "DeFi trading bot",
+  version: "1.0.0",
+  services: [{ type: "a2a", endpoint: "https://myagent.com/.well-known/agent.json" }]
+};
+
+const uri = "data:application/json;base64," + btoa(JSON.stringify(metadata));
+const tx = await registry['register(string)'](uri);
+const receipt = await tx.wait();
+console.log("Registered! TX:", receipt.hash);
+```
+
+### Look Up an Agent
+
+```javascript
+const tokenURI = await registry.tokenURI(42);
+const base64 = tokenURI.replace('data:application/json;base64,', '');
+const metadata = JSON.parse(atob(base64));
+console.log(metadata);
+```
+
+### Submit Reputation
+
+```javascript
+const REPUTATION_ABI = [
+  "function submitFeedback(uint256 agentId, int8 score, string comment) external"
+];
+
+const reputation = new ethers.Contract(
+  '0x8004B663056A597Dffe9eCcC1965A193B7388713',
+  REPUTATION_ABI,
+  signer
+);
+
+await reputation.submitFeedback(42, 100, "Excellent DeFi agent");
+```
+
+### Using the MCP Server
+
+```bash
+# Install and run
+npx @nirholas/erc8004-mcp
+
+# Claude Desktop config
+{
+  "mcpServers": {
+    "erc8004": {
+      "command": "npx",
+      "args": ["@nirholas/erc8004-mcp"],
+      "env": { "PRIVATE_KEY": "0x..." }
+    }
+  }
+}
+```
+
+---
+
+## Integration Patterns
+
+### Embed via iframe
+```html
+<iframe src="https://erc8004.agency" width="100%" height="800" frameborder="0"></iframe>
+```
+
+### Direct Link
+```
+https://erc8004.agency
+```
+
+### Self-Host
+Download `index.html` and serve from any static host. Zero dependencies.
+
+### React Hook
+```typescript
+import { ethers } from 'ethers';
+
+function useERC8004(chainId: number) {
+  const addresses = {
+    97: '0x8004A818BFB912233c491871b3d84c89A494BD9e',
+    56: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
+    1: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
+  };
+  // ... implementation
+}
+```
+
+---
+
+## Trust Models
+
+ERC-8004 supports three trust models:
+
+1. **Reputation-based** — On-chain feedback scoring via ReputationRegistry
+2. **Crypto-economic** — Staking/bonding for economic security (planned)
+3. **TEE attestation** — Trusted Execution Environment verification (planned)
+
+---
+
+## Keywords
+
+erc-8004, erc8004, trustless agents, ai agents, on-chain identity, agent nft, erc-721, a2a protocol, mcp server, model context protocol, agent discovery, agent reputation, web3 ai, defi agents, autonomous agents, x402, micropayments, agent economy, vibecoder, vibe coding, ai agent creator, agent registry, bsc, bnb chain, ethereum, multi-chain, zero dependency
+
+---
+
+## Links
+
+- Web UI: https://erc8004.agency
+- GitHub: https://github.com/nirholas/erc8004-agent-creator
+- MCP Server: https://www.npmjs.com/package/@nirholas/erc8004-mcp
+- EIP Spec: https://eips.ethereum.org/EIPS/eip-8004
+- Contracts Source: https://github.com/erc-8004/erc-8004-contracts
+- BNB Chain AI Toolkit: https://github.com/nirholas/bnb-chain-toolkit
+- Documentation: https://erc8004.agency/docs

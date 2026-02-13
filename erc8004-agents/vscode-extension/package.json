@@ -1,0 +1,276 @@
+{
+  "name": "erc8004-agent-manager",
+  "displayName": "ERC-8004 Agent Manager",
+  "description": "Create, manage, and discover ERC-8004 AI agents directly from VSCode. Register on-chain identities, view reputation, and interact with the agent registry on BSC and Ethereum.",
+  "version": "1.0.0",
+  "publisher": "nirholas",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nirholas/erc8004-agent-creator"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets"
+  ],
+  "keywords": [
+    "erc-8004",
+    "ai-agent",
+    "web3",
+    "bnb-chain",
+    "blockchain",
+    "mcp",
+    "a2a"
+  ],
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#F0B90B",
+    "theme": "light"
+  },
+  "activationEvents": [
+    "onLanguage:solidity",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "workspaceContains:.well-known/agent-card.json"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "erc8004.registerAgent",
+        "title": "Register New Agent",
+        "category": "ERC-8004",
+        "icon": "$(add)"
+      },
+      {
+        "command": "erc8004.viewAgent",
+        "title": "View Agent",
+        "category": "ERC-8004",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "erc8004.updateAgent",
+        "title": "Update Agent URI",
+        "category": "ERC-8004",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "erc8004.searchAgents",
+        "title": "Search Agents",
+        "category": "ERC-8004",
+        "icon": "$(search)"
+      },
+      {
+        "command": "erc8004.switchChain",
+        "title": "Switch Chain",
+        "category": "ERC-8004",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "erc8004.generateWellKnown",
+        "title": "Generate .well-known Files",
+        "category": "ERC-8004",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "erc8004.exportConfig",
+        "title": "Export Agent Config",
+        "category": "ERC-8004",
+        "icon": "$(export)"
+      },
+      {
+        "command": "erc8004.connectWallet",
+        "title": "Connect Wallet",
+        "category": "ERC-8004",
+        "icon": "$(key)"
+      },
+      {
+        "command": "erc8004.disconnectWallet",
+        "title": "Disconnect Wallet",
+        "category": "ERC-8004",
+        "icon": "$(debug-disconnect)"
+      },
+      {
+        "command": "erc8004.refreshAgents",
+        "title": "Refresh Agents",
+        "category": "ERC-8004",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "erc8004.openDashboard",
+        "title": "Open Dashboard",
+        "category": "ERC-8004",
+        "icon": "$(dashboard)"
+      },
+      {
+        "command": "erc8004.viewReputation",
+        "title": "View Reputation",
+        "category": "ERC-8004",
+        "icon": "$(star)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "erc8004-explorer",
+          "title": "ERC-8004 Agents",
+          "icon": "media/agent-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "erc8004-explorer": [
+        {
+          "id": "erc8004-wallet",
+          "name": "Wallet"
+        },
+        {
+          "id": "erc8004-agents",
+          "name": "My Agents"
+        },
+        {
+          "id": "erc8004-discover",
+          "name": "Discover"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "erc8004-wallet",
+        "contents": "No wallet connected.\n[Connect Wallet](command:erc8004.connectWallet)\n\nStore your private key securely in VSCode Secrets."
+      },
+      {
+        "view": "erc8004-agents",
+        "contents": "Connect a wallet to view your agents.\n[Connect Wallet](command:erc8004.connectWallet)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "erc8004.registerAgent",
+          "when": "view == erc8004-agents",
+          "group": "navigation"
+        },
+        {
+          "command": "erc8004.refreshAgents",
+          "when": "view == erc8004-agents",
+          "group": "navigation"
+        },
+        {
+          "command": "erc8004.searchAgents",
+          "when": "view == erc8004-discover",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "erc8004.viewAgent",
+          "when": "viewItem == agent",
+          "group": "inline"
+        },
+        {
+          "command": "erc8004.updateAgent",
+          "when": "viewItem == agent"
+        },
+        {
+          "command": "erc8004.exportConfig",
+          "when": "viewItem == agent"
+        },
+        {
+          "command": "erc8004.viewReputation",
+          "when": "viewItem == agent"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ERC-8004 Agent Manager",
+      "properties": {
+        "erc8004.defaultChain": {
+          "type": "string",
+          "default": "bsc-testnet",
+          "enum": [
+            "bsc-testnet",
+            "bsc-mainnet",
+            "eth-sepolia",
+            "eth-mainnet"
+          ],
+          "enumDescriptions": [
+            "BSC Testnet (Chain ID: 97)",
+            "BSC Mainnet (Chain ID: 56)",
+            "Ethereum Sepolia (Chain ID: 11155111)",
+            "Ethereum Mainnet (Chain ID: 1)"
+          ],
+          "description": "Default blockchain network for agent operations"
+        },
+        "erc8004.rpcUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Custom RPC endpoint URL (leave empty to use default)"
+        },
+        "erc8004.explorerUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Custom block explorer URL (leave empty to use default)"
+        },
+        "erc8004.autoConnect": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically connect wallet on extension activation"
+        },
+        "erc8004.gasMultiplier": {
+          "type": "number",
+          "default": 1.2,
+          "description": "Gas estimation multiplier for transactions"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "solidity",
+        "path": "./snippets/solidity.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/typescript.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python.json"
+      },
+      {
+        "language": "json",
+        "path": "./snippets/json.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext .ts",
+    "test": "node ./dist/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^2.3.8",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {
+    "ethers": "^6.9.0"
+  }
+}

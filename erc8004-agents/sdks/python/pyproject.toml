@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "erc8004"
+version = "0.1.0"
+description = "Python SDK for ERC-8004 Trustless AI Agent Registry"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+authors = [
+    { name = "nich", email = "nich@erc8004.agency" },
+]
+keywords = ["erc8004", "ai-agents", "web3", "ethereum", "bnb-chain", "nft", "agent-registry"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Internet :: WWW/HTTP",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "web3>=7.0.0",
+    "pydantic>=2.0.0",
+    "eth-account>=0.13.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.8",
+    "mypy>=1.13",
+]
+
+[project.urls]
+Homepage = "https://erc8004.agency"
+Repository = "https://github.com/nirholas/erc8004-agent-creator"
+Documentation = "https://github.com/nirholas/erc8004-agent-creator/tree/main/sdks/python"
+Issues = "https://github.com/nirholas/erc8004-agent-creator/issues"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
