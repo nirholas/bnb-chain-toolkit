@@ -6,8 +6,8 @@
 
 ## What You'll Need
 
-- A Web3 wallet (MetaMask, Rabby, or any injected wallet)
-- Some test BNB for gas fees (free from [BNB Testnet Faucet](https://www.bnbchain.org/en/testnet-faucet))
+- A Web3 wallet (MetaMask, Rabby, Coinbase Wallet, Rainbow, or any EIP-6963 wallet)
+- Some native tokens for gas fees (free from testnet faucets)
 - That's it. No installations, no dependencies, no build tools.
 
 ## Step 1: Open the App
@@ -21,31 +21,46 @@ git clone https://github.com/nirholas/erc8004-agent-creator.git
 open erc8004-agent-creator/index.html
 ```
 
-## Step 2: Get Testnet BNB
+## Step 2: Choose Your Chain
 
-Before registering, get free test BNB:
+Use the **chain selector dropdown** in the header to pick a network. For your first agent, we recommend a testnet:
 
-1. Visit the [BNB Chain Testnet Faucet](https://www.bnbchain.org/en/testnet-faucet)
-2. Enter your wallet address
-3. Receive free tBNB (enough for ~100+ registrations)
+| Chain | Token | Faucet |
+|-------|-------|--------|
+| BSC Testnet | tBNB | [bnbchain.org](https://www.bnbchain.org/en/testnet-faucet) |
+| Ethereum Sepolia | ETH | [sepoliafaucet.com](https://sepoliafaucet.com) |
+| Base Sepolia | ETH | [coinbase.com faucet](https://www.coinbase.com/faucets/base-ethereum-goerli-faucet) |
+| Polygon Amoy | POL | [faucet.polygon.technology](https://faucet.polygon.technology) |
+| Avalanche Fuji | AVAX | [faucet.avax.network](https://faucet.avax.network) |
 
-> **Tip:** Always test on BSC Testnet first before using mainnet.
+> **Tip:** The chain selector groups chains by family (BNB, Ethereum, L2s, Alt-L1s) and shows testnet/mainnet icons.
 
-## Step 3: Connect Your Wallet
+## Step 3: Get Testnet Tokens
+
+Click the faucet link for your chosen testnet and claim free tokens. You only need a tiny amount for gas (~$0.01).
+
+## Step 4: Connect Your Wallet
 
 1. Click **"Connect Wallet"** in the top-right corner
-2. Approve the connection in MetaMask
-3. The app will automatically switch you to BSC Testnet
+2. If you have multiple wallets installed, the app detects them via **EIP-6963** — choose the one you want
+3. Approve the connection in your wallet
+4. The app will automatically switch you to the selected chain
 
-## Step 4: Fill In Agent Details
+## Step 5: Fill In Agent Details
 
-### Agent Identity (Step 1 of 4)
+### Use a Template (Fastest)
+
+Switch to the **Templates** tab → Choose a pre-built template (DeFi Trading, Customer Support, Code Review, etc.) → Click "Use Template" → The form is auto-filled.
+
+### Or Fill Manually
+
+#### Agent Identity (Step 1 of 4)
 - **Agent Name** — A short, memorable name (e.g., "DeFi Yield Optimizer")
 - **Description** — What your agent does, how it works, and how to interact with it
 - **Image URL** — Optional avatar/logo (PNG, SVG, or IPFS link)
 
-### Services & Endpoints (Step 2 of 4)
-Add at least one service endpoint. These tell other agents how to reach yours:
+#### Services & Endpoints (Step 2 of 4)
+Add at least one service endpoint:
 
 | Service Type | Example Endpoint | Use Case |
 |---|---|---|
@@ -56,40 +71,49 @@ Add at least one service endpoint. These tell other agents how to reach yours:
 | **ENS** | `myagent.eth` | Ethereum Name Service |
 | **DID** | `did:web:myagent.com` | Decentralized Identifier |
 
-### Configuration (Step 3 of 4)
+#### Configuration (Step 3 of 4)
 - **Trust Models** — Select which trust mechanisms your agent supports
-- **x402 Payment** — Enable if your agent supports HTTP 402 payments
-- **URI Storage** — Choose where to store your agent's registration data
-- **Custom Metadata** — Add key-value pairs stored on-chain
+- **x402 Payment** — Enable if your agent supports HTTP 402 micropayments (set price, accepted tokens)
+- **URI Storage** — Choose where to store your agent's registration data (on-chain, IPFS, or HTTPS)
+- **Custom Metadata** — Add key-value pairs stored on-chain, with presets available
 
-### Review & Deploy (Step 4 of 4)
+#### Review & Deploy (Step 4 of 4)
 - Review the generated JSON
 - See the estimated gas cost
 - Click **"Register Agent On-Chain"**
-- Approve the transaction in MetaMask
+- Approve the transaction in your wallet
 
-## Step 5: You're Done!
+## Step 6: You're Done!
 
-After confirmation (~3 seconds on BSC), you'll see:
-- Your **Agent ID** — a unique number
-- The **transaction hash** — view on BscScan
+After confirmation (speed varies by chain), you'll see:
+- Your **Agent ID** — a unique NFT token ID
+- The **transaction hash** — view on the block explorer
+- Options to **generate a QR code**, **export JSON**, or **copy the badge HTML**
 - Your agent is now an **ERC-721 NFT** in your wallet
 
 ## What's Next?
 
-- **View your agents** — Switch to the "My Agents" tab
-- **Register on mainnet** — Switch to "BSC Mainnet" (costs real BNB)
-- **Build integrations** — See [Integration Guide](integration.md)
-- **Share your agent** — The NFT is visible on BscScan and NFT marketplaces
+| Action | How |
+|---|---|
+| View your agents | Switch to the **My Agents** tab |
+| Search for agents | Switch to the **Search** tab |
+| Register on mainnet | Select a mainnet chain from the chain selector |
+| Register multiple agents | Use the **Batch** tab with CSV or JSON import |
+| Generate QR code | Click "QR Code" on any agent in your dashboard |
+| Export agent data | Click "Export" for JSON, badge, or CLI command |
+| Submit reputation | Find an agent → use the reputation form |
+| View past transactions | Switch to the **History** tab |
+| Switch theme | Click the 🌙/☀️ toggle in the header |
 
 ## Quick Reference
 
 | Action | Where |
 |---|---|
 | Register an agent | [erc8004.agency](https://erc8004.agency/) |
-| Get testnet BNB | [BNB Faucet](https://www.bnbchain.org/en/testnet-faucet) |
+| Get testnet tokens | See faucet table above |
 | View contracts | [Contract Addresses](contracts.md) |
 | Read the spec | [8004.org](https://www.8004.org) |
+| Supported chains | 22 EVM chains (7 testnets + 15 mainnets) |
 
 ## Need Help?
 

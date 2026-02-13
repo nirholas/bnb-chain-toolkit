@@ -196,13 +196,17 @@ export function useMCPClient() {
       // Step 2: Send initialized notification (no response expected, but some servers need it)
       // For StreamableHTTP this is sent as a notification (no id)
       try {
+        const notifHeaders: Record<string, string> = {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json, text/event-stream',
+        };
+        if (sessionIdRef.current) {
+          notifHeaders['mcp-session-id'] = sessionIdRef.current;
+        }
+
         await fetch(endpoint, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json, text/event-stream',
-            ...(sessionIdRef.current ? { 'mcp-session-id': sessionIdRef.current } : {}),
-          },
+          headers: notifHeaders,
           body: JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }),
         });
       } catch {

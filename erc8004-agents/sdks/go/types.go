@@ -4,8 +4,8 @@ package erc8004
 
 // AgentService represents a service endpoint exposed by an agent.
 type AgentService struct {
-	Name        string `json:"name"`
-	Endpoint    string `json:"endpoint"`
+	Type        string `json:"type"`
+	URL         string `json:"url"`
 	Description string `json:"description,omitempty"`
 	Version     string `json:"version,omitempty"`
 }

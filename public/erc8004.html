@@ -789,3 +789,1169 @@ Agent 2,Does more,MCP,https://agent2.com</pre>
     <div class="card" style="max-width:600px;width:100%;max-height:80vh;overflow-y:auto;" id="agentModalContent"></div>
   </div>
 
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// ERC-8004 AGENT CREATOR — Application Logic (v2.0 — Multi-Chain)
+// ═══════════════════════════════════════════════════════════════════════
+
+// ─── CHAIN CONFIGS ───
+const CHAIN_FAMILIES = [
+  { label: 'BNB Chain', chains: ['bsc-testnet','bsc-mainnet'] },
+  { label: 'Ethereum', chains: ['eth-sepolia','eth-mainnet'] },
+  { label: 'Base', chains: ['base-sepolia','base-mainnet'] },
+  { label: 'Arbitrum', chains: ['arb-sepolia','arb-mainnet'] },
+  { label: 'Optimism', chains: ['op-sepolia','op-mainnet'] },
+  { label: 'Polygon', chains: ['polygon-amoy','polygon-mainnet'] },
+  { label: 'Avalanche', chains: ['avax-fuji','avax-mainnet'] },
+  { label: 'Other L2s', chains: ['linea','scroll','zksync','mantle'] },
+  { label: 'Other L1s', chains: ['fantom','gnosis','celo','moonbeam'] },
+];
+
+const TESTNET_CONTRACTS = {
+  identity: '0x8004A818BFB912233c491871b3d84c89A494BD9e',
+  reputation: '0x8004B663056A597Dffe9eCcC1965A193B7388713',
+  validation: '0x8004Cb1BF31DAf7788923b405b754f57acEB4272'
+};
+const MAINNET_CONTRACTS = {
+  identity: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
+  reputation: '0x8004BAa17C55a88189AE136b182e5fdA19dE9b63',
+  validation: null
+};
+
+const CHAINS = {
+  'bsc-testnet':    { name:'BSC Testnet',       chainId:97,        chainIdHex:'0x61',       rpcUrl:'https://data-seed-prebsc-1-s1.bnbchain.org:8545', explorer:'https://testnet.bscscan.com',     currency:{name:'tBNB',symbol:'tBNB',decimals:18}, icon:'🟡', testnet:true,  contracts:TESTNET_CONTRACTS, faucet:'https://www.bnbchain.org/en/testnet-faucet' },
+  'bsc-mainnet':    { name:'BSC Mainnet',       chainId:56,        chainIdHex:'0x38',       rpcUrl:'https://bsc-dataseed.bnbchain.org',               explorer:'https://bscscan.com',              currency:{name:'BNB',symbol:'BNB',decimals:18},   icon:'🟡', testnet:false, contracts:MAINNET_CONTRACTS },
+  'eth-sepolia':    { name:'Ethereum Sepolia',  chainId:11155111,  chainIdHex:'0xaa36a7',   rpcUrl:'https://rpc.sepolia.org',                         explorer:'https://sepolia.etherscan.io',      currency:{name:'SepoliaETH',symbol:'ETH',decimals:18}, icon:'🔷', testnet:true, contracts:TESTNET_CONTRACTS, faucet:'https://sepoliafaucet.com' },
+  'eth-mainnet':    { name:'Ethereum Mainnet',  chainId:1,         chainIdHex:'0x1',        rpcUrl:'https://eth.llamarpc.com',                        explorer:'https://etherscan.io',              currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'🔷', testnet:false, contracts:MAINNET_CONTRACTS },
+  'base-sepolia':   { name:'Base Sepolia',      chainId:84532,     chainIdHex:'0x14a34',    rpcUrl:'https://sepolia.base.org',                        explorer:'https://sepolia.basescan.org',      currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'🔵', testnet:true,  contracts:TESTNET_CONTRACTS, faucet:'https://www.coinbase.com/faucets/base-ethereum-goerli-faucet' },
+  'base-mainnet':   { name:'Base',              chainId:8453,      chainIdHex:'0x2105',     rpcUrl:'https://mainnet.base.org',                        explorer:'https://basescan.org',              currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'🔵', testnet:false, contracts:MAINNET_CONTRACTS },
+  'arb-sepolia':    { name:'Arbitrum Sepolia',  chainId:421614,    chainIdHex:'0x66eee',    rpcUrl:'https://sepolia-rollup.arbitrum.io/rpc',           explorer:'https://sepolia.arbiscan.io',       currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'🌀', testnet:true,  contracts:TESTNET_CONTRACTS },
+  'arb-mainnet':    { name:'Arbitrum One',      chainId:42161,     chainIdHex:'0xa4b1',     rpcUrl:'https://arb1.arbitrum.io/rpc',                    explorer:'https://arbiscan.io',               currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'🌀', testnet:false, contracts:MAINNET_CONTRACTS },
+  'op-sepolia':     { name:'Optimism Sepolia',  chainId:11155420,  chainIdHex:'0xa045c4',   rpcUrl:'https://sepolia.optimism.io',                     explorer:'https://sepolia-optimistic.etherscan.io', currency:{name:'ETH',symbol:'ETH',decimals:18}, icon:'🔴', testnet:true, contracts:TESTNET_CONTRACTS },
+  'op-mainnet':     { name:'Optimism',          chainId:10,        chainIdHex:'0xa',        rpcUrl:'https://mainnet.optimism.io',                     explorer:'https://optimistic.etherscan.io',   currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'🔴', testnet:false, contracts:MAINNET_CONTRACTS },
+  'polygon-amoy':   { name:'Polygon Amoy',      chainId:80002,     chainIdHex:'0x13882',    rpcUrl:'https://rpc-amoy.polygon.technology',             explorer:'https://amoy.polygonscan.com',      currency:{name:'POL',symbol:'POL',decimals:18},   icon:'🟣', testnet:true,  contracts:TESTNET_CONTRACTS, faucet:'https://faucet.polygon.technology' },
+  'polygon-mainnet':{ name:'Polygon',           chainId:137,       chainIdHex:'0x89',       rpcUrl:'https://polygon-rpc.com',                         explorer:'https://polygonscan.com',           currency:{name:'POL',symbol:'POL',decimals:18},   icon:'🟣', testnet:false, contracts:MAINNET_CONTRACTS },
+  'avax-fuji':      { name:'Avalanche Fuji',    chainId:43113,     chainIdHex:'0xa869',     rpcUrl:'https://api.avax-test.network/ext/bc/C/rpc',      explorer:'https://testnet.snowtrace.io',      currency:{name:'AVAX',symbol:'AVAX',decimals:18}, icon:'🔺', testnet:true,  contracts:TESTNET_CONTRACTS, faucet:'https://faucet.avax.network' },
+  'avax-mainnet':   { name:'Avalanche C-Chain', chainId:43114,     chainIdHex:'0xa86a',     rpcUrl:'https://api.avax.network/ext/bc/C/rpc',           explorer:'https://snowtrace.io',              currency:{name:'AVAX',symbol:'AVAX',decimals:18}, icon:'🔺', testnet:false, contracts:MAINNET_CONTRACTS },
+  'linea':          { name:'Linea',             chainId:59144,     chainIdHex:'0xe708',     rpcUrl:'https://rpc.linea.build',                         explorer:'https://lineascan.build',           currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'🟢', testnet:false, contracts:MAINNET_CONTRACTS },
+  'scroll':         { name:'Scroll',            chainId:534352,    chainIdHex:'0x82750',    rpcUrl:'https://rpc.scroll.io',                           explorer:'https://scrollscan.com',            currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'📜', testnet:false, contracts:MAINNET_CONTRACTS },
+  'zksync':         { name:'zkSync Era',        chainId:324,       chainIdHex:'0x144',      rpcUrl:'https://mainnet.era.zksync.io',                   explorer:'https://explorer.zksync.io',        currency:{name:'ETH',symbol:'ETH',decimals:18},   icon:'⚡', testnet:false, contracts:MAINNET_CONTRACTS },
+  'mantle':         { name:'Mantle',            chainId:5000,      chainIdHex:'0x1388',     rpcUrl:'https://rpc.mantle.xyz',                          explorer:'https://explorer.mantle.xyz',       currency:{name:'MNT',symbol:'MNT',decimals:18},   icon:'🟠', testnet:false, contracts:MAINNET_CONTRACTS },
+  'fantom':         { name:'Fantom',            chainId:250,       chainIdHex:'0xfa',       rpcUrl:'https://rpc.ftm.tools',                           explorer:'https://ftmscan.com',               currency:{name:'FTM',symbol:'FTM',decimals:18},   icon:'👻', testnet:false, contracts:MAINNET_CONTRACTS },
+  'gnosis':         { name:'Gnosis',            chainId:100,       chainIdHex:'0x64',       rpcUrl:'https://rpc.gnosischain.com',                     explorer:'https://gnosisscan.io',             currency:{name:'xDAI',symbol:'xDAI',decimals:18}, icon:'🦉', testnet:false, contracts:MAINNET_CONTRACTS },
+  'celo':           { name:'Celo',              chainId:42220,     chainIdHex:'0xa4ec',     rpcUrl:'https://forno.celo.org',                          explorer:'https://celoscan.io',               currency:{name:'CELO',symbol:'CELO',decimals:18}, icon:'🌿', testnet:false, contracts:MAINNET_CONTRACTS },
+  'moonbeam':       { name:'Moonbeam',          chainId:1284,      chainIdHex:'0x504',      rpcUrl:'https://rpc.api.moonbeam.network',                explorer:'https://moonbeam.moonscan.io',      currency:{name:'GLMR',symbol:'GLMR',decimals:18}, icon:'🌙', testnet:false, contracts:MAINNET_CONTRACTS },
+};
+
+// ─── ABIs ───
+const IDENTITY_ABI = [
+  "function register() external returns (uint256 agentId)",
+  "function register(string agentURI) external returns (uint256 agentId)",
+  "function register(string agentURI, tuple(string metadataKey, bytes metadataValue)[] metadata) external returns (uint256 agentId)",
+  "function setAgentURI(uint256 agentId, string newURI) external",
+  "function setMetadata(uint256 agentId, string metadataKey, bytes metadataValue) external",
+  "function getMetadata(uint256 agentId, string metadataKey) external view returns (bytes)",
+  "function getAgentWallet(uint256 agentId) external view returns (address)",
+  "function tokenURI(uint256 tokenId) external view returns (string)",
+  "function ownerOf(uint256 tokenId) external view returns (address)",
+  "function balanceOf(address owner) external view returns (uint256)",
+  "function getVersion() external pure returns (string)",
+  "function name() external view returns (string)",
+  "function symbol() external view returns (string)",
+  "event Registered(uint256 indexed agentId, string agentURI, address indexed owner)",
+  "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)"
+];
+const REPUTATION_ABI = [
+  "function submitReputation(uint256 agentId, uint8 score, string comment) external",
+  "function getReputation(uint256 agentId) external view returns (uint256 totalScore, uint256 count)",
+  "event ReputationSubmitted(uint256 indexed agentId, address indexed submitter, uint8 score, string comment)"
+];
+
+// ─── AGENT TEMPLATES ───
+const TEMPLATES = [
+  { id: 'defi-trading', icon: '📈', name: 'DeFi Trading Agent', desc: 'Automated DeFi yield optimization, liquidity management, and token swaps across protocols.', data: { name:'DeFi Trading Agent', description:'Automated DeFi yield optimization agent. Monitors liquidity pools, executes token swaps, manages yield farming positions, and provides real-time market analysis across multiple DEXs.', services:[{name:'A2A',endpoint:'https://agent.example/.well-known/agent-card.json',version:'0.3.0'},{name:'web',endpoint:'https://defi-agent.example/'}], trust:['reputation','crypto-economic'], x402:true, metadata:[{key:'category',value:'DeFi'},{key:'pricing',value:'0.001 ETH/request'}] }},
+  { id: 'customer-support', icon: '🎧', name: 'Customer Support Bot', desc: 'AI-powered support agent for handling tickets, FAQ queries, and multi-language communication.', data: { name:'Customer Support Bot', description:'AI-powered customer support agent. Handles support tickets, answers FAQs, provides multi-language support, and escalates complex issues to human agents.', services:[{name:'A2A',endpoint:'https://support.example/.well-known/agent-card.json'},{name:'web',endpoint:'https://support.example/chat'}], trust:['reputation'], x402:false, metadata:[{key:'category',value:'Support'},{key:'languages',value:'en,es,fr,de,zh'}] }},
+  { id: 'code-review', icon: '🔍', name: 'Code Review Agent', desc: 'Automated code analysis, security auditing, gas optimization, and best practice enforcement.', data: { name:'Code Review Agent', description:'Automated code review agent specializing in Solidity smart contracts. Performs security audits, gas optimization analysis, and best practice enforcement for EVM-compatible code.', services:[{name:'MCP',endpoint:'https://codereview.example/mcp',version:'2025-06-18'},{name:'A2A',endpoint:'https://codereview.example/.well-known/agent-card.json'}], trust:['reputation','tee-attestation'], x402:true, metadata:[{key:'category',value:'Development'},{key:'languages',value:'solidity,rust,typescript'}] }},
+  { id: 'data-analysis', icon: '📊', name: 'Data Analysis Agent', desc: 'On-chain and off-chain data analysis, reporting, visualization, and pattern recognition.', data: { name:'Data Analysis Agent', description:'Comprehensive data analysis agent for blockchain analytics. Processes on-chain data, generates reports, creates visualizations, and identifies patterns in DeFi activity.', services:[{name:'MCP',endpoint:'https://analytics.example/mcp'},{name:'web',endpoint:'https://analytics.example/dashboard'}], trust:['reputation'], x402:true, metadata:[{key:'category',value:'Analytics'},{key:'pricing',value:'0.0005 ETH/query'}] }},
+  { id: 'content-creator', icon: '✍️', name: 'Content Creator', desc: 'AI content generation for social media, documentation, technical writing, and marketing.', data: { name:'Content Creator Agent', description:'AI content generation agent for Web3 projects. Creates social media posts, technical documentation, blog articles, and marketing copy with SEO optimization.', services:[{name:'A2A',endpoint:'https://content.example/.well-known/agent-card.json'}], trust:['reputation'], x402:true, metadata:[{key:'category',value:'Content'},{key:'formats',value:'text,markdown,html'}] }},
+  { id: 'research-assistant', icon: '🔬', name: 'Research Assistant', desc: 'Deep research on protocols, tokens, governance proposals, and market trends.', data: { name:'Research Assistant', description:'Deep research agent for Web3 ecosystem analysis. Investigates protocols, analyzes tokenomics, reviews governance proposals, and tracks market trends with sourced citations.', services:[{name:'MCP',endpoint:'https://research.example/mcp',version:'2025-06-18'},{name:'A2A',endpoint:'https://research.example/.well-known/agent-card.json'}], trust:['reputation','tee-attestation'], x402:false, metadata:[{key:'category',value:'Research'}] }},
+];
+
+// ─── STATE ───
+let currentChain = 'bsc-testnet';
+let currentStep = 1;
+let provider = null;
+let signer = null;
+let userAddress = null;
+let identityContract = null;
+let reputationContract = null;
+let uriMethod = 'onchain';
+let serviceCounter = 0;
+let metadataCounter = 0;
+let currentRating = 0;
+let searchFilter = 'all';
+let batchAgents = [];
+let txHistory = JSON.parse(localStorage.getItem('erc8004_history') || '[]');
+let discoveredWallets = [];
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+  addService();
+  renderChainDropdown();
+  renderTemplates();
+  renderWalletArea();
+  fetchAgentCount();
+  updateThemeIcon();
+  detectWallets();
+
+  // EIP-6963 wallet detection
+  window.addEventListener('eip6963:announceProvider', (event) => {
+    discoveredWallets.push({ info: event.detail.info, provider: event.detail.provider });
+    renderWalletPicker();
+  });
+  window.dispatchEvent(new Event('eip6963:requestProvider'));
+
+  // Watch x402 toggle
+  const x402Toggle = document.getElementById('x402Toggle');
+  const observer = new MutationObserver(() => {
+    document.getElementById('x402Fields').classList.toggle('hidden', !x402Toggle.classList.contains('checked'));
+  });
+  observer.observe(x402Toggle, { attributes: true, attributeFilter: ['class'] });
+});
+
+// ─── THEME ───
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('erc8004_theme', html.getAttribute('data-theme'));
+  updateThemeIcon();
+}
+function updateThemeIcon() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+}
+// Restore theme
+(function() {
+  const saved = localStorage.getItem('erc8004_theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
+// ─── TOAST ───
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + type;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(50px)'; toast.style.transition = 'all 300ms ease-in'; setTimeout(() => toast.remove(), 300); }, 4000);
+}
+
+// ─── WALLET DETECTION ───
+function detectWallets() {
+  // Detect injected wallets
+  if (window.ethereum) {
+    if (window.ethereum.isMetaMask) discoveredWallets.push({ info: { name: 'MetaMask', icon: '' }, provider: window.ethereum });
+    else if (window.ethereum.isCoinbaseWallet) discoveredWallets.push({ info: { name: 'Coinbase Wallet', icon: '' }, provider: window.ethereum });
+    else if (window.ethereum.isRabby) discoveredWallets.push({ info: { name: 'Rabby', icon: '' }, provider: window.ethereum });
+    else if (window.ethereum.isBraveWallet) discoveredWallets.push({ info: { name: 'Brave Wallet', icon: '' }, provider: window.ethereum });
+    else if (window.ethereum.isRainbow) discoveredWallets.push({ info: { name: 'Rainbow', icon: '' }, provider: window.ethereum });
+    else discoveredWallets.push({ info: { name: 'Browser Wallet', icon: '' }, provider: window.ethereum });
+  }
+  // Check for multiple providers
+  if (window.ethereum && window.ethereum.providers) {
+    window.ethereum.providers.forEach(p => {
+      const name = p.isMetaMask ? 'MetaMask' : p.isCoinbaseWallet ? 'Coinbase Wallet' : p.isRainbow ? 'Rainbow' : 'Wallet';
+      if (!discoveredWallets.find(w => w.info.name === name)) {
+        discoveredWallets.push({ info: { name, icon: '' }, provider: p });
+      }
+    });
+  }
+  renderWalletPicker();
+}
+
+function renderWalletPicker() {
+  const list = document.getElementById('walletList');
+  if (!list) return;
+  if (discoveredWallets.length <= 1) { list.innerHTML = ''; return; }
+  list.innerHTML = discoveredWallets.map((w, i) => `
+    <div class="wallet-option" onclick="connectWithProvider(${i})">
+      <div class="wallet-icon-placeholder" style="background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:16px;">🔗</div>
+      ${escapeHtml(w.info.name)}
+    </div>
+  `).join('');
+}
+
+// ─── WALLET CONNECTION ───
+async function connectWallet() {
+  if (!window.ethereum) {
+    showToast('No wallet detected. Install MetaMask or another Web3 wallet.', 'error');
+    window.open('https://metamask.io/download/', '_blank');
+    return;
+  }
+  if (discoveredWallets.length > 1) {
+    document.getElementById('walletPicker').classList.toggle('hidden');
+    return;
+  }
+  await connectWithProvider(0);
+}
+
+async function connectWithProvider(index) {
+  const wallet = discoveredWallets[index] || { provider: window.ethereum };
+  const wp = wallet.provider || window.ethereum;
+  try {
+    const accounts = await wp.request({ method: 'eth_requestAccounts' });
+    if (!accounts || !accounts.length) { showToast('No accounts found.', 'error'); return; }
+    userAddress = accounts[0];
+    provider = new ethers.BrowserProvider(wp);
+    signer = await provider.getSigner();
+    await ensureNetwork();
+    provider = new ethers.BrowserProvider(wp);
+    signer = await provider.getSigner();
+    setupContracts();
+    renderWalletArea();
+    updateUIForConnected();
+    updateMainnetWarning();
+    showToast('Wallet connected!', 'success');
+    document.getElementById('walletPicker').classList.add('hidden');
+    wp.on('accountsChanged', handleAccountsChanged);
+    wp.on('chainChanged', () => location.reload());
+  } catch (err) {
+    if (err.code === 4001) showToast('Connection rejected.', 'error');
+    else showToast('Connection failed: ' + (err.message || err), 'error');
+  }
+}
+
+function setupContracts() {
+  const chain = CHAINS[currentChain];
+  identityContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, signer);
+  if (chain.contracts.reputation) {
+    reputationContract = new ethers.Contract(chain.contracts.reputation, REPUTATION_ABI, signer);
+  }
+}
+
+async function handleAccountsChanged(accounts) {
+  if (!accounts.length) { disconnectWallet(); return; }
+  userAddress = accounts[0];
+  signer = await provider.getSigner();
+  setupContracts();
+  renderWalletArea();
+}
+
+async function ensureNetwork() {
+  const chain = CHAINS[currentChain];
+  try {
+    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: chain.chainIdHex }] });
+  } catch (err) {
+    if (err.code === 4902) {
+      await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: chain.chainIdHex, chainName: chain.name, nativeCurrency: chain.currency, rpcUrls: [chain.rpcUrl], blockExplorerUrls: [chain.explorer] }] });
+    } else throw err;
+  }
+}
+
+function renderWalletArea() {
+  const area = document.getElementById('walletArea');
+  if (userAddress) {
+    const short = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+    area.innerHTML = '<div class="wallet-actions"><div class="wallet-connected"><span class="wallet-dot"></span>' + short + '</div><button class="btn-disconnect" onclick="disconnectWallet()">✕</button></div>';
+  } else {
+    area.innerHTML = '<button class="btn btn-primary btn-sm" onclick="connectWallet()">Connect Wallet</button>';
+  }
+}
+
+function disconnectWallet() {
+  userAddress = null; signer = null; identityContract = null; reputationContract = null;
+  renderWalletArea(); updateUIForDisconnected(); showToast('Wallet disconnected.', 'info');
+}
+
+function updateUIForConnected() {
+  document.getElementById('connectPrompt').classList.add('hidden');
+  document.getElementById('wizardSection').classList.remove('hidden');
+  document.getElementById('dashboardConnectPrompt').classList.add('hidden');
+  document.getElementById('dashboardAgents').classList.remove('hidden');
+  loadMyAgents();
+}
+
+function updateUIForDisconnected() {
+  document.getElementById('connectPrompt').classList.remove('hidden');
+  document.getElementById('wizardSection').classList.add('hidden');
+  document.getElementById('dashboardConnectPrompt').classList.remove('hidden');
+  document.getElementById('dashboardAgents').classList.add('hidden');
+}
+
+// ─── CHAIN SELECTOR ───
+function renderChainDropdown() {
+  const list = document.getElementById('chainList');
+  let html = '';
+  CHAIN_FAMILIES.forEach(family => {
+    html += '<div class="chain-group-label">' + family.label + '</div>';
+    family.chains.forEach(key => {
+      const c = CHAINS[key];
+      if (!c) return;
+      const isActive = key === currentChain;
+      html += '<div class="chain-option' + (isActive ? ' active' : '') + '" data-chain="' + key + '" onclick="selectChain(\'' + key + '\')">';
+      html += '<span style="font-size:16px;">' + c.icon + '</span>';
+      html += '<span class="chain-name">' + c.name + '</span>';
+      html += '<span class="chain-type ' + (c.testnet ? 'testnet' : 'mainnet') + '">' + (c.testnet ? 'Testnet' : 'Mainnet') + '</span>';
+      html += '</div>';
+    });
+  });
+  list.innerHTML = html;
+  updateChainDisplay();
+}
+
+function toggleChainDropdown() {
+  const dd = document.getElementById('chainDropdown');
+  const btn = document.getElementById('chainBtn');
+  dd.classList.toggle('open');
+  btn.classList.toggle('open');
+  if (dd.classList.contains('open')) {
+    document.getElementById('chainSearchInput').focus();
+    setTimeout(() => document.addEventListener('click', closeChainDropdownOutside), 0);
+  }
+}
+
+function closeChainDropdownOutside(e) {
+  const sel = document.getElementById('chainSelector');
+  if (!sel.contains(e.target)) {
+    document.getElementById('chainDropdown').classList.remove('open');
+    document.getElementById('chainBtn').classList.remove('open');
+    document.removeEventListener('click', closeChainDropdownOutside);
+  }
+}
+
+function filterChains(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.chain-option').forEach(opt => {
+    const name = opt.querySelector('.chain-name').textContent.toLowerCase();
+    opt.style.display = name.includes(q) ? '' : 'none';
+  });
+  document.querySelectorAll('.chain-group-label').forEach(label => {
+    let next = label.nextElementSibling;
+    let hasVisible = false;
+    while (next && !next.classList.contains('chain-group-label')) {
+      if (next.style.display !== 'none') hasVisible = true;
+      next = next.nextElementSibling;
+    }
+    label.style.display = hasVisible ? '' : 'none';
+  });
+}
+
+async function selectChain(key) {
+  currentChain = key;
+  document.getElementById('chainDropdown').classList.remove('open');
+  document.getElementById('chainBtn').classList.remove('open');
+  document.getElementById('chainSearchInput').value = '';
+  filterChains('');
+  renderChainDropdown();
+  updateMainnetWarning();
+  if (userAddress) {
+    try { await ensureNetwork(); } catch(e) { showToast('Failed to switch network.', 'error'); }
+    provider = new ethers.BrowserProvider(window.ethereum);
+    signer = await provider.getSigner();
+    setupContracts();
+    loadMyAgents();
+  }
+  fetchAgentCount();
+}
+
+function updateChainDisplay() {
+  const c = CHAINS[currentChain];
+  document.getElementById('chainIconDisplay').textContent = c.icon;
+  document.getElementById('chainNameDisplay').textContent = c.name;
+  const dot = document.getElementById('chainDotDisplay');
+  dot.className = 'chain-dot ' + (c.testnet ? 'testnet' : 'mainnet');
+}
+
+function updateMainnetWarning() {
+  const banner = document.getElementById('mainnetBanner');
+  const chain = CHAINS[currentChain];
+  if (!chain.testnet) {
+    banner.innerHTML = '<div class="mainnet-warning" style="margin:0 auto;max-width:960px;margin:8px 24px;"><span style="flex-shrink:0;">⚠️</span><div><strong>Mainnet Mode</strong> — Transactions use real ' + chain.currency.symbol + '. Use a testnet first to test.</div></div>';
+  } else {
+    banner.innerHTML = '';
+  }
+}
+
+// ─── TAB SWITCHING ───
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  ['create','dashboard','search','templates','batch','history'].forEach(t => {
+    const el = document.getElementById('tab-' + t);
+    if (el) el.classList.toggle('hidden', t !== tab);
+  });
+  if (tab === 'dashboard' && userAddress) loadMyAgents();
+  if (tab === 'history') loadHistory();
+}
+
+// ─── STEPPER ───
+function goToStep(step) {
+  if (step > currentStep) {
+    if (currentStep === 1 && !validateStep1()) return;
+    if (currentStep === 2 && !validateStep2()) return;
+  }
+  currentStep = step;
+  for (let i = 1; i <= 4; i++) document.getElementById('step' + i).classList.toggle('hidden', i !== step);
+  document.getElementById('deployResult').classList.add('hidden');
+  document.querySelectorAll('.step').forEach(s => {
+    const sn = parseInt(s.dataset.step);
+    s.classList.remove('active', 'completed');
+    if (sn === step) s.classList.add('active');
+    else if (sn < step) s.classList.add('completed');
+  });
+  document.querySelectorAll('.step-line').forEach((line, i) => line.classList.toggle('completed', i < step - 1));
+  if (step === 4) { populateReview(); estimateGas(); }
+  window.scrollTo({ top: 200, behavior: 'smooth' });
+}
+
+function validateStep1() {
+  if (!document.getElementById('agentName').value.trim()) { showToast('Agent name is required.', 'error'); return false; }
+  if (!document.getElementById('agentDescription').value.trim()) { showToast('Agent description is required.', 'error'); return false; }
+  return true;
+}
+
+function validateStep2() {
+  let has = false;
+  document.querySelectorAll('.service-entry').forEach(e => { if (e.querySelector('[data-field="endpoint"]').value.trim()) has = true; });
+  if (!has) { showToast('Add at least one service endpoint.', 'error'); return false; }
+  return true;
+}
+
+// ─── GAS ESTIMATION ───
+async function estimateGas() {
+  const el = document.getElementById('reviewGas');
+  if (!signer || !identityContract) { el.innerHTML = '<span style="color:var(--text-muted);">Connect wallet to estimate</span>'; return; }
+  el.innerHTML = '<span class="gas-estimate"><span class="spinner-sm"></span> Estimating...</span>';
+  try {
+    const json = buildRegistrationJson();
+    const uri = buildAgentUri(json);
+    const metadata = getMetadataEntries();
+    let gasEst;
+    if (metadata.length > 0) {
+      const mt = metadata.map(m => ({ metadataKey: m.key, metadataValue: ethers.toUtf8Bytes(m.value) }));
+      gasEst = await identityContract['register(string,(string,bytes)[])'].estimateGas(uri, mt);
+    } else if (uri) gasEst = await identityContract['register(string)'].estimateGas(uri);
+    else gasEst = await identityContract['register()'].estimateGas();
+    const feeData = await provider.getFeeData();
+    const gp = feeData.gasPrice || feeData.maxFeePerGas;
+    const cost = ethers.formatEther(gasEst * gp);
+    el.innerHTML = '<span class="gas-estimate"><span class="gas-estimate-value">~' + parseFloat(cost).toFixed(6) + ' ' + CHAINS[currentChain].currency.symbol + '</span> <span style="color:var(--text-muted);">(' + Number(gasEst).toLocaleString() + ' gas)</span></span>';
+  } catch (err) {
+    el.innerHTML = '<span style="color:var(--text-muted);">Could not estimate — calculated on submit</span>';
+  }
+}
+
+// ─── SERVICE MANAGEMENT ───
+function addService() {
+  serviceCounter++;
+  const id = serviceCounter;
+  const list = document.getElementById('serviceList');
+  const entry = document.createElement('div');
+  entry.className = 'service-entry';
+  entry.id = 'service-' + id;
+  entry.innerHTML = '<select class="form-select" onchange="updateServicePlaceholder(' + id + ')"><option value="web">Web</option><option value="A2A">A2A</option><option value="MCP">MCP</option><option value="OASF">OASF</option><option value="ENS">ENS</option><option value="DID">DID</option><option value="email">Email</option><option value="custom">Custom</option></select><input class="form-input" type="text" placeholder="https://your-agent.com/" data-field="endpoint" /><input class="form-input" type="text" placeholder="Version" data-field="version" style="font-size:12px;" /><button class="btn-remove" onclick="removeService(' + id + ')">×</button>';
+  list.appendChild(entry);
+}
+function removeService(id) { const el = document.getElementById('service-' + id); if (el) el.remove(); }
+function updateServicePlaceholder(id) {
+  const entry = document.getElementById('service-' + id);
+  const type = entry.querySelector('select').value;
+  const ep = entry.querySelector('[data-field="endpoint"]');
+  const ph = { web:'https://your-agent.com/', A2A:'https://agent.example/.well-known/agent-card.json', MCP:'https://mcp.your-agent.com/', OASF:'ipfs://{cid}', ENS:'yourname.eth', DID:'did:method:identifier', email:'agent@example.com', custom:'https://...' };
+  ep.placeholder = ph[type] || 'https://...';
+}
+
+// ─── METADATA ───
+function addMetadata() {
+  metadataCounter++;
+  const id = metadataCounter;
+  const list = document.getElementById('metadataList');
+  const entry = document.createElement('div');
+  entry.className = 'metadata-entry'; entry.id = 'metadata-' + id;
+  entry.innerHTML = '<input class="form-input" type="text" placeholder="Key" data-field="key" style="font-size:13px;" /><input class="form-input" type="text" placeholder="Value" data-field="value" style="font-size:13px;" /><button class="btn-remove" onclick="removeMetadata(' + id + ')">×</button>';
+  list.appendChild(entry);
+}
+function addMetadataPreset(key, value) {
+  addMetadata();
+  const entry = document.getElementById('metadata-' + metadataCounter);
+  entry.querySelector('[data-field="key"]').value = key;
+  entry.querySelector('[data-field="value"]').value = value;
+}
+function removeMetadata(id) { const el = document.getElementById('metadata-' + id); if (el) el.remove(); }
+
+// ─── CHECKBOX / URI / COLLAPSIBLE ───
+function toggleCheck(el) { el.classList.toggle('checked'); const cb = el.querySelector('input[type="checkbox"]'); cb.checked = !cb.checked; }
+function selectUriOption(method) {
+  uriMethod = method;
+  document.querySelectorAll('.uri-option').forEach(o => o.classList.toggle('active', o.dataset.uri === method));
+  document.getElementById('customUriField').classList.toggle('hidden', method === 'onchain');
+  if (method === 'ipfs') document.getElementById('customUri').placeholder = 'ipfs://Qm...';
+  else if (method === 'https') document.getElementById('customUri').placeholder = 'https://example.com/agent.json';
+}
+function toggleCollapsible(id) {
+  const el = typeof id === 'string' ? document.getElementById(id) : id;
+  if (el) el.classList.toggle('open');
+}
+
+// ─── BUILD JSON ───
+function buildRegistrationJson() {
+  const name = document.getElementById('agentName').value.trim();
+  const description = document.getElementById('agentDescription').value.trim();
+  const image = document.getElementById('agentImage').value.trim();
+  const chain = CHAINS[currentChain];
+  const services = [];
+  document.querySelectorAll('.service-entry').forEach(entry => {
+    const type = entry.querySelector('select').value;
+    const endpoint = entry.querySelector('[data-field="endpoint"]').value.trim();
+    const version = entry.querySelector('[data-field="version"]').value.trim();
+    if (endpoint) { const svc = { name: type, endpoint }; if (version) svc.version = version; services.push(svc); }
+  });
+  const supportedTrust = [];
+  document.querySelectorAll('#trustModels .checkbox-item.checked input').forEach(cb => supportedTrust.push(cb.value));
+  const x402 = document.getElementById('x402Toggle').classList.contains('checked');
+  const json = {
+    type: "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+    name, description, services, x402Support: x402, active: true,
+    registrations: [{ agentId: "PENDING", agentRegistry: 'eip155:' + chain.chainId + ':' + chain.contracts.identity }],
+  };
+  if (image) json.image = image;
+  if (supportedTrust.length > 0) json.supportedTrust = supportedTrust;
+  if (x402) {
+    const ep = document.getElementById('x402Endpoint').value.trim();
+    const price = document.getElementById('x402Price').value.trim();
+    const tokens = document.getElementById('x402Tokens').value.trim();
+    if (ep || price || tokens) {
+      json.x402 = {};
+      if (ep) json.x402.paymentEndpoint = ep;
+      if (price) json.x402.pricePerRequest = price;
+      if (tokens) json.x402.acceptedTokens = tokens.split(',').map(t => t.trim());
+    }
+  }
+  return json;
+}
+
+function buildAgentUri(json) {
+  if (uriMethod === 'onchain') {
+    const str = JSON.stringify(json);
+    return 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(str)));
+  }
+  return document.getElementById('customUri').value.trim();
+}
+
+function getMetadataEntries() {
+  const entries = [];
+  document.querySelectorAll('.metadata-entry').forEach(entry => {
+    const key = entry.querySelector('[data-field="key"]').value.trim();
+    const value = entry.querySelector('[data-field="value"]').value.trim();
+    if (key && value) entries.push({ key, value });
+  });
+  return entries;
+}
+
+// ─── REVIEW ───
+function populateReview() {
+  const json = buildRegistrationJson();
+  document.getElementById('reviewJson').textContent = JSON.stringify(json, null, 2);
+  const uri = buildAgentUri(json);
+  document.getElementById('reviewUri').textContent = uriMethod === 'onchain' ? 'data:application/json;base64,... (' + uri.length + ' chars, fully on-chain)' : uri;
+  const chain = CHAINS[currentChain];
+  document.getElementById('reviewNetwork').textContent = chain.name + ' (Chain ID: ' + chain.chainId + ')';
+  document.getElementById('reviewContract').textContent = chain.contracts.identity;
+  const metadata = getMetadataEntries();
+  const metaSection = document.getElementById('reviewMetadataSection');
+  const metaDiv = document.getElementById('reviewMetadata');
+  if (metadata.length > 0) {
+    metaSection.classList.remove('hidden');
+    metaDiv.innerHTML = metadata.map(m => '<div class="tx-detail-row"><span class="tx-detail-label">' + escapeHtml(m.key) + '</span><span class="tx-detail-value">' + escapeHtml(m.value) + '</span></div>').join('');
+  } else metaSection.classList.add('hidden');
+}
+
+// ─── DEPLOY ───
+async function deployAgent() {
+  if (!signer || !identityContract) { showToast('Connect your wallet first.', 'error'); return; }
+  const chain = CHAINS[currentChain];
+  if (!chain.testnet && !confirm('You are deploying to ' + chain.name + '. This will cost real ' + chain.currency.symbol + '. Continue?')) return;
+  const btn = document.getElementById('deployBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Registering...';
+  try {
+    await ensureNetwork();
+    const json = buildRegistrationJson();
+    const uri = buildAgentUri(json);
+    const metadata = getMetadataEntries();
+    if (!uri && uriMethod !== 'onchain') { showToast('Please provide an agent URI.', 'error'); btn.disabled = false; btn.innerHTML = '🚀 Register Agent On-Chain'; return; }
+    let tx;
+    if (metadata.length > 0) {
+      const mt = metadata.map(m => ({ metadataKey: m.key, metadataValue: ethers.toUtf8Bytes(m.value) }));
+      tx = await identityContract['register(string,(string,bytes)[])'](uri, mt);
+    } else if (uri) tx = await identityContract['register(string)'](uri);
+    else tx = await identityContract['register()']();
+    showToast('Transaction submitted!', 'info');
+    showDeployPending(tx.hash);
+    const receipt = await tx.wait();
+    if (receipt.status === 0) throw new Error('Transaction reverted');
+    let agentId = null;
+    for (const log of receipt.logs) {
+      try { const p = identityContract.interface.parseLog({ topics: log.topics, data: log.data }); if (p && p.name === 'Registered') { agentId = p.args.agentId.toString(); break; } } catch(e) {}
+    }
+    if (!agentId) {
+      for (const log of receipt.logs) {
+        try { const p = identityContract.interface.parseLog({ topics: log.topics, data: log.data }); if (p && p.name === 'Transfer' && p.args[0] === ethers.ZeroAddress) { agentId = p.args[2].toString(); break; } } catch(e) {}
+      }
+    }
+    if (uriMethod === 'onchain' && agentId) {
+      try {
+        json.registrations[0].agentId = parseInt(agentId);
+        const updatedUri = buildAgentUri(json);
+        const updateTx = await identityContract.setAgentURI(agentId, updatedUri);
+        await updateTx.wait();
+      } catch(e) { console.warn('URI update failed:', e); }
+    }
+    saveTxToHistory({ type: 'register', txHash: tx.hash, agentId, chain: currentChain, block: receipt.blockNumber, gasUsed: receipt.gasUsed.toString(), timestamp: Date.now(), name: json.name });
+    showDeploySuccess(tx.hash, agentId, receipt);
+    showToast('Agent #' + agentId + ' registered!', 'success');
+  } catch (err) {
+    let msg = 'Transaction failed';
+    if (err.code === 'ACTION_REJECTED' || err.code === 4001) msg = 'Transaction rejected';
+    else if (err.code === 'INSUFFICIENT_FUNDS') msg = 'Insufficient ' + chain.currency.symbol;
+    else if (err.reason) msg = err.reason;
+    else if (err.message) msg = err.message.substring(0, 200);
+    showToast(msg, 'error');
+    btn.disabled = false; btn.innerHTML = '🚀 Register Agent On-Chain';
+  }
+}
+
+function showDeployPending(txHash) {
+  const chain = CHAINS[currentChain];
+  currentStep = 5;
+  for (let i = 1; i <= 4; i++) document.getElementById('step' + i).classList.add('hidden');
+  const result = document.getElementById('deployResult');
+  result.classList.remove('hidden');
+  result.innerHTML = '<div class="tx-result"><div class="tx-icon pending">⟳</div><div class="tx-title">Transaction Pending</div><div class="tx-subtitle">Registering on ' + chain.name + '...</div><a class="tx-link" href="' + chain.explorer + '/tx/' + txHash + '" target="_blank" rel="noopener">View on Explorer →</a></div>';
+}
+
+function showDeploySuccess(txHash, agentId, receipt) {
+  const chain = CHAINS[currentChain];
+  const result = document.getElementById('deployResult');
+  result.innerHTML = '<div class="tx-result"><div class="tx-icon success">✓</div><div class="tx-title">Agent Registered!</div><div class="tx-subtitle">Successfully created on ' + chain.name + '</div><a class="tx-link" href="' + chain.explorer + '/tx/' + txHash + '" target="_blank" rel="noopener">View Transaction →</a><div class="tx-details"><div class="tx-detail-row"><span class="tx-detail-label">Agent ID</span><span class="tx-detail-value" style="color:var(--accent);font-weight:700;font-size:16px;">#' + agentId + '</span></div><div class="tx-detail-row"><span class="tx-detail-label">Standard</span><span class="tx-detail-value">ERC-721 (ERC-8004)</span></div><div class="tx-detail-row"><span class="tx-detail-label">Owner</span><span class="tx-detail-value">' + userAddress + '</span></div><div class="tx-detail-row"><span class="tx-detail-label">Registry</span><span class="tx-detail-value">' + chain.contracts.identity + '</span></div><div class="tx-detail-row"><span class="tx-detail-label">Network</span><span class="tx-detail-value">' + chain.name + ' (' + chain.chainId + ')</span></div><div class="tx-detail-row"><span class="tx-detail-label">Block</span><span class="tx-detail-value">' + receipt.blockNumber + '</span></div><div class="tx-detail-row"><span class="tx-detail-label">Gas Used</span><span class="tx-detail-value">' + receipt.gasUsed.toString() + '</span></div></div><div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;"><button class="btn btn-primary" onclick="resetWizard()">Create Another</button><button class="btn btn-secondary" onclick="switchTab(\'dashboard\')">My Agents</button><button class="btn btn-secondary" onclick="showQrCode(' + agentId + ')">QR Code</button></div></div>';
+  fetchAgentCount();
+}
+
+function resetWizard() {
+  document.getElementById('agentName').value = '';
+  document.getElementById('agentDescription').value = '';
+  document.getElementById('agentImage').value = '';
+  document.getElementById('serviceList').innerHTML = '';
+  document.getElementById('metadataList').innerHTML = '';
+  document.querySelectorAll('.checkbox-item.checked').forEach(el => { el.classList.remove('checked'); el.querySelector('input').checked = false; });
+  serviceCounter = 0; metadataCounter = 0;
+  addService(); goToStep(1);
+  document.getElementById('deployBtn').disabled = false;
+  document.getElementById('deployBtn').innerHTML = '🚀 Register Agent On-Chain';
+}
+
+// ─── DASHBOARD ───
+async function loadMyAgents() {
+  if (!userAddress || !identityContract) return;
+  const agentsList = document.getElementById('agentsList');
+  const agentCount = document.getElementById('agentCount');
+  agentsList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);"><span class="spinner spinner-light" style="margin-right:8px;"></span>Loading...</div>';
+  try {
+    const chain = CHAINS[currentChain];
+    const balance = await identityContract.balanceOf(userAddress);
+    const count = Number(balance);
+    agentCount.textContent = count + ' agent' + (count !== 1 ? 's' : '') + ' found on ' + chain.name;
+    if (count === 0) { agentsList.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);"><div style="font-size:32px;margin-bottom:12px;">🤖</div><p>No agents registered yet.</p></div>'; renderAnalytics(0, []); return; }
+    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
+    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+    const filter = readContract.filters.Transfer(ethers.ZeroAddress, userAddress);
+    let events = [];
+    for (const range of [5000, 2000, 1000]) { try { events = await readContract.queryFilter(filter, -range); break; } catch(e) {} }
+    const ownedIds = [];
+    for (const e of events) {
+      const tid = e.args[2].toString();
+      try { const owner = await readContract.ownerOf(tid); if (owner.toLowerCase() === userAddress.toLowerCase()) ownedIds.push(tid); } catch(e) {}
+    }
+    if (ownedIds.length === 0 && count > 0) {
+      agentsList.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);"><p>You own ' + count + ' agent(s) but details could not be loaded from recent blocks.</p><p style="margin-top:8px;font-size:12px;">Check <a href="' + chain.explorer + '/address/' + userAddress + '" target="_blank" style="color:var(--accent);">explorer</a> for your agent NFTs.</p></div>';
+      renderAnalytics(count, []);
+      return;
+    }
+    let html = '<div class="agent-cards">';
+    const agentsData = [];
+    for (const id of ownedIds) {
+      let uri = '', name = 'Agent #' + id, description = '', agentData = null;
+      try {
+        uri = await readContract.tokenURI(id);
+        if (uri.startsWith('data:application/json;base64,')) {
+          const decoded = JSON.parse(decodeURIComponent(escape(atob(uri.replace('data:application/json;base64,', '')))));
+          if (decoded.name) name = decoded.name;
+          if (decoded.description) description = decoded.description;
+          agentData = decoded;
+        }
+      } catch(e) {}
+      agentsData.push({ id, name, description, uri, data: agentData });
+      html += '<div class="agent-card"><div class="agent-card-id">Agent #' + id + (agentData && agentData.x402Support ? ' <span class="x402-badge">x402</span>' : '') + '</div><div style="font-weight:600;margin-bottom:4px;">' + escapeHtml(name) + '</div>';
+      if (description) html += '<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;line-height:1.4;">' + escapeHtml(description.substring(0, 120)) + (description.length > 120 ? '...' : '') + '</div>';
+      html += '<div class="agent-card-actions"><a class="btn btn-secondary btn-sm" href="' + chain.explorer + '/token/' + chain.contracts.identity + '?a=' + id + '" target="_blank" rel="noopener">Explorer</a><button class="btn btn-secondary btn-sm" onclick="showAgentDetail(' + id + ')">Details</button><button class="btn btn-secondary btn-sm" onclick="showQrCode(' + id + ')">QR</button><button class="btn btn-secondary btn-sm" onclick="showUpdateUri(' + id + ')">Update</button></div></div>';
+    }
+    html += '</div>';
+    agentsList.innerHTML = html;
+    renderAnalytics(ownedIds.length, agentsData);
+  } catch (err) {
+    agentsList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--error);">Error: ' + escapeHtml(err.message) + '</div>';
+  }
+}
+
+function renderAnalytics(count, agents) {
+  const grid = document.getElementById('dashboardAnalytics');
+  const chain = CHAINS[currentChain];
+  let servicesCount = 0, x402Count = 0;
+  agents.forEach(a => {
+    if (a.data) {
+      if (a.data.services) servicesCount += a.data.services.length;
+      if (a.data.x402Support) x402Count++;
+    }
+  });
+  grid.innerHTML = '<div class="analytics-card"><div class="analytics-value">' + count + '</div><div class="analytics-label">Total Agents</div></div><div class="analytics-card"><div class="analytics-value">' + servicesCount + '</div><div class="analytics-label">Service Endpoints</div></div><div class="analytics-card"><div class="analytics-value">' + x402Count + '</div><div class="analytics-label">x402 Enabled</div></div><div class="analytics-card"><div class="analytics-value">' + chain.name.split(' ')[0] + '</div><div class="analytics-label">Current Chain</div></div>';
+}
+
+// ─── AGENT DETAIL MODAL ───
+async function showAgentDetail(id) {
+  const chain = CHAINS[currentChain];
+  const modal = document.getElementById('agentModal');
+  const content = document.getElementById('agentModalContent');
+  content.innerHTML = '<div style="text-align:center;padding:40px;"><span class="spinner spinner-light"></span></div>';
+  modal.classList.remove('hidden');
+  modal.style.display = 'flex';
+  try {
+    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
+    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+    const uri = await readContract.tokenURI(id);
+    const owner = await readContract.ownerOf(id);
+    let agentData = {};
+    if (uri.startsWith('data:application/json;base64,')) {
+      agentData = JSON.parse(decodeURIComponent(escape(atob(uri.replace('data:application/json;base64,', '')))));
+    }
+    let repHtml = '';
+    if (chain.contracts.reputation) {
+      try {
+        const repContract = new ethers.Contract(chain.contracts.reputation, REPUTATION_ABI, readProvider);
+        const [totalScore, repCount] = await repContract.getReputation(id);
+        const avg = Number(repCount) > 0 ? (Number(totalScore) / Number(repCount)).toFixed(1) : 'N/A';
+        repHtml = '<div class="tx-detail-row"><span class="tx-detail-label">Reputation</span><span class="tx-detail-value">' + avg + '/5 (' + repCount.toString() + ' ratings)</span></div>';
+      } catch(e) {}
+    }
+    content.innerHTML = '<div class="card-header"><div class="card-title">' + escapeHtml(agentData.name || 'Agent #' + id) + '</div><button class="btn btn-ghost btn-sm" onclick="closeAgentModal()">✕</button></div>' +
+      (agentData.description ? '<p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;line-height:1.6;">' + escapeHtml(agentData.description) + '</p>' : '') +
+      '<div class="tx-details"><div class="tx-detail-row"><span class="tx-detail-label">Agent ID</span><span class="tx-detail-value" style="color:var(--accent);font-weight:700;">#' + id + '</span></div><div class="tx-detail-row"><span class="tx-detail-label">Owner</span><span class="tx-detail-value">' + owner + '</span></div><div class="tx-detail-row"><span class="tx-detail-label">Network</span><span class="tx-detail-value">' + chain.name + '</span></div><div class="tx-detail-row"><span class="tx-detail-label">x402</span><span class="tx-detail-value">' + (agentData.x402Support ? '<span class="x402-badge">Enabled</span>' : 'No') + '</span></div>' + repHtml + '</div>' +
+      (agentData.services && agentData.services.length > 0 ? '<div style="margin-top:16px;"><div class="review-label">Services</div>' + agentData.services.map(s => '<div class="tx-detail-row"><span class="tx-detail-label">' + escapeHtml(s.name) + '</span><span class="tx-detail-value">' + escapeHtml(s.endpoint) + '</span></div>').join('') + '</div>' : '') +
+      '<div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;"><a class="btn btn-secondary btn-sm" href="' + chain.explorer + '/token/' + chain.contracts.identity + '?a=' + id + '" target="_blank">Explorer</a><button class="btn btn-secondary btn-sm" onclick="showQrCode(' + id + ');closeAgentModal();">QR Code</button><button class="btn btn-secondary btn-sm" onclick="exportAgentJSON(' + id + ')">Export JSON</button></div>';
+  } catch(err) {
+    content.innerHTML = '<div class="card-header"><div class="card-title">Error</div><button class="btn btn-ghost btn-sm" onclick="closeAgentModal()">✕</button></div><p style="color:var(--error);">' + escapeHtml(err.message) + '</p>';
+  }
+}
+function closeAgentModal() { const m = document.getElementById('agentModal'); m.classList.add('hidden'); m.style.display = 'none'; }
+
+// ─── AGENT UPDATE (setURI) ───
+async function showUpdateUri(agentId) {
+  const newUri = prompt('Enter new URI for Agent #' + agentId + ':\n(data:, ipfs://, or https://)');
+  if (!newUri) return;
+  try {
+    showToast('Updating URI...', 'info');
+    const tx = await identityContract.setAgentURI(agentId, newUri);
+    await tx.wait();
+    saveTxToHistory({ type: 'update', txHash: tx.hash, agentId, chain: currentChain, timestamp: Date.now(), name: 'URI Update #' + agentId });
+    showToast('URI updated for Agent #' + agentId + '!', 'success');
+    loadMyAgents();
+  } catch(err) {
+    showToast('Update failed: ' + (err.reason || err.message || err), 'error');
+  }
+}
+
+// ─── SEARCH & DISCOVERY ───
+function setSearchFilter(filter, btn) {
+  searchFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === filter));
+}
+
+async function searchAgents() {
+  const query = document.getElementById('searchInput').value.trim();
+  const results = document.getElementById('searchResults');
+  if (!query) { showToast('Enter an agent ID, name, or address.', 'error'); return; }
+  results.innerHTML = '<div style="text-align:center;padding:24px;"><span class="spinner spinner-light"></span> Searching...</div>';
+  const chain = CHAINS[currentChain];
+  try {
+    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
+    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+    // Search by ID
+    if (/^\d+$/.test(query)) {
+      const id = parseInt(query);
+      try {
+        const owner = await readContract.ownerOf(id);
+        const uri = await readContract.tokenURI(id);
+        let agentData = {};
+        if (uri.startsWith('data:application/json;base64,')) {
+          agentData = JSON.parse(decodeURIComponent(escape(atob(uri.replace('data:application/json;base64,', '')))));
+        }
+        if (searchFilter !== 'all') {
+          const hasType = agentData.services && agentData.services.some(s => s.name === searchFilter);
+          const hasX402 = searchFilter === 'x402' && agentData.x402Support;
+          if (!hasType && !hasX402) { results.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);">Agent found but doesn\'t match filter.</div>'; return; }
+        }
+        results.innerHTML = '<div class="agent-cards"><div class="agent-card"><div class="agent-card-id">Agent #' + id + (agentData.x402Support ? ' <span class="x402-badge">x402</span>' : '') + '</div><div style="font-weight:600;margin-bottom:4px;">' + escapeHtml(agentData.name || 'Unknown') + '</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">' + escapeHtml((agentData.description || '').substring(0, 150)) + '</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Owner: <span style="font-family:var(--font-mono);">' + owner.slice(0, 10) + '...' + owner.slice(-6) + '</span></div><div class="agent-card-actions"><button class="btn btn-secondary btn-sm" onclick="showAgentDetail(' + id + ')">Details</button><button class="btn btn-secondary btn-sm" onclick="showQrCode(' + id + ')">QR</button></div></div></div>';
+      } catch(e) {
+        results.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);">Agent #' + query + ' not found on ' + chain.name + '.</div>';
+      }
+    } else if (query.startsWith('0x')) {
+      // Search by address
+      try {
+        const bal = await readContract.balanceOf(query);
+        results.innerHTML = '<div style="padding:16px;"><p style="font-size:14px;color:var(--text-secondary);">Address <span style="font-family:var(--font-mono);">' + query.slice(0, 10) + '...' + query.slice(-6) + '</span> owns <strong>' + bal.toString() + '</strong> agent(s) on ' + chain.name + '.</p></div>';
+      } catch(e) { results.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);">No results found.</div>'; }
+    } else {
+      // Scan recent agents for name match
+      let found = [];
+      for (let id = 1; id <= 50; id++) {
+        try {
+          const uri = await readContract.tokenURI(id);
+          if (uri.startsWith('data:application/json;base64,')) {
+            const data = JSON.parse(decodeURIComponent(escape(atob(uri.replace('data:application/json;base64,', '')))));
+            if (data.name && data.name.toLowerCase().includes(query.toLowerCase())) {
+              if (searchFilter !== 'all') {
+                const hasType = data.services && data.services.some(s => s.name === searchFilter);
+                const hasX402 = searchFilter === 'x402' && data.x402Support;
+                if (!hasType && !hasX402) continue;
+              }
+              const owner = await readContract.ownerOf(id);
+              found.push({ id, data, owner });
+            }
+          }
+        } catch(e) { break; }
+      }
+      if (found.length > 0) {
+        results.innerHTML = '<div class="agent-cards">' + found.map(a => '<div class="agent-card"><div class="agent-card-id">Agent #' + a.id + (a.data.x402Support ? ' <span class="x402-badge">x402</span>' : '') + '</div><div style="font-weight:600;margin-bottom:4px;">' + escapeHtml(a.data.name) + '</div><div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">' + escapeHtml((a.data.description || '').substring(0, 120)) + '</div><div class="agent-card-actions"><button class="btn btn-secondary btn-sm" onclick="showAgentDetail(' + a.id + ')">Details</button><button class="btn btn-secondary btn-sm" onclick="showQrCode(' + a.id + ')">QR</button></div></div>').join('') + '</div>';
+      } else {
+        results.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);">No agents found matching "' + escapeHtml(query) + '".</div>';
+      }
+    }
+  } catch(err) {
+    results.innerHTML = '<div style="text-align:center;padding:24px;color:var(--error);">Search error: ' + escapeHtml(err.message) + '</div>';
+  }
+}
+
+// ─── REPUTATION ───
+function setRating(score) {
+  currentRating = score;
+  document.querySelectorAll('#ratingStars .star').forEach(s => {
+    s.classList.toggle('filled', parseInt(s.dataset.rating) <= score);
+  });
+}
+
+async function viewReputation() {
+  const id = document.getElementById('repAgentId').value.trim();
+  if (!id) { showToast('Enter an agent ID.', 'error'); return; }
+  const chain = CHAINS[currentChain];
+  if (!chain.contracts.reputation) { showToast('No reputation contract on this chain.', 'error'); return; }
+  const display = document.getElementById('reputationDisplay');
+  display.classList.remove('hidden');
+  document.getElementById('submitRepSection').classList.toggle('hidden', !userAddress);
+  try {
+    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
+    const repContract = new ethers.Contract(chain.contracts.reputation, REPUTATION_ABI, readProvider);
+    const [totalScore, count] = await repContract.getReputation(id);
+    const avg = Number(count) > 0 ? (Number(totalScore) / Number(count)).toFixed(1) : '0';
+    const pct = Number(count) > 0 ? (Number(totalScore) / Number(count) / 5 * 100).toFixed(0) : 0;
+    document.getElementById('repAnalytics').innerHTML = '<div class="analytics-card"><div class="analytics-value">' + avg + '</div><div class="analytics-label">Average Score</div></div><div class="analytics-card"><div class="analytics-value">' + count.toString() + '</div><div class="analytics-label">Total Ratings</div></div><div class="analytics-card"><div class="analytics-value">' + pct + '%</div><div class="analytics-label">Approval</div></div>';
+    // Try to load recent reputation events
+    let histHtml = '';
+    try {
+      const filter = repContract.filters.ReputationSubmitted(id);
+      const events = await repContract.queryFilter(filter, -5000);
+      if (events.length > 0) {
+        histHtml = '<div class="review-label" style="margin-top:16px;">Recent Ratings</div>';
+        events.slice(-5).reverse().forEach(e => {
+          const stars = '★'.repeat(e.args.score) + '☆'.repeat(5 - e.args.score);
+          histHtml += '<div class="history-item"><div style="color:var(--accent);">' + stars + '</div><div class="history-details"><div class="history-meta">' + (e.args.comment || 'No comment') + '</div><div class="history-meta">From: ' + e.args.submitter.slice(0, 8) + '...' + e.args.submitter.slice(-4) + '</div></div></div>';
+        });
+      }
+    } catch(e) {}
+    document.getElementById('repHistory').innerHTML = histHtml;
+  } catch(err) {
+    document.getElementById('repAnalytics').innerHTML = '<div style="color:var(--error);padding:16px;">Could not load reputation: ' + escapeHtml(err.message) + '</div>';
+  }
+}
+
+async function submitReputation() {
+  const id = document.getElementById('repAgentId').value.trim();
+  if (!id || !currentRating) { showToast('Select a rating (1-5 stars).', 'error'); return; }
+  if (!reputationContract) { showToast('Connect wallet first.', 'error'); return; }
+  const comment = document.getElementById('repComment').value.trim();
+  try {
+    showToast('Submitting rating...', 'info');
+    const tx = await reputationContract.submitReputation(id, currentRating, comment);
+    await tx.wait();
+    saveTxToHistory({ type: 'reputation', txHash: tx.hash, agentId: id, chain: currentChain, timestamp: Date.now(), name: 'Rating for #' + id });
+    showToast('Rating submitted!', 'success');
+    currentRating = 0;
+    document.querySelectorAll('#ratingStars .star').forEach(s => s.classList.remove('filled'));
+    document.getElementById('repComment').value = '';
+    viewReputation();
+  } catch(err) {
+    showToast('Rating failed: ' + (err.reason || err.message), 'error');
+  }
+}
+
+// ─── TEMPLATES ───
+function renderTemplates() {
+  const grid = document.getElementById('templateGrid');
+  grid.innerHTML = TEMPLATES.map(t =>
+    '<div class="template-card" onclick="applyTemplate(\'' + t.id + '\')"><div class="template-icon">' + t.icon + '</div><div class="template-name">' + t.name + '</div><div class="template-desc">' + t.desc + '</div></div>'
+  ).join('');
+}
+
+function applyTemplate(id) {
+  const tpl = TEMPLATES.find(t => t.id === id);
+  if (!tpl) return;
+  const d = tpl.data;
+  document.getElementById('agentName').value = d.name;
+  document.getElementById('agentDescription').value = d.description;
+  // Clear and set services
+  document.getElementById('serviceList').innerHTML = '';
+  serviceCounter = 0;
+  d.services.forEach(s => {
+    addService();
+    const entry = document.getElementById('service-' + serviceCounter);
+    entry.querySelector('select').value = s.name;
+    entry.querySelector('[data-field="endpoint"]').value = s.endpoint;
+    if (s.version) entry.querySelector('[data-field="version"]').value = s.version;
+  });
+  // Trust models
+  document.querySelectorAll('#trustModels .checkbox-item').forEach(el => {
+    const cb = el.querySelector('input');
+    const shouldCheck = d.trust && d.trust.includes(cb.value);
+    if (shouldCheck && !el.classList.contains('checked')) toggleCheck(el);
+    if (!shouldCheck && el.classList.contains('checked')) toggleCheck(el);
+  });
+  // x402
+  const x402El = document.getElementById('x402Toggle');
+  if (d.x402 && !x402El.classList.contains('checked')) toggleCheck(x402El);
+  if (!d.x402 && x402El.classList.contains('checked')) toggleCheck(x402El);
+  // Metadata
+  document.getElementById('metadataList').innerHTML = '';
+  metadataCounter = 0;
+  if (d.metadata) d.metadata.forEach(m => addMetadataPreset(m.key, m.value));
+  switchTab('create');
+  if (userAddress) goToStep(1);
+  showToast('Template applied: ' + tpl.name, 'success');
+}
+
+// ─── BATCH ───
+function handleBatchDrop(event) {
+  event.preventDefault();
+  event.target.classList.remove('dragover');
+  const file = event.dataTransfer.files[0];
+  if (file) handleBatchFile(file);
+}
+
+function handleBatchFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    try {
+      if (file.name.endsWith('.json')) {
+        batchAgents = JSON.parse(text);
+        if (!Array.isArray(batchAgents)) batchAgents = [batchAgents];
+      } else {
+        // CSV parse
+        const lines = text.trim().split('\n');
+        const headers = lines[0].split(',').map(h => h.trim());
+        batchAgents = lines.slice(1).map(line => {
+          const values = line.split(',').map(v => v.trim());
+          const obj = {};
+          headers.forEach((h, i) => obj[h] = values[i] || '');
+          return {
+            name: obj.name || obj.Name || '',
+            description: obj.description || obj.Description || '',
+            services: [{ name: obj.serviceType || obj.type || 'web', endpoint: obj.endpoint || obj.url || '' }]
+          };
+        }).filter(a => a.name && a.services[0].endpoint);
+      }
+      renderBatchPreview();
+    } catch(err) {
+      showToast('Invalid file format: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function renderBatchPreview() {
+  document.getElementById('batchPreview').classList.remove('hidden');
+  document.getElementById('batchCount').textContent = batchAgents.length;
+  const list = document.getElementById('batchList');
+  list.innerHTML = batchAgents.map((a, i) =>
+    '<div class="history-item"><div class="history-icon register" style="font-size:14px;">' + (i + 1) + '</div><div class="history-details"><div class="history-title">' + escapeHtml(a.name || 'Agent ' + (i+1)) + '</div><div class="history-meta">' + escapeHtml((a.description || '').substring(0,80)) + '</div></div></div>'
+  ).join('');
+}
+
+function clearBatch() {
+  batchAgents = [];
+  document.getElementById('batchPreview').classList.add('hidden');
+  document.getElementById('batchFile').value = '';
+}
+
+async function executeBatch() {
+  if (!signer || !identityContract) { showToast('Connect wallet first.', 'error'); return; }
+  if (!batchAgents.length) return;
+  const chain = CHAINS[currentChain];
+  if (!chain.testnet && !confirm('Batch register ' + batchAgents.length + ' agents on ' + chain.name + '? This uses real ' + chain.currency.symbol + '.')) return;
+  document.getElementById('batchProgress').classList.remove('hidden');
+  const bar = document.getElementById('batchProgressBar');
+  const status = document.getElementById('batchStatus');
+  let success = 0, failed = 0;
+  for (let i = 0; i < batchAgents.length; i++) {
+    const a = batchAgents[i];
+    const pct = ((i + 1) / batchAgents.length * 100).toFixed(0);
+    bar.style.width = pct + '%';
+    status.textContent = 'Processing ' + (i + 1) + '/' + batchAgents.length + ': ' + (a.name || 'Agent');
+    try {
+      const json = {
+        type: "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+        name: a.name, description: a.description || '', services: a.services || [], active: true,
+        registrations: [{ agentId: "PENDING", agentRegistry: 'eip155:' + chain.chainId + ':' + chain.contracts.identity }]
+      };
+      const uri = 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(json))));
+      const tx = await identityContract['register(string)'](uri);
+      await tx.wait();
+      success++;
+      saveTxToHistory({ type: 'register', txHash: tx.hash, chain: currentChain, timestamp: Date.now(), name: a.name });
+    } catch(err) {
+      failed++;
+      if (err.code === 'ACTION_REJECTED' || err.code === 4001) { status.textContent = 'Batch cancelled by user.'; break; }
+    }
+  }
+  status.textContent = 'Done! ' + success + ' registered, ' + failed + ' failed.';
+  showToast('Batch complete: ' + success + ' registered.', success > 0 ? 'success' : 'error');
+}
+
+// ─── QR CODE ───
+function showQrCode(agentId) {
+  const chain = CHAINS[currentChain];
+  const url = chain.explorer + '/token/' + chain.contracts.identity + '?a=' + agentId;
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(url);
+  const modal = document.getElementById('qrModal');
+  const content = document.getElementById('qrContent');
+  content.innerHTML = '<p style="font-size:14px;color:var(--text-secondary);margin-bottom:8px;">Agent #' + agentId + ' on ' + chain.name + '</p><img src="' + qrUrl + '" alt="QR Code" width="200" height="200" style="background:#fff;padding:8px;border-radius:8px;" /><p style="font-size:12px;color:var(--text-muted);margin-top:12px;word-break:break-all;">' + escapeHtml(url) + '</p><div style="margin-top:16px;display:flex;gap:8px;justify-content:center;"><a class="btn btn-primary btn-sm" href="' + qrUrl + '&format=png" download="agent-' + agentId + '-qr.png">Download PNG</a><button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText(\'' + url + '\');showToast(\'Link copied!\',\'success\')">Copy Link</button></div>';
+  modal.classList.remove('hidden');
+  modal.style.display = 'flex';
+}
+function closeQrModal() { const m = document.getElementById('qrModal'); m.classList.add('hidden'); m.style.display = 'none'; }
+
+// ─── EXPORT ───
+function exportJSON() {
+  const json = buildRegistrationJson();
+  const blob = new Blob([JSON.stringify(json, null, 2)], { type: 'application/json' });
+  downloadBlob(blob, 'agent-registration.json');
+  showToast('JSON exported!', 'success');
+}
+
+function exportAgentCard() {
+  const json = buildRegistrationJson();
+  const agentCard = {
+    name: json.name, description: json.description, url: json.services?.[0]?.endpoint || '',
+    version: '1.0.0', capabilities: { streaming: false, pushNotifications: false },
+    defaultInputModes: ['text'], defaultOutputModes: ['text'],
+    skills: json.services?.map(s => ({ id: s.name.toLowerCase(), name: s.name, description: s.name + ' endpoint at ' + s.endpoint })) || []
+  };
+  const blob = new Blob([JSON.stringify(agentCard, null, 2)], { type: 'application/json' });
+  downloadBlob(blob, 'agent-card.json');
+  showToast('Agent card exported!', 'success');
+}
+
+function exportBadge() {
+  const json = buildRegistrationJson();
+  const chain = CHAINS[currentChain];
+  const badge = '<!-- ERC-8004 Agent Badge -->\n<a href="' + chain.explorer + '/address/' + chain.contracts.identity + '" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#0a0a0a;color:#F0B90B;border-radius:8px;text-decoration:none;font-family:system-ui;font-size:14px;font-weight:600;border:1px solid rgba(240,185,11,0.3);">🤖 ' + escapeHtml(json.name || 'ERC-8004 Agent') + ' · Verified On-Chain</a>';
+  navigator.clipboard.writeText(badge);
+  showToast('Badge HTML copied to clipboard!', 'success');
+}
+
+function exportCLI() {
+  const json = buildRegistrationJson();
+  const chain = CHAINS[currentChain];
+  const uri = 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(json))));
+  const cmd = '# Register agent on ' + chain.name + '\ncast send ' + chain.contracts.identity + ' "register(string)" "' + uri.substring(0, 60) + '..." --rpc-url ' + chain.rpcUrl + ' --private-key $PRIVATE_KEY';
+  navigator.clipboard.writeText(cmd);
+  showToast('CLI command copied!', 'success');
+}
+
+function exportAgentJSON(agentId) {
+  // Export from detail modal
+  const chain = CHAINS[currentChain];
+  const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
+  const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+  readContract.tokenURI(agentId).then(uri => {
+    if (uri.startsWith('data:application/json;base64,')) {
+      const data = JSON.parse(decodeURIComponent(escape(atob(uri.replace('data:application/json;base64,', '')))));
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      downloadBlob(blob, 'agent-' + agentId + '.json');
+      showToast('Agent JSON exported!', 'success');
+    }
+  }).catch(err => showToast('Export failed.', 'error'));
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ─── TRANSACTION HISTORY ───
+function saveTxToHistory(tx) {
+  txHistory.unshift(tx);
+  if (txHistory.length > 100) txHistory = txHistory.slice(0, 100);
+  localStorage.setItem('erc8004_history', JSON.stringify(txHistory));
+}
+
+function loadHistory() {
+  const list = document.getElementById('historyList');
+  if (txHistory.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);"><div style="font-size:32px;margin-bottom:12px;">📜</div><p>No transactions recorded yet.</p></div>';
+    return;
+  }
+  list.innerHTML = txHistory.map(tx => {
+    const chain = CHAINS[tx.chain] || { name: 'Unknown', explorer: '#', icon: '❓' };
+    const date = new Date(tx.timestamp).toLocaleDateString() + ' ' + new Date(tx.timestamp).toLocaleTimeString();
+    const iconClass = tx.type === 'register' ? 'register' : 'update';
+    const typeIcon = tx.type === 'register' ? '🤖' : tx.type === 'update' ? '✏️' : '⭐';
+    return '<div class="history-item"><div class="history-icon ' + iconClass + '">' + typeIcon + '</div><div class="history-details"><div class="history-title">' + escapeHtml(tx.name || tx.type) + (tx.agentId ? ' <span style="color:var(--accent);">#' + tx.agentId + '</span>' : '') + '</div><div class="history-meta">' + chain.icon + ' ' + chain.name + ' · ' + date + (tx.gasUsed ? ' · ' + Number(tx.gasUsed).toLocaleString() + ' gas' : '') + '</div></div><a class="btn btn-secondary btn-sm" href="' + chain.explorer + '/tx/' + tx.txHash + '" target="_blank" rel="noopener">View</a></div>';
+  }).join('');
+}
+
+// ─── AGENT COUNT ───
+async function fetchAgentCount() {
+  const el = document.getElementById('statAgents');
+  try {
+    const chain = CHAINS[currentChain];
+    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
+    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+    await readContract.getVersion();
+    let total = 0;
+    try { await readContract.ownerOf(1); total = 1; } catch(e) { el.textContent = '0'; return; }
+    let probe = 1;
+    while (probe <= 10000) { try { await readContract.ownerOf(probe); total = probe; probe *= 2; } catch(e) { break; } }
+    let lo = total, hi = probe;
+    while (lo < hi) { const mid = Math.floor((lo + hi + 1) / 2); try { await readContract.ownerOf(mid); lo = mid; } catch(e) { hi = mid - 1; } }
+    el.textContent = lo.toString();
+  } catch(err) { el.textContent = '—'; }
+}
+
+// ─── UTILITIES ───
+function escapeHtml(str) { const d = document.createElement('div'); d.appendChild(document.createTextNode(str)); return d.innerHTML; }
+</script>
+</body>
+</html>

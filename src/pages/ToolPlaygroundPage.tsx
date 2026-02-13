@@ -58,7 +58,7 @@ interface ToolExecution {
 
 function useCopy() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const copy = useCallback((text: string, key: string) => {
     navigator.clipboard.writeText(text);

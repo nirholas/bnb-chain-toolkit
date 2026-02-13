@@ -33,6 +33,7 @@ import {
   Users,
   HelpCircle,
   Info,
+  Wrench,
 } from 'lucide-react';
 import { useThemeStore } from '@/stores/themeStore';
 import useI18n from '@/stores/i18nStore';
