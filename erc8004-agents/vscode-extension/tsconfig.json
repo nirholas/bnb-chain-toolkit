@@ -12,7 +12,8 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "types": ["node", "mocha"]
   },
   "exclude": ["node_modules", "dist", ".vscode-test"]
 }

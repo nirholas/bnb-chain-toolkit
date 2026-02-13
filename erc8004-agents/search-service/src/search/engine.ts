@@ -72,7 +72,7 @@ export class SearchEngine {
         .map((agent) => ({ agent, score: 1 }));
     }
 
-    const results = this.index.search(query, { limit });
+    const results = this.index.search(query).slice(0, limit);
 
     return results
       .map((result: { id: string | number; score: number }) => {

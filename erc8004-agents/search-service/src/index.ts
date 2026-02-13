@@ -15,6 +15,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { createServer } from "http";
+import type { Server } from "http";
 
 import { AgentDatabase } from "./storage/database.js";
 import { Cache } from "./storage/cache.js";
@@ -75,8 +76,8 @@ async function main(): Promise<void> {
 
   // ── Start HTTP + WebSocket server ─────────────────────────────────
 
-  const server = createServer(serve({ fetch: app.fetch, port: PORT }).server);
-  feed.attach(server);
+  const server = serve({ fetch: app.fetch, port: PORT });
+  feed.attach(server as unknown as Server);
 
   console.log(`  🌐 HTTP  → http://localhost:${PORT}`);
   console.log(`  🔌 WS    → ws://localhost:${PORT}/api/feed`);
