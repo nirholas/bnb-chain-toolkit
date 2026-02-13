@@ -420,13 +420,13 @@ export default function Homepage() {
                             {mcpServers.map((s) => (
                                 <div
                                     key={s.name}
-                                    className="flex items-center justify-between px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02]"
+                                    className="flex items-center justify-between px-4 py-3 rounded-xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/20 transition-colors"
                                 >
                                     <div className="flex items-center gap-2">
-                                        <s.icon className="w-4 h-4 text-neutral-500 dark:text-neutral-400" />
-                                        <span className="text-xs text-neutral-600 dark:text-neutral-400 truncate">{s.name}</span>
+                                        <s.icon className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
+                                        <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300 truncate">{s.name}</span>
                                     </div>
-                                    <span className="text-xs font-bold text-[#F0B90B] ml-2">{s.tools}</span>
+                                    <span className="text-xs font-bold text-[#F0B90B] ml-2 stat-number">{s.tools}</span>
                                 </div>
                             ))}
                         </div>
@@ -485,13 +485,13 @@ export default function Homepage() {
                         {agentCategories.map((cat) => (
                             <div
                                 key={cat.name}
-                                className="group p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-0.5"
+                                className="group p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[#F0B90B]/[0.03]"
                             >
                                 <div className="flex items-center gap-3 mb-3">
                                     <cat.icon className={`w-5 h-5 ${cat.color}`} />
-                                    <span className="text-2xl font-bold text-neutral-900 dark:text-white">{cat.count}</span>
+                                    <span className="text-2xl font-extrabold text-neutral-900 dark:text-white stat-number">{cat.count}</span>
                                 </div>
-                                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white mb-1">{cat.name}</h3>
+                                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white mb-1 tracking-tight">{cat.name}</h3>
                                 <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">{cat.description}</p>
                             </div>
                         ))}
@@ -598,8 +598,8 @@ export default function Homepage() {
 
                     <div className="max-w-4xl mx-auto">
                         <BackgroundGradient className="rounded-2xl">
-                            <div className="bg-[#0a0a0a] rounded-2xl p-6 md:p-8 font-mono text-sm text-neutral-300 leading-relaxed overflow-x-auto">
-                                <div className="text-[#F0B90B] mb-3 font-bold">bnb-chain-toolkit/</div>
+                            <div className="bg-[#0a0a0a] rounded-2xl p-6 md:p-8 font-mono text-sm text-neutral-300 leading-relaxed overflow-x-auto border border-white/[0.04]">
+                                <div className="text-[#F0B90B] mb-3 font-extrabold tracking-tight text-base">bnb-chain-toolkit/</div>
                                 <div className="ml-4 space-y-1.5">
                                     <div><span className="text-blue-400">├── agents/</span><span className="text-neutral-600 ml-4"># 72+ AI Agent definitions</span></div>
                                     <div className="ml-4 text-neutral-500">
@@ -629,10 +629,17 @@ export default function Homepage() {
             {/* ═══════════════════════════════════════════════════════════════
                 SECTION 10 — WHY THIS TOOLKIT
             ═══════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 bg-neutral-900 dark:bg-neutral-950">
-                <div className="container mx-auto px-4">
+            <section className="py-24 md:py-32 bg-neutral-900 dark:bg-neutral-950 relative overflow-hidden">
+                {/* Subtle grid bg */}
+                <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-30 pointer-events-none" />
+
+                <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
+                        <div className="badge-pro mb-6">
+                            <Shield className="w-3 h-3" />
+                            Why This Toolkit
+                        </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-white mb-4">
                             Why BNB Chain AI Toolkit?
                         </h2>
                     </div>
@@ -657,7 +664,7 @@ export default function Homepage() {
                             <Link
                                 key={item.title}
                                 to={item.href}
-                                className="group relative p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[#F0B90B]/[0.03]"
+                                className="group relative p-5 rounded-2xl border border-neutral-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] hover:border-[#F0B90B]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[#F0B90B]/[0.04]"
                             >
                                 <div
                                     className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
@@ -665,11 +672,11 @@ export default function Homepage() {
                                 >
                                     <item.icon className="w-5 h-5" style={{ color: item.accent }} />
                                 </div>
-                                <h3 className="font-semibold text-neutral-900 dark:text-white mb-1 group-hover:text-[#F0B90B] transition-colors">
+                                <h3 className="font-bold text-neutral-900 dark:text-white mb-1 group-hover:text-[#F0B90B] transition-colors tracking-tight">
                                     {item.title}
                                 </h3>
                                 <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">{item.desc}</p>
-                                <ChevronRight className="w-4 h-4 text-neutral-300 dark:text-neutral-600 mt-3 group-hover:translate-x-1 group-hover:text-[#F0B90B] transition-all" />
+                                <ChevronRight className="w-4 h-4 text-neutral-300 dark:text-neutral-600 mt-4 group-hover:translate-x-1 group-hover:text-[#F0B90B] transition-all" />
                             </Link>
                         ))}
                     </div>
@@ -680,6 +687,9 @@ export default function Homepage() {
                 SECTION 12 — FINAL CTA
             ═══════════════════════════════════════════════════════════════ */}
             <section className="relative py-28 md:py-36 overflow-hidden bg-neutral-900 dark:bg-black">
+                {/* Grid background */}
+                <div className="absolute inset-0 bg-grid-pro bg-grid-pro-mask opacity-40 pointer-events-none" />
+
                 {/* Sparkles particle background */}
                 <div className="absolute inset-0 w-full h-full">
                     <SparklesCore
@@ -694,36 +704,40 @@ export default function Homepage() {
                 </div>
 
                 {/* Radial glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#F0B90B]/[0.04] blur-[100px] pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#F0B90B]/[0.05] blur-[120px] pointer-events-none" />
 
                 <div className="relative z-10 container mx-auto px-4 text-center">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-0.03em] text-white mb-5">
+                    <div className="badge-pro mb-6">
+                        <Zap className="w-3 h-3" />
+                        Open Source
+                    </div>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] text-white mb-5">
                         Ready to Build on BNB Chain?
                     </h2>
-                    <p className="text-neutral-400 text-lg mb-10 max-w-xl mx-auto">
+                    <p className="text-neutral-400 text-lg mb-12 max-w-lg mx-auto font-light">
                         72+ agents, 6 MCP servers, 900+ tools. Open source. Start building now.
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link
                             to="/fullstack-demo"
-                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_50px_rgba(240,185,11,0.5)] hover:-translate-y-0.5 shadow-[0_0_24px_rgba(240,185,11,0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 bg-[#F0B90B] text-black font-bold rounded-xl transition-all duration-300 hover:shadow-[0_0_50px_rgba(240,185,11,0.5)] hover:-translate-y-0.5 animate-glow-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                         >
                             <Zap className="w-5 h-5" />
                             Start Building
-                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </Link>
                         <a
                             href="https://github.com/nirholas/bnb-chain-toolkit"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 border border-white/[0.15] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            className="group inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 border border-white/[0.12] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5"
                         >
                             <GitBranch className="w-5 h-5" />
                             Star on GitHub
                         </a>
                         <Link
                             to="/docs"
-                            className="inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 border border-white/[0.15] text-white hover:border-[#F0B90B]/50 hover:text-[#F0B90B] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F0B90B] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                            className="inline-flex items-center gap-2.5 px-8 py-4 font-bold rounded-xl transition-all duration-300 text-neutral-400 hover:text-[#F0B90B] hover:-translate-y-0.5"
                         >
                             <BookOpen className="w-5 h-5" />
                             Get Started

@@ -528,16 +528,16 @@ export default function NavBar() {
             {/* ── Brand ────────────────────────────────────────── */}
             <Link
               to="/"
-              className="flex items-center gap-2 group"
+              className="flex items-center gap-2.5 group"
               aria-label="BNB Chain AI Toolkit - Home"
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#F0B90B] group-hover:scale-105 transition-transform duration-200">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#F0B90B] group-hover:scale-105 transition-transform duration-200 shadow-[0_0_12px_rgba(240,185,11,0.3)]">
                 <Zap className="w-4 h-4 text-black" />
               </div>
-              <span className="font-semibold text-base tracking-tight text-gray-900 dark:text-white hidden sm:block">
+              <span className="font-bold text-[15px] tracking-tight text-gray-900 dark:text-white hidden sm:block">
                 BNB Chain AI Toolkit
               </span>
-              <span className="font-semibold text-base tracking-tight text-gray-900 dark:text-white sm:hidden">
+              <span className="font-bold text-[15px] tracking-tight text-gray-900 dark:text-white sm:hidden">
                 BNBT
               </span>
             </Link>
@@ -604,7 +604,7 @@ export default function NavBar() {
 
               <Link
                 to="/fullstack-demo"
-                className="ml-1 flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-[#F0B90B] text-black hover:bg-[#F0B90B]/90 active:scale-[0.98] transition-all duration-200 shadow-[0_0_16px_rgba(240,185,11,0.25)] hover:shadow-[0_0_24px_rgba(240,185,11,0.45)]"
+                className="ml-1.5 flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg bg-[#F0B90B] text-black hover:bg-[#F0B90B]/90 active:scale-[0.98] transition-all duration-200 shadow-[0_0_16px_rgba(240,185,11,0.25)] hover:shadow-[0_0_24px_rgba(240,185,11,0.45)] tracking-tight"
               >
                 <Zap className="w-3.5 h-3.5" />
                 <span>Start Building</span>

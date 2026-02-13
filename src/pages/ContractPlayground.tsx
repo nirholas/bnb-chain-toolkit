@@ -24,9 +24,7 @@ import {
   Loader2,
   Wand2,
   LayoutTemplate,
-  ArrowRight,
-  Zap,
-  BookOpen
+  ArrowRight
 } from 'lucide-react';
 import { copyToClipboard } from '@/utils/helpers';
 import { contractTemplates, ContractTemplate, searchTemplates } from '@/utils/contractTemplates';

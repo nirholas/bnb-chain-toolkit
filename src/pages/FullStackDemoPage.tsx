@@ -32,7 +32,7 @@ function WalletButton() {
     // Simulate wallet connection
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Generate fake address for demo
+    // Generate a demo address (replace with window.ethereum.request in production)
     const fakeAddress = '0x' + Array.from({length: 40}, () => 
       Math.floor(Math.random() * 16).toString(16)
     ).join('');

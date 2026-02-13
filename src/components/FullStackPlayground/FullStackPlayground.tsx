@@ -212,9 +212,9 @@ export default function FullStackPlayground({
       </div>
 
       {/* Main Playground */}
-      <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-[#0a0a0a] shadow-lg">
+      <div className="border border-gray-200 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#0a0a0a] shadow-lg">
         {/* Top Toolbar - File Tabs */}
-        <div className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-black">
+        <div className="border-b border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-black">
           <div className="flex items-center justify-between px-2 py-1">
             {/* File Tabs */}
             <div className="flex items-center gap-1 overflow-x-auto">
@@ -288,7 +288,7 @@ export default function FullStackPlayground({
         <div className={`flex ${layout === 'split' ? 'flex-row' : 'flex-col'}`} style={{ height: isFullscreen ? 'calc(100vh - 200px)' : '600px' }}>
           {/* Editor Panel */}
           {layout !== 'preview' && (
-            <div className={`${layout === 'split' ? 'w-1/2 border-r dark:border-white/10' : 'w-full h-full'} flex flex-col`>
+            <div className={`${layout === 'split' ? 'w-1/2 border-r dark:border-white/10' : 'w-full h-full'} flex flex-col`}>
               {/* File description */}
               {activeFile && (
                 <div className="px-4 py-2 bg-gray-100 dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-white/10 text-xs text-gray-500">
