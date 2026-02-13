@@ -56,11 +56,13 @@ const TermsPage = lazy(() => import('./pages/TermsPage'));
 const ContributePage = lazy(() => import('./pages/ContributePage'));
 const ExplorePage = lazy(() => import('./pages/ExplorePage'));
 const AgentDetailPage = lazy(() => import('./pages/AgentDetailPage'));
+const AgentBrowserPage = lazy(() => import('./pages/AgentBrowserPage'));
 const SharedProjectPage = lazy(() => import('./pages/SharedProjectPage'));
 const MarketsPage = lazy(() => import('./pages/MarketsPage'));
 const MCPServersPage = lazy(() => import('./pages/MCPServersPage'));
 const MCPServerPage = lazy(() => import('./pages/MCPServerPage'));
 const ToolCatalogPage = lazy(() => import('./pages/ToolCatalogPage'));
+const ToolReferencePage = lazy(() => import('./pages/ToolReferencePage'));
 const StandardsPage = lazy(() => import('./pages/StandardsPage'));
 
 // Innovation pages (experimental features - lazy loaded)
@@ -169,9 +171,10 @@ function AppContent() {
                   <Route path="/contribute" element={<ContributePage />} />
                   <Route path="/explore" element={<ExplorePage />} />
                   <Route path="/explore/agent/:agentId" element={<AgentDetailPage />} />
+                  <Route path="/agents" element={<AgentBrowserPage />} />
                   <Route path="/mcp" element={<MCPServersPage />} />
                   <Route path="/mcp/:serverId" element={<MCPServerPage />} />
-                  <Route path="/tools" element={<ToolCatalogPage />} />
+                  <Route path="/tools" element={<ToolReferencePage />} />
                   <Route path="/standards" element={<StandardsPage />} />
                   <Route path="/shared/:token" element={<SharedProjectPage />} />
                 </Routes>

@@ -3,13 +3,13 @@
  * BNB CHAIN AI TOOLKIT - Tool Reference
  * ═══════════════════════════════════════════════════════════════════════════
  * ✨ Author: nich | 🐦 x.com/nichxbt | 🐙 github.com/nirholas
- * 📦 github.com/nirholas/bnb-chain-toolkit
+ * 📦 github.com/nirholas/bnb-chain-toolkit | 🌐 https://bnbchaintoolkit.com
  * Copyright (c) 2024-2026 nirholas (nich) - MIT License
  * @preserve
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -28,8 +28,13 @@ import {
   TrendingUp,
   Code2,
   Star,
+  Copy,
+  Check,
+  Command,
+  Github,
 } from 'lucide-react';
-import { Spotlight, TextGenerateEffect } from '@/components/ui';
+import { Spotlight, TextGenerateEffect, LampContainer, HoverEffect } from '@/components/ui';
+import { toolCatalog, toolCategories as standaloneCategories, allServersConfig } from '@/data/mcpServers';
 import { useSEO } from '@/hooks/useSEO';
 import { cn } from '@/lib/utils';
 
@@ -51,6 +56,136 @@ interface ToolCategory {
   tools: Tool[];
   color: string;
 }
+
+// ─── Debounce Hook ───────────────────────────────────────────────────────────
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debouncedValue;
+}
+
+// ─── Copy Hook ───────────────────────────────────────────────────────────────
+
+function useCopyToClipboard() {
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const copy = useCallback((text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedKey(key);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setCopiedKey(null), 2000);
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
+
+  return { copiedKey, copy };
+}
+
+// ─── Hand-Crafted Tool Examples (50+) ────────────────────────────────────────
+
+const TOOL_EXAMPLES: Record<string, string> = {
+  // bnbchain-mcp — Core Blockchain
+  'get_balance': 'Get the BNB balance of wallet 0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18',
+  'get_transaction': 'Get the details of transaction 0xabc123def456...',
+  'get_block': 'Get the latest block data on BNB Chain',
+  'get_gas_price': 'What is the current gas price on BSC?',
+  'estimate_gas': 'Estimate the gas cost to transfer 1 BNB to 0x742d...',
+  'send_transaction': 'Send 0.5 BNB from my wallet to 0x742d35Cc...',
+  'get_transaction_receipt': 'Get the receipt and logs for transaction 0xabc...',
+  'get_contract_code': 'Get the bytecode of the PancakeSwap Router contract',
+  'call_contract': 'Call the balanceOf function on the CAKE token contract',
+  'deploy_contract': 'Deploy my ERC-20 token contract to BSC mainnet',
+  'resolve_ens': 'Resolve vitalik.eth to an Ethereum address',
+  'get_chain_info': 'Get current BNB Smart Chain network info and latest block',
+  // bnbchain-mcp — Token Operations
+  'get_token_info': 'Get info about the CAKE token (0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82)',
+  'get_token_balance': 'Get my USDT balance on BSC for wallet 0x742d...',
+  'transfer_token': 'Transfer 100 USDT to address 0x742d35Cc...',
+  'approve_token': 'Approve PancakeSwap to spend my CAKE tokens',
+  'get_nft_metadata': 'Get the metadata and traits of Pancake Squad NFT #1234',
+  'transfer_nft': 'Transfer my Pancake Squad NFT #42 to 0x742d...',
+  'get_token_holders': 'Show the top 10 holders of the CAKE token',
+  'get_token_transfers': 'Get recent CAKE token transfers in the last hour',
+  // bnbchain-mcp — DeFi
+  'get_swap_quote': 'Get a quote for swapping 1 BNB to USDT on PancakeSwap',
+  'execute_swap': 'Swap 100 USDT for BNB on PancakeSwap with 1% slippage',
+  'add_liquidity': 'Add liquidity to the BNB/USDT pool on PancakeSwap',
+  'get_lending_rates': 'Get the current lending rates for USDT on Venus Protocol',
+  'supply_to_lending': 'Supply 1000 USDT to Venus Protocol for yield',
+  'get_farming_apy': 'What is the current APY for the CAKE-BNB farm?',
+  'get_pool_info': 'Get details of the BNB/USDT liquidity pool on PancakeSwap',
+  'get_tvl': 'Get the total value locked in PancakeSwap from DefiLlama',
+  // bnbchain-mcp — Security
+  'check_token_security': 'Check if token 0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82 is safe to trade',
+  'detect_honeypot': 'Is token 0x1234... a honeypot? Can I sell after buying?',
+  'check_rug_pull': 'Assess the rug pull risk for token 0xDEAD...',
+  'get_holder_distribution': 'Show the holder distribution for CAKE token',
+  'check_contract_verified': 'Is the contract at 0x1234... verified on BscScan?',
+  'screen_address': 'Check the risk score for address 0x742d...',
+  // bnbchain-mcp — Market Data
+  'get_price': 'What is the current price of BNB in USD?',
+  'get_price_history': 'Get the 30-day price history for BNB with daily candles',
+  'get_trending_coins': 'Show me trending tokens on BNB Chain right now',
+  'get_dex_pools': 'List the top liquidity pools on PancakeSwap by volume',
+  'get_social_metrics': 'Get the LunarCrush social sentiment score for BNB',
+  'get_fear_greed': 'What is today\'s Crypto Fear and Greed Index?',
+  // bnbchain-mcp — DEX/Swap
+  'get_1inch_quote': 'Get a 1inch quote for swapping 10 BNB to USDC',
+  'get_0x_quote': 'Get a 0x API quote for 1000 USDT to BNB swap',
+  'get_paraswap_quote': 'Get a ParaSwap quote for 5 BNB to BUSD',
+  'compare_swap_routes': 'Compare swap routes for 1 BNB to USDT across all DEX aggregators',
+  // binance-mcp — Spot Trading
+  'get_ticker_price': 'Get the current BTC/USDT price on Binance',
+  'get_order_book': 'Show the BTC/USDT order book with 20 levels of depth',
+  'place_order': 'Place a limit buy order for 0.1 BTC at $60,000 on Binance',
+  'cancel_order': 'Cancel my open BTC/USDT order #12345',
+  'get_open_orders': 'Show all my open orders on Binance spot',
+  'get_trade_history': 'Get my recent BTC/USDT trade history',
+  'get_klines': 'Get 4-hour candlestick data for ETH/USDT on Binance',
+  'get_24h_stats': 'Get 24-hour price change statistics for BNB/USDT',
+  // binance-mcp — Futures
+  'get_futures_price': 'Get the current BTC perpetual futures price',
+  'get_funding_rate': 'What is the current BTC perpetual funding rate on Binance?',
+  'place_futures_order': 'Open a long BTC position with 10x leverage at market price',
+  'set_leverage': 'Set leverage to 20x for BTC/USDT perpetual',
+  'get_position': 'Show my current BTC/USDT futures position details',
+  'get_open_interest': 'Get the total open interest for BTC perpetual',
+  // binance-mcp — Earn & Other
+  'get_earn_products': 'List the best Binance Earn products with over 5% APY',
+  'subscribe_earn': 'Subscribe 1000 USDT to Binance Simple Earn flexible',
+  'get_staking_products': 'List available ETH staking products on Binance',
+  'create_auto_invest': 'Create an Auto-Invest plan to buy $100 of BTC weekly',
+  'get_lead_traders': 'Show top copy traders by 30-day returns on Binance',
+  'start_copy': 'Start copying the lead trader with ID 12345',
+  'get_account_balance': 'Show all my asset balances on Binance',
+  'get_deposit_address': 'Get my BNB deposit address on Binance',
+  // universal-crypto-mcp
+  'bridge_tokens': 'Bridge 100 USDT from BSC to Ethereum via LayerZero',
+  'get_bridge_quote': 'Get a quote for bridging 1 ETH from Ethereum to BSC',
+  'get_bridge_status': 'Check the status of my bridge transaction 0xabc...',
+  'x402_get_balance': 'Check my x402 payment balance for AI services',
+  'x402_pay': 'Make an x402 payment of 0.01 USDT for API access',
+  'x402_register_service': 'Register my AI translation service on x402',
+  'x402_discover_services': 'Discover available AI services on the x402 marketplace',
+  // ucai
+  'generate': 'Generate an MCP server from the PancakeSwap Router ABI',
+  'generate_from_address': 'Auto-generate an MCP server from contract 0x10ED...',
+  'scan_contract': 'Run a full security scan on contract 0x1234...',
+  'check_ownership': 'Analyze the ownership structure of contract 0xDEAD...',
+  'detect_risks': 'Detect common risk patterns in contract 0x5678...',
+  'explain_contract': 'Explain the PancakeSwap Router contract in plain English',
+  'explain_function': 'Explain what the swapExactTokensForTokens function does',
+  'flash_loan_template': 'Generate a flash loan MCP server template for Aave',
+  'arbitrage_template': 'Generate a DEX arbitrage server for PancakeSwap and BiSwap',
+};
 
 // ─── Tool Data: BNB Chain MCP (150+ tools) ──────────────────────────────────
 
@@ -422,6 +557,8 @@ const ALL_CATEGORIES: ToolCategory[] = [
   ...ucaiTools,
 ];
 
+const ALL_TOOLS: Tool[] = ALL_CATEGORIES.flatMap(c => c.tools);
+
 // ─── Server metadata ────────────────────────────────────────────────────────
 
 interface ServerMeta {
@@ -441,6 +578,8 @@ const SERVERS: ServerMeta[] = [
   { id: 'ucai', name: 'UCAI', count: 'Dynamic', color: '#8B5CF6', icon: Wrench },
 ];
 
+const SERVER_MAP = Object.fromEntries(SERVERS.map(s => [s.id, s]));
+
 // ─── Popular tools ──────────────────────────────────────────────────────────
 
 const POPULAR_TOOLS: Tool[] = [
@@ -458,81 +597,94 @@ const POPULAR_TOOLS: Tool[] = [
   { name: 'get_tvl', description: 'Get protocol TVL from DefiLlama', category: 'DeFi', server: 'bnbchain-mcp' },
 ];
 
+// ─── Example generation helper ──────────────────────────────────────────────
+
+function getToolExample(tool: Tool): string {
+  if (TOOL_EXAMPLES[tool.name]) return TOOL_EXAMPLES[tool.name];
+  const serverName = SERVER_MAP[tool.server]?.name ?? tool.server;
+  return `Use the ${tool.name} tool from ${serverName} to ${tool.description.toLowerCase()}`;
+}
+
+// ─── Server stats computation ────────────────────────────────────────────────
+
+function getTopCategories(categories: ToolCategory[], limit = 5) {
+  return [...categories]
+    .sort((a, b) => b.tools.length - a.tools.length)
+    .slice(0, limit);
+}
+
 // ─── Component ──────────────────────────────────────────────────────────────
 
 export default function ToolReferencePage() {
   useSEO({
     title: 'Tool Reference',
-    description: '900+ tools across 6 MCP servers. Search, browse, and find exactly the tool you need for BNB Chain, Binance, and 60+ blockchain networks.',
+    description: '900+ tools across 6 MCP servers — searchable index with descriptions, categories, example calls, and copy functionality.',
     path: '/tools',
   });
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedServers, setSelectedServers] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [searchInput, setSearchInput] = useState('');
+  const searchQuery = useDebounce(searchInput, 200);
+  const [activeServer, setActiveServer] = useState<string>('all');
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
+    // First 3 categories expanded by default
+    const initial = new Set<string>();
+    ALL_CATEGORIES.slice(0, 3).forEach(cat => {
+      initial.add(`${cat.server}::${cat.name}`);
+    });
+    return initial;
+  });
 
-  // Toggle a server filter
-  const toggleServer = useCallback((serverId: string) => {
-    setSelectedServers(prev =>
-      prev.includes(serverId) ? prev.filter(s => s !== serverId) : [...prev, serverId]
-    );
-    setSelectedCategories([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const { copiedKey, copy } = useCopyToClipboard();
+
+  // Cmd+K / Ctrl+K keyboard shortcut to focus search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Toggle a category filter
-  const toggleCategory = useCallback((categoryKey: string) => {
-    setSelectedCategories(prev =>
-      prev.includes(categoryKey) ? prev.filter(c => c !== categoryKey) : [...prev, categoryKey]
-    );
+  // Select a server filter tab
+  const selectServer = useCallback((serverId: string) => {
+    setActiveServer(serverId);
   }, []);
 
   // Toggle expand/collapse for a category section
   const toggleExpanded = useCallback((key: string) => {
     setExpandedCategories(prev => {
       const next = new Set(prev);
-      if (next.has(key)) {
-        next.delete(key);
-      } else {
-        next.add(key);
-      }
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
       return next;
     });
   }, []);
 
-  // Available categories based on selected servers
-  const availableCategories = useMemo(() => {
-    const cats: { key: string; name: string; server: string }[] = [];
-    const seen = new Set<string>();
-    for (const cat of ALL_CATEGORIES) {
-      if (selectedServers.length > 0 && !selectedServers.includes(cat.server)) continue;
-      const key = `${cat.server}::${cat.name}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        cats.push({ key, name: cat.name, server: cat.server });
-      }
-    }
-    return cats;
-  }, [selectedServers]);
-
-  // Filter categories and tools based on search + filters
+  // Filter categories and tools based on debounced search + server filter
   const filteredCategories = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
 
     return ALL_CATEGORIES.map(cat => {
       // Server filter
-      if (selectedServers.length > 0 && !selectedServers.includes(cat.server)) return null;
+      if (activeServer !== 'all' && cat.server !== activeServer) return null;
 
-      // Category filter
-      const catKey = `${cat.server}::${cat.name}`;
-      if (selectedCategories.length > 0 && !selectedCategories.includes(catKey)) return null;
-
-      // Search filter — match on category name, tool name, or description
+      // Search filter — match on category name, tool name, description, or server name
       if (query) {
+        const serverName = (SERVER_MAP[cat.server]?.name ?? '').toLowerCase();
         const matchingTools = cat.tools.filter(
-          t => t.name.toLowerCase().includes(query) || t.description.toLowerCase().includes(query)
+          t =>
+            t.name.toLowerCase().includes(query) ||
+            t.description.toLowerCase().includes(query) ||
+            serverName.includes(query)
         );
-        const categoryMatches = cat.name.toLowerCase().includes(query) || cat.description.toLowerCase().includes(query);
+        const categoryMatches =
+          cat.name.toLowerCase().includes(query) ||
+          cat.description.toLowerCase().includes(query) ||
+          serverName.includes(query);
 
         if (matchingTools.length === 0 && !categoryMatches) return null;
 
@@ -544,7 +696,7 @@ export default function ToolReferencePage() {
 
       return cat;
     }).filter((c): c is ToolCategory => c !== null);
-  }, [searchQuery, selectedServers, selectedCategories]);
+  }, [searchQuery, activeServer]);
 
   // Count totals
   const totalFilteredTools = useMemo(
@@ -552,17 +704,38 @@ export default function ToolReferencePage() {
     [filteredCategories]
   );
 
-  const clearFilters = useCallback(() => {
-    setSearchQuery('');
-    setSelectedServers([]);
-    setSelectedCategories([]);
+  // Server tab counts
+  const serverToolCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const cat of ALL_CATEGORIES) {
+      counts[cat.server] = (counts[cat.server] || 0) + cat.tools.length;
+    }
+    return counts;
   }, []);
 
-  const hasActiveFilters = searchQuery.length > 0 || selectedServers.length > 0 || selectedCategories.length > 0;
+  const topCategories = useMemo(() => getTopCategories(ALL_CATEGORIES), []);
+
+  const clearFilters = useCallback(() => {
+    setSearchInput('');
+    setActiveServer('all');
+  }, []);
+
+  const hasActiveFilters = searchInput.length > 0 || activeServer !== 'all';
+
+  // Standalone tools data for HoverEffect
+  const standaloneItems = useMemo(
+    () =>
+      toolCatalog.map(t => ({
+        title: t.name,
+        description: t.description,
+        link: `https://github.com/nirholas/bnb-chain-toolkit/tree/main/${t.repoPath}`,
+      })),
+    []
+  );
 
   return (
     <main className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white">
-      {/* ── Section 1: Hero ─────────────────────────────────────── */}
+      {/* ── Hero Section ────────────────────────────────────────── */}
       <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-20">
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#F0B90B" />
 
@@ -574,17 +747,17 @@ export default function ToolReferencePage() {
           >
             <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-[#F0B90B]/10 px-4 py-2 text-sm font-medium text-[#F0B90B]">
               <Wrench className="h-4 w-4" />
-              Complete API Reference
+              Complete Tool Reference
             </div>
 
-            <TextGenerateEffect
-              words="Tool Reference"
-              className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
-            />
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+              <span className="text-[#F0B90B]">900+</span> Tools
+            </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-500 dark:text-neutral-400">
-              900+ tools across 6 MCP servers. Search, browse, and find exactly the tool you need.
-            </p>
+            <TextGenerateEffect
+              words="Every tool across all 6 MCP servers — search, browse, copy, and try."
+              className="mx-auto mt-4 max-w-2xl text-lg text-gray-500 dark:text-neutral-400 font-normal"
+            />
           </motion.div>
 
           {/* Stats row */}
@@ -597,10 +770,16 @@ export default function ToolReferencePage() {
             {[
               { label: 'Tools', value: '900+', icon: Wrench },
               { label: 'Servers', value: '6', icon: Server },
-              { label: 'Categories', value: '30+', icon: Layers },
+              { label: 'Categories', value: `${ALL_CATEGORIES.length}`, icon: Layers },
               { label: 'Chains', value: '60+', icon: Globe },
-            ].map(stat => (
-              <div key={stat.label} className="flex items-center gap-3">
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="flex items-center gap-3"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+              >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F0B90B]/10">
                   <stat.icon className="h-5 w-5 text-[#F0B90B]" />
                 </div>
@@ -608,159 +787,103 @@ export default function ToolReferencePage() {
                   <div className="text-xl font-bold">{stat.value}</div>
                   <div className="text-sm text-gray-500 dark:text-neutral-400">{stat.label}</div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* ── Section 4: Server Summary ──────────────────────────── */}
-      <section className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <motion.h2
-          className="mb-8 text-center text-2xl font-bold sm:text-3xl"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-        >
-          MCP Servers
-        </motion.h2>
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVERS.map((srv, i) => {
-            const isActive = selectedServers.includes(srv.id);
-            return (
-              <motion.button
-                key={srv.id}
-                onClick={() => toggleServer(srv.id)}
-                className={cn(
-                  'group relative flex items-center gap-4 rounded-2xl border p-5 text-left transition-all duration-200',
-                  isActive
-                    ? 'border-[#F0B90B] bg-[#F0B90B]/5 ring-1 ring-[#F0B90B]/30'
-                    : 'border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 hover:border-gray-300 dark:hover:border-white/[0.15]'
-                )}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-              >
-                <div
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-                  style={{ backgroundColor: `${srv.color}15` }}
-                >
-                  <srv.icon className="h-6 w-6" style={{ color: srv.color }} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="font-semibold truncate">{srv.name}</div>
-                  <div className="text-sm text-gray-500 dark:text-neutral-400">
-                    {srv.count} tools
-                  </div>
-                </div>
-                {isActive && (
-                  <div className="h-2 w-2 rounded-full bg-[#F0B90B] shrink-0" />
-                )}
-              </motion.button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── Section 2: Search + Filter Bar ─────────────────────── */}
+      {/* ── Sticky Search + Server Filter ──────────────────────── */}
       <section className="sticky top-0 z-30 border-b border-gray-200 dark:border-white/[0.08] bg-white/80 dark:bg-black/80 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           {/* Search input */}
           <div className="relative">
             <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
             <input
+              ref={searchInputRef}
               type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search tools by name or description..."
+              value={searchInput}
+              onChange={e => setSearchInput(e.target.value)}
+              placeholder="Search tools by name, description, or server..."
+              aria-label="Search tools by name, description, or server"
               className={cn(
-                'w-full rounded-xl border bg-white dark:bg-neutral-900 py-3 pl-12 pr-10 text-sm',
+                'w-full rounded-xl border bg-white dark:bg-neutral-900 py-3 pl-12 pr-24 text-sm',
                 'border-gray-200 dark:border-white/[0.08] placeholder-gray-400 dark:placeholder-neutral-500',
                 'focus:border-[#F0B90B] focus:outline-none focus:ring-2 focus:ring-[#F0B90B]/20',
-                'text-gray-900 dark:text-white'
+                'text-gray-900 dark:text-white transition-shadow duration-200'
               )}
             />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1 text-gray-400 hover:text-gray-600 dark:hover:text-neutral-300"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              {searchInput ? (
+                <button
+                  onClick={() => setSearchInput('')}
+                  className="rounded-lg p-1 text-gray-400 hover:text-gray-600 dark:hover:text-neutral-300"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              ) : (
+                <kbd className="hidden sm:inline-flex items-center gap-0.5 rounded-md border border-gray-200 dark:border-white/[0.1] bg-gray-50 dark:bg-white/[0.05] px-1.5 py-0.5 text-[10px] font-medium text-gray-400">
+                  <Command className="h-3 w-3" />K
+                </kbd>
+              )}
+            </div>
           </div>
 
-          {/* Server toggle pills */}
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="text-xs font-medium text-gray-500 dark:text-neutral-400 mr-1">
-              Server:
-            </span>
+          {/* Server filter tabs */}
+          <div className="mt-3 -mb-px flex items-center gap-1 overflow-x-auto scrollbar-hide" role="tablist" aria-label="Filter by server">
+            <button
+              role="tab"
+              aria-selected={activeServer === 'all'}
+              aria-label="Show all servers"
+              onClick={() => selectServer('all')}
+              className={cn(
+                'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-150',
+                activeServer === 'all'
+                  ? 'bg-[#F0B90B] text-black'
+                  : 'bg-gray-100 dark:bg-white/[0.05] text-gray-600 dark:text-neutral-400 hover:bg-gray-200 dark:hover:bg-white/[0.08]'
+              )}
+            >
+              All ({ALL_TOOLS.length})
+            </button>
             {SERVERS.map(srv => {
-              const active = selectedServers.includes(srv.id);
+              const active = activeServer === srv.id;
+              const count = serverToolCounts[srv.id] || 0;
               return (
                 <button
                   key={srv.id}
-                  onClick={() => toggleServer(srv.id)}
+                  role="tab"
+                  aria-selected={active}
+                  aria-label={`Filter by ${srv.name}`}
+                  onClick={() => selectServer(srv.id)}
                   className={cn(
-                    'rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-150',
+                    'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-150',
                     active
                       ? 'text-black'
                       : 'bg-gray-100 dark:bg-white/[0.05] text-gray-600 dark:text-neutral-400 hover:bg-gray-200 dark:hover:bg-white/[0.08]'
                   )}
                   style={active ? { backgroundColor: srv.color, color: '#000' } : undefined}
                 >
-                  {srv.name}
+                  {srv.name} ({count})
                 </button>
               );
             })}
           </div>
 
-          {/* Category pills (show if server is selected or there are few enough) */}
-          {availableCategories.length > 0 && availableCategories.length <= 20 && (
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium text-gray-500 dark:text-neutral-400 mr-1">
-                Category:
-              </span>
-              {availableCategories.map(c => {
-                const active = selectedCategories.includes(c.key);
-                return (
-                  <button
-                    key={c.key}
-                    onClick={() => toggleCategory(c.key)}
-                    className={cn(
-                      'rounded-lg px-2.5 py-1 text-xs font-medium transition-all duration-150',
-                      active
-                        ? 'bg-[#F0B90B] text-black'
-                        : 'bg-gray-100 dark:bg-white/[0.05] text-gray-600 dark:text-neutral-400 hover:bg-gray-200 dark:hover:bg-white/[0.08]'
-                    )}
-                  >
-                    {c.name}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
           {/* Result count + clear */}
           <div className="mt-3 flex items-center justify-between text-sm">
             <span className="text-gray-500 dark:text-neutral-400">
               Showing{' '}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                {totalFilteredTools}
-              </span>{' '}
+              <span className="font-semibold text-gray-900 dark:text-white">{totalFilteredTools}</span>{' '}
               tools in{' '}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                {filteredCategories.length}
-              </span>{' '}
+              <span className="font-semibold text-gray-900 dark:text-white">{filteredCategories.length}</span>{' '}
               categories
             </span>
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
                 className="flex items-center gap-1 text-xs font-medium text-[#F0B90B] hover:underline"
+                aria-label="Clear all filters"
               >
                 <X className="h-3 w-3" />
                 Clear filters
@@ -770,222 +893,392 @@ export default function ToolReferencePage() {
         </div>
       </section>
 
-      {/* ── Section 5: Popular Tools ───────────────────────────── */}
-      {!hasActiveFilters && (
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <motion.h2
-            className="mb-6 text-2xl font-bold sm:text-3xl"
+      {/* ── Main Content: Sidebar + Categories ─────────────────── */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex gap-8">
+          {/* Sidebar — Desktop only */}
+          <aside className="hidden lg:block w-64 shrink-0">
+            <div className="sticky top-40 space-y-6">
+              {/* Total tools */}
+              <div className="rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 p-5">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Server Stats</h3>
+                <div className="space-y-3">
+                  {SERVERS.map(srv => {
+                    const count = serverToolCounts[srv.id] || 0;
+                    const maxCount = Math.max(...Object.values(serverToolCounts));
+                    const pct = maxCount > 0 ? (count / maxCount) * 100 : 0;
+                    return (
+                      <button
+                        key={srv.id}
+                        onClick={() => selectServer(srv.id)}
+                        className="w-full text-left group"
+                        aria-label={`Jump to ${srv.name}`}
+                      >
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span className="font-medium text-gray-700 dark:text-neutral-300 group-hover:text-[#F0B90B] transition-colors truncate">{srv.name}</span>
+                          <span className="text-gray-400 dark:text-neutral-500">{count}</span>
+                        </div>
+                        <div className="h-1.5 w-full rounded-full bg-gray-100 dark:bg-white/[0.05] overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-300"
+                            style={{ width: `${pct}%`, backgroundColor: srv.color }}
+                          />
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Top categories */}
+              <div className="rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 p-5">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Top Categories</h3>
+                <div className="space-y-2">
+                  {topCategories.map(cat => {
+                    const catKey = `${cat.server}::${cat.name}`;
+                    return (
+                      <button
+                        key={catKey}
+                        onClick={() => {
+                          setExpandedCategories(prev => new Set(prev).add(catKey));
+                          document.getElementById(`cat-${catKey}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }}
+                        className="flex items-center justify-between w-full text-left text-xs group"
+                        aria-label={`Jump to ${cat.name}`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: cat.color }} />
+                          <span className="text-gray-700 dark:text-neutral-300 group-hover:text-[#F0B90B] transition-colors truncate">{cat.name}</span>
+                        </div>
+                        <span className="text-gray-400 dark:text-neutral-500 shrink-0 ml-2">{cat.tools.length}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Quick jump links */}
+              <div className="rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 p-5">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Quick Jump</h3>
+                <div className="space-y-1.5">
+                  {SERVERS.map(srv => (
+                    <button
+                      key={srv.id}
+                      onClick={() => {
+                        selectServer(srv.id);
+                        window.scrollTo({ top: document.getElementById('tool-categories')?.offsetTop ?? 0, behavior: 'smooth' });
+                      }}
+                      className="flex items-center gap-2 w-full text-left text-xs text-gray-600 dark:text-neutral-400 hover:text-[#F0B90B] transition-colors"
+                      aria-label={`Jump to ${srv.name} section`}
+                    >
+                      <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: srv.color }} />
+                      {srv.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main content */}
+          <div className="flex-1 min-w-0">
+            {/* Popular Tools (only when no filters) */}
+            {!hasActiveFilters && (
+              <div className="mb-8">
+                <motion.h2
+                  className="mb-6 text-2xl font-bold sm:text-3xl"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Star className="mr-2 inline-block h-6 w-6 text-[#F0B90B]" />
+                  Popular Tools
+                </motion.h2>
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  {POPULAR_TOOLS.map((tool, i) => {
+                    const srv = SERVER_MAP[tool.server];
+                    return (
+                      <motion.div
+                        key={`pop-${tool.server}-${tool.name}`}
+                        className="group rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 p-4 transition-all duration-200 hover:border-[#F0B90B]/40 hover:shadow-lg hover:shadow-[#F0B90B]/5"
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: i * 0.03 }}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <code className="font-mono text-sm font-semibold text-[#F0B90B]">
+                            {tool.name}
+                          </code>
+                          <span
+                            className="shrink-0 rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                            style={{
+                              backgroundColor: `${srv?.color ?? '#6B7280'}15`,
+                              color: srv?.color ?? '#6B7280',
+                            }}
+                          >
+                            {srv?.name ?? tool.server}
+                          </span>
+                        </div>
+                        <p className="mt-2 text-sm text-gray-500 dark:text-neutral-400 line-clamp-2">
+                          {tool.description}
+                        </p>
+                        <div className="mt-2 flex items-center justify-between">
+                          <span className="text-xs text-gray-400 dark:text-neutral-500">{tool.category}</span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => copy(tool.name, `pop-name-${tool.server}-${tool.name}`)}
+                              className="rounded-md p-1 text-gray-400 hover:text-[#F0B90B] transition-colors"
+                              aria-label={`Copy tool name ${tool.name}`}
+                            >
+                              {copiedKey === `pop-name-${tool.server}-${tool.name}` ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
+                            </button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Category Accordions */}
+            <div id="tool-categories" className="space-y-4">
+              {filteredCategories.length === 0 ? (
+                /* No results state */
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                  <div className="text-5xl mb-4">🔍</div>
+                  <p className="text-lg font-medium text-gray-500 dark:text-neutral-400">
+                    No tools match your search
+                  </p>
+                  <p className="mt-2 text-sm text-gray-400 dark:text-neutral-500">
+                    Try a different search term or clear filters
+                  </p>
+                  <button
+                    onClick={clearFilters}
+                    className="mt-4 rounded-xl bg-[#F0B90B] px-6 py-2 text-sm font-semibold text-black transition-colors hover:bg-[#F0B90B]/80"
+                    aria-label="Clear search and filters"
+                  >
+                    Clear Search
+                  </button>
+                </div>
+              ) : (
+                filteredCategories.map(cat => {
+                  const catKey = `${cat.server}::${cat.name}`;
+                  const isExpanded = expandedCategories.has(catKey);
+                  const srv = SERVER_MAP[cat.server];
+
+                  return (
+                    <motion.div
+                      key={catKey}
+                      id={`cat-${catKey}`}
+                      className="overflow-hidden rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900"
+                      layout
+                    >
+                      {/* Category header */}
+                      <button
+                        onClick={() => toggleExpanded(catKey)}
+                        className="flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-gray-50 dark:hover:bg-white/[0.03]"
+                        aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${cat.name} category with ${cat.tools.length} tools`}
+                        aria-expanded={isExpanded}
+                      >
+                        <div
+                          className="h-3 w-3 shrink-0 rounded-full"
+                          style={{ backgroundColor: cat.color }}
+                        />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-base font-semibold">{cat.name}</span>
+                            <span className="rounded-md bg-[#F0B90B]/10 px-2 py-0.5 text-xs font-semibold text-[#F0B90B]">
+                              {cat.tools.length}
+                            </span>
+                            <span className="rounded-md bg-gray-100 dark:bg-white/[0.06] px-2 py-0.5 text-xs font-medium text-gray-400 dark:text-neutral-500">
+                              {cat.count} total
+                            </span>
+                            <span
+                              className="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                              style={{
+                                backgroundColor: `${srv?.color ?? '#6B7280'}15`,
+                                color: srv?.color ?? '#6B7280',
+                              }}
+                            >
+                              {cat.serverName}
+                            </span>
+                          </div>
+                          <p className="mt-0.5 text-sm text-gray-500 dark:text-neutral-400 truncate">
+                            {cat.description}
+                          </p>
+                        </div>
+                        <motion.div
+                          animate={{ rotate: isExpanded ? 0 : -90 }}
+                          transition={{ duration: 0.2 }}
+                          className="shrink-0 text-gray-400"
+                        >
+                          <ChevronDown className="h-5 w-5" />
+                        </motion.div>
+                      </button>
+
+                      {/* Tools list */}
+                      <AnimatePresence initial={false}>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: 'easeInOut' }}
+                            className="overflow-hidden"
+                          >
+                            <div className="border-t border-gray-100 dark:border-white/[0.05]">
+                              {cat.tools.map((tool, toolIdx) => {
+                                const copyNameKey = `name-${cat.server}-${tool.name}`;
+                                const copyExampleKey = `ex-${cat.server}-${tool.name}`;
+                                return (
+                                  <motion.div
+                                    key={`${tool.server}-${tool.name}`}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.15, delay: toolIdx * 0.02 }}
+                                    className={cn(
+                                      'group flex items-start justify-between gap-3 px-5 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-white/[0.02]',
+                                      toolIdx < cat.tools.length - 1 && 'border-b border-gray-100 dark:border-white/[0.04]'
+                                    )}
+                                  >
+                                    <div className="flex items-start gap-3 min-w-0 flex-1">
+                                      <ChevronRight
+                                        className="mt-0.5 h-4 w-4 shrink-0"
+                                        style={{ color: cat.color }}
+                                      />
+                                      <div className="min-w-0">
+                                        <code className="font-mono text-sm font-medium text-gray-900 dark:text-white">
+                                          {tool.name}
+                                        </code>
+                                        <p className="mt-0.5 text-xs text-gray-500 dark:text-neutral-400">
+                                          {tool.description}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                      <button
+                                        onClick={(e) => { e.stopPropagation(); copy(tool.name, copyNameKey); }}
+                                        className={cn(
+                                          'inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium transition-all duration-200',
+                                          copiedKey === copyNameKey
+                                            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                                            : 'bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-neutral-400 hover:bg-gray-200 dark:hover:bg-white/[0.1]'
+                                        )}
+                                        aria-label={`Copy tool name ${tool.name}`}
+                                      >
+                                        {copiedKey === copyNameKey ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                                        {copiedKey === copyNameKey ? 'Copied' : 'Name'}
+                                      </button>
+                                      <button
+                                        onClick={(e) => { e.stopPropagation(); copy(getToolExample(tool), copyExampleKey); }}
+                                        className={cn(
+                                          'inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium transition-all duration-200',
+                                          copiedKey === copyExampleKey
+                                            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                                            : 'bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-neutral-400 hover:bg-gray-200 dark:hover:bg-white/[0.1]'
+                                        )}
+                                        aria-label={`Copy example call for ${tool.name}`}
+                                      >
+                                        {copiedKey === copyExampleKey ? <Check className="h-3 w-3" /> : <Code2 className="h-3 w-3" />}
+                                        {copiedKey === copyExampleKey ? 'Copied' : 'Example'}
+                                      </button>
+                                    </div>
+                                  </motion.div>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Standalone Tools Section ──────────────────────────── */}
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="border-t border-gray-200 dark:border-white/[0.08] pt-12">
+          <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
-            <Star className="mr-2 inline-block h-6 w-6 text-[#F0B90B]" />
-            Popular Tools
-          </motion.h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {POPULAR_TOOLS.map((tool, i) => {
-              const srv = SERVERS.find(s => s.id === tool.server);
-              return (
-                <motion.div
-                  key={`${tool.server}-${tool.name}`}
-                  className="group rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 p-4 transition-all duration-200 hover:border-[#F0B90B]/40 hover:shadow-lg hover:shadow-[#F0B90B]/5"
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: i * 0.03 }}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <code className="font-mono text-sm font-semibold text-[#F0B90B]">
-                      {tool.name}
-                    </code>
-                    <span
-                      className="shrink-0 rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                      style={{
-                        backgroundColor: `${srv?.color ?? '#6B7280'}15`,
-                        color: srv?.color ?? '#6B7280',
-                      }}
-                    >
-                      {srv?.name ?? tool.server}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm text-gray-500 dark:text-neutral-400 line-clamp-2">
-                    {tool.description}
-                  </p>
-                  <div className="mt-2 text-xs text-gray-400 dark:text-neutral-500">
-                    {tool.category}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </section>
-      )}
+            <h2 className="text-2xl font-bold sm:text-3xl text-center mb-2">
+              <Shield className="mr-2 inline-block h-6 w-6 text-[#F0B90B]" />
+              Standalone Tools
+            </h2>
+            <p className="text-center text-gray-500 dark:text-neutral-400 mb-8 max-w-xl mx-auto">
+              Independent utilities for wallets, market data, DeFi, and Web3 standards — no MCP server required.
+            </p>
+          </motion.div>
 
-      {/* ── Section 3: Tool Grid per Category ─────────────────── */}
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="space-y-4">
-          {filteredCategories.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <Search className="mb-4 h-12 w-12 text-gray-300 dark:text-neutral-700" />
-              <p className="text-lg font-medium text-gray-500 dark:text-neutral-400">
-                No tools found
-              </p>
-              <p className="mt-2 text-sm text-gray-400 dark:text-neutral-500">
-                Try adjusting your search or filters
-              </p>
-              <button
-                onClick={clearFilters}
-                className="mt-4 rounded-xl bg-[#F0B90B] px-6 py-2 text-sm font-semibold text-black transition-colors hover:bg-[#F0B90B]/80"
-              >
-                Clear all filters
-              </button>
-            </div>
-          ) : (
-            filteredCategories.map(cat => {
-              const catKey = `${cat.server}::${cat.name}`;
-              const isExpanded = expandedCategories.has(catKey);
-              const srv = SERVERS.find(s => s.id === cat.server);
-
-              return (
-                <motion.div
-                  key={catKey}
-                  className="overflow-hidden rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900"
-                  layout
-                >
-                  {/* Category header */}
-                  <button
-                    onClick={() => toggleExpanded(catKey)}
-                    className="flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-gray-50 dark:hover:bg-white/[0.03]"
-                  >
-                    <div
-                      className="h-3 w-3 shrink-0 rounded-full"
-                      style={{ backgroundColor: cat.color }}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-base font-semibold">{cat.name}</span>
-                        <span className="rounded-md bg-gray-100 dark:bg-white/[0.06] px-2 py-0.5 text-xs font-medium text-gray-500 dark:text-neutral-400">
-                          {cat.tools.length} shown
-                        </span>
-                        <span className="rounded-md bg-gray-100 dark:bg-white/[0.06] px-2 py-0.5 text-xs font-medium text-gray-400 dark:text-neutral-500">
-                          {cat.count} total
-                        </span>
-                        <span
-                          className="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
-                          style={{
-                            backgroundColor: `${srv?.color ?? '#6B7280'}15`,
-                            color: srv?.color ?? '#6B7280',
-                          }}
-                        >
-                          {cat.serverName}
-                        </span>
-                      </div>
-                      <p className="mt-0.5 text-sm text-gray-500 dark:text-neutral-400 truncate">
-                        {cat.description}
-                      </p>
-                    </div>
-                    <motion.div
-                      animate={{ rotate: isExpanded ? 0 : -90 }}
-                      transition={{ duration: 0.2 }}
-                      className="shrink-0 text-gray-400"
-                    >
-                      <ChevronDown className="h-5 w-5" />
-                    </motion.div>
-                  </button>
-
-                  {/* Tools list */}
-                  <AnimatePresence initial={false}>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        className="overflow-hidden"
-                      >
-                        <div className="border-t border-gray-100 dark:border-white/[0.05] px-5 py-3">
-                          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                            {cat.tools.map(tool => (
-                              <div
-                                key={`${tool.server}-${tool.name}`}
-                                className="flex items-start gap-3 rounded-xl border border-gray-100 dark:border-white/[0.05] bg-gray-50 dark:bg-white/[0.02] p-3 transition-colors hover:border-[#F0B90B]/30 hover:bg-[#F0B90B]/[0.02]"
-                              >
-                                <ChevronRight
-                                  className="mt-0.5 h-4 w-4 shrink-0"
-                                  style={{ color: cat.color }}
-                                />
-                                <div className="min-w-0">
-                                  <code className="font-mono text-sm font-medium text-gray-900 dark:text-white">
-                                    {tool.name}
-                                  </code>
-                                  <p className="mt-0.5 text-xs text-gray-500 dark:text-neutral-400 line-clamp-2">
-                                    {tool.description}
-                                  </p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })
-          )}
+          <HoverEffect items={standaloneItems} className="max-w-5xl mx-auto" />
         </div>
       </section>
 
-      {/* ── Section 6: CTA ─────────────────────────────────────── */}
-      <section className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      {/* ── CTA Section with LampContainer ──────────────────────── */}
+      <LampContainer className="min-h-[auto] py-20">
         <motion.div
-          className="rounded-2xl border border-gray-200 dark:border-white/[0.08] bg-gradient-to-b from-gray-50 to-white dark:from-neutral-900 dark:to-black p-8 text-center sm:p-12"
+          className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-2xl font-bold sm:text-3xl">
-            Ready to build with these tools?
+          <h2 className="text-2xl font-bold sm:text-3xl text-gray-900 dark:text-white">
+            Add All Servers to Start Using These Tools
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-gray-500 dark:text-neutral-400">
-            Explore our MCP servers, discover 72+ AI agents, or dive into the source code on GitHub.
+            Copy the configuration to your claude_desktop_config.json and start using 900+ tools instantly.
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <button
+              onClick={() => copy(allServersConfig, 'cta-config')}
+              className={cn(
+                'inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-200',
+                copiedKey === 'cta-config'
+                  ? 'bg-green-500 text-white'
+                  : 'bg-[#F0B90B] text-black hover:bg-[#F0B90B]/80 hover:shadow-lg hover:shadow-[#F0B90B]/20'
+              )}
+              aria-label="Copy all servers configuration JSON"
+            >
+              {copiedKey === 'cta-config' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              {copiedKey === 'cta-config' ? 'Copied!' : 'Copy Config'}
+            </button>
             <Link
-              to="/mcp-servers"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#F0B90B] px-6 py-3 text-sm font-semibold text-black transition-all duration-200 hover:bg-[#F0B90B]/80 hover:shadow-lg hover:shadow-[#F0B90B]/20"
+              to="/mcp"
+              className="inline-flex items-center gap-2 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 px-6 py-3 text-sm font-semibold transition-all duration-200 hover:border-[#F0B90B]/40 hover:shadow-lg"
+              aria-label="Browse MCP servers"
             >
               <Server className="h-4 w-4" />
-              MCP Servers
+              Server Explorer
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              to="/agents"
+              to="/explore"
               className="inline-flex items-center gap-2 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 px-6 py-3 text-sm font-semibold transition-all duration-200 hover:border-[#F0B90B]/40 hover:shadow-lg"
+              aria-label="Browse AI agents"
             >
               <Layers className="h-4 w-4" />
-              Browse Agents
+              Agent Browser
             </Link>
-            <a
-              href="https://github.com/nirholas/bnb-chain-toolkit"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-gray-200 dark:border-white/[0.08] bg-white dark:bg-neutral-900 px-6 py-3 text-sm font-semibold transition-all duration-200 hover:border-[#F0B90B]/40 hover:shadow-lg"
-            >
-              <ExternalLink className="h-4 w-4" />
-              GitHub
-            </a>
           </div>
         </motion.div>
+      </LampContainer>
 
-        {/* Footer attribution */}
-        <div className="mt-12 text-center text-xs text-gray-400 dark:text-neutral-600">
-          BNB Chain AI Toolkit &mdash; 900+ tools &middot; 6 MCP servers &middot; 60+ chains
-        </div>
-      </section>
+      {/* Footer attribution */}
+      <div className="py-8 text-center text-xs text-gray-400 dark:text-neutral-600">
+        BNB Chain AI Toolkit &mdash; 900+ tools &middot; 6 MCP servers &middot; 60+ chains
+      </div>
     </main>
   );
 }

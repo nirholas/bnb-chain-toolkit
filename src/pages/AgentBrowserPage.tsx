@@ -3,7 +3,7 @@
  * BNB CHAIN AI TOOLKIT - Agent Browser
  * ═══════════════════════════════════════════════════════════════════════════
  * ✨ Author: nich | 🐦 x.com/nichxbt | 🐙 github.com/nirholas
- * 📦 github.com/nirholas/bnb-chain-toolkit
+ * 📦 github.com/nirholas/bnb-chain-toolkit | 🌐 https://bnbchaintoolkit.com
  * Copyright (c) 2024-2026 nirholas (nich) - MIT License
  * @preserve
  * ═══════════════════════════════════════════════════════════════════════════
@@ -35,15 +35,30 @@ import {
   Github,
   Sparkles,
   Users,
+  Server,
+  FolderOpen,
 } from 'lucide-react';
 import {
   Spotlight,
   TextGenerateEffect,
   BackgroundGradient,
   SparklesCore,
+  InfiniteMovingCards,
+  MovingBorder,
 } from '@/components/ui';
 import { useSEO } from '@/hooks/useSEO';
 import { cn } from '@/lib/utils';
+
+// ─── Hooks ──────────────────────────────────────────────────────────────────
+
+function useDebouncedValue<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
+}
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -415,76 +430,81 @@ function TagChip({
 
 function AgentCard({
   agent,
-  isExpanded,
-  onToggle,
+  idx,
 }: {
   agent: Agent;
-  isExpanded: boolean;
-  onToggle: () => void;
+  idx: number;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isExpanded && cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect();
-      if (rect.top < 0 || rect.bottom > window.innerHeight) {
-        cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    }
-  }, [isExpanded]);
-
   return (
     <motion.div
-      ref={cardRef}
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.25 }}
+      transition={{ duration: 0.25, delay: idx * 0.05 }}
       className={cn(
-        'group relative cursor-pointer overflow-hidden rounded-2xl border transition-all',
+        'group relative flex flex-col overflow-hidden rounded-2xl border transition-all',
         'border-gray-200 bg-white dark:border-white/[0.08] dark:bg-neutral-900',
         'hover:border-[#F0B90B]/40 hover:shadow-lg hover:shadow-[#F0B90B]/5',
-        isExpanded && 'border-[#F0B90B]/50 shadow-lg shadow-[#F0B90B]/10',
       )}
-      onClick={onToggle}
-      role="button"
-      tabIndex={0}
-      aria-expanded={isExpanded}
       aria-label={`${agent.meta.title} agent card`}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onToggle();
-        }
-      }}
     >
       {/* Card content */}
-      <div className="p-5">
+      <div className="flex flex-1 flex-col p-5">
+        {/* Header: Avatar + Title */}
         <div className="flex items-start gap-4">
-          {/* Avatar */}
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gray-50 text-3xl dark:bg-white/[0.05]">
+          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-gray-50 text-4xl dark:bg-white/[0.05]">
             {agent.meta.avatar}
           </div>
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <h3 className="truncate text-base font-semibold text-gray-900 dark:text-white">
-                {agent.meta.title}
-              </h3>
-              {isExpanded ? (
-                <ChevronUp className="h-4 w-4 flex-shrink-0 text-gray-400" />
-              ) : (
-                <ChevronDown className="h-4 w-4 flex-shrink-0 text-gray-400 opacity-0 transition-opacity group-hover:opacity-100" />
-              )}
-            </div>
+            <h3 className="truncate text-base font-bold text-gray-900 dark:text-white">
+              {agent.meta.title}
+            </h3>
             <p className="mt-1 line-clamp-2 text-sm text-gray-500 dark:text-neutral-400">
               {agent.meta.description}
             </p>
           </div>
         </div>
 
-        {/* Badges */}
-        <div className="mt-3 flex flex-wrap items-center gap-2">
+        {/* Opening message preview */}
+        <div className="mt-3 flex items-start gap-1.5">
+          <MessageSquare className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gray-400 dark:text-neutral-500" />
+          <p className="line-clamp-1 text-sm italic text-gray-400 dark:text-neutral-500">
+            &ldquo;{agent.config.openingMessage}&rdquo;
+          </p>
+        </div>
+
+        {/* Opening questions (first 2) */}
+        {agent.config.openingQuestions.length > 0 && (
+          <div className="mt-3">
+            <div className="mb-1 flex items-center gap-1 text-xs font-medium text-gray-400 dark:text-neutral-500">
+              <HelpCircle className="h-3 w-3" />
+              Opening Questions
+            </div>
+            <ul className="space-y-0.5">
+              {agent.config.openingQuestions.slice(0, 2).map((q, i) => (
+                <li
+                  key={i}
+                  className="truncate text-xs text-gray-500 before:mr-1.5 before:content-['•'] dark:text-neutral-400"
+                >
+                  {q}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* MCP Plugins */}
+        {agent.config.plugins.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {agent.config.plugins.map((p) => (
+              <PluginBadge key={p} name={p} />
+            ))}
+          </div>
+        )}
+
+        {/* Tags */}
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
           <CategoryBadge category={agent.meta.category} />
           {agent.meta.tags.slice(0, 3).map((tag) => (
             <span
@@ -496,107 +516,18 @@ function AgentCard({
           ))}
         </div>
 
-        {/* Plugin badges */}
-        {agent.config.plugins.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {agent.config.plugins.map((p) => (
-              <PluginBadge key={p} name={p} />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Expanded details */}
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+        {/* View Details link */}
+        <div className="mt-auto pt-4">
+          <Link
+            to={`/explore/agent/${agent.identifier}`}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[#F0B90B] transition-colors hover:text-[#d4a20a]"
+            aria-label={`View details for ${agent.meta.title}`}
           >
-            <div className="border-t border-gray-100 px-5 pb-5 pt-4 dark:border-white/[0.06]">
-              {/* Opening message */}
-              <div className="mb-4">
-                <div className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-neutral-500">
-                  <MessageSquare className="h-3.5 w-3.5" />
-                  Welcome Message
-                </div>
-                <p className="rounded-xl bg-gray-50 p-3 text-sm text-gray-700 dark:bg-white/[0.03] dark:text-neutral-300">
-                  {agent.config.openingMessage}
-                </p>
-              </div>
-
-              {/* Opening questions */}
-              <div className="mb-4">
-                <div className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-neutral-500">
-                  <HelpCircle className="h-3.5 w-3.5" />
-                  Suggested Questions
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {agent.config.openingQuestions.map((q, i) => (
-                    <span
-                      key={i}
-                      className="inline-block rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-neutral-400"
-                    >
-                      {q}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* All tags */}
-              <div className="mb-4">
-                <div className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-neutral-500">
-                  <Tag className="h-3.5 w-3.5" />
-                  All Tags
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {agent.meta.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-600 dark:bg-white/[0.05] dark:text-neutral-400"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* MCP Plugins */}
-              {agent.config.plugins.length > 0 && (
-                <div className="mb-4">
-                  <div className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-gray-400 dark:text-neutral-500">
-                    <Plug className="h-3.5 w-3.5" />
-                    MCP Plugins
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {agent.config.plugins.map((p) => (
-                      <Link
-                        key={p}
-                        to="/mcp-servers"
-                        className="inline-flex items-center gap-1 rounded-lg bg-[#F0B90B]/10 px-3 py-1.5 text-xs font-medium text-[#F0B90B] transition-colors hover:bg-[#F0B90B]/20"
-                      >
-                        <Plug className="h-3 w-3" />
-                        {p}
-                        <ExternalLink className="h-3 w-3" />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Author */}
-              <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-neutral-500">
-                <Users className="h-3.5 w-3.5" />
-                Author: <span className="font-medium text-gray-600 dark:text-neutral-300">{agent.author ?? 'nirholas'}</span>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            View Details
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </div>
     </motion.div>
   );
 }
@@ -642,17 +573,17 @@ function FeaturedAgentCard({
 
 export default function AgentBrowserPage() {
   useSEO({
-    title: 'AI Agents',
+    title: 'Agent Browser',
     description:
-      '72+ specialized AI agents for BNB Chain, DeFi, trading, and security. Each with curated system prompts, opening questions, and MCP server connections.',
+      '72+ AI agents for BNB Chain, DeFi, trading, security, and more. Browse, filter, and deploy agents with MCP server connections.',
     path: '/agents',
   });
 
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebouncedValue(search, 300);
   const [category, setCategory] = useState<Category>('all');
   const [collection, setCollection] = useState<Collection>('all');
   const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
-  const [expandedId, setExpandedId] = useState<string | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const toggleTag = useCallback((tag: string) => {
@@ -697,9 +628,9 @@ export default function AgentBrowserPage() {
       );
     }
 
-    // Search
-    if (search.trim()) {
-      const q = search.toLowerCase().trim();
+    // Search (debounced)
+    if (debouncedSearch.trim()) {
+      const q = debouncedSearch.toLowerCase().trim();
       agents = agents.filter(
         (a) =>
           a.meta.title.toLowerCase().includes(q) ||
@@ -710,11 +641,22 @@ export default function AgentBrowserPage() {
     }
 
     return agents;
-  }, [search, category, collection, activeTags]);
+  }, [debouncedSearch, category, collection, activeTags]);
 
   const featuredAgents = useMemo(
     () => ALL_AGENTS.filter((a) => FEATURED_IDS.includes(a.identifier)),
     [],
+  );
+
+  const marqueeItems = useMemo(
+    () =>
+      featuredAgents.map((a) => ({
+        quote: a.meta.description,
+        name: a.meta.title,
+        title: a.meta.category.charAt(0).toUpperCase() + a.meta.category.slice(1),
+        icon: <span className="text-2xl">{a.meta.avatar}</span>,
+      })),
+    [featuredAgents],
   );
 
   const hasFilters = search !== '' || category !== 'all' || collection !== 'all' || activeTags.size > 0;
@@ -743,26 +685,26 @@ export default function AgentBrowserPage() {
               <Bot className="h-8 w-8 text-[#F0B90B]" />
             </div>
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
-              <TextGenerateEffect words="AI Agents" className="inline text-4xl font-bold sm:text-5xl lg:text-6xl" />
+              <span className="text-[#F0B90B]">72+</span> AI Agents
             </h1>
-            <p className="mx-auto mt-6 max-w-3xl text-lg text-gray-500 dark:text-neutral-400">
-              72+ specialized agents for BNB Chain, DeFi, trading, and security.
-              Each with curated system prompts, opening questions, and MCP server connections.
-            </p>
+            <TextGenerateEffect
+              words="Browse, filter, and deploy specialized AI agents for BNB Chain, DeFi, trading, security, and more — each with curated system prompts,  opening questions, and MCP server connections."
+              className="mx-auto mt-6 max-w-3xl text-lg text-gray-500 dark:text-neutral-400"
+            />
           </motion.div>
 
           {/* Stats */}
           <motion.div
-            className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4"
+            className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             {[
               { label: 'Agents', value: '72+', icon: Bot },
-              { label: 'BNB Chain', value: `${bnbChainAgents.length}`, icon: Zap },
-              { label: 'DeFi', value: `${defiAgents.length}`, icon: Wallet },
               { label: 'Categories', value: `${Object.keys(CATEGORY_COUNTS).length}`, icon: Layers },
+              { label: 'MCP Servers', value: '6', icon: Server },
+              { label: 'Collections', value: '2', icon: FolderOpen },
             ].map((stat) => (
               <div
                 key={stat.label}
@@ -778,6 +720,22 @@ export default function AgentBrowserPage() {
               </div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ── Section 1b: Featured Agents Marquee ────────────────────────── */}
+      <section className="py-8">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 className="mb-4 text-center text-lg font-semibold text-gray-900 dark:text-white">
+            Featured Agents
+          </h2>
+          <InfiniteMovingCards
+            items={marqueeItems}
+            direction="left"
+            speed="slow"
+            pauseOnHover
+            className="mx-auto"
+          />
         </div>
       </section>
 
@@ -812,23 +770,34 @@ export default function AgentBrowserPage() {
               Collection:
             </span>
             {([
-              ['all', 'All Agents'],
-              ['bnb', 'BNB Chain'],
-              ['defi', 'DeFi'],
-            ] as const).map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setCollection(key)}
-                aria-pressed={collection === key}
-                className={cn(
-                  'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
-                  collection === key
-                    ? 'bg-[#F0B90B] text-black'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-white/[0.05] dark:text-neutral-400 dark:hover:bg-white/[0.1]',
-                )}
-              >
-                {label}
-              </button>
+              ['all', 'All Agents', ALL_AGENTS.length],
+              ['bnb', 'BNB Chain', bnbChainAgents.length],
+              ['defi', 'DeFi', defiAgents.length],
+            ] as const).map(([key, label, count]) => (
+              collection === key ? (
+                <MovingBorder
+                  key={key}
+                  duration={3}
+                  borderRadius="0.5rem"
+                  containerClassName="h-auto rounded-lg"
+                  className="rounded-lg bg-[#F0B90B] px-3 py-1.5 text-xs font-medium text-black"
+                  onClick={() => setCollection(key)}
+                  aria-pressed
+                  aria-label={`Collection: ${label}`}
+                >
+                  {label} ({count})
+                </MovingBorder>
+              ) : (
+                <button
+                  key={key}
+                  onClick={() => setCollection(key)}
+                  aria-pressed={false}
+                  aria-label={`Collection: ${label}`}
+                  className="rounded-lg bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 transition-all hover:bg-gray-200 dark:bg-white/[0.05] dark:text-neutral-400 dark:hover:bg-white/[0.1]"
+                >
+                  {label} ({count})
+                </button>
+              )
             ))}
           </div>
 
@@ -839,21 +808,25 @@ export default function AgentBrowserPage() {
             </span>
             {CATEGORIES.map((cat) => {
               const meta = CATEGORY_META[cat];
+              const count = cat === 'all' ? ALL_AGENTS.length : (CATEGORY_COUNTS[cat] ?? 0);
               return (
-                <button
+                <motion.button
                   key={cat}
                   onClick={() => setCategory(cat)}
                   aria-pressed={category === cat}
+                  aria-label={`Filter by ${meta.label}`}
                   className={cn(
                     'inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
                     category === cat
                       ? 'bg-[#F0B90B] text-black'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-white/[0.05] dark:text-neutral-400 dark:hover:bg-white/[0.1]',
                   )}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <meta.icon className="h-3.5 w-3.5" />
                   {meta.label}
-                </button>
+                  <span className="ml-0.5 opacity-60">({count})</span>
+                </motion.button>
               );
             })}
           </div>
@@ -918,16 +891,11 @@ export default function AgentBrowserPage() {
             layout
           >
             <AnimatePresence mode="popLayout">
-              {filteredAgents.map((agent) => (
+              {filteredAgents.map((agent, idx) => (
                 <AgentCard
                   key={agent.identifier}
                   agent={agent}
-                  isExpanded={expandedId === agent.identifier}
-                  onToggle={() =>
-                    setExpandedId((prev) =>
-                      prev === agent.identifier ? null : agent.identifier,
-                    )
-                  }
+                  idx={idx}
                 />
               ))}
             </AnimatePresence>
@@ -935,7 +903,7 @@ export default function AgentBrowserPage() {
         )}
       </section>
 
-      {/* ── Section 4: Featured Agents ─────────────────────────────────── */}
+      {/* ── Section 4: Featured Agents (cards with BackgroundGradient) ─── */}
       <section className="border-t border-gray-100 bg-gray-50/50 py-16 dark:border-white/[0.06] dark:bg-white/[0.02]">
         <div className="mx-auto max-w-6xl px-4">
           <div className="mb-8 text-center">
@@ -951,10 +919,7 @@ export default function AgentBrowserPage() {
               <FeaturedAgentCard
                 key={agent.identifier}
                 agent={agent}
-                onSelect={() => {
-                  setExpandedId(agent.identifier);
-                  scrollToGrid();
-                }}
+                onSelect={() => scrollToGrid()}
               />
             ))}
           </div>
@@ -1117,28 +1082,33 @@ export default function AgentBrowserPage() {
                 Connect to MCP servers for live data and deploy your agent in minutes.
               </p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <button
-                  onClick={() => {
-                    setExpandedId('bnb-agent-builder');
-                    scrollToGrid();
-                  }}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#F0B90B] px-6 py-3 text-sm font-semibold text-black transition-colors hover:bg-[#d4a20a]"
+                <MovingBorder
+                  as="a"
+                  duration={3}
+                  borderRadius="0.75rem"
+                  containerClassName="h-auto rounded-xl"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#F0B90B] px-6 py-3 text-sm font-semibold text-black"
+                  {...({ href: 'https://github.com/nirholas/bnb-chain-toolkit/blob/main/agent-template.json', target: '_blank', rel: 'noopener noreferrer' } as Record<string, string>)}
+                  aria-label="Build your own agent on GitHub"
                 >
                   <Wrench className="h-4 w-4" />
-                  Agent Builder
-                </button>
+                  Agent Template on GitHub
+                  <ExternalLink className="h-3 w-3" />
+                </MovingBorder>
                 <Link
-                  to="/mcp-servers"
+                  to="/mcp"
                   className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-neutral-300 dark:hover:bg-white/[0.06]"
+                  aria-label="Browse MCP Servers"
                 >
                   <Plug className="h-4 w-4" />
-                  MCP Servers
+                  Browse MCP Servers
                 </Link>
                 <a
                   href="https://github.com/nirholas/bnb-chain-toolkit"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:border-white/[0.08] dark:bg-white/[0.03] dark:text-neutral-300 dark:hover:bg-white/[0.06]"
+                  aria-label="View GitHub repository"
                 >
                   <Github className="h-4 w-4" />
                   GitHub

@@ -1,34 +1,29 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * BNB CHAIN AI TOOLKIT — Agent Detail Page
+ * BNB CHAIN AI TOOLKIT - Agent Detail Page
  * ═══════════════════════════════════════════════════════════════════════════
- *
- * Dynamic detail page for each of the 72+ AI agents.
- * Route: /explore/agent/:agentId
- *
- * Sections:
- *  1. Hero (Spotlight + TextGenerateEffect)
- *  2. Opening Message (TypewriterEffect)
- *  3. Capabilities (LampContainer + BentoGrid)
- *  4. MCP Tools Connected (BackgroundGradient cards)
- *  5. System Role Deep Dive (TracingBeam)
- *  6. Related Agents (InfiniteMovingCards)
- *  7. CTA (SparklesCore + MovingBorder)
- *
- * @author nich (@nichxbt)
+ * ✨ Author: nich | 🐦 x.com/nichxbt | 🐙 github.com/nirholas
+ * 📦 github.com/nirholas/bnb-chain-toolkit | 🌐 https://bnbchaintoolkit.com
+ * Copyright (c) 2024-2026 nirholas (nich) - MIT License
+ * @preserve
+ * ═══════════════════════════════════════════════════════════════════════════
  */
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Bot,
   Calendar,
+  Check,
+  Copy,
   ExternalLink,
+  HelpCircle,
   MessageSquare,
   Plug,
   Search,
+  Server,
   Shield,
   Sparkles,
   Star,
@@ -279,19 +274,22 @@ function HeroSection({ agent }: { agent: AgentData }) {
       <div className="relative z-10 container mx-auto px-4 pt-28 pb-16 text-center">
         {/* Back link */}
         <Link
-          to="/explore"
+          to="/agents"
+          aria-label="Browse all agents"
           className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-[#F0B90B] transition-colors mb-10"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Explore
+          ← Browse Agents
         </Link>
 
         {/* Avatar */}
         <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
+          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, type: "spring" }}
+          transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
           className="text-7xl md:text-8xl mb-6"
+          role="img"
+          aria-label={`${agent.title} avatar`}
         >
           {agent.avatar}
         </motion.div>
@@ -389,6 +387,15 @@ function HeroSection({ agent }: { agent: AgentData }) {
 // ── Section 2: Opening Message ─────────────────────────────────────────────
 
 function OpeningMessageSection({ agent }: { agent: AgentData }) {
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const copyQuestion = useCallback((text: string, index: number) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    });
+  }, []);
+
   if (!agent.openingMessage) return null;
 
   const words = agent.openingMessage.split(" ").map((word) => ({
@@ -397,7 +404,7 @@ function OpeningMessageSection({ agent }: { agent: AgentData }) {
 
   return (
     <section className="py-16 md:py-20">
-      <div className="container mx-auto px-4 max-w-3xl">
+      <div className="container mx-auto px-4 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -411,7 +418,7 @@ function OpeningMessageSection({ agent }: { agent: AgentData }) {
             </div>
             <div>
               <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
-                Opening Message
+                Opening Conversation
               </h3>
               <p className="text-xs text-neutral-400">
                 What the agent says when you start a conversation
@@ -426,20 +433,40 @@ function OpeningMessageSection({ agent }: { agent: AgentData }) {
             />
           </div>
 
-          {/* Opening Questions */}
+          {/* Opening Questions — Interactive Cards */}
           {agent.openingQuestions.length > 0 && (
             <div>
-              <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
+              <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-4">
                 Try asking
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {agent.openingQuestions.map((q, i) => (
-                  <span
+                  <motion.div
                     key={i}
-                    className="px-3 py-1.5 rounded-lg text-sm border border-neutral-200 dark:border-white/[0.08] text-neutral-600 dark:text-neutral-300 bg-white dark:bg-white/[0.03] hover:border-[#F0B90B]/40 hover:text-[#F0B90B] transition-colors cursor-default"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.3 }}
+                    className="group relative p-4 rounded-xl border border-neutral-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.03] hover:border-[#F0B90B]/40 transition-all duration-300"
                   >
-                    {q}
-                  </span>
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-4 h-4 text-[#F0B90B] mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed flex-1 pr-8">
+                        {q}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => copyQuestion(q, i)}
+                      aria-label={`Copy question: ${q}`}
+                      className="absolute top-3 right-3 p-1.5 rounded-lg text-neutral-400 hover:text-[#F0B90B] hover:bg-[#F0B90B]/10 transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      {copiedIndex === i ? (
+                        <Check className="w-3.5 h-3.5 text-emerald-500" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -467,6 +494,12 @@ function CapabilitiesSection({ agent }: { agent: AgentData }) {
             <p className="text-neutral-500 dark:text-neutral-400 text-base md:text-lg">
               What this agent can do for you
             </p>
+            {agent.capabilities.length > 0 && (
+              <span className="inline-flex items-center gap-1.5 mt-3 px-3 py-1 rounded-full text-xs font-semibold border border-[#F0B90B]/30 bg-[#F0B90B]/[0.08] text-[#F0B90B]">
+                <Zap className="w-3 h-3" />
+                {agent.capabilities.length} capabilities
+              </span>
+            )}
           </div>
 
           {/* Capabilities BentoGrid */}
@@ -535,8 +568,9 @@ function MCPToolsSection({ agent }: { agent: AgentData }) {
         </div>
 
         {agent.plugins.length > 0 ? (
+          <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {agent.plugins.map((pluginId) => {
+            {agent.plugins.map((pluginId, idx) => {
               const info = MCP_SERVER_INFO[pluginId];
               return (
                 <motion.div
@@ -544,40 +578,80 @@ function MCPToolsSection({ agent }: { agent: AgentData }) {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4 }}
+                  transition={{ delay: idx * 0.12, duration: 0.4 }}
                 >
-                  <Link to={`/mcp/${pluginId}`}>
+                  <Link
+                    to={`/mcp/${pluginId}`}
+                    aria-label={`View ${info?.name || pluginId} server details`}
+                  >
                     <BackgroundGradient className="rounded-2xl p-6 bg-white dark:bg-[#0a0a0a] hover:shadow-lg transition-shadow">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 rounded-xl bg-[#F0B90B]/10 border border-[#F0B90B]/20 flex items-center justify-center">
-                          <Plug className="w-5 h-5 text-[#F0B90B]" />
+                          <Server className="w-5 h-5 text-[#F0B90B]" />
                         </div>
                         <div>
                           <h3 className="text-sm font-bold text-neutral-900 dark:text-white group-hover:text-[#F0B90B] transition-colors">
                             {info?.name || pluginId}
                           </h3>
                           {info && (
-                            <span className="text-xs text-[#F0B90B] font-medium">
-                              {info.tools} tools
-                            </span>
+                            <div className="relative inline-flex items-center">
+                              <span className="text-xs text-[#F0B90B] font-medium relative z-10">
+                                {info.tools} tools
+                              </span>
+                              <div className="absolute -inset-x-2 -inset-y-1 w-20 h-6">
+                                <SparklesCore
+                                  id={`sparkles-mcp-${pluginId}`}
+                                  background="transparent"
+                                  minSize={0.2}
+                                  maxSize={0.6}
+                                  particleDensity={60}
+                                  particleColor="#F0B90B"
+                                  speed={0.3}
+                                  className="w-full h-full"
+                                />
+                              </div>
+                            </div>
                           )}
                         </div>
                       </div>
-                      <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed mb-3">
                         {info?.description || `MCP server: ${pluginId}`}
                       </p>
+                      <span className="text-xs text-[#F0B90B] font-medium inline-flex items-center gap-1">
+                        View Server →
+                      </span>
                     </BackgroundGradient>
                   </Link>
                 </motion.div>
               );
             })}
           </div>
+
+          {/* MCP Tools list */}
+          {agent.mcpTools.length > 0 && (
+            <div className="max-w-5xl mx-auto mt-8">
+              <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3 text-center">
+                Available Tools
+              </p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {agent.mcpTools.map((tool, i) => (
+                  <span
+                    key={i}
+                    className="px-2 py-1 rounded-md text-xs font-mono border border-neutral-200 dark:border-white/[0.06] text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-white/[0.02]"
+                  >
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
         ) : (
           <div className="text-center">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-neutral-200 dark:border-white/[0.08] bg-neutral-50 dark:bg-white/[0.02]">
               <Bot className="w-5 h-5 text-neutral-400" />
               <span className="text-sm text-neutral-500 dark:text-neutral-400 font-medium">
-                Standalone Agent — No MCP server required
+                No MCP connections — this agent works standalone
               </span>
             </div>
           </div>
@@ -590,6 +664,18 @@ function MCPToolsSection({ agent }: { agent: AgentData }) {
 // ── Section 5: System Role Deep Dive ───────────────────────────────────────
 
 function SystemRoleSection({ agent }: { agent: AgentData }) {
+  const [copied, setCopied] = useState(false);
+
+  const copySystemRole = useCallback(() => {
+    const fullText = agent.systemRoleSections
+      .map((s) => `## ${s.heading}\n\n${s.content}`)
+      .join("\n\n");
+    navigator.clipboard.writeText(fullText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [agent.systemRoleSections]);
+
   // Only show for agents with substantial system roles
   const totalLength = agent.systemRoleSections.reduce(
     (acc, s) => acc + s.content.length,
@@ -602,11 +688,28 @@ function SystemRoleSection({ agent }: { agent: AgentData }) {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white mb-4">
-            Agent Blueprint
+            System Role
           </h2>
-          <p className="text-neutral-500 dark:text-neutral-400">
+          <p className="text-neutral-500 dark:text-neutral-400 mb-4">
             How this agent thinks and operates
           </p>
+          <button
+            onClick={copySystemRole}
+            aria-label="Copy full system role text"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-200 dark:border-white/[0.12] text-sm text-neutral-600 dark:text-neutral-300 hover:border-[#F0B90B]/50 hover:text-[#F0B90B] transition-all"
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-emerald-500" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4" />
+                Copy System Role
+              </>
+            )}
+          </button>
         </div>
 
         <div className="max-w-3xl mx-auto">
@@ -728,6 +831,18 @@ function CTASection({
   agent: AgentData;
   githubUrl: string;
 }) {
+  const [copied, setCopied] = useState(false);
+
+  const copySystemPrompt = useCallback(() => {
+    const fullText = agent.systemRoleSections
+      .map((s) => `## ${s.heading}\n\n${s.content}`)
+      .join("\n\n");
+    navigator.clipboard.writeText(fullText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [agent.systemRoleSections]);
+
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Sparkles background */}
@@ -761,23 +876,60 @@ function CTASection({
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+            {/* Copy System Prompt */}
+            <button
+              onClick={copySystemPrompt}
+              aria-label="Copy system prompt to clipboard"
+            >
               <MovingBorder
                 borderRadius="0.75rem"
                 className="px-8 py-3.5 bg-[#F0B90B] text-black font-semibold text-sm inline-flex items-center gap-2"
               >
-                <GitBranch className="w-4 h-4" />
-                View on GitHub
-                <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4" />
+                    Copy System Prompt
+                  </>
+                )}
               </MovingBorder>
+            </button>
+
+            {/* View on GitHub */}
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View ${agent.title} on GitHub`}
+              className="inline-flex items-center gap-2 px-8 py-3.5 border border-neutral-300 dark:border-white/[0.12] text-neutral-700 dark:text-neutral-300 rounded-xl hover:border-[#F0B90B]/50 hover:text-[#F0B90B] transition-all font-semibold text-sm hover:scale-[1.02]"
+            >
+              <GitBranch className="w-4 h-4" />
+              View on GitHub
+              <ExternalLink className="w-3.5 h-3.5 opacity-60" />
             </a>
 
+            {/* Browse All Agents */}
             <Link
-              to="/explore"
-              className="inline-flex items-center gap-2 px-8 py-3.5 border border-neutral-300 dark:border-white/[0.12] text-neutral-700 dark:text-neutral-300 rounded-xl hover:border-[#F0B90B]/50 hover:text-[#F0B90B] transition-all font-semibold text-sm"
+              to="/agents"
+              aria-label="Browse all agents"
+              className="inline-flex items-center gap-2 px-8 py-3.5 border border-neutral-300 dark:border-white/[0.12] text-neutral-700 dark:text-neutral-300 rounded-xl hover:border-[#F0B90B]/50 hover:text-[#F0B90B] transition-all font-semibold text-sm hover:scale-[1.02]"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Explore
+              <Bot className="w-4 h-4" />
+              Browse All Agents
+            </Link>
+
+            {/* Browse MCP Servers */}
+            <Link
+              to="/mcp"
+              aria-label="Browse MCP servers"
+              className="inline-flex items-center gap-2 px-8 py-3.5 border border-neutral-300 dark:border-white/[0.12] text-neutral-700 dark:text-neutral-300 rounded-xl hover:border-[#F0B90B]/50 hover:text-[#F0B90B] transition-all font-semibold text-sm hover:scale-[1.02]"
+            >
+              <Plug className="w-4 h-4" />
+              Browse MCP Servers
             </Link>
           </div>
         </motion.div>
