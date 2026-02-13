@@ -151,7 +151,7 @@ export default function SplitView({
         >
           <div
             className={`
-              absolute bg-gray-300 dark:bg-gray-600 rounded-full
+              absolute bg-gray-300 dark:bg-zinc-800 rounded-full
               flex items-center justify-center
               opacity-0 group-hover:opacity-100 transition-opacity
               ${isHorizontal

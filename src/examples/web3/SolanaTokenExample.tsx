@@ -55,7 +55,7 @@ export default function SolanaTokenExample() {
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
               placeholder="Enter Solana address"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -66,7 +66,7 @@ export default function SolanaTokenExample() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -86,7 +86,7 @@ export default function SolanaTokenExample() {
         
         <div className="space-y-3">
           {splTokens.map((token, idx) => (
-            <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
               <div>
                 <p className="font-bold">{token.symbol}</p>
                 <p className="text-xs text-gray-500 font-mono">{token.mint}</p>

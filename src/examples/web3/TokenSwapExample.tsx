@@ -128,7 +128,7 @@ export default function TokenSwapExample() {
               type="number"
               value={slippage}
               onChange={(e) => setSlippage(e.target.value)}
-              className="w-16 px-2 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-16 px-2 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
               step="0.1"
               min="0.1"
               max="5"
@@ -139,7 +139,7 @@ export default function TokenSwapExample() {
 
         {/* From Token */}
         <div className="space-y-4">
-          <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+          <div className="p-4 bg-gray-50 dark:bg-black rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-gray-600 dark:text-gray-400">From</span>
               <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -163,7 +163,7 @@ export default function TokenSwapExample() {
                     setToAmount(calculateOutput(fromAmount, e.target.value, toToken));
                   }
                 }}
-                className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold"
+                className="px-4 py-2 bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-600 rounded-lg font-semibold"
               >
                 {tokens.map(token => (
                   <option key={token} value={token}>{token}</option>
@@ -176,14 +176,14 @@ export default function TokenSwapExample() {
           <div className="flex justify-center">
             <button
               onClick={handleSwapTokens}
-              className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="p-2 bg-gray-100 dark:bg-[#0a0a0a] rounded-lg hover:bg-gray-200 dark:hover:bg-zinc-900 transition-colors"
             >
               <ArrowDownUp className="w-5 h-5" />
             </button>
           </div>
 
           {/* To Token */}
-          <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+          <div className="p-4 bg-gray-50 dark:bg-black rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm text-gray-600 dark:text-gray-400">To</span>
               <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -206,7 +206,7 @@ export default function TokenSwapExample() {
                     setToAmount(calculateOutput(fromAmount, fromToken, e.target.value));
                   }
                 }}
-                className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold"
+                className="px-4 py-2 bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-600 rounded-lg font-semibold"
               >
                 {tokens.map(token => (
                   <option key={token} value={token}>{token}</option>

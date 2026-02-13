@@ -392,7 +392,7 @@ export default function InteractiveSandbox() {
             <span className="px-1.5 py-0.5 bg-white/20 dark:bg-black/20 rounded-full text-xs font-bold">60+</span>
           </button>
           
-          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
+          <div className="h-6 w-px bg-gray-300 dark:bg-zinc-800" />
           
           <select
             value={solcVersion}
@@ -478,7 +478,7 @@ export default function InteractiveSandbox() {
             <Zap className="w-4 h-4" />
           </button>
 
-          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
+          <div className="h-6 w-px bg-gray-300 dark:bg-zinc-800" />
 
           <button
             onClick={handleShare}

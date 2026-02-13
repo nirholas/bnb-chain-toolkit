@@ -154,7 +154,7 @@ export default function TokenVestingExample() {
               value={newSchedule.beneficiary}
               onChange={(e) => setNewSchedule({ ...newSchedule, beneficiary: e.target.value })}
               placeholder="0x..."
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -165,7 +165,7 @@ export default function TokenVestingExample() {
               value={newSchedule.amount}
               onChange={(e) => setNewSchedule({ ...newSchedule, amount: e.target.value })}
               placeholder="0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -175,7 +175,7 @@ export default function TokenVestingExample() {
               type="number"
               value={newSchedule.duration}
               onChange={(e) => setNewSchedule({ ...newSchedule, duration: e.target.value })}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -185,7 +185,7 @@ export default function TokenVestingExample() {
               type="number"
               value={newSchedule.cliff}
               onChange={(e) => setNewSchedule({ ...newSchedule, cliff: e.target.value })}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
         </div>
@@ -249,7 +249,7 @@ export default function TokenVestingExample() {
                   <span>Vesting Progress</span>
                   <span className="font-semibold">{vestedPercentage.toFixed(1)}%</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                <div className="w-full bg-gray-200 dark:bg-zinc-900 rounded-full h-3">
                   <div
                     className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all"
                     style={{ width: `${Math.min(vestedPercentage, 100)}%` }}
@@ -259,15 +259,15 @@ export default function TokenVestingExample() {
 
               {/* Token Breakdown */}
               <div className="grid grid-cols-3 gap-4 mb-4">
-                <div className="text-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <div className="text-center p-3 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
                   <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Vested</p>
                   <p className="font-bold text-blue-600">{Math.floor(vested).toLocaleString()}</p>
                 </div>
-                <div className="text-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <div className="text-center p-3 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
                   <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Released</p>
                   <p className="font-bold text-green-600">{schedule.released.toLocaleString()}</p>
                 </div>
-                <div className="text-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <div className="text-center p-3 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
                   <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Releasable</p>
                   <p className="font-bold text-purple-600">{Math.floor(releasable).toLocaleString()}</p>
                 </div>

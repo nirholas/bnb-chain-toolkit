@@ -172,7 +172,7 @@ const statusConfig = {
     color: "text-gray-500 dark:text-gray-400",
     bg: "bg-gray-100 dark:bg-white/5",
     border: "border-gray-200 dark:border-white/10",
-    dot: "bg-gray-400 dark:bg-gray-600",
+    dot: "bg-gray-400 dark:bg-zinc-800",
   },
 };
 

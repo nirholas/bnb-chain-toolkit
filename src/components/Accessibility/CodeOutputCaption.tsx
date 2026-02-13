@@ -70,7 +70,7 @@ const typeConfig = {
   },
   output: {
     icon: Terminal,
-    bgColor: 'bg-black dark:bg-gray-950',
+    bgColor: 'bg-black dark:bg-black',
     borderColor: 'border-gray-700 dark:border-gray-600',
     textColor: 'text-gray-100',
     iconColor: 'text-gray-400',

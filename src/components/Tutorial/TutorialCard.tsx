@@ -373,7 +373,7 @@ export default function TutorialCard({
               </div>
             ) : status === 'in-progress' ? (
               <div className="flex items-center gap-3 flex-1">
-                <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-600 rounded-full">
+                <div className="flex-1 h-2 bg-gray-200 dark:bg-zinc-800 rounded-full">
                   <div
                     className="h-full bg-primary-500 rounded-full transition-all"
                     style={{ width: `${completionPercent}%` }}

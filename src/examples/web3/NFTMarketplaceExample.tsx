@@ -150,7 +150,7 @@ export default function NFTMarketplaceExample() {
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             filter === 'all'
               ? 'bg-primary-600 text-white'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              : 'bg-gray-200 dark:bg-zinc-900 text-gray-700 dark:text-gray-300'
           }`}
         >
           All NFTs
@@ -160,7 +160,7 @@ export default function NFTMarketplaceExample() {
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             filter === 'for-sale'
               ? 'bg-primary-600 text-white'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              : 'bg-gray-200 dark:bg-zinc-900 text-gray-700 dark:text-gray-300'
           }`}
         >
           For Sale
@@ -170,7 +170,7 @@ export default function NFTMarketplaceExample() {
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
             filter === 'my-nfts'
               ? 'bg-primary-600 text-white'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              : 'bg-gray-200 dark:bg-zinc-900 text-gray-700 dark:text-gray-300'
           }`}
         >
           My NFTs
@@ -220,7 +220,7 @@ export default function NFTMarketplaceExample() {
           onClick={() => setSelectedNFT(null)}
         >
           <div
-            className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-[#0a0a0a] rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             onClick={e => e.stopPropagation()}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -232,7 +232,7 @@ export default function NFTMarketplaceExample() {
                 <div className="space-y-2">
                   <h3 className="font-bold text-sm">Attributes</h3>
                   {selectedNFT.attributes.map((attr, idx) => (
-                    <div key={idx} className="flex justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700 rounded">
+                    <div key={idx} className="flex justify-between text-sm p-2 bg-gray-50 dark:bg-zinc-900 rounded">
                       <span className="text-gray-600 dark:text-gray-400">{attr.trait_type}</span>
                       <span className="font-semibold">{attr.value}</span>
                     </div>
@@ -306,7 +306,7 @@ export default function NFTMarketplaceExample() {
 
                   <button
                     onClick={() => window.open(`https://etherscan.io/token/0x.../${selectedNFT.id}`, '_blank')}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-900 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
                     View on Etherscan

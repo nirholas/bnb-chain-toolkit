@@ -321,7 +321,7 @@ function LearningPathCard({
         </span>
       </div>
       <div className="flex items-center gap-2 mb-2">
-        <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-600 rounded-full">
+        <div className="flex-1 h-1.5 bg-gray-200 dark:bg-zinc-800 rounded-full">
           <div
             className="h-full bg-primary-500 rounded-full transition-all"
             style={{ width: `${progress}%` }}

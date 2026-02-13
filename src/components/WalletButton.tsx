@@ -315,7 +315,7 @@ export default function WalletButton() {
                 </button>
                 <button
                   onClick={() => switchChain(BSC_TESTNET.chainIdHex)}
-                  className="flex-1 text-xs px-2 py-1.5 bg-gray-200 dark:bg-gray-600 rounded font-medium"
+                  className="flex-1 text-xs px-2 py-1.5 bg-gray-200 dark:bg-zinc-800 rounded font-medium"
                 >
                   BSC Testnet
                 </button>

@@ -725,7 +725,7 @@ function ToggleSetting({ label, description, checked, onChange, disabled }: {
         disabled={disabled}
         onClick={() => onChange(!checked)}
         className={`relative w-12 h-7 rounded-full transition-colors ${
-          checked ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
+          checked ? 'bg-primary-600' : 'bg-gray-300 dark:bg-zinc-800'
         } ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       >
         <span

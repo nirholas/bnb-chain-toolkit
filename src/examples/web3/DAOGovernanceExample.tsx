@@ -167,7 +167,7 @@ export default function DAOGovernanceExample() {
               value={newProposal.title}
               onChange={(e) => setNewProposal({ ...newProposal, title: e.target.value })}
               placeholder="Enter proposal title"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -178,7 +178,7 @@ export default function DAOGovernanceExample() {
               onChange={(e) => setNewProposal({ ...newProposal, description: e.target.value })}
               placeholder="Describe your proposal in detail"
               rows={4}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -239,7 +239,7 @@ export default function DAOGovernanceExample() {
                     {totalVotes.toLocaleString()} / {proposal.quorum.toLocaleString()} votes
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-3">
+                <div className="w-full bg-gray-200 dark:bg-zinc-900 rounded-full h-2 mb-3">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all"
                     style={{ width: `${Math.min(progress, 100)}%` }}

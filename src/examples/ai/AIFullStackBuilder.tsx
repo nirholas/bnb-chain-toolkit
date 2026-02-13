@@ -1314,7 +1314,7 @@ export default function AIFullStackBuilder() {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Example: Build an NFT minting dApp with a gallery to display my collection, mint button, and wallet connection..."
-          className="w-full h-32 p-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 resize-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-base"
+          className="w-full h-32 p-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a] resize-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-base"
         />
 
         <button
@@ -1347,7 +1347,7 @@ export default function AIFullStackBuilder() {
             <button
               key={index}
               onClick={() => setPrompt(example.text)}
-              className="text-left p-4 bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors border border-gray-200 dark:border-gray-700"
+              className="text-left p-4 bg-gray-50 dark:bg-black hover:bg-gray-100 dark:hover:bg-[#0a0a0a] rounded-xl transition-colors border border-gray-200 dark:border-gray-700"
             >
               <span className="text-2xl mr-3">{example.icon}</span>
               <span className="text-sm">{example.text}</span>
@@ -1364,7 +1364,7 @@ export default function AIFullStackBuilder() {
         </h3>
         <div className="grid md:grid-cols-4 gap-4">
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <div className="p-2 bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm">
               <FileCode className="w-5 h-5 text-orange-500" />
             </div>
             <div>
@@ -1373,7 +1373,7 @@ export default function AIFullStackBuilder() {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <div className="p-2 bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm">
               <Layout className="w-5 h-5 text-blue-500" />
             </div>
             <div>
@@ -1382,7 +1382,7 @@ export default function AIFullStackBuilder() {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <div className="p-2 bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm">
               <Palette className="w-5 h-5 text-pink-500" />
             </div>
             <div>
@@ -1391,7 +1391,7 @@ export default function AIFullStackBuilder() {
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="p-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+            <div className="p-2 bg-white dark:bg-[#0a0a0a] rounded-lg shadow-sm">
               <Code className="w-5 h-5 text-yellow-500" />
             </div>
             <div>

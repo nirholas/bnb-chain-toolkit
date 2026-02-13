@@ -821,10 +821,10 @@ export default function WalletConnectInteractive() {
   ];
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
       <NotificationArea />
       {/* Header */}
-      <header className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <header className="flex-none bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -835,12 +835,12 @@ export default function WalletConnectInteractive() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+            <div className="flex bg-gray-100 dark:bg-zinc-900 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('tutorial')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   viewMode === 'tutorial'
-                    ? 'bg-white dark:bg-gray-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                    ? 'bg-white dark:bg-zinc-800 text-primary-600 dark:text-primary-400 shadow-sm'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
@@ -851,7 +851,7 @@ export default function WalletConnectInteractive() {
                 onClick={() => setViewMode('challenge')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   viewMode === 'challenge'
-                    ? 'bg-white dark:bg-gray-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                    ? 'bg-white dark:bg-zinc-800 text-primary-600 dark:text-primary-400 shadow-sm'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
               >
@@ -864,7 +864,7 @@ export default function WalletConnectInteractive() {
       </header>
 
       {/* Language Implementation Tabs */}
-      <div className="flex-none bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-2 overflow-x-auto">
+      <div className="flex-none bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-6 py-2 overflow-x-auto">
         <div className="flex gap-2">
           {implementations.map(impl => (
             <button
@@ -873,7 +873,7 @@ export default function WalletConnectInteractive() {
               className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
                 activeImpl.id === impl.id
                   ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 ring-2 ring-primary-500'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  : 'bg-gray-100 dark:bg-zinc-900 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-800'
               }`}
             >
               {impl.label}
@@ -891,7 +891,7 @@ export default function WalletConnectInteractive() {
           left={
             <div className="h-full flex flex-col">
               {/* Code Tabs */}
-              <div className="flex-none flex items-center justify-between bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-2">
+              <div className="flex-none flex items-center justify-between bg-gray-50 dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-gray-700 px-2">
                 <div className="flex">
                   {tabs.map(tab => (
                     <button
@@ -962,7 +962,7 @@ export default function WalletConnectInteractive() {
 
         {/* Tutorial Sidebar */}
         {viewMode === 'tutorial' && (
-          <div className="w-80 flex-none bg-white dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 overflow-auto">
+          <div className="w-80 flex-none bg-white dark:bg-[#0a0a0a] border-l border-gray-200 dark:border-gray-700 overflow-auto">
             <InteractiveTutorial
               steps={tutorialSteps}
               currentCode={activeTab?.code || ''}

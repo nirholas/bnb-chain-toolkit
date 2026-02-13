@@ -51,20 +51,23 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-black text-gray-400 border-t border-white/5 pt-16 pb-24 md:pb-8 mt-16"
+      className="bg-black text-gray-400 border-t border-white/[0.04] pt-16 pb-24 md:pb-8 mt-16"
       role="contentinfo"
     >
+      {/* Golden gradient divider */}
+      <div className="section-divider -mt-16 mb-16" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Grid ──────────────────────────────────────────── */}
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:gap-12">
           {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="inline-block mb-4">
-              <span className="font-semibold text-white text-base tracking-tight">
+              <span className="font-bold text-white text-[15px] tracking-tight">
                 BNB Chain AI Toolkit
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-gray-500 max-w-xs">
+            <p className="text-sm leading-relaxed text-gray-500 max-w-xs font-light">
               72+ AI agents, 6 MCP servers, and 900+ tools for BNB Chain and
               60+ networks. Open source and community-driven.
             </p>
@@ -157,7 +160,7 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom bar ────────────────────────────────────── */}
-        <div className="border-t border-white/5 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
+        <div className="border-t border-white/[0.04] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-600">
           <span>
             © {new Date().getFullYear()} BNB Chain AI Toolkit · Built by{' '}
             <a href="https://x.com/nichxbt" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">nich</a>

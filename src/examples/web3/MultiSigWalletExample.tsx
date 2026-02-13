@@ -164,7 +164,7 @@ export default function MultiSigWalletExample() {
               value={newTx.to}
               onChange={(e) => setNewTx({ ...newTx, to: e.target.value })}
               placeholder="0x..."
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -175,7 +175,7 @@ export default function MultiSigWalletExample() {
               value={newTx.value}
               onChange={(e) => setNewTx({ ...newTx, value: e.target.value })}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -186,7 +186,7 @@ export default function MultiSigWalletExample() {
               value={newTx.description}
               onChange={(e) => setNewTx({ ...newTx, description: e.target.value })}
               placeholder="Payment purpose"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -233,7 +233,7 @@ export default function MultiSigWalletExample() {
                   </div>
 
                   {/* Approval Status */}
-                  <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="mb-4 p-3 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">Approvals</span>
                       <span className="text-sm font-bold">
@@ -302,7 +302,7 @@ export default function MultiSigWalletExample() {
           <h2 className="text-xl font-bold mb-4">Transaction History</h2>
           <div className="space-y-2">
             {executedTransactions.map(tx => (
-              <div key={tx.id} className="card bg-gray-50 dark:bg-gray-800/50">
+              <div key={tx.id} className="card bg-gray-50 dark:bg-[#0a0a0a]/50">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <p className="font-medium text-sm">{tx.description}</p>

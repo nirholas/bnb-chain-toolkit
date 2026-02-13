@@ -384,7 +384,7 @@ contract SimpleWallet {
               <ArrowLeft className="w-5 h-5" />
               <span>Back</span>
             </Link>
-            <div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
+            <div className="h-6 w-px bg-gray-300 dark:bg-zinc-800" />
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">
               Interactive Learning Playground
             </h1>
@@ -425,7 +425,7 @@ contract SimpleWallet {
               Freeform
             </button>
 
-            <div className="h-6 w-px bg-gray-300 dark:bg-gray-600 mx-2" />
+            <div className="h-6 w-px bg-gray-300 dark:bg-zinc-800 mx-2" />
 
             <button
               onClick={() => setShowTemplateSelector(true)}

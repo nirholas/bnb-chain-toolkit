@@ -153,7 +153,7 @@ export default function ConsolePanel({ logs, onClear }: ConsolePanelProps) {
               }`}
             >
               {option.label}
-              <span className="px-1 bg-gray-200 dark:bg-gray-600 rounded">
+              <span className="px-1 bg-gray-200 dark:bg-zinc-800 rounded">
                 {option.count}
               </span>
             </button>

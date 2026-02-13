@@ -104,7 +104,7 @@ export default function CrossChainBridgeExample() {
               <select
                 value={selectedToken}
                 onChange={(e) => setSelectedToken(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
               >
                 <option value="">Choose a token</option>
                 {selectedBridge.supportedTokens.map(token => (
@@ -120,11 +120,11 @@ export default function CrossChainBridgeExample() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.0"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
               />
             </div>
 
-            <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+            <div className="p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
               <div className="flex justify-between text-sm mb-2">
                 <span>Bridge Fee:</span>
                 <span className="font-semibold">{selectedBridge.fee} ETH</span>
@@ -153,7 +153,7 @@ export default function CrossChainBridgeExample() {
           <h2 className="text-xl font-bold mb-4">Recent Transfers</h2>
           <div className="space-y-3">
             {transfers.map(transfer => (
-              <div key={transfer.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+              <div key={transfer.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
                 <div className="flex-1">
                   <p className="font-semibold">{transfer.amount} {transfer.token}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">{transfer.bridge}</p>

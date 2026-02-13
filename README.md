@@ -25,6 +25,7 @@
 <a href="https://github.com/nirholas/bnb-chain-toolkit/network/members"><img src="https://img.shields.io/github/forks/nirholas/bnb-chain-toolkit?style=for-the-badge&logo=github&color=purple&labelColor=000" alt="Forks" /></a>
 <a href="https://github.com/nirholas/bnb-chain-toolkit/issues"><img src="https://img.shields.io/github/issues/nirholas/bnb-chain-toolkit?style=for-the-badge&labelColor=000" alt="Issues" /></a>
 <a href="https://github.com/nirholas/bnb-chain-toolkit"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge&labelColor=000" alt="PRs Welcome" /></a>
+<a href="https://bnb-chain-toolkit.vercel.app/"><img src="https://img.shields.io/badge/demo-live-00C853?style=for-the-badge&logo=vercel&labelColor=000" alt="Live Demo" /></a>
 
 <br>
 
@@ -36,6 +37,7 @@
 
 <br><br>
 
+<a href="https://bnb-chain-toolkit.vercel.app/"><b>Live Demo</b></a> · 
 <a href="#-quick-start">Quick Start</a> · 
 <a href="docs/what-is-this.md">What Is This?</a> · 
 <a href="#-components">Components</a> · 
@@ -347,6 +349,8 @@ bun run build
 ## 🏆 Hackathon
 
 Built for the **BNB Chain "Good Vibes Only: OpenClaw Edition"** hackathon — Track 1: Agent.
+
+> **[Live Demo →](https://bnb-chain-toolkit.vercel.app/)**
 
 ### What Makes This Unique
 

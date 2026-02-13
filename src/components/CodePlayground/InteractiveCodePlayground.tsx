@@ -346,7 +346,7 @@ export default function InteractiveCodePlayground({
             >
               <RefreshCw className="w-4 h-4" />
             </button>
-            <div className="h-4 w-px bg-gray-300 dark:bg-gray-600" />
+            <div className="h-4 w-px bg-gray-300 dark:bg-zinc-800" />
             <button
               onClick={() => setLayout(layout === 'split' ? 'editor' : layout === 'editor' ? 'preview' : 'split')}
               className="p-1.5 hover:bg-gray-200 dark:hover:bg-zinc-900 rounded"

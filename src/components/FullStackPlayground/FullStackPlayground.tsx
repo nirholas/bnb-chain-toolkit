@@ -258,7 +258,7 @@ export default function FullStackPlayground({
               >
                 <RefreshCw className="w-4 h-4" />
               </button>
-              <div className="h-4 w-px bg-gray-300 dark:bg-gray-600 mx-1" />
+              <div className="h-4 w-px bg-gray-300 dark:bg-zinc-800 mx-1" />
               <button
                 onClick={() => setLayout('editor')}
                 className={`p-1.5 rounded ${layout === 'editor' ? 'bg-[#F0B90B]/10 text-[#F0B90B]' : 'hover:bg-gray-200 dark:hover:bg-white/5'}`}

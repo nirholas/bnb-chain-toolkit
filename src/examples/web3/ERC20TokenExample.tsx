@@ -108,7 +108,7 @@ export default function ERC20TokenExample() {
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
               placeholder="0x..."
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -119,7 +119,7 @@ export default function ERC20TokenExample() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
             <p className="text-xs text-gray-500 mt-1">
               Available: {tokenInfo.yourBalance} {tokenInfo.symbol}
@@ -138,7 +138,7 @@ export default function ERC20TokenExample() {
           <h2 className="text-xl font-bold mb-4">Recent Transactions</h2>
           <div className="space-y-2">
             {transactions.map((tx, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+              <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-zinc-900/50 rounded-lg">
                 <div className="flex-1">
                   <p className="text-sm font-medium">
                     {tx.from} → {tx.to}

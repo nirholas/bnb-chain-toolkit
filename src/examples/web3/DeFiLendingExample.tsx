@@ -127,7 +127,7 @@ export default function DeFiLendingExample() {
             <select
               value={selectedAsset}
               onChange={(e) => setSelectedAsset(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             >
               {assets.map(asset => (
                 <option key={asset.symbol} value={asset.symbol}>
@@ -144,7 +144,7 @@ export default function DeFiLendingExample() {
               value={depositAmount}
               onChange={(e) => setDepositAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
           </div>
 
@@ -180,7 +180,7 @@ export default function DeFiLendingExample() {
             <select
               value={selectedAsset}
               onChange={(e) => setSelectedAsset(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             >
               {assets.map(asset => (
                 <option key={asset.symbol} value={asset.symbol}>
@@ -197,7 +197,7 @@ export default function DeFiLendingExample() {
               value={borrowAmount}
               onChange={(e) => setBorrowAmount(e.target.value)}
               placeholder="0.0"
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+              className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0a0a0a]"
             />
             <p className="text-xs text-gray-500 mt-1">
               Available to borrow: ${(collateralValue * 0.75 - borrowValue).toFixed(2)}

@@ -211,7 +211,7 @@ export default function LivePreview({
       </div>
 
       {/* Preview Area */}
-      <div className="flex-1 bg-gray-100 dark:bg-gray-950 flex items-center justify-center overflow-auto">
+      <div className="flex-1 bg-gray-100 dark:bg-black flex items-center justify-center overflow-auto">
         {error ? (
           <div className="flex items-center gap-3 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200">
             <AlertCircle className="w-5 h-5 flex-shrink-0" />
