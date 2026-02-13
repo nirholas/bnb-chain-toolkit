@@ -34,7 +34,7 @@ export async function fetchAgentMetadata(uri: string): Promise<AgentMetadataJSON
         signal: AbortSignal.timeout(10_000),
       });
       if (!response.ok) return null;
-      return await response.json();
+      return (await response.json()) as AgentMetadataJSON;
     }
 
     if (uri.startsWith("ipfs://")) {
@@ -44,7 +44,7 @@ export async function fetchAgentMetadata(uri: string): Promise<AgentMetadataJSON
         signal: AbortSignal.timeout(15_000),
       });
       if (!response.ok) return null;
-      return await response.json();
+      return (await response.json()) as AgentMetadataJSON;
     }
 
     return null;

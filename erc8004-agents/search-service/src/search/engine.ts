@@ -75,12 +75,12 @@ export class SearchEngine {
     const results = this.index.search(query, { limit });
 
     return results
-      .map((result) => {
+      .map((result: { id: string | number; score: number }) => {
         const agent = this.agents.get(result.id as string);
         if (!agent) return null;
         return { agent, score: result.score };
       })
-      .filter((r): r is SearchResult => r !== null);
+      .filter((r: SearchResult | null): r is SearchResult => r !== null);
   }
 
   /** Rebuild the index from a list of agents. */

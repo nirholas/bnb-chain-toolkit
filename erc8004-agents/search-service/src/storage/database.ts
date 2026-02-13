@@ -168,6 +168,17 @@ export class AgentDatabase {
     this.db.close();
   }
 
+  searchAgents(query: string, limit = 1000, offset = 0): AgentRecord[] {
+    if (!query.trim()) {
+      return this.getAllAgents(limit, offset);
+    }
+    const stmt = this.db.prepare(
+      "SELECT * FROM agents WHERE name LIKE ? OR description LIKE ? ORDER BY reputation_score DESC LIMIT ? OFFSET ?"
+    );
+    const pattern = `%${query}%`;
+    return (stmt.all(pattern, pattern, limit, offset) as any[]).map(this.rowToAgent);
+  }
+
   private rowToAgent(row: any): AgentRecord {
     return {
       id: row.id,

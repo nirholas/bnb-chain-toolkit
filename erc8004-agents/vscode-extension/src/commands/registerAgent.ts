@@ -33,7 +33,7 @@ export async function registerAgent(): Promise<void> {
     title: 'Agent Name (1/4)',
     prompt: 'Enter a name for your AI agent',
     placeHolder: 'My AI Agent',
-    validateInput: (v) => (v.trim().length === 0 ? 'Name is required' : undefined),
+    validateInput: (v: string) => (v.trim().length === 0 ? 'Name is required' : undefined),
   });
   if (!name) {return;}
 
@@ -72,7 +72,7 @@ export async function registerAgent(): Promise<void> {
       title: `${svc.label} Endpoint (2/4)`,
       prompt: `Enter the ${svc.label} endpoint URL`,
       placeHolder: `https://api.example.com/${svc.label.toLowerCase()}`,
-      validateInput: (v) => {
+      validateInput: (v: string) => {
         if (v.trim().length === 0) {return 'Endpoint is required';}
         try {
           new URL(v);
@@ -141,7 +141,7 @@ export async function registerAgent(): Promise<void> {
     services,
     x402Support: x402?.label === 'Yes',
     active: true,
-    supportedTrust: trustMechanisms?.map((t) => t.label) || ['reputation'],
+    supportedTrust: trustMechanisms?.map((t: { label: string }) => t.label) || ['reputation'],
   };
 
   let agentURI: string;
@@ -150,7 +150,7 @@ export async function registerAgent(): Promise<void> {
       title: 'Agent URI',
       prompt: 'Enter the HTTPS URL where agent metadata will be hosted',
       placeHolder: 'https://example.com/.well-known/agent-card.json',
-      validateInput: (v) => {
+      validateInput: (v: string) => {
         try {
           new URL(v);
           return undefined;
@@ -184,6 +184,7 @@ export async function registerAgent(): Promise<void> {
       progress.report({ message: `Transaction sent: ${tx.hash.slice(0, 10)}...` });
 
       const receipt = await tx.wait();
+      if (!receipt) { throw new Error('Transaction receipt not found'); }
       progress.report({ message: 'Confirmed!' });
 
       // Parse the Registered event to get the agentId
@@ -222,10 +223,10 @@ export async function registerAgent(): Promise<void> {
 
         await showTxSuccess(
           `Agent "${name}" registered with ID #${agentId}`,
-          receipt.hash
+          receipt!.hash
         );
       } else {
-        await showTxSuccess('Agent registered successfully', receipt.hash);
+        await showTxSuccess('Agent registered successfully', receipt!.hash);
       }
 
       // Refresh tree view

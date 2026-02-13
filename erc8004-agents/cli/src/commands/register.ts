@@ -204,6 +204,10 @@ export async function registerCommand(options: RegisterOptions): Promise<void> {
     spinner.text = `Transaction sent: ${shortAddr(tx.hash)}`;
 
     const receipt = await tx.wait();
+    if (!receipt) {
+      spinner.fail('Transaction receipt not found');
+      return;
+    }
     spinner.text = 'Parsing events...';
 
     // Parse agentId

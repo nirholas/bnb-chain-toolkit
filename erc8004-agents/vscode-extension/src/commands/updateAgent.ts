@@ -16,7 +16,7 @@ export async function updateAgent(tokenId?: string): Promise<void> {
       title: 'Update Agent URI',
       prompt: 'Enter the agent token ID to update',
       placeHolder: '42',
-      validateInput: (v) => (!/^\d+$/.test(v.trim()) ? 'Must be a numeric token ID' : undefined),
+      validateInput: (v: string) => (!/^\d+$/.test(v.trim()) ? 'Must be a numeric token ID' : undefined),
     });
   }
   if (!tokenId) {
@@ -52,7 +52,7 @@ export async function updateAgent(tokenId?: string): Promise<void> {
       prompt: 'Enter the new HTTPS URL for agent metadata',
       placeHolder: 'https://example.com/.well-known/agent-card.json',
       value: currentUri.startsWith('http') ? currentUri : '',
-      validateInput: (v) => {
+      validateInput: (v: string) => {
         try {
           new URL(v);
           return undefined;

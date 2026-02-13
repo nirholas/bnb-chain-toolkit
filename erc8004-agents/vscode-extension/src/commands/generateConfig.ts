@@ -25,7 +25,7 @@ export async function generateConfig(): Promise<void> {
     title: 'Agent Name',
     prompt: 'Enter a name for the agent-card.json',
     placeHolder: 'My AI Agent',
-    validateInput: (v) => (v.trim().length === 0 ? 'Name is required' : undefined),
+    validateInput: (v: string) => (v.trim().length === 0 ? 'Name is required' : undefined),
   });
   if (!name) {
     return;

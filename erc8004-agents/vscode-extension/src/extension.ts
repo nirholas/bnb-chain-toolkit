@@ -96,7 +96,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         prompt: 'Enter your private key (stored securely in VSCode Secrets)',
         password: true,
         placeHolder: '0x...',
-        validateInput: (v) => {
+        validateInput: (v: string) => {
           const key = v.trim();
           if (!key.startsWith('0x') || key.length !== 66) {
             return 'Must be a 64-character hex private key (with 0x prefix)';
@@ -246,7 +246,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   // Listen for config changes
   context.subscriptions.push(
-    vscode.workspace.onDidChangeConfiguration((e) => {
+    vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
       if (e.affectsConfiguration('erc8004.defaultChain')) {
         const newChain = vscode.workspace
           .getConfiguration('erc8004')

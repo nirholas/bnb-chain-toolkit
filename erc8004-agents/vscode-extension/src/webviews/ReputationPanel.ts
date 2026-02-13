@@ -13,7 +13,7 @@ export class ReputationPanel {
         title: 'View Reputation',
         prompt: 'Enter the agent token ID',
         placeHolder: '42',
-        validateInput: (v) => (!/^\d+$/.test(v.trim()) ? 'Must be a numeric token ID' : undefined),
+        validateInput: (v: string) => (!/^\d+$/.test(v.trim()) ? 'Must be a numeric token ID' : undefined),
       });
     }
     if (!tokenId) {

@@ -41,7 +41,7 @@ export async function searchAgents(): Promise<void> {
       title: 'Search by Owner',
       prompt: 'Enter wallet address (0x...)',
       placeHolder: '0x...',
-      validateInput: (v) => {
+      validateInput: (v: string) => {
         if (!ethers.isAddress(v.trim())) {
           return 'Must be a valid Ethereum address';
         }
@@ -230,7 +230,7 @@ function displaySearchResults(agents: DiscoveredAgent[], title: string): void {
       title: `ERC-8004: ${title} (${agents.length} found)`,
       placeHolder: 'Select an agent to view details',
     })
-    .then((selected) => {
+    .then((selected: vscode.QuickPickItem | undefined) => {
       if (selected) {
         const tokenId = selected.description?.replace('#', '');
         if (tokenId) {

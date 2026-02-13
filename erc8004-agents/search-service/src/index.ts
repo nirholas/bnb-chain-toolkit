@@ -87,24 +87,15 @@ async function main(): Promise<void> {
   const listeners: ChainListener[] = [];
 
   for (const chain of chains) {
-    const listener = new ChainListener(chain, db, POLL_INTERVAL);
-
-    // Hook events to search index + feed
-    listener.on("agentIndexed", (agent) => {
+    const listener = new ChainListener(chain, db, (agent) => {
       searchEngine.addAgent(agent);
-      cache.clear(); // Invalidate cached responses
+      cache.clear();
       feed.notifyRegistration(
         agent.chainId,
         agent.tokenId,
         agent.owner,
         agent.name
       );
-    });
-
-    listener.on("agentUpdated", (agent) => {
-      searchEngine.addAgent(agent); // upsert
-      cache.clear();
-      feed.notifyUpdate(agent.chainId, agent.tokenId, "metadata");
     });
 
     listeners.push(listener);

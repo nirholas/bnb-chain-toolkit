@@ -44,7 +44,7 @@ export class AgentDashboard {
     this.panel.onDidDispose(() => this.dispose(), null, this.disposables);
 
     this.panel.webview.onDidReceiveMessage(
-      async (message) => {
+      async (message: { type: string; tokenId?: string }) => {
         switch (message.type) {
           case 'viewAgent':
             vscode.commands.executeCommand('erc8004.viewAgent', message.tokenId);

@@ -43,7 +43,7 @@ export async function updateCommand(tokenId: string, options: UpdateOptions): Pr
     name: chain.name,
     chainId: chain.chainId,
   });
-  const wallet = new ethers.Wallet(options.key || privateKey, provider);
+  const wallet = new ethers.Wallet(options.key as string, provider);
   const contract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, wallet);
 
   // Verify ownership

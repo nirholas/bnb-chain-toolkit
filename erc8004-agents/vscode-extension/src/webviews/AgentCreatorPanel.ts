@@ -46,7 +46,7 @@ export class AgentCreatorPanel {
 
     // Handle messages from webview
     this.panel.webview.onDidReceiveMessage(
-      async (message) => {
+      async (message: { type: string; data?: any }) => {
         switch (message.type) {
           case 'deploy':
             await this.handleDeploy(message.data);
@@ -99,6 +99,7 @@ export class AgentCreatorPanel {
       this.panel.webview.postMessage({ type: 'deployStatus', data: { status: 'pending', message: `Tx sent: ${tx.hash}` } });
 
       const receipt = await tx.wait();
+      if (!receipt) { throw new Error('Transaction receipt not found'); }
 
       // Parse agentId from events
       let agentId: string | undefined;

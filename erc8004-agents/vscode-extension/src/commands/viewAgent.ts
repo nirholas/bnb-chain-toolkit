@@ -15,7 +15,7 @@ export async function viewAgent(tokenId?: string): Promise<void> {
       title: 'View Agent',
       prompt: 'Enter the agent token ID',
       placeHolder: '42',
-      validateInput: (v) => {
+      validateInput: (v: string) => {
         if (!/^\d+$/.test(v.trim())) {
           return 'Must be a numeric token ID';
         }
