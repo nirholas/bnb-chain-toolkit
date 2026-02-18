@@ -122,7 +122,7 @@ const helpNeeded = [
   { title: "Add agenti Solana tool coverage (Jupiter, Raydium)", label: "solana", difficulty: "Hard" },
 ];
 
-const difficultyColors: Record<string, string> = {
+const _difficultyColors: Record<string, string> = {
   Easy: "bg-green-500/10 text-green-500",
   Medium: "bg-yellow-500/10 text-yellow-500",
   Hard: "bg-red-500/10 text-red-500",

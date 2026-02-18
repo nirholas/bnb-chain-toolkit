@@ -9,7 +9,7 @@
  * completed steps, quiz scores, and achievements
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   CheckCircle,
   Circle,
@@ -26,7 +26,6 @@ import {
   getLearningStats, 
   getAllAchievements,
   getTutorialsInProgress,
-  getBookmarkedTutorials,
   getProgress
 } from '@/utils/tutorialProgress';
 import type { Achievement } from '@/types/tutorials';
@@ -153,7 +152,7 @@ function StatCard({
   icon, 
   value, 
   label, 
-  color 
+  color: _color 
 }: { 
   icon: React.ReactNode; 
   value: string; 

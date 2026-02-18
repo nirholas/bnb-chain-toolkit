@@ -202,7 +202,6 @@ export function mockEthereum() {
  * Clean up window.ethereum mock
  */
 export function cleanupEthereum() {
-  // @ts-expect-error - cleaning up mock
   delete window.ethereum;
 }
 

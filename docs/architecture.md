@@ -11,10 +11,10 @@ How everything in the BNB Chain AI Toolkit fits together.
 │                     BNB Chain AI Toolkit                      │
 ├──────────────┬──────────────┬──────────────┬─────────────────┤
 │   AI Agents  │ MCP Servers  │  Market Data │   DeFi Tools    │
-│   (72+)      │   (6)        │  (2)         │   + Wallets     │
+│   (78)       │   (6)        │  (2)         │   + Wallets     │
 │              │              │              │   + Standards    │
 │  BNB Chain   │  bnbchain    │  prices      │   sweep         │
-│  agents (30) │  binance     │  news        │   wallet-tk     │
+│  agents (36) │  binance     │  news        │   wallet-tk     │
 │  DeFi        │  binance-us  │  sentiment   │   ERC-8004      │
 │  agents (42) │  universal   │              │   W3AG          │
 │              │  agenti      │              │                 │
@@ -35,7 +35,7 @@ How everything in the BNB Chain AI Toolkit fits together.
 bnb-chain-toolkit/
 │
 ├── agents/                          # AI Agent definitions
-│   ├── bnb-chain-agents/            # 30 BNB Chain-specific agents
+│   ├── bnb-chain-agents/            # 36 BNB Chain-specific agents
 │   │   ├── pancakeswap-trader.json  # PancakeSwap trading agent
 │   │   ├── venus-protocol.json      # Venus lending agent
 │   │   ├── bnb-staking-advisor.json # Staking optimization
@@ -44,7 +44,7 @@ bnb-chain-toolkit/
 │   └── defi-agents/                 # 42 general DeFi agents
 │       ├── src/                     # Agent source definitions
 │       ├── schema/                  # JSON schema validation
-│       ├── locales/                 # 18-language translations
+│       ├── locales/                 # 30+-language translations
 │       └── scripts/                 # Build tools
 │
 ├── mcp-servers/                     # Model Context Protocol servers

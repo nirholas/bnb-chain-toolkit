@@ -49,7 +49,7 @@ This installs all the packages the toolkit needs. It might take a minute or two.
 bun run build
 ```
 
-This creates a searchable index of all 72+ AI agents.
+This creates a searchable index of all 78 AI agents.
 
 ---
 
@@ -126,7 +126,7 @@ That's it! Claude can now interact with BNB Chain directly.
 |-------|-------------|
 | [What Is This?](what-is-this.md) | Simple explanation of what this toolkit does |
 | [Architecture](architecture.md) | How all the pieces fit together |
-| [Agents](agents.md) | Deep dive into all 72+ AI agents |
+| [Agents](agents.md) | Deep dive into all 78 AI agents |
 | [MCP Servers](mcp-servers.md) | Set up any of the 6 MCP servers |
 | [Examples](examples.md) | Real-world usage examples |
 | [FAQ](faq.md) | Common questions answered |

@@ -357,7 +357,7 @@ function ToolCategory({
 
   useEffect(() => {
     if (hasSelection) setExpanded(true);
-  }, [hasSelection]); // eslint-disable-line react-hooks/set-state-in-effect
+  }, [hasSelection]);  
 
   return (
     <div className="border-b border-neutral-100 dark:border-white/[0.03]">
@@ -432,7 +432,7 @@ function ToolForm({
       }
     }
     setValues(defaults);
-  }, [tool.name]); // eslint-disable-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+  }, [tool.name]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

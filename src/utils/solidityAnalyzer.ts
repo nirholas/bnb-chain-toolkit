@@ -906,7 +906,7 @@ export function checkChainCompatibility(code: string, chainId: number): {
   const warnings: string[] = [];
   const features: string[] = [];
 
-  const info = analyzeContract(code);
+  const _info = analyzeContract(code);
 
   // EVM version checks
   const pragmaMatch = code.match(/pragma\s+solidity\s+\^?([\d.]+)/);

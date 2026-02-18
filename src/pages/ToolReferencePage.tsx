@@ -22,7 +22,6 @@ import {
   Layers,
   Globe,
   ArrowRight,
-  ExternalLink,
   Zap,
   Shield,
   TrendingUp,
@@ -31,7 +30,6 @@ import {
   Copy,
   Check,
   Command,
-  Github,
 } from 'lucide-react';
 import { Spotlight, TextGenerateEffect, LampContainer, HoverEffect } from '@/components/ui';
 import { toolCatalog, allServersConfig } from '@/data/mcpServers';

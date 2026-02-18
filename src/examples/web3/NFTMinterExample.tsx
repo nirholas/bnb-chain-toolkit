@@ -106,7 +106,7 @@ export default function NFTMinterExample() {
       );
 
       // Create metadata
-      const metadata = {
+      const _metadata = {
         name: nftName,
         description: description,
         image: `ipfs://${mockImageHash}`,
@@ -115,7 +115,7 @@ export default function NFTMinterExample() {
 
       // Simulate metadata upload to IPFS
       await new Promise(resolve => setTimeout(resolve, 1000));
-      const mockMetadataHash = generateMockIPFSHash();
+      const _mockMetadataHash = generateMockIPFSHash();
 
       // Simulate minting transaction
       await new Promise(resolve => setTimeout(resolve, 2000));
@@ -141,9 +141,9 @@ export default function NFTMinterExample() {
       setDescription('');
       setImagePreview('');
       setAttributes([{ trait_type: '', value: '' }]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Minting error:', err);
-      setError(err.message || 'Failed to mint NFT');
+      setError(err instanceof Error ? err.message : 'Failed to mint NFT');
     } finally {
       setIsMinting(false);
       setIsUploading(false);

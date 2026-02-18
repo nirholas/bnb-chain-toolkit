@@ -1,6 +1,6 @@
 # AI Agents Guide
 
-Everything you need to know about the 72+ AI agents in this toolkit.
+Everything you need to know about the 78 AI agents in this toolkit.
 
 ---
 
@@ -19,7 +19,7 @@ You load an agent into your AI assistant, and it becomes a specialist in that do
 
 ## Agent Categories
 
-### BNB Chain Agents (30)
+### BNB Chain Agents (36)
 
 Purpose-built for the BNB Chain ecosystem. Located in `agents/bnb-chain-agents/`.
 
@@ -45,7 +45,22 @@ Purpose-built for the BNB Chain ecosystem. Located in `agents/bnb-chain-agents/`
 | 18 | **BSC Yield Aggregator** | Auto-compounding yield strategies |
 | 19 | **Binance P2P Trading** | Peer-to-peer crypto trading |
 | 20 | **BSC Smart Contract Auditor** | Contract security analysis |
-| 21-30 | **Plus 10 more** | DeFi aggregation, token launches, analytics... |
+| 21 | **BNB Chain News Alpha** | Real-time BNB Chain news, alpha signals |
+| 22 | **BNB Cross-Chain Bridge** | Cross-chain bridging between BSC and other networks |
+| 23 | **BNB RWA Stablecoin Expert** | Real-world asset tokenization and stablecoins |
+| 24 | **BNB Token Launcher** | Token creation and launch strategies on BSC |
+| 25 | **BSC Developer** | Smart contract development on BSC |
+| 26 | **BSC Portfolio Tracker** | Portfolio tracking across BSC protocols |
+| 27 | **BSC Whale Tracker** | Smart money and whale wallet monitoring |
+| 28 | **BscScan Analytics** | On-chain analytics via BscScan |
+| 29 | **CZ / Binance Expert** | Binance ecosystem knowledge and history |
+| 30 | **Lista DAO Expert** | Lista DAO lending and liquid staking |
+| 31 | **opBNB L2 Expert** | Layer 2 scaling on opBNB |
+| 32 | **BNB Agent Builder** | Building and deploying AI agents for BNB Chain |
+| 33 | **Binance Margin Expert** | Margin trading strategies on Binance |
+| 34 | **Binance Earn Specialist** | Advanced Binance Earn products and yields |
+| 35 | **Binance Web3 Wallet** | Binance Web3 Wallet operations |
+| 36 | **Alpaca Finance Expert** | Leveraged yield farming on Alpaca Finance |
 
 ### General DeFi Agents (42)
 
@@ -101,7 +116,7 @@ After running `bun run build`, all agents are available at `public/index.json`:
 
 ```bash
 # Get all agents
-cat public/index.json | jq '.agents | length'  # → 72
+cat public/index.json | jq '.agents | length'  # → 78
 
 # Find a specific agent
 cat public/index.json | jq '.agents[] | select(.identifier == "pancakeswap-trader")'
@@ -196,7 +211,7 @@ bun run build
 
 ## Multi-Language Support
 
-DeFi agents support 18 languages:
+DeFi agents support 30+ languages:
 
 | Language | Code | Status |
 |----------|------|--------|
@@ -218,6 +233,18 @@ DeFi agents support 18 languages:
 | Italian | it-IT | ✅ Complete |
 | Dutch | nl-NL | ✅ Complete |
 | Indonesian | id-ID | ✅ Complete |
+| Czech | cs-CZ | ✅ Complete |
+| Danish | da-DK | ✅ Complete |
+| Finnish | fi-FI | ✅ Complete |
+| Greek | el-GR | ✅ Complete |
+| Hebrew | he-IL | ✅ Complete |
+| Hungarian | hu-HU | ✅ Complete |
+| Malay | ms-MY | ✅ Complete |
+| Norwegian | nb-NO | ✅ Complete |
+| Romanian | ro-RO | ✅ Complete |
+| Serbian | sr-RS | ✅ Complete |
+| Swedish | sv-SE | ✅ Complete |
+| Ukrainian | uk-UA | ✅ Complete |
 
 ---
 

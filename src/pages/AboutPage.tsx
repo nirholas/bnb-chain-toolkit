@@ -22,7 +22,6 @@ import {
   Shield,
   Globe,
   Languages,
-  ExternalLink,
   Heart,
   Bot,
   Server,

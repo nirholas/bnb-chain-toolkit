@@ -84,12 +84,19 @@ export const printWatermark = (): void => {
     copyright: 'color: #9CA3AF; font-size: 11px;',
   };
 
+  // eslint-disable-next-line no-console
   console.log('%c⚡ BNB Chain AI Toolkit', styles.header);
+  // eslint-disable-next-line no-console
   console.log(`%c✨ Built by ${attr.author}`, styles.subheader);
+  // eslint-disable-next-line no-console
   console.log(`%c🐦 ${attr.handle}`, styles.link);
+  // eslint-disable-next-line no-console
   console.log(`%c🐙 ${attr.github}`, styles.link);
+  // eslint-disable-next-line no-console
   console.log(`%c🌐 ${attr.website}`, styles.link);
+  // eslint-disable-next-line no-console
   console.log(`%c${attr.copyright} - ${attr.license} License`, styles.copyright);
+  // eslint-disable-next-line no-console
   console.log('%c─'.repeat(50), 'color: #374151;');
 };
 
