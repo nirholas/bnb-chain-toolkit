@@ -90,8 +90,9 @@ export async function generateContract(prompt: string): Promise<{ code: string; 
       code: code.replace(/```solidity\n?/g, '').replace(/```\n?/g, '').trim(),
       explanation: 'Contract generated using AI'
     };
-  } catch (error: any) {
-    throw new AppError(`AI generation failed: ${error.message}`, 500);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`AI generation failed: ${message}`, 500);
   }
 }
 
@@ -126,8 +127,9 @@ export async function explainCode(code: string, question?: string): Promise<{ ex
     return {
       explanation: completion.choices[0]?.message?.content || 'Unable to generate explanation'
     };
-  } catch (error: any) {
-    throw new AppError(`Code explanation failed: ${error.message}`, 500);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`Code explanation failed: ${message}`, 500);
   }
 }
 
@@ -160,7 +162,8 @@ export async function generateTests(code: string, framework: string): Promise<{ 
     return {
       tests: tests.replace(/```javascript\n?/g, '').replace(/```typescript\n?/g, '').replace(/```\n?/g, '').trim()
     };
-  } catch (error: any) {
-    throw new AppError(`Test generation failed: ${error.message}`, 500);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`Test generation failed: ${message}`, 500);
   }
 }

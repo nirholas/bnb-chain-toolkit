@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
+import { ethers, type Eip1193Provider } from 'ethers';
 import {
   Box,
   Send,
@@ -82,7 +82,7 @@ export default function ContractInteraction({ contract, onLog }: ContractInterac
     setLoading(prev => ({ ...prev, [key]: true }));
 
     try {
-      const ethersProvider = new ethers.BrowserProvider(provider as ethers.Eip1193Provider);
+      const ethersProvider = new ethers.BrowserProvider(provider as Eip1193Provider);
       const signer = await ethersProvider.getSigner();
       const contractInstance = new ethers.Contract(contract.address, contract.abi, signer);
 

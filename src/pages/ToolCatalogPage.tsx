@@ -95,7 +95,7 @@ export default function ToolCatalogPage() {
   useSEO({
     title: 'Tool Catalog',
     description:
-      '1,100+ tools for BNB Chain and  blockchain networks — market data, DeFi, wallets, standards, and more.',
+      '1,100+ tools for BNB Chain and multiple blockchain networks — market data, DeFi, wallets, standards, and more.',
     path: '/tools',
   });
 

@@ -129,13 +129,14 @@ Return ONLY a JSON object with the translated strings, no explanation:`;
       return res.json({ translations: texts, fallback: true, error: 'Failed to parse translations' });
     }
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Translation error:', error);
     // Return original texts on error (graceful degradation)
+    const message = error instanceof Error ? error.message : String(error);
     return res.json({ 
       translations: req.body.texts || {}, 
       fallback: true, 
-      error: error.message 
+      error: message 
     });
   }
 });

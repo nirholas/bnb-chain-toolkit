@@ -85,12 +85,12 @@ const heroStats = [
 ];
 
 const whyReasons = [
-    { title: 'Comprehensive Coverage', description: 'No other project covers the entire BNB Chain AI stack in one repo', link: '#' },
-    { title: 'Production-Ready MCP', description: '6 servers, 1,100+ tools, ready for Claude and other LLMs today', link: '#' },
-    { title: 'Original Standards', description: 'ERC-8004 for agent trust and W3AG for Web3 accessibility', link: '#' },
-    { title: 'Real DeFi Tooling', description: 'Dust sweeper, market data, wallet toolkit — not just demos', link: '#' },
-    { title: '78 Specialized Agents', description: 'Purpose-built for every major BNB Chain protocol', link: '#' },
-    { title: '30+ Languages', description: 'Global accessibility with translations for worldwide reach', link: '#' },
+    { title: 'Comprehensive Coverage', description: 'No other project covers the entire BNB Chain AI stack in one repo', link: '/explore' },
+    { title: 'Production-Ready MCP', description: '6 servers, 1,100+ tools, ready for Claude and other LLMs today', link: '/mcp' },
+    { title: 'Original Standards', description: 'ERC-8004 for agent trust and W3AG for Web3 accessibility', link: '/standards' },
+    { title: 'Real DeFi Tooling', description: 'Dust sweeper, market data, wallet toolkit — not just demos', link: '/tools' },
+    { title: '78 Specialized Agents', description: 'Purpose-built for every major BNB Chain protocol', link: '/agents' },
+    { title: '30+ Languages', description: 'Global accessibility with translations for worldwide reach', link: '/docs' },
 ];
 
 const chainMarqueeItems = [

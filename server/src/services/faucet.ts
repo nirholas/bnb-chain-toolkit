@@ -73,10 +73,11 @@ export async function fundAddress(address: string, network: string): Promise<Fun
       amount: `${FUND_AMOUNT} ETH`,
       network
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof AppError) {
       throw error;
     }
-    throw new AppError(`Faucet transaction failed: ${error.message}`, 500);
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`Faucet transaction failed: ${message}`, 500);
   }
 }

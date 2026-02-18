@@ -15,7 +15,7 @@ interface CompileOptions {
 
 interface CompileResult {
   bytecode: string;
-  abi: any[];
+  abi: unknown[];
   errors?: string[];
   warnings?: string[];
 }
@@ -80,11 +80,12 @@ export async function compileContract(options: CompileOptions): Promise<CompileR
       abi: contract.abi,
       warnings: warnings.length > 0 ? warnings : undefined
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof AppError) {
       throw error;
     }
-    throw new AppError(`Compilation error: ${error.message}`, 500);
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`Compilation error: ${message}`, 500);
   }
 }
 

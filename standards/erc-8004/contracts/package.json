@@ -64,6 +64,7 @@
     "dotenv": "^17.2.3"
   },
   "overrides": {
-    "elliptic": ">=6.6.2"
+    "elliptic": ">=6.6.1",
+    "lodash-es": ">=4.17.22"
   }
 }

@@ -31,7 +31,7 @@ export default function PrivyProvider({ children }: PrivyProviderProps) {
         appearance: {
           theme: 'dark',
           accentColor: '#0ea5e9', // primary-500
-          logo: 'https://bnb-chain-toolkit.vercel.app/logo.svg',
+          logo: 'https://bnb-chain-toolkit.vercel.app/icon.svg',
           showWalletLoginFirst: false,
         },
         // Login methods

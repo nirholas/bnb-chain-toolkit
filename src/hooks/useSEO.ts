@@ -15,7 +15,7 @@ interface SEOProps {
 }
 
 const BASE_TITLE = 'BNB Chain AI Toolkit';
-const BASE_DESCRIPTION = '78 AI agents, 6 MCP servers, 1,100+ tools for BNB Chain and  networks. The most comprehensive open-source AI toolkit for Web3.';
+const BASE_DESCRIPTION = '78 AI agents, 6 MCP servers, 1,100+ tools for BNB Chain. The most comprehensive open-source AI toolkit for Web3.';
 const BASE_URL = 'https://bnbchaintoolkit.com';
 
 /**

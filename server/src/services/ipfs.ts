@@ -14,7 +14,7 @@ const pinata = (process.env.PINATA_API_KEY && process.env.PINATA_SECRET_KEY)
 interface UploadOptions {
   content: string | Buffer;
   name: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 interface UploadResult {
@@ -48,8 +48,9 @@ export async function uploadToIPFS(options: UploadOptions): Promise<UploadResult
       url: `ipfs://${cid}`,
       gateway: `https://gateway.pinata.cloud/ipfs/${cid}`
     };
-  } catch (error: any) {
-    throw new AppError(`IPFS upload failed: ${error.message}`, 500);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`IPFS upload failed: ${message}`, 500);
   }
 }
 
@@ -69,12 +70,13 @@ export async function pinFile(cid: string, name?: string): Promise<{ success: bo
       success: true,
       message: `Successfully pinned ${cid}`
     };
-  } catch (error: any) {
-    throw new AppError(`IPFS pinning failed: ${error.message}`, 500);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`IPFS pinning failed: ${message}`, 500);
   }
 }
 
-export async function getPinnedFiles(): Promise<any[]> {
+export async function getPinnedFiles(): Promise<unknown[]> {
   if (!pinata) {
     throw new AppError('IPFS service not configured', 503);
   }
@@ -86,7 +88,8 @@ export async function getPinnedFiles(): Promise<any[]> {
     });
 
     return result.rows;
-  } catch (error: any) {
-    throw new AppError(`Failed to get pinned files: ${error.message}`, 500);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`Failed to get pinned files: ${message}`, 500);
   }
 }

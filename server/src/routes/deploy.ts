@@ -70,7 +70,7 @@ router.post('/', strictRateLimiter, async (req, res, next) => {
       success: true,
       data: result
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     next(error);
   }
 });

@@ -118,13 +118,13 @@ export default function InnovationShowcase() {
           </p>
 
           <div className="flex items-center justify-center space-x-4 mb-12">
-            <Link
-              to="/fullstack-demo"
+            <button
+              onClick={() => document.getElementById('innovation-lab')?.scrollIntoView({ behavior: 'smooth' })}
               className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-2xl hover:shadow-purple-500/50 hover:scale-105 flex items-center space-x-2"
             >
-              <Rocket className="w-6 h-6 group-hover:animate-bounce" />
-              <span>Launch Innovation Mode</span>
-            </Link>
+              <Sparkles className="w-6 h-6 group-hover:animate-pulse" />
+              <span>Explore Innovation Lab</span>
+            </button>
             <Link
               to="/examples"
               className="px-8 py-4 bg-white/10 backdrop-blur-lg rounded-xl font-bold text-lg hover:bg-white/20 transition-all border-2 border-white/20 hover:border-white/40"
@@ -155,7 +155,7 @@ export default function InnovationShowcase() {
         </div>
 
         {/* Features Grid */}
-        <div className="space-y-8 mb-20">
+        <div id="innovation-lab" className="space-y-8 mb-20 scroll-mt-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-[-0.04em]">Innovation Lab</h2>
             <p className="text-lg text-neutral-400 font-light">

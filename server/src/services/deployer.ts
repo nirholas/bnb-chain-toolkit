@@ -9,9 +9,9 @@ import { AppError } from '../middleware/errorHandler.js';
 
 interface DeployOptions {
   bytecode: string;
-  abi: any[];
+  abi: unknown[];
   network: string;
-  constructorArgs?: any[];
+  constructorArgs?: unknown[];
 }
 
 interface DeployResult {
@@ -79,7 +79,8 @@ export async function deployContract(options: DeployOptions): Promise<DeployResu
       network,
       explorerUrl: `${networkConfig.explorer}/address/${address}`
     };
-  } catch (error: any) {
-    throw new AppError(`Deployment failed: ${error.message}`, 500);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new AppError(`Deployment failed: ${message}`, 500);
   }
 }

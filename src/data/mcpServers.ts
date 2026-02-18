@@ -418,15 +418,15 @@ export const mcpServers: MCPServer[] = [
     id: "universal-crypto-mcp",
     name: "Universal Crypto MCP",
     description:
-      " networks — multi-aggregator DEX, Aave, Compound, Lido, LayerZero bridges, x402",
+      "Multi-chain — multi-aggregator DEX, Aave, Compound, Lido, LayerZero bridges, x402",
     longDescription:
-      "A universal Model Context Protocol server supporting  blockchain networks. Features multi-aggregator DEX swaps, DeFi protocol integration, cross-chain bridges, GoPlus security scanning, and the x402 payment protocol — enabling AI agents to transact autonomously across chains.",
+      "A universal Model Context Protocol server supporting multiple blockchain networks. Features multi-aggregator DEX swaps, DeFi protocol integration, cross-chain bridges, GoPlus security scanning, and the x402 payment protocol — enabling AI agents to transact autonomously across chains.",
     language: "TypeScript",
     toolCount: "380+",
     repoPath: "mcp-servers/universal-crypto-mcp",
     npmPackage: "@nirholas/universal-crypto-mcp",
     features: [
-      "380+ tools across  blockchain networks",
+      "380+ tools across multiple blockchain networks",
       "Multi-aggregator DEX swaps — 1inch, 0x, ParaSwap",
       "DeFi protocols — Aave, Compound, Lido, Uniswap",
       "Cross-chain bridges — LayerZero, Stargate, Wormhole",
@@ -553,11 +553,11 @@ export const mcpServers: MCPServer[] = [
       "Near",
       "Sui",
       "Aptos",
-      " more",
+      "and more",
     ],
     highlights: [
       "380+ tools",
-      " networks",
+      "Multi-chain",
       "x402 payments",
       "Multi-DEX",
       "Bridge support",

@@ -53,7 +53,7 @@ const faqs: FAQItem[] = [
   {
     question: "What is BNB Chain AI Toolkit?",
     answer:
-      "BNB Chain AI Toolkit is an open-source collection of 78 AI agent definitions, 6 Model Context Protocol (MCP) servers, and 1,100+ composable tools designed for the BNB Chain ecosystem and  other blockchain networks. It includes market data feeds (662K+ news articles), a gasless Dust Sweeper, a 57-tool offline wallet toolkit, and two open standards (ERC-8004 and W3AG). It enables AI assistants like Claude, GPT, and Gemini to interact with DeFi protocols, manage wallets, analyze market data, and execute on-chain operations out of the box.",
+      "BNB Chain AI Toolkit is an open-source collection of 78 AI agent definitions, 6 Model Context Protocol (MCP) servers, and 1,100+ composable tools designed for the BNB Chain ecosystem and other blockchain networks. It includes market data feeds (662K+ news articles), a gasless Dust Sweeper, a 57-tool offline wallet toolkit, and two open standards (ERC-8004 and W3AG). It enables AI assistants like Claude, GPT, and Gemini to interact with DeFi protocols, manage wallets, analyze market data, and execute on-chain operations out of the box.",
     category: "general",
   },
   {
@@ -71,7 +71,7 @@ const faqs: FAQItem[] = [
   {
     question: "How many tools does each MCP server have?",
     answer:
-      "The toolkit includes 6 MCP servers: bnbchain-mcp (150+ tools for BNB Chain and EVM), binance-mcp (478+ tools for Binance.com — the most comprehensive exchange MCP ever built, covering spot, futures, options, algo orders like TWAP/VP, copy trading, Simple Earn, NFTs, and Binance Pay), binance-us-mcp (120+ tools for Binance.US), universal-crypto-mcp (380+ tools for  networks), agenti (380+ tools for EVM + Solana with Flashbots and x402 payments), and ucai (unlimited — generates MCP tools from any ABI).",
+      "The toolkit includes 6 MCP servers: bnbchain-mcp (150+ tools for BNB Chain and EVM), binance-mcp (478+ tools for Binance.com — the most comprehensive exchange MCP ever built, covering spot, futures, options, algo orders like TWAP/VP, copy trading, Simple Earn, NFTs, and Binance Pay), binance-us-mcp (120+ tools for Binance.US), universal-crypto-mcp (380+ tools for multiple networks), agenti (380+ tools for EVM + Solana with Flashbots and x402 payments), and ucai (unlimited — generates MCP tools from any ABI).",
     category: "mcp",
   },
   {
@@ -95,7 +95,7 @@ const faqs: FAQItem[] = [
   {
     question: "Which blockchains are supported?",
     answer:
-      "The primary focus is BNB Smart Chain (BSC), opBNB, and BNB Greenfield. However, universal-crypto-mcp supports  networks including Ethereum, Polygon, Arbitrum, Optimism, Base, Avalanche, Fantom, zkSync, Linea, Scroll, Mantle, and more. The agenti server adds Solana support. The Dust Sweeper supports 8 chains (BSC, Ethereum, Polygon, Arbitrum, Optimism, Avalanche, Base, opBNB).",
+      "The primary focus is BNB Smart Chain (BSC), opBNB, and BNB Greenfield. However, universal-crypto-mcp supports many networks including Ethereum, Polygon, Arbitrum, Optimism, Base, Avalanche, Fantom, zkSync, Linea, Scroll, Mantle, and more. The agenti server adds Solana support. The Dust Sweeper supports 8 chains (BSC, Ethereum, Polygon, Arbitrum, Optimism, Avalanche, Base, opBNB).",
     category: "technical",
   },
   {

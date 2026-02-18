@@ -100,7 +100,7 @@ const mcpHighlights = [
   { name: "bnbchain-mcp", tools: "150+", focus: "BNB Chain + EVM — balances, transfers, tokens, security" },
   { name: "binance-mcp", tools: "478+", focus: "Spot, Futures, Margin, Options, Algo, Earn, Copy Trading, NFT" },
   { name: "binance-us-mcp", tools: "120+", focus: "Regulated US exchange — spot, staking, OTC, custody" },
-  { name: "universal-crypto-mcp", tools: "380+", focus: " chains — 1inch, Aave, Compound, Uniswap, LayerZero" },
+  { name: "universal-crypto-mcp", tools: "380+", focus: "Multi-chain — 1inch, Aave, Compound, Uniswap, LayerZero" },
   { name: "agenti", tools: "380+", focus: "EVM + Solana — x402 payments, Flashbots MEV, Wormhole bridges" },
   { name: "ucai", tools: "ABI→MCP", focus: "Generate custom MCP tools from any smart contract ABI" },
 ];
@@ -111,7 +111,7 @@ export default function AboutPage() {
   useSEO({
     title: "About",
     description:
-      "Learn about BNB Chain AI Toolkit — 78 AI agents, 6 MCP servers, and 1,100+ tools for BNB Chain and  networks.",
+      "Learn about BNB Chain AI Toolkit — 78 AI agents, 6 MCP servers, and 1,100+ tools for BNB Chain and beyond.",
     path: "/about",
   });
 

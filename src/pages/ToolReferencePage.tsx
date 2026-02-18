@@ -769,7 +769,7 @@ export default function ToolReferencePage() {
               { label: 'Tools', value: '1,100+', icon: Wrench },
               { label: 'Servers', value: '6', icon: Server },
               { label: 'Categories', value: `${ALL_CATEGORIES.length}`, icon: Layers },
-              { label: 'Chains', value: '', icon: Globe },
+              { label: 'Chains', value: 'Multi', icon: Globe },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}

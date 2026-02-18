@@ -147,7 +147,7 @@ function giveFeedback(
     date: "Q3 2025",
     title: "Integrated into BNB Chain AI Toolkit",
     description:
-      "ERC-8004 becomes a foundational standard within the BNB Chain AI Toolkit, providing the trust layer for 78 AI agents. Every agent in the toolkit can be registered on-chain, building a decentralized web of verifiable agent identity and reputation across BNB Chain and  networks.",
+      "ERC-8004 becomes a foundational standard within the BNB Chain AI Toolkit, providing the trust layer for 78 AI agents. Every agent in the toolkit can be registered on-chain, building a decentralized web of verifiable agent identity and reputation across BNB Chain and beyond.",
     type: "milestone",
     highlight: true,
   },
