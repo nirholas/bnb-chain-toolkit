@@ -119,7 +119,7 @@ Add to your `claude_desktop_config.json`:
 
 ## 🔗 Onchain Proof
 
-ERC-8004 contracts are deployed and verified on **BSC Mainnet**, **BSC Testnet**, **opBNB Mainnet**, **opBNB Testnet**, and **20 additional chains** (24 total).
+ERC-8004 contracts are deployed and verified on **BSC Mainnet**, **BSC Testnet**.
 
 ### BSC Mainnet (Chain ID: 56)
 
@@ -153,9 +153,6 @@ ERC-8004 contracts are deployed and verified on **BSC Mainnet**, **BSC Testnet**
 
 > 📋 **First deployment TX:** [`0xfc55d83d...dc1962`](https://testnet.bscscan.com/tx/0xfc55d83d20e6d92ff522f302fd3424d3fd5557f25c06f4bfc38ecf3246dc1962) on BSC Testnet
 >
-> All addresses share the deterministic `0x8004` vanity prefix (CREATE2 via SAFE Singleton Factory).
-> Full 24-chain deployment list: [`erc8004-agents/docs/contracts.md`](erc8004-agents/docs/contracts.md) | Machine-readable: [`bsc.address`](bsc.address)
-
 > ⚠️ **Note:** Smart contracts in `standards/erc-8004/contracts/` are reference implementations and have **not been formally audited**. Do not deploy to mainnet without an independent security audit.
 
 ---
