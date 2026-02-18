@@ -84,6 +84,7 @@ const CrossChainDreamWeaverPage = lazy(() => import('./pages/innovation/CrossCha
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import MobileBottomNav from './components/MobileBottomNav';
+import ScrollToTop from './components/ScrollToTop';
 import {
   SkipLink,
   LiveAnnouncerProvider,
@@ -121,6 +122,7 @@ function AppContent() {
     return (
       <div className={`min-h-screen ${mode === 'dark' ? 'dark' : ''}`}>
         <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 min-h-screen">
+          <ScrollToTop />
           <Suspense fallback={<PageLoader message="Loading IDE..." />}>
             <Routes>
               <Route path="/ide" element={<SandboxPage />} />
@@ -134,6 +136,7 @@ function AppContent() {
   return (
     <div className={`min-h-screen ${mode === 'dark' ? 'dark' : ''}`}>
       <div className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 min-h-screen">
+        <ScrollToTop />
         <SkipLink />
         <NavBar />
         <main id="main-content" className="pt-16 pb-20 md:pb-0" role="main" tabIndex={-1}>
