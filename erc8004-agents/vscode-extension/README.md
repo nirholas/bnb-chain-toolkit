@@ -87,9 +87,42 @@ Code snippets for quick development:
 
 ## Security
 
-- Private keys are stored in VSCode SecretStorage (encrypted)
+- Private keys are stored in VSCode SecretStorage (encrypted by the OS keyring)
 - Keys never leave your machine
 - No telemetry or external data collection
+
+### Keystore Import (Recommended)
+
+The extension supports importing **Ethereum V3 Keystore** files — the industry standard for encrypted wallet storage:
+
+1. Open Command Palette → `ERC-8004: Connect Wallet`
+2. Choose **Import Keystore File**
+3. Select a `.json` keystore file from your filesystem
+4. Enter the keystore password (masked input)
+
+The extension decrypts the keystore, stores the private key in SecretStorage, and records the auth method as `keystore`. The password is used only during import and is never stored.
+
+### Keystore Export
+
+Export your connected wallet as an encrypted keystore file:
+
+1. Open Command Palette → `ERC-8004: Export Keystore`
+2. Set an encryption password
+3. Choose save location
+
+### Auth Methods
+
+| Method | Storage | Security Level |
+|--------|---------|---------------|
+| **Keystore import** | SecretStorage | ★★★ Recommended |
+| **Raw private key** | SecretStorage | ★★ Acceptable |
+
+Both methods store the decrypted key in VS Code's SecretStorage, which uses OS-level encryption:
+- **macOS**: Keychain
+- **Linux**: libsecret (GNOME Keyring / KWallet)
+- **Windows**: Windows Credential Manager
+
+See [SECURITY.md](../SECURITY.md) for the full security audit.
 
 ## Development
 

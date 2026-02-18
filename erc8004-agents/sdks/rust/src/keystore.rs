@@ -48,9 +48,10 @@ pub fn encrypt_keystore(hex_private_key: &str, password: &str) -> Result<String>
         .map_err(|e| Error::KeystoreError(format!("Invalid hex private key: {e}")))?;
 
     let dir = std::env::temp_dir();
+    let mut rng = rand::thread_rng();
     let name = eth_keystore::encrypt_key(
         &dir,
-        &mut rand(),
+        &mut rng,
         &pk_bytes,
         password,
         None,
@@ -80,11 +81,6 @@ fn derive_address(secret_bytes: &[u8]) -> Result<String> {
     let hash = keccak256(&public_key_bytes.as_bytes()[1..]);
     let addr = Address::from_slice(&hash[12..]);
     Ok(format!("{addr}"))
-}
-
-/// Simple wrapper for an RNG source used by `eth_keystore::encrypt_key`.
-fn rand() -> impl rand::RngCore + rand::CryptoRng {
-    rand::thread_rng()
 }
 
 #[cfg(test)]

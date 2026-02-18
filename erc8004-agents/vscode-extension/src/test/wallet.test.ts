@@ -12,22 +12,18 @@ import { ethers } from 'ethers';
 
 /** In-memory SecretStorage for testing. */
 class MockSecretStorage {
-  private store = new Map<string, string>();
+  private _store = new Map<string, string>();
   async get(key: string): Promise<string | undefined> {
-    return this.store.get(key);
+    return this._store.get(key);
   }
-  async store_(key: string, value: string): Promise<void> {
-    this.store.set(key, value);
-  }
-  // vscode uses .store() — map both
   async store(key: string, value: string): Promise<void> {
-    this.store.set(key, value);
+    this._store.set(key, value);
   }
   async delete(key: string): Promise<void> {
-    this.store.delete(key);
+    this._store.delete(key);
   }
   has(key: string): boolean {
-    return this.store.has(key);
+    return this._store.has(key);
   }
 }
 

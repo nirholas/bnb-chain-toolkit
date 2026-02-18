@@ -347,7 +347,39 @@ Drop `index.html` on Vercel, Netlify, GitHub Pages, IPFS, or any static host. On
 
 ---
 
-## 🛠️ Tech Stack
+## � Wallet Authentication
+
+All ERC-8004 components support encrypted keystore wallets as the **recommended** authentication method, plus raw private keys for backward compatibility.
+
+| Component | Keystore | Private Key | Env Var | Details |
+|-----------|----------|-------------|---------|---------|
+| **Web App** | — | MetaMask / EIP-6963 | — | Browser wallet only |
+| **VS Code Extension** | ✅ Import `.json` file | ✅ SecretStorage | — | [Extension docs](vscode-extension/README.md) |
+| **MCP Server** | ✅ `KEYSTORE_FILE` env | ✅ `PRIVATE_KEY` env | ✅ | [MCP docs](mcp-server/README.md) |
+| **CLI** | ✅ `wallet import` | ⚠️ Deprecated | ✅ `ERC8004_PRIVATE_KEY` | [CLI docs](cli/README.md) |
+
+### Keystore Format
+
+All components use the **Ethereum V3 Keystore** standard (scrypt KDF + AES-128-CTR):
+
+```bash
+# Generate a keystore from any tool
+# VS Code Extension: Command Palette → "ERC-8004: Connect Wallet" → Import Keystore
+# CLI: erc8004 wallet import
+# MCP Server: KEYSTORE_FILE=/path/to/keystore.json KEYSTORE_PASSWORD=... npx @nirholas/erc8004-mcp
+```
+
+### Security Model
+
+- Private keys are **never logged** to console or stored in plaintext (CLI auto-migrates legacy keys)
+- Keystore passwords are used **transiently** during decryption and never persisted
+- VS Code uses OS-level encrypted SecretStorage (Keychain / libsecret / Credential Manager)
+- CLI config files are restricted to `chmod 600` (owner read/write only)
+- See [SECURITY.md](SECURITY.md) for the full security audit and threat model
+
+---
+
+## �🛠️ Tech Stack
 
 | Component | Choice | Why |
 |-----------|--------|-----|

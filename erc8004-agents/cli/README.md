@@ -18,6 +18,9 @@ npm install -g @nirholas/erc8004-cli
 # Check supported chains and connectivity
 erc8004 chains
 
+# Import wallet (encrypted keystore — recommended)
+erc8004 wallet import
+
 # Register a new agent (interactive)
 erc8004 register
 
@@ -33,6 +36,61 @@ erc8004 search --limit 20
 # Check reputation
 erc8004 reputation 1
 ```
+
+## Wallet Management
+
+The CLI stores your wallet as an **encrypted keystore** in `~/.erc8004/config.json`. Private keys are never stored in plaintext.
+
+### `erc8004 wallet import`
+
+Import a wallet from a raw private key (encrypts it) or an existing keystore file.
+
+```bash
+erc8004 wallet import
+# Interactive: choose raw key or keystore file, set encryption password
+```
+
+### `erc8004 wallet export`
+
+Export your current wallet as an encrypted keystore JSON file.
+
+```bash
+erc8004 wallet export
+# Prompts for decryption password, then new export password and file path
+```
+
+### `erc8004 wallet show`
+
+Display current wallet address and auth method (no decryption needed).
+
+```bash
+erc8004 wallet show
+```
+
+### `erc8004 wallet clear`
+
+Remove stored wallet from config (requires confirmation).
+
+```bash
+erc8004 wallet clear
+```
+
+### Authentication Priority
+
+When running write commands (`register`, `update`), the CLI resolves a wallet in this order:
+
+1. `--keystore <file>` + `--keystore-password <pw>` flags
+2. `--key <hex>` flag (deprecated, prints warning)
+3. `ERC8004_PRIVATE_KEY` environment variable (for CI/CD)
+4. Encrypted keystore in `~/.erc8004/config.json` (prompts for password)
+5. Legacy plaintext `privateKey` in config (deprecated, auto-migrates)
+
+### Legacy Key Migration
+
+If your config has a plaintext `privateKey` field, the CLI will prompt you to encrypt it on the next run. After migration:
+- The `privateKey` field is deleted from config
+- An encrypted `keystore` field is created
+- Config file permissions are set to `0o600`
 
 ## Commands
 
@@ -112,20 +170,30 @@ erc8004 chains
 
 ## Configuration
 
-Config is stored at `~/.erc8004/config.json`:
+Config is stored at `~/.erc8004/config.json` (permissions: `0o600`):
 
 ```json
 {
   "defaultChain": "bsc-testnet",
-  "privateKey": "0x..."
+  "keystore": "{\"version\":3,\"crypto\":{...}}"
 }
 ```
+
+> **Note:** The `keystore` field contains an encrypted Ethereum V3 keystore. Your private key is never stored in plaintext. Legacy configs with a `privateKey` field will be auto-migrated on next run.
 
 ### Environment Variables
 
 | Variable | Description |
 |----------|-------------|
-| `ERC8004_PRIVATE_KEY` | Default private key (overrides config) |
+| `ERC8004_PRIVATE_KEY` | Override wallet for commands (CI/CD) |
+
+### CLI Flags for Auth
+
+| Flag | Description |
+|------|-------------|
+| `--keystore <path>` | Path to keystore JSON file |
+| `--keystore-password <pw>` | Keystore password (avoid in shell history — prefer interactive prompt) |
+| `--key <hex>` | Raw private key (deprecated — use `wallet import` instead) |
 
 ## Supported Chains
 
@@ -148,9 +216,12 @@ erc8004 --help
 
 ## Security
 
-- Private keys can be passed via environment variable or config file
-- Config file permissions should be restricted: `chmod 600 ~/.erc8004/config.json`
-- Never commit private keys to source control
+- **Encrypted keystore** is the recommended wallet storage method
+- Private keys are never stored in plaintext (legacy configs are auto-migrated)
+- Config file permissions are enforced at `chmod 600` on every write
+- Passwords are used transiently during decryption and never persisted
+- `--key` flag is deprecated (prints a security warning)
+- See [SECURITY.md](../SECURITY.md) for the full security audit
 
 ## License
 

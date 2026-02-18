@@ -20,7 +20,8 @@
     "watch": "tsc --watch",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
-    "lint": "eslint src --ext .ts"
+    "lint": "eslint src --ext .ts",
+    "test": "ts-node --project tsconfig.json node_modules/.bin/mocha --require ts-node/register --timeout 120000 'test/**/*.test.ts'"
   },
   "dependencies": {
     "chalk": "^4.1.2",
@@ -32,7 +33,9 @@
   },
   "devDependencies": {
     "@types/inquirer": "^8.2.10",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.0",
+    "mocha": "^10.7.0",
     "typescript": "^5.3.3",
     "ts-node": "^10.9.2"
   },

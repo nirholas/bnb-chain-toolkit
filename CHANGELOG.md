@@ -26,6 +26,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Bridge aggregator** — Added Synapse to default enabled providers (now 6 total: Across, Stargate, Hop, cBridge, Socket, Synapse)
 - **Documentation** — Updated `docs/defi-tools.md` with API endpoints, bridge providers, queue workers, payment facilitator, and environment variables; updated `docs/architecture.md` with sweep subsystem diagram; updated `docs/TECHNICAL.md` with subsystem table
 
+### Fixed
+
+#### Code Quality
+
+- **Zero lint errors** — Fixed all 62 ESLint errors across 50+ source files (hoisting, purity, set-state-in-effect, memoization, unused vars/imports)
+- **Reduced warnings** — Brought lint warnings down from 562 to ~414 (remaining are `no-explicit-any` and `no-unused-vars`)
+
+#### Documentation Accuracy
+
+- **Tool counts** — Standardized MCP server tool counts across all docs to match verified file counts: bnbchain-mcp (466+), binance-mcp (554+), universal-crypto-mcp (59+), agenti (58+); total 1,100+
+- **Contract names** — Updated `docs/standards.md` and `docs/examples.md` to reference actual deployed contracts (`IdentityRegistryUpgradeable`, `ReputationRegistryUpgradeable`, `ValidationRegistryUpgradeable`) instead of outdated placeholders
+- **meta.json** — Fixed agent count (72 → 78) and tool count (600 → 1,100) to match actual inventory
+- **npm namespace** — Corrected `@anthropic/universal-crypto-mcp` → `@nirholas/universal-crypto-mcp` in `docs/TECHNICAL.md` and `docs/EXTRAS.md`
+- **Doc file count** — Updated references from "17 files" to "18 files" in `AI_BUILD_LOG.md` and `EXTRAS.md`
+- **Language count** — Fixed "42-language" → "30+" in `docs/market-data.md`; clarified DeFi agents use 18 locale files while BNB Chain agents have 30 locale directories in `llms-full.txt`
+- **Hackathon track** — Aligned `docs/PROJECT.md` track name with `HACKATHON.md` ("Agent" track)
+- **Timeline formatting** — Fixed broken table row in `docs/AI_BUILD_LOG.md`
+
 ---
 
 ## [2.1.0] - 2026-02-18
