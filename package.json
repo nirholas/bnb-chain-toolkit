@@ -47,6 +47,8 @@
     "attribution": "node scripts/inject-attribution.js"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
     "@icons-pack/react-simple-icons": "^13.8.0",
     "@monaco-editor/react": "^4.7.0",
     "@privy-io/react-auth": "^3.11.0",

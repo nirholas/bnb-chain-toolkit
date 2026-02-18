@@ -67,7 +67,6 @@ const SharedProjectPage = lazy(() => import('./pages/SharedProjectPage'));
 const MarketsPage = lazy(() => import('./pages/MarketsPage'));
 const MCPServersPage = lazy(() => import('./pages/MCPServersPage'));
 const MCPServerPage = lazy(() => import('./pages/MCPServerPage'));
-const _ToolCatalogPage = lazy(() => import('./pages/ToolCatalogPage'));
 const ToolReferencePage = lazy(() => import('./pages/ToolReferencePage'));
 const StandardsPage = lazy(() => import('./pages/StandardsPage'));
 const ERC8004Page = lazy(() => import('./pages/ERC8004Page'));
@@ -114,7 +113,7 @@ function AppContent() {
   }, [applyAccessibilityCSS]);
 
   // Check if current path should be fullscreen (no navbar/footer)
-  const isFullscreen = fullscreenPaths.some(path => location.pathname.startsWith(path));
+  const isFullscreen = fullscreenPaths.some(path => location.pathname === path || location.pathname.startsWith(path + '/'));
 
   if (isFullscreen) {
     // Render without navbar and footer

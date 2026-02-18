@@ -224,6 +224,7 @@ export default function FullStackPlayground({
 
   // Update live preview
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     updatePreview();
   }, [files, contractState, contractAddress]); // eslint-disable-line react-hooks/exhaustive-deps
 

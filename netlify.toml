@@ -7,6 +7,11 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/favicon.ico"
+  to = "/icon.svg"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
@@ -21,7 +26,7 @@
     X-XSS-Protection = "0"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; script-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; connect-src 'self' https: wss:; worker-src 'self' blob:; frame-src 'self' blob:; frame-ancestors 'self'; manifest-src 'self'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; script-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https: wss:; worker-src 'self' blob:; frame-src 'self' blob:; frame-ancestors 'self'; manifest-src 'self'"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
 [[headers]]

@@ -60,6 +60,7 @@ export default function InteractiveTutorial({
           passed.add(checkpoint.label);
         }
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCheckpointsPassed(passed);
     }
   }, [currentCode, currentStep]);

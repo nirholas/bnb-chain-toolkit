@@ -5,6 +5,8 @@
     "": {
       "name": "lyra-web3-playground",
       "dependencies": {
+        "@fontsource-variable/inter": "^5.2.8",
+        "@fontsource-variable/jetbrains-mono": "^5.2.8",
         "@icons-pack/react-simple-icons": "^13.8.0",
         "@monaco-editor/react": "^4.7.0",
         "@privy-io/react-auth": "^3.11.0",
@@ -257,6 +259,10 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.6", "", { "dependencies": { "@floating-ui/dom": "^1.7.4" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-4JX6rEatQEvlmgU80wZyq9RT96HZJa88q8hp0pBd+LrczeDI4o6uA2M+uvxngVHo4Ihr8uibXxH6+70zhAFrVw=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
+
+    "@fontsource-variable/inter": ["@fontsource-variable/inter@5.2.8", "", {}, "sha512-kOfP2D+ykbcX/P3IFnokOhVRNoTozo5/JxhAIVYLpea/UBmCQ/YWPBfWIDuBImXX/15KH+eKh4xpEUyS2sQQGQ=="],
+
+    "@fontsource-variable/jetbrains-mono": ["@fontsource-variable/jetbrains-mono@5.2.8", "", {}, "sha512-WBA9elru6Jdp5df2mES55wuOO0WIrn3kpXnI4+W2ek5u3ZgLS9XS4gmIlcQhiZOWEKl95meYdvK7xI+ETLCq/Q=="],
 
     "@gemini-wallet/core": ["@gemini-wallet/core@0.3.2", "", { "dependencies": { "@metamask/rpc-errors": "7.0.2", "eventemitter3": "5.0.1" }, "peerDependencies": { "viem": ">=2.0.0" } }, "sha512-Z4aHi3ECFf5oWYWM3F1rW83GJfB9OvhBYPTmb5q+VyK3uvzvS48lwo+jwh2eOoCRWEuT/crpb9Vwp2QaS5JqgQ=="],
 

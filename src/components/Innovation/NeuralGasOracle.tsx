@@ -51,6 +51,12 @@ interface MLModel {
   lastUpdated: number;
 }
 
+const INITIAL_ML_MODELS: MLModel[] = [
+  { name: 'LSTM Gas Predictor', accuracy: 0.94, trainingSamples: 100000, lastUpdated: Date.now() },
+  { name: 'Transformer Optimizer', accuracy: 0.91, trainingSamples: 50000, lastUpdated: Date.now() },
+  { name: 'Neural Pattern Matcher', accuracy: 0.89, trainingSamples: 75000, lastUpdated: Date.now() }
+];
+
 export default function NeuralGasOracle({
   code,
   onLog
@@ -66,11 +72,7 @@ export default function NeuralGasOracle({
     congestion: 'medium',
     trend: 0.05
   });
-  const [mlModels, setMlModels] = useState<MLModel[]>([
-    { name: 'LSTM Gas Predictor', accuracy: 0.94, trainingSamples: 100000, lastUpdated: Date.now() },
-    { name: 'Transformer Optimizer', accuracy: 0.91, trainingSamples: 50000, lastUpdated: Date.now() },
-    { name: 'Neural Pattern Matcher', accuracy: 0.89, trainingSamples: 75000, lastUpdated: Date.now() }
-  ]);
+  const [mlModels, setMlModels] = useState<MLModel[]>(INITIAL_ML_MODELS);
   const [selectedModel, setSelectedModel] = useState(0);
   const [totalSavings, setTotalSavings] = useState(0);
   const [predictionHistory, setPredictionHistory] = useState<number[]>([]);
@@ -121,6 +123,7 @@ export default function NeuralGasOracle({
 
   // Update prediction history
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPredictionHistory(prev => [...prev, networkState.gasPrice].slice(-20));
   }, [networkState.gasPrice]);
 

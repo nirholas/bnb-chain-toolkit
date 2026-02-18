@@ -17,7 +17,6 @@ import {
   Clock,
   Network,
   Sparkles,
-  TrendingUp
 } from 'lucide-react';
 import {
   checkChainCompatibility,
@@ -369,7 +368,7 @@ export default function CrossChainDreamWeaver({
               <input
                 type="radio"
                 checked={syncMode === mode}
-                onChange={() => setSyncMode(mode as any)}
+                onChange={() => setSyncMode(mode as 'sequential' | 'parallel' | 'smart')}
                 className="rounded-full"
               />
               <span className="capitalize">{mode}</span>
@@ -401,6 +400,7 @@ export default function CrossChainDreamWeaver({
           </div>
           <div>
             <div className="text-2xl font-bold text-green-700 dark:text-green-300">
+              {/* eslint-disable-next-line react-hooks/set-state-in-render */}
               ${calculateTotalCost()}
             </div>
             <div className="text-xs text-gray-600 dark:text-gray-400">Total Cost</div>

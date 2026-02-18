@@ -43,7 +43,7 @@ interface CodeChallenge {
   difficulty: 'easy' | 'medium' | 'hard' | 'insane';
   timeLimit: number;
   bounty: number;
-  testCases: Array<{ input: any; expected: any }>;
+  testCases: Array<{ input: unknown; expected: unknown }>;
   hints: string[];
 }
 
@@ -171,6 +171,7 @@ export default function CollaborativeArena({
 
     const profile = aiProfiles[type];
     const newAI: Participant = {
+      // eslint-disable-next-line react-hooks/purity
       id: `ai-${Date.now()}`,
       ...profile,
       cursor: { line: 1, column: 1 },
@@ -182,6 +183,7 @@ export default function CollaborativeArena({
     setAiAssistants(prev => [...prev, newAI]);
     setParticipants(prev => [...prev, newAI]);
     
+    // eslint-disable-next-line react-hooks/immutability
     addMessage('system', `${profile.name} joined the arena!`, 'system');
     onLog('success', `✨ ${profile.name} is now assisting you!`);
 

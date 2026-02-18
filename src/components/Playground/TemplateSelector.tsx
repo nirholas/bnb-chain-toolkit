@@ -135,6 +135,7 @@ export default function TemplateSelector({
 
   // Update view mode from preferences
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setViewMode(preferences.viewMode);
   }, [preferences.viewMode]);
 

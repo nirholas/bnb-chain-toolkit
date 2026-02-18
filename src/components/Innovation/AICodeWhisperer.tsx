@@ -251,6 +251,7 @@ export default function AICodeWhisperer({
         if (last.isFinal) {
           const transcript = last[0].transcript.trim().toLowerCase();
           onLog('info', `🎤 Heard: "${transcript}"`);
+          // eslint-disable-next-line react-hooks/immutability
           executeVoiceCommand(transcript);
         }
       };

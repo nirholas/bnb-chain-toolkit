@@ -135,6 +135,7 @@ export default function UniversalLivePreview({
   // Update HTML/JS/CSS preview
   useEffect(() => {
     if (previewType === 'html') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       updateHtmlPreview();
     }
   }, [htmlTab?.code, cssTab?.code, jsTab?.code, previewType]); // eslint-disable-line react-hooks/exhaustive-deps

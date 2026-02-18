@@ -75,7 +75,7 @@ async function main() {
   const receipt1 = await tx1.wait();
 
   // Extract agentId from Transfer event
-  const transferEvent = receipt1.logs.find((log) => {
+  const transferEvent = receipt1.logs.find((log: { topics: string[]; data: string }) => {
     try {
       return identity.interface.parseLog(log)?.name === 'Transfer';
     } catch {

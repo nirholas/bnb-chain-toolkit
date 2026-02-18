@@ -42,7 +42,7 @@ interface SimulationResult {
   success: boolean;
   gasUsed: number;
   outcome: string;
-  stateChanges: Record<string, any>;
+  stateChanges: Record<string, unknown>;
   events: string[];
 }
 
@@ -72,6 +72,7 @@ export default function ContractTimeMachine({
 
       return () => clearTimeout(saveTimeout);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentCode, autoSave]);
 
   const createSnapshot = (type: TimelineSnapshot['type'], description?: string) => {

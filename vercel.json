@@ -8,9 +8,9 @@
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-XSS-Protection", "value": "0" },
-        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; script-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; connect-src 'self' https: wss:; worker-src 'self' blob:; frame-src 'self' blob:; frame-ancestors 'self'; manifest-src 'self'" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; script-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdn.tailwindcss.com https://esm.sh https://binaries.soliditylang.org; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https: wss:; worker-src 'self' blob:; frame-src 'self' blob:; frame-ancestors 'self'; manifest-src 'self'" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
       ]
@@ -50,6 +50,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/((?!api|assets|sitemap|robots|llms|manifest|icon|og-image|favicon|.well-known).*)", "destination": "/index.html" }
+    { "source": "/favicon.ico", "destination": "/icon.svg" },
+    { "source": "/((?!api|assets|sitemap|robots|llms|manifest|icon|og-image|favicon|erc8004|openapi|ai\\.txt|\\.well-known|\\.nojekyll|larry|404\\.html).*)", "destination": "/index.html" }
   ]
 }

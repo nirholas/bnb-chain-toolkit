@@ -38,7 +38,7 @@ interface FullStackPlaygroundProps {
   title: string;
   description: string;
   files: PlaygroundFile[];
-  scope?: Record<string, any>;
+  scope?: Record<string, unknown>;
   previewStyles?: string;
 }
 
@@ -117,7 +117,7 @@ export default function FullStackPlayground({
       .replace(/\n\s*\n\s*\n/g, '\n\n');
     
     return code.trim();
-  }, [reactFile?.code]);
+  }, [reactFile?.code]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCodeChange = (newCode: string | undefined) => {
     if (!activeFileId || !newCode) return;

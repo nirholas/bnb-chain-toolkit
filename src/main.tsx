@@ -28,6 +28,11 @@ import PrivyProvider from './providers/PrivyProvider';
 import { initWatermarks, validateAttribution, __bnb_sig__ } from './utils/watermark';
 import { injectSpeculationRules } from './lib/speculationRules';
 import './lib/monaco'; // Configure Monaco to use bundled assets (no CDN)
+
+// Self-hosted fonts (eliminates external CDN dependency and CSP issues)
+import '@fontsource-variable/inter';
+import '@fontsource-variable/jetbrains-mono';
+
 import './styles/index.css';
 
 // ═══════════════════════════════════════════════════════════════════════════

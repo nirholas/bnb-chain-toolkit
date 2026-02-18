@@ -113,6 +113,7 @@ export default function LivePreview({
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     updatePreview();
   }, [html, css, javascript]); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -60,7 +60,7 @@ export async function deployContract(options: DeployOptions): Promise<DeployResu
     const wallet = new ethers.Wallet(privateKey, provider);
 
     // Create contract factory
-    const factory = new ethers.ContractFactory(abi, bytecode, wallet);
+    const factory = new ethers.ContractFactory(abi as ethers.InterfaceAbi, bytecode, wallet);
 
     // Deploy contract
     const contract = await factory.deploy(...constructorArgs);

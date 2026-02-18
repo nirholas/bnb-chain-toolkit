@@ -109,7 +109,7 @@
    ============================================ */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff') format('woff');
+  src: url('/fonts/OpenDyslexic-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -117,7 +117,7 @@
 
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Bold.woff') format('woff');
+  src: url('/fonts/OpenDyslexic-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
