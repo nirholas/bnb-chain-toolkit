@@ -27,6 +27,12 @@ out/
 .env.staging
 .env.test
 !.env.example
+standards/erc-8004/contracts/.env
+
+# ===========================
+# Backup files
+# ===========================
+*.bak
 
 # ===========================
 # Package manager logs & caches

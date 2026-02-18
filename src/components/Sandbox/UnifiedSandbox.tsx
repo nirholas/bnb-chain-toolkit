@@ -264,7 +264,7 @@ export default function UnifiedSandbox({
   const [isFullscreen, setIsFullscreen] = useState(false);
   
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const _editorRef = useRef<any>(null);
+  const _editorRef = useRef<unknown>(null);
   
   // ---------------------------------------------------------------------------
   // HANDLERS
@@ -513,7 +513,7 @@ export default function UnifiedSandbox({
             ].map(tab => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={cn(
                   "flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors",
                   activeTab === tab.id
@@ -629,7 +629,7 @@ export default function UnifiedSandbox({
                         const isView = func.stateMutability === 'view' || func.stateMutability === 'pure';
                         return (
                           <div key={i} className="space-y-1">
-                            {func.inputs.map((input: any, j: number) => (
+                            {func.inputs.map((input: ABIParam, j: number) => (
                               <input
                                 key={j}
                                 type="text"

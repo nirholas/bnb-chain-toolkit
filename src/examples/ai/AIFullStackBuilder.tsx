@@ -4,7 +4,7 @@
  * 💫 AI-powered full-stack dApp builder 🚀
  */
 
-import { useState } from 'react';
+import { useState, type SVGProps } from 'react';
 import { 
   Sparkles, 
   Code, 

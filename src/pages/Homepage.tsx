@@ -266,13 +266,13 @@ export default function Homepage() {
                 </div>
 
                 <div className="relative z-10 container mx-auto px-4 pt-24 pb-20 text-center">
-                    {/* Hackathon badge — professional pill */}
+                    {/* Status badge — professional pill */}
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide mb-10 border backdrop-blur-md bg-[#F0B90B]/[0.04] border-[#F0B90B]/20 text-[#F0B90B] uppercase animate-border-glow">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F0B90B] opacity-75" />
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F0B90B]" />
                         </span>
-                        BNB Chain &quot;Good Vibes Only&quot; Hackathon — Track 1: Agent
+                        Open Source · 78 Agents · 6 MCP Servers · 1,100+ Tools
                     </div>
 
                     {/* Main headline — tighter, bolder */}

@@ -320,8 +320,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-semibold">nich</h3>
               <p className="text-gray-500 dark:text-gray-400 mt-1">
                 Independent builder shipping open-source AI and Web3
-                infrastructure for the BNB Chain ecosystem. Building this toolkit
-                for the BNB Chain &quot;Good Vibes Only&quot; hackathon.
+                infrastructure for the BNB Chain ecosystem.
               </p>
               <div className="flex items-center gap-4 mt-4">
                 <a

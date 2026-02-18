@@ -59,6 +59,12 @@ export interface Tutorial {
   languages: string[]; // ['solidity', 'typescript', 'react', 'vue']
 }
 
+interface CodeAnnotation {
+  lineNumber: number;
+  type: string;
+  message: string;
+}
+
 interface InteractiveTutorialProps {
   tutorial: Tutorial;
   onComplete?: () => void;

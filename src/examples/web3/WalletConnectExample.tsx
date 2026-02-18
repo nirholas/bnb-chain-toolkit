@@ -53,9 +53,9 @@ export default function WalletConnectExample() {
       });
 
       await fetchBalance(userAddress);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Connection error:', err);
-      setError(err.message || 'Failed to connect wallet');
+      setError(err instanceof Error ? err.message : 'Failed to connect wallet');
     } finally {
       setIsConnecting(false);
     }
