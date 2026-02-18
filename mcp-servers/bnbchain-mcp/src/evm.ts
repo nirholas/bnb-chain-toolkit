@@ -28,6 +28,7 @@ import { registerSwap } from "@/evm/modules/swap/index.js"
 import { registerTokens } from "@/evm/modules/tokens/index.js"
 import { registerTransactions } from "@/evm/modules/transactions/index.js"
 import { registerWallet } from "@/evm/modules/wallet/index.js"
+// NOTE: evm/modules/governance is deliberately excluded — modules/governance is the superset
 
 // Import data/analytics modules
 import { registerDefi } from "@/modules/defi/index.js"
@@ -57,7 +58,6 @@ export function registerEVM(server: McpServer) {
   registerStaking(server)
   registerLending(server)
   registerBridge(server)
-  registerGovernance(server)
 
   // Utility modules
   registerGas(server)
@@ -76,6 +76,9 @@ export function registerEVM(server: McpServer) {
   // Data modules
   registerPriceFeeds(server)
   registerSecurity(server)
+
+  // Governance (from modules/ — superset of evm/modules/governance)
+  registerGovernance(server)
 
   // News module
   registerNews(server)

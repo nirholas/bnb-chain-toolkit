@@ -486,9 +486,9 @@ export function registerUtilityTools(server: McpServer) {
     }
   )
 
-  // Sign message with private key
+  // Sign message with private key (EIP-191)
   server.tool(
-    "sign_message",
+    "sign_message_eip191",
     "Sign an arbitrary message with a private key (EIP-191 personal sign)",
     {
       message: z.string().describe("Message to sign"),

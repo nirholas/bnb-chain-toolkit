@@ -238,9 +238,9 @@ export function registerSecurityTools(server: McpServer) {
     }
   )
 
-  // Verify contract source
+  // Check contract verification status
   server.tool(
-    "verify_contract",
+    "check_contract_verification",
     "Check if a contract is verified and get basic verification status",
     {
       network: defaultNetworkParam,

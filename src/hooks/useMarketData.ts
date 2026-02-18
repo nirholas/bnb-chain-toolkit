@@ -8,7 +8,7 @@
  * React hooks for consuming market data from CoinGecko and DeFiLlama
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   marketData,
   type TokenPrice,
@@ -78,6 +78,7 @@ export function usePrices(coinIds: string[]): UseQueryResult<Record<string, {
   }> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const coinIdsKey = useMemo(() => coinIds.join(','), [coinIds]);
 
   const fetch = useCallback(async () => {
     if (coinIds.length === 0) {
@@ -95,7 +96,7 @@ export function usePrices(coinIds: string[]): UseQueryResult<Record<string, {
     } finally {
       setLoading(false);
     }
-  }, [coinIds.join(',')]);
+  }, [coinIdsKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetch();
@@ -385,6 +386,7 @@ export function useLivePrices(
   }> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const coinIdsKey = useMemo(() => coinIds.join(','), [coinIds]);
 
   const fetch = useCallback(async () => {
     if (coinIds.length === 0) {
@@ -401,8 +403,7 @@ export function useLivePrices(
       setError(e instanceof Error ? e : new Error('Failed to fetch prices'));
       setLoading(false);
     }
-  }, [coinIds.join(',')]);
-
+  }, [coinIdsKey]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetch();
     const interval = setInterval(fetch, refreshInterval);

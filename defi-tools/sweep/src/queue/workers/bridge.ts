@@ -5,6 +5,9 @@
 
 import { Worker, type Job } from "bullmq";
 import { cacheGet, cacheSet } from "../../utils/redis.js";
+import { createPublicClient, createWalletClient, http, parseAbi } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { CHAIN_CONFIG, type SupportedChain } from "../../config/chains.js";
 import {
   QUEUE_NAMES,
   type BridgeExecuteJobData,
@@ -83,6 +86,49 @@ function getRedisUrl(): string {
 }
 
 /**
+ * ERC-20 approve ABI
+ */
+const ERC20_APPROVE_ABI = parseAbi([
+  "function approve(address spender, uint256 amount) returns (bool)",
+]);
+
+/**
+ * Get public client for a chain
+ */
+function getBridgePublicClient(chain: string) {
+  const chainKey = chain as Exclude<SupportedChain, "solana">;
+  const config = CHAIN_CONFIG[chainKey];
+  if (!config) throw new Error(`Unsupported chain: ${chain}`);
+
+  const rpcUrl = process.env[config.rpcEnvKey] || undefined;
+  return createPublicClient({
+    chain: config.chain,
+    transport: http(rpcUrl),
+  });
+}
+
+/**
+ * Get wallet client for a chain
+ */
+function getBridgeWalletClient(chain: string) {
+  const chainKey = chain as Exclude<SupportedChain, "solana">;
+  const config = CHAIN_CONFIG[chainKey];
+  if (!config) throw new Error(`Unsupported chain: ${chain}`);
+
+  const privateKey = process.env.SWEEP_EXECUTOR_KEY || process.env.FACILITATOR_PRIVATE_KEY;
+  if (!privateKey) throw new Error("SWEEP_EXECUTOR_KEY not configured");
+
+  const account = privateKeyToAccount(privateKey as `0x${string}`);
+  const rpcUrl = process.env[config.rpcEnvKey] || undefined;
+
+  return createWalletClient({
+    account,
+    chain: config.chain,
+    transport: http(rpcUrl),
+  });
+}
+
+/**
  * Send a notification for bridge events
  * In production, this would integrate with a notification service
  */
@@ -102,9 +148,75 @@ async function sendBridgeNotification(notification: BridgeNotification): Promise
   
   console.log(`[BridgeNotification] ${notification.type} for ${notification.bridgeId}`);
   
-  // TODO: Integrate with push notification service (e.g., Firebase, OneSignal)
-  // TODO: Integrate with email service for important events
-  // TODO: Integrate with webhook service for programmatic notifications
+  // Push notification via webhook if user has registered one
+  const webhookUrl = await cacheGet<string>(`bridge:webhook:${notification.userId}`);
+  if (webhookUrl) {
+    try {
+      await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(notification),
+        signal: AbortSignal.timeout(5000), // 5s timeout
+      });
+      console.log(`[BridgeNotification] Webhook sent to ${webhookUrl}`);
+    } catch (error) {
+      console.warn(`[BridgeNotification] Webhook delivery failed:`, error);
+    }
+  }
+  
+  // Email notification for important events (completed, failed, refunded)
+  if (notification.type !== "bridge_started") {
+    const emailConfig = await cacheGet<{ email: string; enabled: boolean }>(
+      `bridge:email:${notification.userId}`
+    );
+    if (emailConfig?.enabled && emailConfig.email) {
+      try {
+        const emailApiUrl = process.env.EMAIL_SERVICE_URL;
+        if (emailApiUrl) {
+          await fetch(`${emailApiUrl}/send`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to: emailConfig.email,
+              subject: `Bridge ${notification.type.replace("bridge_", "")}: ${notification.sourceChain} → ${notification.destinationChain}`,
+              template: "bridge-notification",
+              data: notification,
+            }),
+            signal: AbortSignal.timeout(5000),
+          });
+          console.log(`[BridgeNotification] Email sent to ${emailConfig.email}`);
+        }
+      } catch (error) {
+        console.warn(`[BridgeNotification] Email delivery failed:`, error);
+      }
+    }
+  }
+
+  // Push notification via Firebase Cloud Messaging if configured
+  const fcmToken = await cacheGet<string>(`bridge:fcm:${notification.userId}`);
+  if (fcmToken && process.env.FCM_SERVER_KEY) {
+    try {
+      await fetch("https://fcm.googleapis.com/fcm/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `key=${process.env.FCM_SERVER_KEY}`,
+        },
+        body: JSON.stringify({
+          to: fcmToken,
+          notification: {
+            title: `Bridge ${notification.type.replace("bridge_", "")}`,
+            body: `${notification.sourceChain} → ${notification.destinationChain}: ${notification.amount}`,
+          },
+          data: notification,
+        }),
+        signal: AbortSignal.timeout(5000),
+      });
+      console.log(`[BridgeNotification] Push notification sent`);
+    } catch (error) {
+      console.warn(`[BridgeNotification] Push notification failed:`, error);
+    }
+  }
 }
 
 /**
@@ -215,23 +327,43 @@ export function createBridgeExecuteWorker(): Worker<
             // Build the bridge transaction
             const tx = await aggregator.buildTransaction(quote);
             
-            // TODO: Execute the transaction using smart wallet / AA
-            // For now, simulate the transaction
-            const mockTxHash = `0x${Buffer.from(
-              `bridge-${planId}-${sourceChain}-${Date.now()}`
-            )
-              .toString("hex")
-              .slice(0, 64)}` as `0x${string}`;
+            // Execute the bridge transaction on-chain
+            const walletClient = getBridgeWalletClient(sourceChain);
+            const publicClient = getBridgePublicClient(sourceChain);
+            
+            // Handle token approval if needed
+            if (tx.approval) {
+              console.log(`[BridgeWorker] Approving ${tx.approval.token} for ${tx.approval.spender}`);
+              const approvalHash = await walletClient.writeContract({
+                address: tx.approval.token,
+                abi: ERC20_APPROVE_ABI,
+                functionName: "approve",
+                args: [tx.approval.spender, tx.approval.amount],
+              });
+              
+              await publicClient.waitForTransactionReceipt({
+                hash: approvalHash,
+                confirmations: 1,
+              });
+            }
+            
+            // Submit the bridge transaction
+            const txHash = await walletClient.sendTransaction({
+              to: tx.to,
+              data: tx.data,
+              value: tx.value,
+              gas: tx.gasLimit,
+            });
             
             console.log(
-              `[BridgeWorker] Bridge tx submitted: ${mockTxHash} (${sourceChain} -> ${quote.destinationChain})`
+              `[BridgeWorker] Bridge tx submitted: ${txHash} (${sourceChain} -> ${quote.destinationChain})`
             );
             
             // Add to executed list
             executedBridges.push({
               sourceChain,
               destinationChain: quote.destinationChain,
-              txHash: mockTxHash,
+              txHash: txHash,
               provider: quote.provider,
               amount: quote.inputAmount.toString(),
               status: BridgeStatus.PENDING,
@@ -241,7 +373,7 @@ export function createBridgeExecuteWorker(): Worker<
             await addBridgeTrackJob({
               planId,
               bridgeId: `${planId}-${sourceChain}`,
-              sourceTxHash: mockTxHash,
+              sourceTxHash: txHash,
               sourceChain,
               destinationChain: quote.destinationChain,
               provider: quote.provider,

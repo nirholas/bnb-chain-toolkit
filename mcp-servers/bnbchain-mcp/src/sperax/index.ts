@@ -30,7 +30,7 @@ function registerSperaxTools(server: McpServer) {
     server.tool(
       tool.name,
       tool.description,
-      tool.inputSchema._def ? tool.inputSchema : {},
+      tool.inputSchema && tool.inputSchema._def ? tool.inputSchema : {},
       async (params: Record<string, unknown>) => {
         try {
           const result = await tool.handler(params)

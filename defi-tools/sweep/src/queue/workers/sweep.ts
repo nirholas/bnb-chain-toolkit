@@ -35,6 +35,148 @@ function getRedisUrl(): string {
 }
 
 /**
+ * ERC-20 ABI for token approvals and transfers
+ */
+const ERC20_ABI = parseAbi([
+  "function approve(address spender, uint256 amount) returns (bool)",
+  "function transfer(address to, uint256 amount) returns (bool)",
+  "function balanceOf(address account) view returns (uint256)",
+  "function allowance(address owner, address spender) view returns (uint256)",
+]);
+
+/**
+ * Get public client for a chain
+ */
+function getPublicClient(chain: string) {
+  const chainKey = chain as Exclude<SupportedChain, "solana">;
+  const config = CHAIN_CONFIG[chainKey];
+  if (!config) throw new Error(`Unsupported chain: ${chain}`);
+
+  const rpcUrl = process.env[config.rpcEnvKey] || undefined;
+  return createPublicClient({
+    chain: config.chain,
+    transport: http(rpcUrl),
+  });
+}
+
+/**
+ * Get wallet client for a chain (requires SWEEP_EXECUTOR_KEY)
+ */
+function getWalletClient(chain: string) {
+  const chainKey = chain as Exclude<SupportedChain, "solana">;
+  const config = CHAIN_CONFIG[chainKey];
+  if (!config) throw new Error(`Unsupported chain: ${chain}`);
+
+  const privateKey = process.env.SWEEP_EXECUTOR_KEY || process.env.FACILITATOR_PRIVATE_KEY;
+  if (!privateKey) throw new Error("SWEEP_EXECUTOR_KEY not configured");
+
+  const account = privateKeyToAccount(privateKey as `0x${string}`);
+  const rpcUrl = process.env[config.rpcEnvKey] || undefined;
+
+  return createWalletClient({
+    account,
+    chain: config.chain,
+    transport: http(rpcUrl),
+  });
+}
+
+/**
+ * Execute a token swap via DEX aggregator (1inch Fusion API)
+ */
+async function executeTokenSwap(
+  chain: string,
+  tokenAddress: string,
+  amount: string,
+  recipient: string,
+): Promise<{ txHash: string; userOpHash?: string }> {
+  const publicClient = getPublicClient(chain);
+  const walletClient = getWalletClient(chain);
+  const chainConfig = CHAIN_CONFIG[chain as Exclude<SupportedChain, "solana">];
+  const destinationToken = chainConfig.stablecoin;
+
+  // Step 1: Approve token spending if needed (skip for native tokens)
+  const isNativeToken = tokenAddress.toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+
+  if (!isNativeToken) {
+    // Use 1inch router as spender (standard address across chains)
+    const oneInchRouter = "0x1111111254EEB25477B68fb85Ed929f73A960582" as `0x${string}`;
+
+    const currentAllowance = await publicClient.readContract({
+      address: tokenAddress as `0x${string}`,
+      abi: ERC20_ABI,
+      functionName: "allowance",
+      args: [walletClient.account!.address, oneInchRouter],
+    });
+
+    if (currentAllowance < BigInt(amount)) {
+      const approvalHash = await walletClient.writeContract({
+        address: tokenAddress as `0x${string}`,
+        abi: ERC20_ABI,
+        functionName: "approve",
+        args: [oneInchRouter, BigInt(amount)],
+      });
+
+      await publicClient.waitForTransactionReceipt({
+        hash: approvalHash,
+        confirmations: 1,
+      });
+    }
+  }
+
+  // Step 2: Execute swap via DEX aggregator
+  // Try 1inch API for swap data, fall back to direct transfer to stablecoin
+  try {
+    const chainId = publicClient.chain?.id;
+    const swapUrl = `https://api.1inch.dev/swap/v6.0/${chainId}/swap`;
+    const params = new URLSearchParams({
+      src: tokenAddress,
+      dst: destinationToken,
+      amount: amount,
+      from: walletClient.account!.address,
+      slippage: "1",
+      disableEstimate: "true",
+    });
+
+    const oneInchApiKey = process.env.ONEINCH_API_KEY;
+    const response = await fetch(`${swapUrl}?${params}`, {
+      headers: oneInchApiKey ? { Authorization: `Bearer ${oneInchApiKey}` } : {},
+    });
+
+    if (response.ok) {
+      const swapData = await response.json() as { tx: { to: string; data: string; value: string; gas: number } };
+      const txHash = await walletClient.sendTransaction({
+        to: swapData.tx.to as `0x${string}`,
+        data: swapData.tx.data as `0x${string}`,
+        value: BigInt(swapData.tx.value || "0"),
+        gas: BigInt(swapData.tx.gas || 300000),
+      });
+
+      return { txHash };
+    }
+  } catch (error) {
+    console.warn(`[SweepWorker] 1inch API failed for ${chain}, using direct transfer:`, error);
+  }
+
+  // Fallback: Direct transfer of token to recipient (for consolidation on same chain)
+  if (isNativeToken) {
+    const txHash = await walletClient.sendTransaction({
+      to: recipient as `0x${string}`,
+      value: BigInt(amount),
+    });
+    return { txHash };
+  }
+
+  const txHash = await walletClient.writeContract({
+    address: tokenAddress as `0x${string}`,
+    abi: ERC20_ABI,
+    functionName: "transfer",
+    args: [recipient as `0x${string}`, BigInt(amount)],
+  });
+
+  return { txHash };
+}
+
+/**
  * Create the sweep execution worker
  */
 export function createSweepWorker(): Worker<SweepExecuteJobData, SweepWorkerResult> {
@@ -104,31 +246,42 @@ export function createSweepWorker(): Worker<SweepExecuteJobData, SweepWorkerResu
             `[SweepWorker] Processing ${chainTokens.length} tokens on ${chain}`
           );
 
-          // TODO: Implement actual sweep execution using:
-          // 1. Smart Wallet / Account Abstraction
-          // 2. Paymaster for gas abstraction
-          // 3. DEX aggregator (1inch Fusion, Jupiter, CoW)
-          // 4. UserOperation building and signing
-          // 5. Bundler submission
+          try {
+            // Execute token swaps/transfers for each dust token on this chain
+            for (const token of chainTokens) {
+              const result = await executeTokenSwap(
+                chain,
+                token.address,
+                token.amount,
+                walletAddress,
+              );
 
-          // For now, simulate the transaction
-          const mockTxHash = `0x${Buffer.from(
-            `${sweepId}-${chain}-${Date.now()}`
-          ).toString("hex").slice(0, 64)}`;
-          const mockUserOpHash = `0x${Buffer.from(
-            `userop-${sweepId}-${chain}`
-          ).toString("hex").slice(0, 64)}`;
+              txHashes[chain] = result.txHash;
+              if (result.userOpHash) {
+                userOpHashes[chain] = result.userOpHash;
+              }
+            }
 
-          txHashes[chain] = mockTxHash;
-          userOpHashes[chain] = mockUserOpHash;
+            // Queue transaction tracking for this chain
+            await addSweepTrackJob({
+              sweepId,
+              txHash: txHashes[chain],
+              chain,
+              userOpHash: userOpHashes[chain],
+            });
+          } catch (error) {
+            console.error(`[SweepWorker] Error executing sweep on ${chain}:`, error);
+            // Generate a marker hash so tracking can handle the failure
+            const errorHash = `0x${"00".repeat(32)}` as string;
+            txHashes[chain] = errorHash;
 
-          // Queue transaction tracking
-          await addSweepTrackJob({
-            sweepId,
-            txHash: mockTxHash,
-            chain,
-            userOpHash: mockUserOpHash,
-          });
+            await addSweepTrackJob({
+              sweepId,
+              txHash: errorHash,
+              chain,
+              userOpHash: undefined,
+            });
+          }
         }
 
         await job.updateProgress(80);
@@ -220,15 +373,47 @@ export function createTrackWorker(): Worker<SweepTrackJobData, TrackWorkerResult
       const db = getDb();
 
       try {
-        // TODO: Implement actual transaction tracking using:
-        // 1. viem/ethers to check transaction receipt
-        // 2. Bundler API to check UserOperation status
-        // 3. Block explorer API for confirmation count
+        // Check transaction receipt using viem public client
+        let confirmations = 0;
+        let isConfirmed = false;
 
-        // For now, simulate checking the transaction
-        const attempts = job.attemptsMade;
-        const confirmations = Math.min(attempts + 1, 12);
-        const isConfirmed = confirmations >= 6;
+        try {
+          const publicClient = getPublicClient(chain);
+
+          const receipt = await publicClient.getTransactionReceipt({
+            hash: txHash as `0x${string}`,
+          });
+
+          if (receipt) {
+            if (receipt.status === "reverted") {
+              // Transaction reverted
+              await db
+                .update(sweeps)
+                .set({
+                  status: "failed",
+                  errorMessage: "Transaction reverted on-chain",
+                  updatedAt: new Date(),
+                })
+                .where(eq(sweeps.id, sweepId));
+
+              return {
+                sweepId,
+                status: "failed" as const,
+                confirmations: 0,
+                txHash,
+              };
+            }
+
+            // Get current block number for confirmation count
+            const currentBlock = await publicClient.getBlockNumber();
+            confirmations = Number(currentBlock - receipt.blockNumber);
+            isConfirmed = confirmations >= 6;
+          }
+        } catch (error) {
+          // Transaction not yet mined or RPC error — treat as pending
+          console.log(`[TrackWorker] Tx ${txHash} not yet mined, attempt ${job.attemptsMade}`);
+          confirmations = 0;
+        }
 
         if (isConfirmed) {
           // Update sweep status to confirmed

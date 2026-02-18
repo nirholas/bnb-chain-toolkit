@@ -65,7 +65,6 @@ export default defineConfig({
           'privy': ['@privy-io/react-auth'],
           'ui-vendor': ['lucide-react', '@icons-pack/react-simple-icons', 'clsx', 'tailwind-merge'],
           'monaco': ['@monaco-editor/react'],
-          'walletconnect': ['@walletconnect/ethereum-provider', '@walletconnect/modal'],
         },
       },
     },

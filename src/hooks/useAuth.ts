@@ -53,6 +53,7 @@ export function useAuth() {
   // but we can return early after them.
   
   // Always call all hooks — order must be stable across renders
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const privyModule = isPrivyConfigured
     ? require('@privy-io/react-auth')
     : null;

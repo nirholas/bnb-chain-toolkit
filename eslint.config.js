@@ -59,14 +59,24 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
-      // React Hooks rules — keep core rules, downgrade React Compiler rules to warnings
+      // React Hooks — spread recommended then downgrade all non-core rules to warn.
+      // Covers set-state-in-effect, immutability, and any future Compiler-oriented rules.
       ...Object.fromEntries(
         Object.entries(reactHooks.configs.recommended.rules).map(
-          ([key, val]) => [key, val === 'error' && key !== 'react-hooks/rules-of-hooks' ? 'warn' : val]
+          ([key, val]) => {
+            if (key === 'react-hooks/rules-of-hooks') return [key, 'error'];
+            // val may be a number (2), string ('error'), or array — normalise
+            const severity = Array.isArray(val) ? val[0] : val;
+            if (severity === 'error' || severity === 2) return [key, 'warn'];
+            return [key, val];
+          }
         )
       ),
+      // Explicit overrides in case recommended doesn't list them
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/immutability': 'warn',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
@@ -103,7 +113,7 @@ export default [
       'no-empty': 'warn',
       'no-case-declarations': 'warn',
       'no-useless-escape': 'warn',
-      'curly': ['warn', 'multi-line'],
+      'curly': ['error', 'multi-line'],
       'eqeqeq': ['error', 'always', { null: 'ignore' }],
       'no-throw-literal': 'error',
 
@@ -143,5 +153,5 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
       'no-console': 'off',
     },
-  }
-);
+  }),
+];
