@@ -133,7 +133,6 @@ export const formatAgentJSON = async (agent: LobeAgent, locale: string = config.
   agent.knowledgeCount = agent.config?.knowledgeBases?.length || 0;
 
   // 验证和修复 examples 字段
-   
   agent = validateAndFixExamples(agent);
 
   // 计算 token 使用量（仅在未计算过时才计算）

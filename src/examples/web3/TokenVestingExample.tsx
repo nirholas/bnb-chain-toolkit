@@ -4,7 +4,7 @@
  * 💫 Every expert was once a beginner 📚
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Lock, Clock, Unlock } from 'lucide-react';
 import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
@@ -19,24 +19,27 @@ interface VestingSchedule {
 
 export default function TokenVestingExample() {
   const { notify, NotificationArea } = useInlineNotification();
-  const [schedules, setSchedules] = useState<VestingSchedule[]>([
-    {
-      beneficiary: '0xaaaa...bbbb',
-      totalAmount: 10000,
-      startTime: Date.now() - 86400000 * 30, // started 30 days ago
-      duration: 365,
-      cliffDuration: 90,
-      released: 0,
-    },
-    {
-      beneficiary: '0xcccc...dddd',
-      totalAmount: 5000,
-      startTime: Date.now() - 86400000 * 180, // started 180 days ago
-      duration: 365,
-      cliffDuration: 0,
-      released: 2500,
-    },
-  ]);
+  const [schedules, setSchedules] = useState<VestingSchedule[]>(() => {
+    const now = Date.now();
+    return [
+      {
+        beneficiary: '0xaaaa...bbbb',
+        totalAmount: 10000,
+        startTime: now - 86400000 * 30, // started 30 days ago
+        duration: 365,
+        cliffDuration: 90,
+        released: 0,
+      },
+      {
+        beneficiary: '0xcccc...dddd',
+        totalAmount: 5000,
+        startTime: now - 86400000 * 180, // started 180 days ago
+        duration: 365,
+        cliffDuration: 0,
+        released: 2500,
+      },
+    ];
+  });
 
   const [newSchedule, setNewSchedule] = useState({
     beneficiary: '',
@@ -45,7 +48,7 @@ export default function TokenVestingExample() {
     cliff: '90',
   });
 
-  const calculateVestedAmount = (schedule: VestingSchedule): number => {
+  const calculateVestedAmount = useMemo(() => (schedule: VestingSchedule): number => {
     const currentTime = Date.now();
     const elapsedTime = currentTime - schedule.startTime;
     const elapsedDays = elapsedTime / 86400000;

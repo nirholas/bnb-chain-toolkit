@@ -4,7 +4,7 @@
  * 💫 The web is your canvas, code is your brush ��️
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Shield, Users, CheckCircle, XCircle, Clock, Send } from 'lucide-react';
 import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
@@ -30,26 +30,29 @@ export default function MultiSigWalletExample() {
   const [requiredApprovals] = useState(2);
   const [balance] = useState(10.5);
   
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: 1,
-      to: '0xaaaa...bbbb',
-      value: 2.5,
-      description: 'Payment for development services',
-      approvals: ['0x1111...1111'],
-      executed: false,
-      timestamp: Date.now() - 3600000,
-    },
-    {
-      id: 2,
-      to: '0xcccc...dddd',
-      value: 0.5,
-      description: 'Domain renewal payment',
-      approvals: ['0x1111...1111', '0x2222...2222'],
-      executed: false,
-      timestamp: Date.now() - 7200000,
-    },
-  ]);
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    const now = Date.now();
+    return [
+      {
+        id: 1,
+        to: '0xaaaa...bbbb',
+        value: 2.5,
+        description: 'Payment for development services',
+        approvals: ['0x1111...1111'],
+        executed: false,
+        timestamp: now - 3600000,
+      },
+      {
+        id: 2,
+        to: '0xcccc...dddd',
+        value: 0.5,
+        description: 'Domain renewal payment',
+        approvals: ['0x1111...1111', '0x2222...2222'],
+        executed: false,
+        timestamp: now - 7200000,
+      },
+    ];
+  });
 
   const [newTx, setNewTx] = useState({ to: '', value: '', description: '' });
 
@@ -106,14 +109,14 @@ export default function MultiSigWalletExample() {
   const pendingTransactions = transactions.filter(tx => !tx.executed);
   const executedTransactions = transactions.filter(tx => tx.executed);
 
-  const getTimeAgo = (timestamp: number) => {
+  const getTimeAgo = useMemo(() => (timestamp: number) => {
     const seconds = Math.floor((Date.now() - timestamp) / 1000);
     if (seconds < 60) return `${seconds}s ago`;
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `${minutes}m ago`;
     const hours = Math.floor(minutes / 60);
     return `${hours}h ago`;
-  };
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto">

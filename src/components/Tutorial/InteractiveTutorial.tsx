@@ -4,7 +4,7 @@
  * 💫 Every line of code is a step toward something amazing ✨
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Editor from '@monaco-editor/react';
 import {
   Play,
@@ -86,36 +86,12 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
   const editorRef = useRef<any>(null);
   const currentStep = tutorial.steps[currentStepIndex];
 
-  useEffect(() => {
-    if (currentStepIndex >= tutorial.steps.length) {
-      setCurrentStepIndex(0);
-      persistProgress(p => ({ ...p, currentStepIndex: 0 }));
-    }
-  }, [tutorial.steps.length, currentStepIndex]);
-
-  const persistProgress = (updater: (prev: TutorialProgress) => TutorialProgress) => {
-    setProgressState(prev => {
+  const persistProgress = useCallback((updater: (prev: TutorialProgress) => TutorialProgress) => {
+    setProgressState((prev: TutorialProgress) => {
       const next = updater(prev);
       return saveProgress(tutorial.id, next);
     });
-  };
-
-  useEffect(() => {
-    // Load step code when step or language changes (with snapshots)
-    if (currentStep && currentStep.code[activeLanguage]) {
-      const snapshot = progressState.codeSnapshots?.[currentStep.id]?.[activeLanguage];
-      const nextCode = snapshot ?? currentStep.code[activeLanguage];
-
-      setCode(nextCode);
-      setOutput('');
-      setShowHints(false);
-      setShowChallenge(false);
-      setShowSolution(false);
-      
-      // Generate annotations for the code
-      generateAnnotations(nextCode);
-    }
-  }, [currentStepIndex, activeLanguage, progressState.codeSnapshots, currentStep]);
+  }, [tutorial.id]);
 
   const generateAnnotations = (codeContent: string) => {
     // Parse code and generate inline annotations
@@ -156,6 +132,30 @@ export default function InteractiveTutorial({ tutorial, onComplete }: Interactiv
     
     setAnnotations(newAnnotations);
   };
+
+  useEffect(() => {
+    if (currentStepIndex >= tutorial.steps.length) {
+      setCurrentStepIndex(0);
+      persistProgress(p => ({ ...p, currentStepIndex: 0 }));
+    }
+  }, [tutorial.steps.length, currentStepIndex, persistProgress]);
+
+  useEffect(() => {
+    // Load step code when step or language changes (with snapshots)
+    if (currentStep && currentStep.code[activeLanguage]) {
+      const snapshot = progressState.codeSnapshots?.[currentStep.id]?.[activeLanguage];
+      const nextCode = snapshot ?? currentStep.code[activeLanguage];
+
+      setCode(nextCode);
+      setOutput('');
+      setShowHints(false);
+      setShowChallenge(false);
+      setShowSolution(false);
+      
+      // Generate annotations for the code
+      generateAnnotations(nextCode);
+    }
+  }, [currentStepIndex, activeLanguage, progressState.codeSnapshots, currentStep]);
 
   const handleEditorMount = (editor: any, monaco: any) => {
     editorRef.current = editor;

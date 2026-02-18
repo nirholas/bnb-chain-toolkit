@@ -4,7 +4,7 @@
  * 💫 Your potential is limitless 🌌
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Lock, TrendingUp, Coins, Clock } from 'lucide-react';
 import { useInlineNotification } from '@/examples/shared/InlineNotification';
 

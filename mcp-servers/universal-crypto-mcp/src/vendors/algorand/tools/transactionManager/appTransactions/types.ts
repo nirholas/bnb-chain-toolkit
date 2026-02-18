@@ -5,7 +5,6 @@
  * @license Apache-2.0
  */
 import { type SuggestedParams, type OnApplicationComplete } from 'algosdk';
-import { on } from 'events';
 
 // Base transaction parameters interface
 export interface BaseAppTxnParams {

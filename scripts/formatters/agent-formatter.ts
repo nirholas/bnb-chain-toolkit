@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import pMap from 'p-map';
 
 import { agents, agentsDir, config, localesDir } from '../core/constants';
+import { isOpenAIAvailable } from '../core/model';
 import { AgentParser } from '../parsers/agent-parser';
 import { generateAgentContentAndCategory } from '../processors/category-processor';
 import { translateJSON } from '../processors/i18n-processor';
@@ -214,8 +215,12 @@ class AgentFormatter {
 
     // 如果需要生成分类或内容，使用合并的函数一次性生成
     if (needsCategory || needsContentGeneration) {
-      agent = await generateAgentContentAndCategory(agent);
-      Logger.success('内容生成和分类完成', id);
+      if (isOpenAIAvailable()) {
+        agent = await generateAgentContentAndCategory(agent);
+        Logger.success('内容生成和分类完成', id);
+      } else {
+        Logger.warn('跳过 AI 内容生成（未设置 OPENAI_API_KEY）', id);
+      }
     }
 
     // 处理创建时间字段 — migrate legacy `createAt` to `createdAt`
@@ -253,9 +258,12 @@ class AgentFormatter {
         mkdirSync(directoryPath, { recursive: true });
       }
 
-      // 并行生成多语言版本
+      // 并行生成多语言版本（skip when no API key — translations need AI）
+      if (!isOpenAIAvailable()) {
+        Logger.warn('跳过国际化翻译（未设置 OPENAI_API_KEY）', id);
+      }
       await pMap(
-        config.outputLocales,
+        isOpenAIAvailable() ? config.outputLocales : [],
         async (locale: string) => {
           const localeFileName = getLocaleAgentFileName(id, locale);
           const localeFilePath = resolve(localesDir, localeFileName);

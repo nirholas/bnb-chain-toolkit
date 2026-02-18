@@ -219,9 +219,9 @@ function getExampleArgs(tool: ToolCall): Record<string, string> {
   >;
   if ("address" in props) {
     if (tool.name.includes("token"))
-      args.address = "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82";
+      {args.address = "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82";}
     else if (tool.name.includes("nft"))
-      args.address = "0xDf7952B35f24aCF7fC0487D01c8d5690a60DBa07";
+      {args.address = "0xDf7952B35f24aCF7fC0487D01c8d5690a60DBa07";}
     else args.address = "0xF977814e90dA44bFA03b6295A0616a897441aceC";
   }
   if ("chain" in props) args.chain = "bsc";

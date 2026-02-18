@@ -27,6 +27,7 @@
 <a href="https://github.com/nirholas/bnb-chain-toolkit"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge&labelColor=000" alt="PRs Welcome" /></a>
 <a href="https://bnb-chain-toolkit.vercel.app/"><img src="https://img.shields.io/badge/demo-live-00C853?style=for-the-badge&logo=vercel&labelColor=000" alt="Live Demo" /></a>
 <a href="HACKATHON.md"><img src="https://img.shields.io/badge/hackathon-Good%20Vibes%20Only-F0B90B?style=for-the-badge&labelColor=000" alt="Good Vibes Only" /></a>
+<a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fnirholas%2Fbnb-chain-toolkit&project-name=bnb-chain-toolkit&repository-name=bnb-chain-toolkit"><img src="https://vercel.com/button" alt="Deploy with Vercel" /></a>
 
 <br>
 

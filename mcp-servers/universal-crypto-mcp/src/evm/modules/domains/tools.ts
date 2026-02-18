@@ -511,7 +511,7 @@ export function registerDomainsTools(server: McpServer) {
       duration: z.number().describe("Registration duration in seconds (1 year = 31536000)"),
       ownerAddress: z.string().optional().describe("Address to set as owner (defaults to sender)"),
       setReverseRecord: z.boolean().optional().default(true).describe("Set as primary name for owner"),
-      privateKey: z.string().describe("Private key for registration").default(process.env.PRIVATE_KEY as string)
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ name, duration, ownerAddress, setReverseRecord = true, privateKey }) => {
       try {
@@ -640,7 +640,7 @@ export function registerDomainsTools(server: McpServer) {
         textRecords: z.record(z.string()).optional().describe("Text records (e.g., {\"com.twitter\": \"@username\"})"),
         contenthash: z.string().optional().describe("Content hash (IPFS, Swarm, etc.)")
       }).describe("Records to set"),
-      privateKey: z.string().describe("Private key of name owner").default(process.env.PRIVATE_KEY as string)
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ name, records, privateKey }) => {
       try {
@@ -747,7 +747,7 @@ export function registerDomainsTools(server: McpServer) {
     {
       name: z.string().describe("ENS name to transfer"),
       newOwner: z.string().describe("Address of new owner"),
-      privateKey: z.string().describe("Private key of current owner").default(process.env.PRIVATE_KEY as string)
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ name, newOwner, privateKey }) => {
       try {
@@ -815,7 +815,7 @@ export function registerDomainsTools(server: McpServer) {
     {
       name: z.string().describe("ENS name to renew (without .eth)"),
       duration: z.number().describe("Additional duration in seconds (1 year = 31536000)"),
-      privateKey: z.string().describe("Private key for payment").default(process.env.PRIVATE_KEY as string)
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ name, duration, privateKey }) => {
       try {
@@ -893,7 +893,7 @@ export function registerDomainsTools(server: McpServer) {
       subdomain: z.string().describe("Subdomain label (e.g., 'blog' for 'blog.example.eth')"),
       ownerAddress: z.string().optional().describe("Owner of the subdomain (defaults to sender)"),
       resolverAddress: z.string().optional().describe("Resolver address for subdomain"),
-      privateKey: z.string().describe("Private key of parent name owner").default(process.env.PRIVATE_KEY as string)
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ parentName, subdomain, ownerAddress, resolverAddress, privateKey }) => {
       try {

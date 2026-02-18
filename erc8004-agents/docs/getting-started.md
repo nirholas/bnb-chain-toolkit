@@ -113,7 +113,7 @@ After confirmation (speed varies by chain), you'll see:
 | Get testnet tokens | See faucet table above |
 | View contracts | [Contract Addresses](contracts.md) |
 | Read the spec | [8004.org](https://www.8004.org) |
-| Supported chains | 22 EVM chains (7 testnets + 15 mainnets) |
+| Supported chains | 24 EVM chains (8 testnets + 16 mainnets) |
 
 ## Need Help?
 

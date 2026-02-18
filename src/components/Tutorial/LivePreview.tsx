@@ -17,13 +17,6 @@ export default function LivePreview({ code, language, output }: LivePreviewProps
   const [previewContent, setPreviewContent] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Auto-render for HTML/JavaScript
-    if (language === 'javascript' || language === 'html') {
-      renderPreview();
-    }
-  }, [code, language]);
-
   const renderPreview = () => {
     setError(null);
 
@@ -114,10 +107,17 @@ export default function LivePreview({ code, language, output }: LivePreviewProps
           </html>
         `);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
     }
   };
+
+  useEffect(() => {
+    // Auto-render for HTML/JavaScript
+    if (language === 'javascript' || language === 'html') {
+      renderPreview();
+    }
+  }, [code, language]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleRefresh = () => {
     renderPreview();

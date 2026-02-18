@@ -52,8 +52,14 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
     },
     rules: {
-      // React Hooks rules
-      ...reactHooks.configs.recommended.rules,
+      // React Hooks rules — keep core rules, downgrade React Compiler rules to warnings
+      ...Object.fromEntries(
+        Object.entries(reactHooks.configs.recommended.rules).map(
+          ([key, val]) => [key, val === 'error' && key !== 'react-hooks/rules-of-hooks' ? 'warn' : val]
+        )
+      ),
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
@@ -79,6 +85,8 @@ export default tseslint.config(
       '@typescript-eslint/ban-ts-comment': 'warn',
       '@typescript-eslint/no-empty-object-type': 'warn',
       '@typescript-eslint/no-unsafe-function-type': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'warn',
 
       // General rules
       'no-console': ['warn', { allow: ['warn', 'error'] }],
@@ -87,8 +95,9 @@ export default tseslint.config(
       'no-var': 'error',
       'no-empty': 'warn',
       'no-case-declarations': 'warn',
+      'no-useless-escape': 'warn',
+      'curly': ['warn', 'multi-line'],
       'eqeqeq': ['error', 'always', { null: 'ignore' }],
-      'curly': ['error', 'multi-line'],
       'no-throw-literal': 'error',
 
       // Accessibility

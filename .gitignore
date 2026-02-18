@@ -140,6 +140,10 @@ broadcast/
 tmp/
 temp/
 
+# Screenshots & images (accidental drops)
+Screenshot*
+screenshot*
+
 # Secrets & keys (safety net)
 *.pem
 *.key

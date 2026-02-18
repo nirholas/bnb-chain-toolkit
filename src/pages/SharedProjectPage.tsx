@@ -61,13 +61,6 @@ export default function SharedProjectPage() {
   const [copied, setCopied] = useState(false);
   const [forking, setForking] = useState(false);
 
-  // Load project
-  useEffect(() => {
-    if (token) {
-      loadProject();
-    }
-  }, [token]);
-
   const loadProject = async () => {
     if (!token) return;
     
@@ -93,6 +86,13 @@ export default function SharedProjectPage() {
     
     setLoading(false);
   };
+
+  // Load project
+  useEffect(() => {
+    if (token) {
+      loadProject();
+    }
+  }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLike = async () => {
     if (!isConnected || !address) {

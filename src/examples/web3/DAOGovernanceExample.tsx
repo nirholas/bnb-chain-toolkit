@@ -4,7 +4,7 @@
  * 💫 Write code that makes you proud 🏆
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Vote, Users, TrendingUp, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useInlineNotification } from '@/examples/shared/InlineNotification';
 
@@ -24,34 +24,37 @@ interface Proposal {
 
 export default function DAOGovernanceExample() {
   const { notify, NotificationArea } = useInlineNotification();
-  const [proposals, setProposals] = useState<Proposal[]>([
-    {
-      id: 1,
-      title: 'Increase Development Fund by 10%',
-      description: 'Proposal to allocate an additional 10% of treasury funds to development initiatives.',
-      proposer: '0x1234...5678',
-      status: 'active',
-      votesFor: 15000,
-      votesAgainst: 5000,
-      votesAbstain: 2000,
-      quorum: 20000,
-      deadline: Date.now() + 86400000 * 3,
-      voters: new Set(),
-    },
-    {
-      id: 2,
-      title: 'Add New Token to Whitelist',
-      description: 'Propose adding MATIC token to the approved trading list.',
-      proposer: '0xabcd...efgh',
-      status: 'active',
-      votesFor: 8000,
-      votesAgainst: 12000,
-      votesAbstain: 1000,
-      quorum: 15000,
-      deadline: Date.now() + 86400000 * 2,
-      voters: new Set(),
-    },
-  ]);
+  const [proposals, setProposals] = useState<Proposal[]>(() => {
+    const now = Date.now();
+    return [
+      {
+        id: 1,
+        title: 'Increase Development Fund by 10%',
+        description: 'Proposal to allocate an additional 10% of treasury funds to development initiatives.',
+        proposer: '0x1234...5678',
+        status: 'active',
+        votesFor: 15000,
+        votesAgainst: 5000,
+        votesAbstain: 2000,
+        quorum: 20000,
+        deadline: now + 86400000 * 3,
+        voters: new Set(),
+      },
+      {
+        id: 2,
+        title: 'Add New Token to Whitelist',
+        description: 'Propose adding MATIC token to the approved trading list.',
+        proposer: '0xabcd...efgh',
+        status: 'active',
+        votesFor: 8000,
+        votesAgainst: 12000,
+        votesAbstain: 1000,
+        quorum: 15000,
+        deadline: now + 86400000 * 2,
+        voters: new Set(),
+      },
+    ];
+  });
 
   const [newProposal, setNewProposal] = useState({ title: '', description: '' });
   const [userAddress] = useState('0x9876...4321'); // Simulated user address
@@ -109,12 +112,12 @@ export default function DAOGovernanceExample() {
     return (totalVotes / proposal.quorum) * 100;
   };
 
-  const getTimeRemaining = (deadline: number) => {
+  const getTimeRemaining = useMemo(() => (deadline: number) => {
     const remaining = deadline - Date.now();
     const days = Math.floor(remaining / 86400000);
     const hours = Math.floor((remaining % 86400000) / 3600000);
     return `${days}d ${hours}h`;
-  };
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto">

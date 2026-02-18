@@ -3,6 +3,16 @@ import OpenAI from 'openai';
 import { config } from './constants';
 
 /**
+ * Check whether an OpenAI API key is configured.
+ * Use this before calling any AI-dependent function so that
+ * commands which don't require AI (e.g. `format`) can run
+ * without the key.
+ */
+export function isOpenAIAvailable(): boolean {
+  return !!process.env.OPENAI_API_KEY;
+}
+
+/**
  * Lazily-initialized OpenAI client singleton.
  * Created on first access so that commands which don't need AI
  * (e.g. `format`) can run without an OPENAI_API_KEY.

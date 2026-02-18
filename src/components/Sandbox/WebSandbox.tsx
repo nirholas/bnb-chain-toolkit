@@ -845,22 +845,6 @@ export default function WebSandbox({
     return FILE_ICONS[language] || FILE_ICONS.default;
   };
   
-  const updateFile = useCallback((fileId: string, content: string) => {
-    setFiles(prev => prev.map(f => 
-      f.id === fileId ? { ...f, content } : f
-    ));
-    
-    // Auto-run after debounce
-    if (autoRun) {
-      if (runTimeoutRef.current) {
-        clearTimeout(runTimeoutRef.current);
-      }
-      runTimeoutRef.current = setTimeout(() => {
-        runCode();
-      }, 500);
-    }
-  }, [autoRun]);
-  
   const runCode = useCallback(() => {
     setIsRunning(true);
     setConsoleMessages([]);
@@ -958,6 +942,22 @@ export default function WebSandbox({
     
     setTimeout(() => setIsRunning(false), 100);
   }, [files]);
+
+  const updateFile = useCallback((fileId: string, content: string) => {
+    setFiles(prev => prev.map(f => 
+      f.id === fileId ? { ...f, content } : f
+    ));
+    
+    // Auto-run after debounce
+    if (autoRun) {
+      if (runTimeoutRef.current) {
+        clearTimeout(runTimeoutRef.current);
+      }
+      runTimeoutRef.current = setTimeout(() => {
+        runCode();
+      }, 500);
+    }
+  }, [autoRun, runCode]);
   
   const addConsoleMessage = useCallback((type: ConsoleMessage['type'], content: string) => {
     setConsoleMessages(prev => {

@@ -492,7 +492,7 @@ export function registerUtilityTools(server: McpServer) {
     "Sign an arbitrary message with a private key (EIP-191 personal sign)",
     {
       message: z.string().describe("Message to sign"),
-      privateKey: z.string().describe("Private key for signing")
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ message, privateKey }) => {
       try {

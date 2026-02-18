@@ -7,8 +7,6 @@
  * @license Apache-2.0
  */
 
- 
-
 // Reference Node.js globals
 declare const process: {
   stdout: { write: (str: string) => void }

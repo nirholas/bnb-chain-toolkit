@@ -87,7 +87,7 @@ Drop `index.html` on Vercel, Netlify, GitHub Pages, IPFS, or any static host. On
 <td width="50%">
 
 ### 🔗 Multi-Chain & Wallet Support
-- **22 EVM chains** — BSC, Ethereum, Base, Arbitrum, Optimism, Polygon, Avalanche, Linea, Scroll, zkSync Era, Mantle, Fantom, Gnosis, Celo, Moonbeam
+- **24 EVM chains** — BSC, opBNB, Ethereum, Base, Arbitrum, Optimism, Polygon, Avalanche, Linea, Scroll, zkSync Era, Mantle, Fantom, Gnosis, Celo, Moonbeam
 - Beautiful chain selector with family grouping & search
 - EIP-6963 multi-wallet detection (MetaMask, Coinbase, Rainbow, Rabby, Brave)
 - Testnet & mainnet with safety warnings
@@ -293,12 +293,12 @@ Drop `index.html` on Vercel, Netlify, GitHub Pages, IPFS, or any static host. On
 │                                     to your wallet           │
 │                                                              │
 │  ┌─────────────────────────────────────────────────────┐     │
-│  │ 22 EVM Chains · Templates · Batch · x402 · QR · ★  │     │
+│  │ 24 EVM Chains · Templates · Batch · x402 · QR · ★  │     │
 │  └─────────────────────────────────────────────────────┘     │
 └──────────────────────────────────────────────────────────────┘
 ```
 
-1. **Select chain** — Choose from 22 EVM networks (testnets & mainnets)
+1. **Select chain** — Choose from 24 EVM networks (testnets & mainnets)
 2. **Connect wallet** — MetaMask, Coinbase, Rainbow, Rabby, or any EIP-6963 wallet
 3. **Fill in agent details** — Or use a pre-built template
 4. **Configure trust models** — Reputation, crypto-economic, TEE attestation, x402 payments

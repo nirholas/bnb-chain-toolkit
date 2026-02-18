@@ -591,7 +591,7 @@ export function registerGovernanceTools(server: McpServer) {
       values: z.array(z.string()).describe("ETH values for each call (in wei)"),
       calldatas: z.array(z.string()).describe("Encoded call data for each target"),
       descriptionHash: z.string().describe("Keccak256 hash of proposal description"),
-      privateKey: z.string().describe("Private key for signing transaction")
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ network, governorAddress, targets, values, calldatas, descriptionHash, privateKey }) => {
       try {
@@ -664,7 +664,7 @@ export function registerGovernanceTools(server: McpServer) {
       values: z.array(z.string()).describe("ETH values for each call (in wei)"),
       calldatas: z.array(z.string()).describe("Encoded call data for each target"),
       descriptionHash: z.string().describe("Keccak256 hash of proposal description"),
-      privateKey: z.string().describe("Private key for signing transaction")
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ network, governorAddress, targets, values, calldatas, descriptionHash, privateKey }) => {
       try {
@@ -714,7 +714,7 @@ export function registerGovernanceTools(server: McpServer) {
       values: z.array(z.string()).describe("ETH values for each call (in wei)"),
       calldatas: z.array(z.string()).describe("Encoded call data for each target"),
       descriptionHash: z.string().describe("Keccak256 hash of proposal description"),
-      privateKey: z.string().describe("Private key for signing transaction")
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ network, governorAddress, targets, values, calldatas, descriptionHash, privateKey }) => {
       try {
@@ -760,7 +760,7 @@ export function registerGovernanceTools(server: McpServer) {
       network: defaultNetworkParam,
       tokenAddress: z.string().describe("Governance token address (ERC20Votes)"),
       delegatee: z.string().describe("Address to delegate voting power to"),
-      privateKey: z.string().describe("Private key for signing transaction")
+      privateKey: z.string().optional().describe("Uses PRIVATE_KEY from env — do not supply directly").transform(() => { const k = process.env.PRIVATE_KEY; if (!k) throw new Error("PRIVATE_KEY env var required"); return k; })
     },
     async ({ network, tokenAddress, delegatee, privateKey }) => {
       try {

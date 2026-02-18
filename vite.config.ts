@@ -48,16 +48,24 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     target: 'esnext',
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress /*#__PURE__*/ annotation warnings from third-party packages
+        if (warning.code === 'SOURCEMAP_ERROR' || warning.message?.includes('/*#__PURE__*/')) return
+        warn(warning)
+      },
       output: {
         banner,
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'motion': ['framer-motion'],
-          'web3-vendor': ['ethers', 'viem', '@solana/web3.js'],
+          'web3-vendor': ['ethers', 'viem'],
+          'solana': ['@solana/web3.js'],
           'privy': ['@privy-io/react-auth'],
           'ui-vendor': ['lucide-react', '@icons-pack/react-simple-icons', 'clsx', 'tailwind-merge'],
           'monaco': ['@monaco-editor/react'],
+          'walletconnect': ['@walletconnect/ethereum-provider', '@walletconnect/modal'],
         },
       },
     },
