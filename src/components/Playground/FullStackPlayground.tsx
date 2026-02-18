@@ -51,7 +51,7 @@ interface FullStackPlaygroundProps {
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   files: CodeFile[];
   contractFunctions?: ContractFunction[];
-  initialState?: Record<string, unknown>;
+  initialState?: Record<string, string | number>;
   onDeploy?: () => Promise<{ address: string; success: boolean }>;
 }
 
@@ -158,8 +158,8 @@ export default function FullStackPlayground({
       if (fn.name === 'mint' || fn.name === 'transfer') {
         setContractState(prev => ({
           ...prev,
-          totalSupply: (prev.totalSupply || 0) + 1,
-          balance: (prev.balance || 0) + parseFloat(inputs.amount || '1')
+          totalSupply: (Number(prev.totalSupply) || 0) + 1,
+          balance: (Number(prev.balance) || 0) + parseFloat(inputs.amount || '1')
         }));
       }
     }
