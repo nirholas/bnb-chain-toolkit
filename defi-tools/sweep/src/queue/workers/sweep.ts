@@ -2,6 +2,9 @@ import { Worker, type Job } from "bullmq";
 import { cacheSet, cacheGet } from "../../utils/redis.js";
 import { getDb, sweeps, dustTokens } from "../../db/index.js";
 import { eq } from "drizzle-orm";
+import { createPublicClient, createWalletClient, http, parseAbi, encodeFunctionData } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { CHAIN_CONFIG, type SupportedChain } from "../../config/chains.js";
 import {
   QUEUE_NAMES,
   type SweepExecuteJobData,
