@@ -21,21 +21,24 @@ interface DeployResult {
   explorerUrl?: string;
 }
 
-// Network configurations
+// Network configurations — BNB Chain testnets prioritised
 const networks: Record<string, { rpc: string; chainId: number; explorer: string }> = {
+  'bsc-testnet': {
+    rpc: process.env.BSC_TESTNET_RPC || 'https://data-seed-prebsc-1-s1.binance.org:8545',
+    chainId: 97,
+    explorer: 'https://testnet.bscscan.com'
+  },
+  'opbnb-testnet': {
+    rpc: process.env.OPBNB_TESTNET_RPC || 'https://opbnb-testnet-rpc.bnbchain.org',
+    chainId: 5611,
+    explorer: 'https://testnet.opbnbscan.com'
+  },
   sepolia: {
-    rpc: process.env.VITE_ALCHEMY_API_KEY 
-      ? `https://eth-sepolia.g.alchemy.com/v2/${process.env.VITE_ALCHEMY_API_KEY}`
+    rpc: process.env.ALCHEMY_API_KEY
+      ? `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
       : 'https://rpc.sepolia.org',
     chainId: 11155111,
     explorer: 'https://sepolia.etherscan.io'
-  },
-  mumbai: {
-    rpc: process.env.VITE_ALCHEMY_API_KEY
-      ? `https://polygon-mumbai.g.alchemy.com/v2/${process.env.VITE_ALCHEMY_API_KEY}`
-      : 'https://rpc-mumbai.maticvigil.com',
-    chainId: 80001,
-    explorer: 'https://mumbai.polygonscan.com'
   }
 };
 

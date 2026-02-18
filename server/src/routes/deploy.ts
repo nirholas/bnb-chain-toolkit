@@ -10,8 +10,8 @@ import { strictRateLimiter } from '../middleware/rateLimiter.js';
 
 const router = Router();
 
-// Allowed networks whitelist
-const ALLOWED_NETWORKS = ['sepolia', 'mumbai'];
+// Allowed networks whitelist — BNB Chain testnets + EVM testnets
+const ALLOWED_NETWORKS = ['bsc-testnet', 'opbnb-testnet', 'sepolia'];
 
 // Deploy compiled contract
 router.post('/', strictRateLimiter, async (req, res, next) => {
@@ -42,7 +42,7 @@ router.post('/', strictRateLimiter, async (req, res, next) => {
     }
 
     // Security: Validate network against whitelist
-    const targetNetwork = network || 'sepolia';
+    const targetNetwork = network || 'bsc-testnet';
     if (!ALLOWED_NETWORKS.includes(targetNetwork)) {
       return res.status(400).json({
         success: false,

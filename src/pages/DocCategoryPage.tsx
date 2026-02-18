@@ -19,6 +19,11 @@ import {
   BarChart3,
   Layers,
   HelpCircle,
+} from 'lucide-react';
+
+interface DocArticle {
+  id: string;
+  title: string;
   description: string;
   readTime: string;
   difficulty: 'beginner' | 'intermediate' | 'advanced';

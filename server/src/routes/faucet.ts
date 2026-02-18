@@ -11,12 +11,12 @@ import { isValidEthereumAddress } from '../utils/validation.js';
 
 const router = Router();
 
-// Allowed testnet networks
-const ALLOWED_NETWORKS = ['sepolia', 'mumbai'] as const;
+// Allowed testnet networks — BNB Chain testnets first, plus EVM testnets
+const ALLOWED_NETWORKS = ['bsc-testnet', 'opbnb-testnet', 'sepolia'] as const;
 type NetworkType = typeof ALLOWED_NETWORKS[number];
 
-// Request testnet funds
-router.post('/request', faucetRateLimiter, async (req, res, next) => {
+// Shared handler for faucet requests
+async function handleFaucetRequest(req: any, res: any, next: any) {
   try {
     const { address, network } = req.body;
 
@@ -34,11 +34,11 @@ router.post('/request', faucetRateLimiter, async (req, res, next) => {
         error: 'Invalid Ethereum address'
       });
     }
-    
-    // Validate network
-    const safeNetwork: NetworkType = network && ALLOWED_NETWORKS.includes(network) 
-      ? network 
-      : 'sepolia';
+
+    // Validate network — default to BSC testnet
+    const safeNetwork: NetworkType = network && ALLOWED_NETWORKS.includes(network)
+      ? network
+      : 'bsc-testnet';
 
     const result = await fundAddress(address, safeNetwork);
 
@@ -49,6 +49,18 @@ router.post('/request', faucetRateLimiter, async (req, res, next) => {
   } catch (error: unknown) {
     next(error);
   }
+}
+
+// Support both POST / and POST /request for convenience
+router.post('/', faucetRateLimiter, handleFaucetRequest);
+router.post('/request', faucetRateLimiter, handleFaucetRequest);
+
+// GET /api/faucet/networks — list supported networks
+router.get('/networks', (_req, res) => {
+  res.json({
+    networks: [...ALLOWED_NETWORKS],
+    default: 'bsc-testnet'
+  });
 });
 
 export default router;
