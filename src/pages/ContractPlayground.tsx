@@ -115,8 +115,12 @@ export default function ContractPlayground() {
   // Load template when selected
   useEffect(() => {
     if (selectedTemplate) {
+      const solFile = { name: `${selectedTemplate.name.replace(/[^a-zA-Z0-9]/g, '')}.sol`, content: selectedTemplate.code };
+      setFiles([solFile]);
+      setSelectedFile(solFile.name);
       setCode(selectedTemplate.code);
       setError(null);
+      setShowPreview(false);
     }
   }, [selectedTemplate]);
 
@@ -371,7 +375,7 @@ export default function ContractPlayground() {
   ];
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50 dark:bg-black">
+    <div className="h-[calc(100vh-4rem)] flex flex-col bg-gray-50 dark:bg-black">
       {/* Header */}
       <div className="h-16 bg-white dark:bg-neutral-950 border-b border-gray-200 dark:border-neutral-800 flex items-center px-4 flex-shrink-0">
         <button
@@ -672,10 +676,16 @@ export default function ContractPlayground() {
                   </button>
                   <button
                     onClick={() => {
-                      const solFile = { name: 'Contract.sol', content: '// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ncontract MyContract {\n    \n}' };
-                      setFiles(prev => [...prev, solFile]);
+                      const solContent = '// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ncontract MyContract {\n    \n}';
+                      const solFile = { name: 'Contract.sol', content: solContent };
+                      // Replace web files with just the contract file
+                      setFiles([solFile]);
                       setSelectedFile('Contract.sol');
-                      setCode(solFile.content);
+                      setCode(solContent);
+                      // Hide HTML preview (not relevant for Solidity)
+                      setShowPreview(false);
+                      // Collapse sidebar to maximize editor space
+                      setShowSidebar(false);
                     }}
                     className="px-4 py-2.5 text-sm font-medium rounded-lg border border-gray-300 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-all flex items-center gap-2"
                   >
