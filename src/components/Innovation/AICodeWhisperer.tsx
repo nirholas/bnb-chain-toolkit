@@ -9,7 +9,6 @@ import {
   Brain,
   Sparkles,
   Wand2,
-  Bug,
   Shield,
   Zap,
   Eye,
@@ -26,7 +25,6 @@ import {
   detectVulnerabilities,
   estimateGas,
   analyzeContract,
-  identifyContractType,
   calculateSecurityScore,
   parseFunctions,
 } from '@/utils/solidityAnalyzer';

@@ -4,7 +4,7 @@
  * 💫 Excellence is a habit, not an act 🌟
  */
 
-import { Request, Response, NextFunction } from 'express';
+import type { Request as _Request, Response as _Response, NextFunction as _NextFunction } from 'express';
 import rateLimit from 'express-rate-limit';
 
 // General API rate limiter

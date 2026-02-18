@@ -16,7 +16,6 @@ import {
   FastForward,
   Pause,
   Save,
-  Upload,
   Download,
   Sparkles,
   TrendingUp,
@@ -188,7 +187,7 @@ export default function ContractTimeMachine({
     onLog('success', '💾 Timeline exported successfully');
   };
 
-  const compareSnapshots = (index1: number, index2: number) => {
+  const _compareSnapshots = (index1: number, index2: number) => {
     if (index1 >= 0 && index2 >= 0 && index1 < timeline.length && index2 < timeline.length) {
       const snap1 = timeline[index1];
       const snap2 = timeline[index2];

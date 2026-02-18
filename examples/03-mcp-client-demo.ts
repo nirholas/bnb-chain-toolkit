@@ -169,7 +169,7 @@ for (const tool of mcpTools) {
   console.log(indent(JSON.stringify(request, null, 2), 4));
 
   // Show the response
-  const response = {
+  const _response = {
     jsonrpc: "2.0",
     id: request.id,
     result: {

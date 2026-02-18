@@ -11,7 +11,6 @@ import {
   Zap,
   CheckCircle,
   AlertCircle,
-  Loader,
   Link as LinkIcon,
   Rocket,
   DollarSign,
@@ -58,7 +57,7 @@ export default function CrossChainDreamWeaver({
   const [deploymentProgress, setDeploymentProgress] = useState<Record<number, number>>({});
   const [bridges, setBridges] = useState<Bridge[]>([]);
   const [syncMode, setSyncMode] = useState<'sequential' | 'parallel' | 'smart'>('smart');
-  const [totalCost, setTotalCost] = useState(0);
+  const [_totalCost, setTotalCost] = useState(0);
   
   const chains: Chain[] = [
     {

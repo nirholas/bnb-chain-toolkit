@@ -4,7 +4,7 @@
  * 💫 Visual cues for everyone to see 👁️
  */
 
-import { useEffect, useState, createContext, useContext, type ReactNode, useCallback } from 'react';
+import { useState, createContext, useContext, type ReactNode, useCallback } from 'react';
 import { CheckCircle, AlertCircle, Info, AlertTriangle, X } from 'lucide-react';
 import { cn } from '@/utils/helpers';
 
@@ -60,7 +60,7 @@ interface VisualFeedbackProviderProps {
  */
 export function VisualFeedbackProvider({ children }: VisualFeedbackProviderProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const toastId = 0;
+  const _toastId = 0;
 
   const showToast = useCallback((message: string, type: ToastType = 'info', duration: number = 5000) => {
     const id = Date.now() + Math.random();

@@ -11,36 +11,28 @@ import {
   Eye,
   EyeOff,
   Volume2,
-  VolumeX,
   Hand,
   Brain,
-  Moon,
-  Sun,
   Type,
   Palette,
   MousePointer2,
   Keyboard,
-  Zap,
   Settings,
   Download,
   Upload,
   RotateCcw,
-  ChevronDown,
-  ChevronUp,
   Play,
-  Pause,
   HelpCircle,
   Sparkles,
   X,
   Check,
   Ear,
-  Focus,
   Glasses,
   Move,
   Timer,
   MessageSquare
 } from 'lucide-react';
-import { useAccessibilityStore, AccessibilitySettings } from '@/stores/accessibilityStore';
+import { useAccessibilityStore } from '@/stores/accessibilityStore';
 
 interface AccessibilityPanelProps {
   isOpen: boolean;
@@ -50,7 +42,7 @@ interface AccessibilityPanelProps {
 export default function AccessibilityPanel({ isOpen, onClose }: AccessibilityPanelProps) {
   const { settings, updateSetting, resetSettings, applyProfile, exportSettings, importSettings, speak } = useAccessibilityStore();
   const [activeTab, setActiveTab] = useState<'profiles' | 'vision' | 'audio' | 'motor' | 'cognitive' | 'advanced'>('profiles');
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [_expandedSection, _setExpandedSection] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
 

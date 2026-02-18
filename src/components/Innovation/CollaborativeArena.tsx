@@ -4,20 +4,14 @@
  * 💫 Every semicolon has a purpose 😊
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Users,
-  Radio,
   MessageSquare,
-  Code2,
-  Zap,
-  Crown,
   Trophy,
   Target,
   Timer,
-  Sparkles,
   TrendingUp,
-  Award,
   Star,
   Rocket
 } from 'lucide-react';
@@ -62,7 +56,7 @@ interface LiveEdit {
 
 export default function CollaborativeArena({
   code,
-  onCodeChange,
+  onCodeChange: _onCodeChange,
   onLog
 }: {
   code: string;
@@ -84,7 +78,7 @@ export default function CollaborativeArena({
   ]);
 
   const [aiAssistants, setAiAssistants] = useState<Participant[]>([]);
-  const [liveEdits, setLiveEdits] = useState<LiveEdit[]>([]);
+  const [_liveEdits, _setLiveEdits] = useState<LiveEdit[]>([]);
   const [challenge, setChallenge] = useState<CodeChallenge | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
   const [messages, setMessages] = useState<Array<{

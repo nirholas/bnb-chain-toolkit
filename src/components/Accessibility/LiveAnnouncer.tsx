@@ -4,7 +4,7 @@
  * 💫 Everyone deserves access to technology 🌍
  */
 
-import { useEffect, useState, createContext, useContext, type ReactNode, useCallback } from 'react';
+import { useState, createContext, useContext, type ReactNode, useCallback } from 'react';
 
 interface Announcement {
   message: string;

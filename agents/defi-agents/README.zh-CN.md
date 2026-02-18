@@ -356,7 +356,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 </div>
 <!-- AWESOME PROMPTS -->
 
-### [Sperax DeFi 协议](https://os.sperax.io/crypto/agents/sperax-defi-protocols)
+### [Sperax DeFi 协议](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-defi-protocols.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -366,7 +366,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [斯佩拉克斯分析专家](https://os.sperax.io/crypto/agents/sperax-analytics-expert)
+### [斯佩拉克斯分析专家](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-analytics-expert.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -376,7 +376,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax 信号机器人](https://os.sperax.io/crypto/agents/sperax-signal-bot)
+### [Sperax 信号机器人](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-signal-bot.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -386,7 +386,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax 机器人模板](https://os.sperax.io/crypto/agents/sperax-bot-templates)
+### [Sperax 机器人模板](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-bot-templates.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -396,7 +396,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax Pump 筛选器](https://os.sperax.io/crypto/agents/sperax-pump-screener)
+### [Sperax Pump 筛选器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-pump-screener.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -406,7 +406,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax 套利机器人](https://os.sperax.io/crypto/agents/sperax-arbitrage-bot)
+### [Sperax 套利机器人](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-arbitrage-bot.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -416,7 +416,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax 帮助中心](https://os.sperax.io/crypto/agents/sperax-help-center)
+### [Sperax 帮助中心](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-help-center.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -426,7 +426,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax 交易助手](https://os.sperax.io/crypto/agents/sperax-trading-assistant)
+### [Sperax 交易助手](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-trading-assistant.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -436,7 +436,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax DCA 机器人](https://os.sperax.io/crypto/agents/sperax-dca-bot)
+### [Sperax DCA 机器人](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-dca-bot.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -446,7 +446,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax AI 交易机器人](https://os.sperax.io/crypto/agents/sperax-ai-trading-bot)
+### [Sperax AI 交易机器人](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-ai-trading-bot.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -456,7 +456,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [斯佩拉克斯投资组合仪表盘](https://os.sperax.io/crypto/agents/sperax-dashboard)
+### [斯佩拉克斯投资组合仪表盘](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-dashboard.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -466,7 +466,7 @@ MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
 
 ---
 
-### [Sperax DeFi Center](https://os.sperax.io/crypto/agents/sperax-defi-center)
+### [Sperax DeFi Center](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-defi-center.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -476,7 +476,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [Sperax 设置管理器](https://os.sperax.io/crypto/agents/sperax-settings-manager)
+### [Sperax 设置管理器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-settings-manager.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -486,7 +486,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [Sperax 钱包管理器](https://os.sperax.io/crypto/agents/sperax-wallet-manager)
+### [Sperax 钱包管理器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-wallet-manager.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -496,7 +496,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [Sperax 策略市场](https://os.sperax.io/crypto/agents/sperax-strategies-marketplace)
+### [Sperax 策略市场](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-strategies-marketplace.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -506,7 +506,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [Sperax 资产追踪器](https://os.sperax.io/crypto/agents/sperax-assets-tracker)
+### [Sperax 资产追踪器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-assets-tracker.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -516,7 +516,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [Sperax 资产组合](https://os.sperax.io/crypto/agents/sperax-portfolio)
+### [Sperax 资产组合](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-portfolio.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-21**</sup>
 
@@ -526,7 +526,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [加密鲸鱼观察者](https://os.sperax.io/crypto/agents/whale-watcher)
+### [加密鲸鱼观察者](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/whale-watcher.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -536,7 +536,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [跨链桥安全分析师](https://os.sperax.io/crypto/agents/bridge-security-analyst)
+### [跨链桥安全分析师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/bridge-security-analyst.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -546,7 +546,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [代币解锁时间表追踪器](https://os.sperax.io/crypto/agents/token-unlock-tracker)
+### [代币解锁时间表追踪器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/token-unlock-tracker.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -556,7 +556,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [veSPA 锁定优化器](https://os.sperax.io/crypto/agents/vespa-optimizer)
+### [veSPA 锁定优化器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/vespa-optimizer.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -566,7 +566,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [Sperax 资产组合追踪器](https://os.sperax.io/crypto/agents/sperax-portfolio-tracker)
+### [Sperax 资产组合追踪器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-portfolio-tracker.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -576,7 +576,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [DeFi 保险与风险覆盖顾问](https://os.sperax.io/crypto/agents/defi-insurance-advisor)
+### [DeFi 保险与风险覆盖顾问](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/defi-insurance-advisor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -586,7 +586,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [NFT 流动性与借贷顾问](https://os.sperax.io/crypto/agents/nft-liquidity-advisor)
+### [NFT 流动性与借贷顾问](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/nft-liquidity-advisor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -596,7 +596,7 @@ DeFi protocol aggregator for managing positions and yields
 
 ---
 
-### [USDs 稳定币专家](https://os.sperax.io/crypto/agents/usds-stablecoin-expert)
+### [USDs 稳定币专家](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/usds-stablecoin-expert.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -606,7 +606,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [去中心化交易所聚合器路线优化器](https://os.sperax.io/crypto/agents/dex-aggregator-optimizer)
+### [去中心化交易所聚合器路线优化器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/dex-aggregator-optimizer.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -616,7 +616,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [加密货币税务策略顾问](https://os.sperax.io/crypto/agents/crypto-tax-strategist)
+### [加密货币税务策略顾问](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/crypto-tax-strategist.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -626,7 +626,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [智能合约安全审计](https://os.sperax.io/crypto/agents/smart-contract-auditor)
+### [智能合约安全审计](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/smart-contract-auditor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -636,7 +636,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [Sperax 收益聚合器](https://os.sperax.io/crypto/agents/sperax-yield-aggregator)
+### [Sperax 收益聚合器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-yield-aggregator.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -646,7 +646,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [个人 DeFi 仪表板构建器](https://os.sperax.io/crypto/agents/yield-dashboard-builder)
+### [个人 DeFi 仪表板构建器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/yield-dashboard-builder.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -656,7 +656,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [加密钱包安全顾问](https://os.sperax.io/crypto/agents/wallet-security-advisor)
+### [加密钱包安全顾问](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/wallet-security-advisor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -666,7 +666,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [DeFi 收益可持续性分析师](https://os.sperax.io/crypto/agents/yield-sustainability-analyst)
+### [DeFi 收益可持续性分析师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/yield-sustainability-analyst.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -676,7 +676,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [稳定币深度比较器](https://os.sperax.io/crypto/agents/stablecoin-comparator)
+### [稳定币深度比较器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/stablecoin-comparator.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -686,7 +686,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [DeFi 资产组合再平衡顾问](https://os.sperax.io/crypto/agents/portfolio-rebalancing-advisor)
+### [DeFi 资产组合再平衡顾问](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/portfolio-rebalancing-advisor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -696,7 +696,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [Sperax 生态系统入门指南](https://os.sperax.io/crypto/agents/sperax-onboarding-guide)
+### [Sperax 生态系统入门指南](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-onboarding-guide.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -706,7 +706,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [DeFi 收益农业策略师](https://os.sperax.io/crypto/agents/defi-yield-farmer)
+### [DeFi 收益农业策略师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/defi-yield-farmer.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -716,7 +716,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [Sperax 治理指南](https://os.sperax.io/crypto/agents/sperax-governance-guide)
+### [Sperax 治理指南](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-governance-guide.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -726,7 +726,7 @@ Sperax USDs 机制、抵押和收益策略专家
 
 ---
 
-### [DeFi Protocol Comparison Expert](https://os.sperax.io/crypto/agents/defi-protocol-comparator)
+### [DeFi Protocol Comparison Expert](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/defi-protocol-comparator.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -736,7 +736,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [DeFi 初学者入门导师](https://os.sperax.io/crypto/agents/defi-onboarding-mentor)
+### [DeFi 初学者入门导师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/defi-onboarding-mentor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -746,7 +746,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [APY 与 APR 教育者](https://os.sperax.io/crypto/agents/apy-vs-apr-educator)
+### [APY 与 APR 教育者](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/apy-vs-apr-educator.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -756,7 +756,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [协议收入与基本面分析师](https://os.sperax.io/crypto/agents/protocol-revenue-analyst)
+### [协议收入与基本面分析师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/protocol-revenue-analyst.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -766,7 +766,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [DAO 治理提案分析师](https://os.sperax.io/crypto/agents/governance-proposal-analyst)
+### [DAO 治理提案分析师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/governance-proposal-analyst.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -776,7 +776,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [无常损失计算器](https://os.sperax.io/crypto/agents/impermanent-loss-calculator)
+### [无常损失计算器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/impermanent-loss-calculator.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -786,7 +786,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [DAO 财库与资源分析师](https://os.sperax.io/crypto/agents/protocol-treasury-analyst)
+### [DAO 财库与资源分析师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/protocol-treasury-analyst.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -796,7 +796,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [清算风险管理器](https://os.sperax.io/crypto/agents/liquidation-risk-manager)
+### [清算风险管理器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/liquidation-risk-manager.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -806,7 +806,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [加密货币叙事与趋势分析师](https://os.sperax.io/crypto/agents/narrative-trend-analyst)
+### [加密货币叙事与趋势分析师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/narrative-trend-analyst.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -816,7 +816,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [Sperax 协议风险监控器](https://os.sperax.io/crypto/agents/sperax-risk-monitor)
+### [Sperax 协议风险监控器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-risk-monitor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -826,7 +826,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [流动性池深度分析器](https://os.sperax.io/crypto/agents/liquidity-pool-analyzer)
+### [流动性池深度分析器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/liquidity-pool-analyzer.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -836,7 +836,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [SPA 代币经济分析师](https://os.sperax.io/crypto/agents/spa-tokenomics-analyst)
+### [SPA 代币经济分析师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/spa-tokenomics-analyst.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -846,7 +846,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [燃气成本优化专家](https://os.sperax.io/crypto/agents/gas-optimization-expert)
+### [燃气成本优化专家](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/gas-optimization-expert.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -856,7 +856,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [加密货币 Alpha 与信号检测器](https://os.sperax.io/crypto/agents/alpha-leak-detector)
+### [加密货币 Alpha 与信号检测器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/alpha-leak-detector.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -866,7 +866,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [MEV 保护顾问](https://os.sperax.io/crypto/agents/mev-protection-advisor)
+### [MEV 保护顾问](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/mev-protection-advisor.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -876,7 +876,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [Sperax 流动性提供者策略师](https://os.sperax.io/crypto/agents/sperax-liquidity-strategist)
+### [Sperax 流动性提供者策略师](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-liquidity-strategist.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -886,7 +886,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [Sperax 桥接助手](https://os.sperax.io/crypto/agents/sperax-bridge-assistant)
+### [Sperax 桥接助手](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/sperax-bridge-assistant.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -896,7 +896,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [质押奖励计算器](https://os.sperax.io/crypto/agents/staking-rewards-calculator)
+### [质押奖励计算器](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/staking-rewards-calculator.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -906,7 +906,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [DeFi 协议风险评分引擎](https://os.sperax.io/crypto/agents/defi-risk-scoring-engine)
+### [DeFi 协议风险评分引擎](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/defi-risk-scoring-engine.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 
@@ -916,7 +916,7 @@ Compare similar DeFi protocols across features, risks, and yields
 
 ---
 
-### [DeFi 空投猎手](https://os.sperax.io/crypto/agents/airdrop-hunter)
+### [DeFi 空投猎手](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/airdrop-hunter.json)
 
 <sup>By **[@sperax](https://github.com/nirholas/AI-Agents-Library)** on **2024-12-16**</sup>
 

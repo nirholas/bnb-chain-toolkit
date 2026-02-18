@@ -32,7 +32,6 @@
 <img src="https://img.shields.io/badge/agents-78-F0B90B?style=for-the-badge&labelColor=000" alt="Agents" />
 <img src="https://img.shields.io/badge/MCP%20servers-6-7C3AED?style=for-the-badge&labelColor=000" alt="MCP Servers" />
 <img src="https://img.shields.io/badge/tools-1,100+-00B4D8?style=for-the-badge&labelColor=000" alt="Tools" />
-<img src="https://img.shields.io/badge/chains-60+-22C55E?style=for-the-badge&labelColor=000" alt="Chains" />
 <img src="https://img.shields.io/badge/languages-30+-FF6B6B?style=for-the-badge&labelColor=000" alt="Languages" />
 
 <br>

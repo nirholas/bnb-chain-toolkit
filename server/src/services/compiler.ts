@@ -21,7 +21,7 @@ interface CompileResult {
 }
 
 export async function compileContract(options: CompileOptions): Promise<CompileResult> {
-  const { code, version, optimize } = options;
+  const { code, version: _version, optimize } = options;
 
   try {
     // Prepare input for Solidity compiler

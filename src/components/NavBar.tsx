@@ -24,7 +24,6 @@ import {
   FileCode,
   Terminal,
   Layers,
-  Play,
   Sparkles,
   FlaskConical,
   Code,

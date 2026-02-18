@@ -9,7 +9,6 @@ import Editor from '@monaco-editor/react';
 import { useThemeStore } from '@/stores/themeStore';
 import { 
   Play, 
-  RefreshCw, 
   Copy, 
   CheckCircle, 
   FileCode, 
@@ -22,8 +21,7 @@ import {
   ChevronRight,
   Loader,
   CheckCircle2,
-  XCircle,
-  AlertCircle
+  XCircle
 } from 'lucide-react';
 import { copyToClipboard } from '@/utils/helpers';
 
@@ -67,9 +65,9 @@ export default function FullStackPlayground({
   files: initialFiles,
   contractFunctions = [],
   initialState = {},
-  onDeploy
+  onDeploy: _onDeploy
 }: FullStackPlaygroundProps) {
-  const { mode } = useThemeStore();
+  const { mode: _mode } = useThemeStore();
   const [files, setFiles] = useState<CodeFile[]>(initialFiles);
   const [activeFileId, setActiveFileId] = useState(initialFiles[0]?.id || '');
   const [copied, setCopied] = useState<string | null>(null);
@@ -86,8 +84,8 @@ export default function FullStackPlayground({
   const activeFile = files.find(f => f.id === activeFileId) || files[0];
 
   // Get files by type
-  const solidityFiles = files.filter(f => f.language === 'solidity');
-  const frontendFiles = files.filter(f => ['html', 'css', 'javascript', 'typescript', 'tsx'].includes(f.language));
+  const _solidityFiles = files.filter(f => f.language === 'solidity');
+  const _frontendFiles = files.filter(f => ['html', 'css', 'javascript', 'typescript', 'tsx'].includes(f.language));
 
   const viewportSizes: Record<ViewportSize, { width: string; label: string; icon: React.ReactNode }> = {
     mobile: { width: '375px', label: 'Mobile', icon: <Smartphone className="w-4 h-4" /> },

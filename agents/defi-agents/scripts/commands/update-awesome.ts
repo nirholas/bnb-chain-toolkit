@@ -43,7 +43,7 @@ const updateAwesome = async (filePath: string, md: string, agents: any[], locale
         const { meta } = readJSONSync(agentConfigPath);
 
         // 构建 Agent 条目
-        const header = `### [${meta.title.replaceAll('[', '').replaceAll(']', '')}](https://os.sperax.io/crypto/agents/${identifier})`;
+        const header = `### [${meta.title.replaceAll('[', '').replaceAll(']', '')}](https://github.com/nirholas/bnb-chain-toolkit/blob/main/agents/defi-agents/src/${identifier}.json)`;
         const subHeader = `<sup>By **[@${author}](${homepage})** on **${createdAt}**</sup>`;
         const desc = [
           `${meta.description}`,

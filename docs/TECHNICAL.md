@@ -273,7 +273,7 @@ curl -X POST http://localhost:3000/mcp -d '{"method":"tools/list"}'
 |--------|-----|----------------|
 | **Live demo** (no setup) | [bnb-chain-toolkit.vercel.app](https://bnb-chain-toolkit.vercel.app/) | None |
 | **Agent Creator** | [erc8004.agency](https://erc8004.agency/) | None |
-| **MCP playground** | [mcp.ucai.tech](https://mcp.ucai.tech) _(temporarily unavailable)_ | None |
+| **MCP playground** | `mcp.ucai.tech` _(temporarily unavailable)_ | None |
 | **Local** | `bun run dev` → http://localhost:5173 | Clone + install |
 
 ### Judge Demo Flow — Step by Step
@@ -299,7 +299,7 @@ curl -X POST http://localhost:3000/mcp -d '{"method":"tools/list"}'
 |--------|-------|
 | Browse agents by category (trading, staking, bridging, security) | Live demo |
 | Preview full agent configurations | Live demo |
-| Check MCP server tool lists | mcp.ucai.tech _(temporarily unavailable)_ |
+| Check MCP server tool lists | `mcp.ucai.tech` _(temporarily unavailable)_ |
 | Verify on-chain contracts on BscScan | BscScan link above |
 | Register a test agent on BSC Testnet | erc8004.agency |
 
@@ -364,7 +364,7 @@ journey
 |----------|-----|
 | Live Demo | [bnb-chain-toolkit.vercel.app](https://bnb-chain-toolkit.vercel.app/) |
 | Agent Creator | [erc8004.agency](https://erc8004.agency/) |
-| MCP Playground | [mcp.ucai.tech](https://mcp.ucai.tech) _(temporarily unavailable)_ |
+| MCP Playground | `mcp.ucai.tech` _(temporarily unavailable)_ |
 | GitHub | [github.com/nirholas/bnb-chain-toolkit](https://github.com/nirholas/bnb-chain-toolkit) |
 | ERC-8004 Contract | [BscScan](https://bscscan.com/address/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432) |
 | BSC Testnet Faucet | [testnet.bnbchain.org/faucet-smart](https://testnet.bnbchain.org/faucet-smart) |

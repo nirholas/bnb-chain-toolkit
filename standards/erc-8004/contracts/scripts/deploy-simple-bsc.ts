@@ -13,7 +13,7 @@ dotenv.config();
  * CREATE2 deployment. Deploys all 3 registries behind ERC1967 proxies,
  * then immediately upgrades them to the real implementations.
  *
- * This gives us on-chain tx hashes for the hackathon without requiring
+ * This gives us on-chain tx hashes for the deployment without requiring
  * the hardcoded owner key (0x547289...).
  */
 

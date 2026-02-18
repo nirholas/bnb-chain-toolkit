@@ -14,7 +14,6 @@ import {
   FileCode,
   FileText,
   Palette,
-  Play,
   RefreshCw,
   Copy,
   Download,
@@ -104,7 +103,7 @@ export default function FullStackPlayground({
       .replace(/^export\s+default\s+/gm, '')
       .replace(/^export\s+/gm, '')
       // Remove TypeScript type annotations
-      .replace(/:\s*\w+(\[\])?(\s*\|?\s*\w+)*(?=\s*[=,\)\}])/g, '')
+      .replace(/:\s*\w+(\[\])?(\s*\|?\s*\w+)*(?=\s*[=,)}])/g, '')
       // Remove interface declarations
       .replace(/^interface\s+\w+\s*\{[\s\S]*?\}\s*$/gm, '')
       // Remove type declarations

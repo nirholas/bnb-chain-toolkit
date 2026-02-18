@@ -62,7 +62,7 @@ export default function ChallengeSystem({
           const passed = test.validate(currentCode);
           results.set(test.id, passed);
           if (!passed) allPassed = false;
-        } catch (error) {
+        } catch (_error) {
           results.set(test.id, false);
           allPassed = false;
         }

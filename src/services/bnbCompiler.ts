@@ -261,7 +261,7 @@ export class BNBCompiler {
         
         // Recursively resolve nested imports
         await this.resolveAllImports(content, sources, resolved);
-      } catch (error) {
+      } catch (_error) {
         console.warn(`Could not resolve import: ${importPath}`);
       }
     }

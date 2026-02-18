@@ -126,7 +126,7 @@ Return ONLY a JSON object with the translated strings, no explanation:`;
       
       const translations = JSON.parse(jsonStr);
       return res.json({ translations });
-    } catch (parseError) {
+    } catch (_parseError) {
       console.error('Failed to parse translation response:', content);
       return res.json({ translations: texts, fallback: true, error: 'Failed to parse translations' });
     }

@@ -25,7 +25,7 @@ interface InlineAnnotationsProps {
 export default function InlineAnnotations({
   annotations,
   lineHeight = 19,
-  codeLines
+  codeLines: _codeLines
 }: InlineAnnotationsProps) {
   const [expandedAnnotations, setExpandedAnnotations] = useState<Set<number>>(new Set());
 
