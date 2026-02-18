@@ -10,7 +10,7 @@ import { sandboxTemplates, type SandboxTemplate } from '@/utils/sandboxTemplates
 import { contractTemplates, type ContractTemplate } from '@/utils/contractTemplates';
 
 // Union type for both template types
-type AnyTemplate = SandboxTemplate | (ContractTemplate & { _type: 'contract' });
+type _AnyTemplate = SandboxTemplate | (ContractTemplate & { _type: 'contract' });
 
 interface TemplateSelectorProps {
   onClose: () => void;

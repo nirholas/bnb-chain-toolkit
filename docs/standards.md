@@ -1,6 +1,8 @@
 # Standards Guide
 
-Open standards for AI agents and Web3 accessibility.
+Open standards for AI agents and Web3 accessibility — both proposed by this project.
+
+> **New to standards?** Think of standards as shared rule books that everyone agrees to follow. ERC-8004 is like a phone directory for AI agents on the blockchain. W3AG is like building codes that ensure buildings are wheelchair-accessible — but for crypto apps. See the [Glossary](GLOSSARY.md) for term definitions.
 
 ---
 
@@ -166,6 +168,9 @@ W3AG includes a testing checklist for DeFi apps:
 
 ## See Also
 
+- [Glossary](GLOSSARY.md) — Definitions for ERC-8004, W3AG, CREATE2, NFT, and related terms
 - [Agents](agents.md) — AI agents that can be registered via ERC-8004
-- [Architecture](architecture.md) — How standards fit in the toolkit
+- [Architecture](architecture.md) — How standards fit in the overall system
+- [Examples](examples.md) — Register an agent on-chain (advanced example)
 - [Contributing](../CONTRIBUTING.md) — Help improve these standards
+- [TECHNICAL.md](TECHNICAL.md) — Full technical breakdown

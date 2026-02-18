@@ -22,9 +22,6 @@ class MockSecretStorage {
   async delete(key: string): Promise<void> {
     this._store.delete(key);
   }
-  has(key: string): boolean {
-    return this._store.has(key);
-  }
 }
 
 /**

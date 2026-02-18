@@ -12,20 +12,16 @@ import {
   X,
   Share2,
   Globe,
-  Lock,
   Link as LinkIcon,
   Copy,
   Check,
   Loader2,
-  Tag,
   FileText,
   Code2,
   BookOpen,
   Sparkles,
   ExternalLink,
   Twitter,
-  Github,
-  Mail,
   AlertCircle
 } from 'lucide-react';
 import { cn } from '@/utils/helpers';

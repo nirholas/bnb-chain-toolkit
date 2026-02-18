@@ -2,6 +2,8 @@
 
 Offline-capable wallet operations for BNB Chain and EVM networks.
 
+> **New to crypto wallets?** A wallet is software that holds the keys to your crypto accounts. The wallet doesn't hold your coins — the blockchain does. The wallet holds the *keys* that prove ownership. See the [Glossary](GLOSSARY.md) for definitions of wallet, private key, seed phrase, and other terms.
+
 ---
 
 ## Ethereum Wallet Toolkit
@@ -89,6 +91,9 @@ Now your AI assistant can:
 
 ## See Also
 
+- [Glossary](GLOSSARY.md) — Definitions for wallet, private key, seed phrase, and related terms
 - [DeFi Tools](defi-tools.md) — Token sweeping and DeFi utilities
 - [MCP Servers](mcp-servers.md) — Connect wallets to AI assistants
+- [Getting Started](getting-started.md) — Initial setup
 - [Security Policy](../SECURITY.md) — Project security guidelines
+- [Troubleshooting](troubleshooting.md) — When things go wrong

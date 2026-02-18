@@ -4,7 +4,7 @@
  * 💫 Small components, big impact 🎯
  */
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { CheckCircle, AlertTriangle, Info, XCircle, X } from 'lucide-react';
 import { cn } from '@/utils/helpers';
 

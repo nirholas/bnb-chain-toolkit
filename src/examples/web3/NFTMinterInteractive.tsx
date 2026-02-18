@@ -5,7 +5,6 @@
  */
 
 import { useState } from 'react';
-import SplitView from '@/components/Playground/SplitView';
 import MultiLanguageTabs, { type LanguageTab } from '@/components/Playground/MultiLanguageTabs';
 import InteractiveTutorial, { type TutorialStep } from '@/components/Playground/InteractiveTutorial';
 import ChallengeSystem, { type Challenge } from '@/components/Playground/ChallengeSystem';

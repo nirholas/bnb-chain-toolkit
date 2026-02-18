@@ -20,8 +20,7 @@ import {
   RefreshCw,
   Maximize2,
   Minimize2,
-  Zap,
-  PlusCircle
+  Zap
 } from 'lucide-react';
 import { useWalletStore } from '@/stores/walletStore';
 import { useWorkspaceStore } from '@/stores/workspaceStore';
@@ -115,7 +114,7 @@ export default function InteractiveSandbox() {
       
       const data = ev.data as { __bnb_preview_console?: boolean; type?: string; entries?: string[] };
       if (data && data.__bnb_preview_console) {
-        const time = new Date().toLocaleTimeString();
+        const _time = new Date().toLocaleTimeString();
         const text = (data.entries || []).join(' ');
         const typeMap: Record<string, Log['type']> = { log: 'info', info: 'info', warn: 'warning', error: 'error' };
         addLog(typeMap[data.type || 'log'] || 'info', text);
@@ -322,7 +321,7 @@ export default function InteractiveSandbox() {
     try {
       await navigator.clipboard.writeText(shareUrl);
       addLog('success', 'Share link copied to clipboard!');
-    } catch (error) {
+    } catch (_error) {
       addLog('error', 'Failed to copy share link');
     }
   };

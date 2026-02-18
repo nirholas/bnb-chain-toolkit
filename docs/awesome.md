@@ -24,7 +24,7 @@ A curated list of tools, libraries, and resources for AI-powered BNB Chain devel
 
 ## MCP (Model Context Protocol)
 
-- [MCP Specification](https://spec.modelcontextprotocol.io/) — Official protocol spec
+- [MCP Specification](https://modelcontextprotocol.io/specification) — Official protocol spec
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) — Build MCP servers in TypeScript
 - [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk) — Build MCP servers in Python
 - [Claude Desktop MCP Guide](https://docs.anthropic.com/en/docs/agents-and-tools/mcp) — Setting up MCP in Claude

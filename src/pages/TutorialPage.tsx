@@ -4,7 +4,7 @@
  * 💫 Keep shining, keep coding 🌞
  */
 
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import InteractiveTutorial from '@/components/Tutorial/InteractiveTutorial';
 import { tutorials } from '@/data/tutorials';

@@ -6,7 +6,6 @@
 
 import { Link } from "react-router-dom";
 import { useSEO } from "@/hooks/useSEO";
-import { cn } from "@/lib/utils";
 import useI18n from '@/stores/i18nStore';
 import { LampContainer } from "@/components/ui/lamp";
 import { BackgroundGradient } from "@/components/ui/background-gradient";

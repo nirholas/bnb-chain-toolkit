@@ -3,7 +3,7 @@
  * SparklesCore — Canvas-based floating particle sparkle animation.
  * Renders shimmering particles with configurable density, size, and color.
  */
-import { useEffect, useId, useRef, useState, useCallback } from "react";
+import { useEffect, useId, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 

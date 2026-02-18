@@ -272,7 +272,9 @@
     "@types/vscode": "^1.85.0",
     "@vscode/test-electron": "^2.3.8",
     "@vscode/vsce": "^2.22.0",
+    "mocha": "^11.7.5",
     "ts-loader": "^9.5.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.3.3",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"

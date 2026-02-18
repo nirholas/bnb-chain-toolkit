@@ -32,8 +32,6 @@ import {
   BarChart3,
   Bot,
   Server,
-  FileText,
-  Eye,
   Database,
   Wrench,
 } from "lucide-react";

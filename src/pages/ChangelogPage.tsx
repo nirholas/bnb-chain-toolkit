@@ -7,7 +7,7 @@
 /**
  * ChangelogPage.tsx - Version history and release notes
  */
-import { Sparkles, Rocket, Code2, BookOpen, Layers, Coins, Shield, Wrench } from 'lucide-react';
+import { Sparkles, Rocket, Code2, Layers } from 'lucide-react';
 import { useSEO } from '@/hooks/useSEO';
 
 interface Release {

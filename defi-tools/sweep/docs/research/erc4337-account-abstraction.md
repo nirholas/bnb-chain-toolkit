@@ -1336,5 +1336,5 @@ function buildInitCode(
 - [ERC-7562 (Validation Rules)](https://eips.ethereum.org/EIPS/eip-7562)
 - [eth-infinitism/account-abstraction](https://github.com/eth-infinitism/account-abstraction)
 - [Pimlico Documentation](https://docs.pimlico.io)
-- [Alchemy AA Documentation](https://docs.alchemy.com/docs/account-abstraction-overview)
+- [Alchemy AA Documentation](https://docs.alchemy.com/docs/account-abstraction)
 - [StackUp Documentation](https://docs.stackup.sh)

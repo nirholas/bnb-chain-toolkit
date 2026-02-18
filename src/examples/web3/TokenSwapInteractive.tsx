@@ -4,7 +4,7 @@
  * 💫 Today's code is tomorrow's innovation 🔮
  */
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import SplitView from '@/components/Playground/SplitView';
 import MultiLanguageTabs, { type LanguageTab } from '@/components/Playground/MultiLanguageTabs';
 import LivePreview from '@/components/Playground/LivePreview';

@@ -9,10 +9,10 @@ import SplitView from '@/components/Playground/SplitView';
 import MultiLanguageTabs, { type LanguageTab } from '@/components/Playground/MultiLanguageTabs';
 import LivePreview from '@/components/Playground/LivePreview';
 import InteractiveTutorial, { type TutorialStep } from '@/components/Playground/InteractiveTutorial';
-import { AnnotationsPanel, type CodeAnnotation } from '@/components/Playground/InlineAnnotations';
+import { type CodeAnnotation } from '@/components/Playground/InlineAnnotations';
 
 export default function WalletConnectInteractive() {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [_currentStepIndex, setCurrentStepIndex] = useState(0);
 
   const [tabs, setTabs] = useState<LanguageTab[]>([
     {
@@ -437,7 +437,7 @@ if (window.ethereum) {
     }
   ];
 
-  const annotations: CodeAnnotation[] = [
+  const _annotations: CodeAnnotation[] = [
     {
       lineStart: 15,
       type: 'info',

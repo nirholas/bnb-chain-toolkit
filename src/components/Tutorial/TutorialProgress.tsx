@@ -45,8 +45,8 @@ export function TutorialProgressWidget({
   variant = 'full', 
   className = '' 
 }: TutorialProgressWidgetProps) {
-  const [stats, setStats] = useState(() => getLearningStats());
-  const [achievements, setAchievements] = useState<Achievement[]>(() => getAllAchievements());
+  const [stats, _setStats] = useState(() => getLearningStats());
+  const [achievements, _setAchievements] = useState<Achievement[]>(() => getAllAchievements());
 
   // Refresh stats when component mounts (already initialized via useState)
 

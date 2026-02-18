@@ -17,7 +17,7 @@ import PriceTicker from '@/components/PriceTicker';
 import { TopProtocolsWidget, TopYieldsWidget, TopChainsWidget, DeFiSummaryBar } from '@/components/DeFiWidgets';
 import {
     Shield, Globe, Bot, ChevronRight, Zap,
-    Code, BookOpen, Terminal, Cpu, Users, Layers,
+    Code, BookOpen, Terminal, Cpu, Layers,
     Coins, GitBranch,
     ExternalLink, GraduationCap,
     BarChart3, Eye, Server, Wrench,

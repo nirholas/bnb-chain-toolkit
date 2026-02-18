@@ -16,7 +16,7 @@
 | 4 | Open [erc8004.agency](https://erc8004.agency/) — the Agent Creator platform | 1:30 |
 | 5 | Connect MetaMask (BSC Testnet) and walk through agent registration flow | 2:00 |
 | 6 | Verify the ERC-8004 contract on [BscScan](https://bscscan.com/address/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432) — source code is verified | 3:00 |
-| 7 | Open [mcp.ucai.tech](https://mcp.ucai.tech) — paste any ABI and generate an MCP server | 3:30 |
+| 7 | Open [mcp.ucai.tech](https://mcp.ucai.tech) — paste any ABI and generate an MCP server _(temporarily unavailable)_ | 3:30 |
 | 8 | Clone the repo locally → `bun install && bun run dev` → see it run | 4:00 |
 
 > **No video recording needed** — the live deployments *are* the demo. Judges can interact with everything in real-time.
@@ -39,7 +39,7 @@ Together these five documents cover: **Problem → Solution → Architecture →
 |---|---|---|
 | Agent Browser | https://bnb-chain-toolkit.vercel.app/ | Browse 78 AI agent definitions |
 | ERC-8004 Agent Creator | https://erc8004.agency/ | Register AI agents as on-chain NFTs |
-| UCAI Web Builder | https://mcp.ucai.tech | Convert any ABI to an MCP server |
+| UCAI Web Builder | https://mcp.ucai.tech _(temporarily unavailable)_ | Convert any ABI to an MCP server |
 | GitHub Repo | https://github.com/nirholas/bnb-chain-toolkit | Full source code |
 
 ## Onchain Proof Links
@@ -79,7 +79,7 @@ Together these five documents cover: **Problem → Solution → Architecture →
 | Type | Link | Description |
 |------|------|-------------|
 | GitHub | [github.com/nirholas/bnb-chain-toolkit](https://github.com/nirholas/bnb-chain-toolkit) | Source code — star to show support |
-| npm | [@nirholas/bnbchain-mcp](https://www.npmjs.com/package/@nirholas/bnbchain-mcp) | Published MCP server package |
+| npm | @nirholas/bnbchain-mcp _(coming soon)_ | MCP server package |
 | X/Twitter | [@nichxbt](https://x.com/nichxbt) | Builder updates and announcements |
 | BscScan | [0x8004A169…a432](https://bscscan.com/address/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432) | Verified ERC-8004 contract |
 | ERC-8004 Spec | [erc8004.md](../erc8004.md) | Full standard specification |

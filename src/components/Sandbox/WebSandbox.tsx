@@ -14,7 +14,6 @@ import WalletConnect from '@/components/WalletConnect';
 import TemplatesPanel from './TemplatesPanel';
 import {
   Play,
-  RotateCcw,
   Download,
   Share2,
   Settings,
@@ -30,31 +29,15 @@ import {
   FileJson,
   FileType,
   File,
-  Folder,
-  FolderOpen,
-  ChevronRight,
-  ChevronDown,
-  Copy,
   Check,
   Smartphone,
   Tablet,
   Monitor,
-  Moon,
-  Sun,
   Code2,
   Terminal,
-  Bug,
-  Layers,
   Zap,
   Trash2,
-  Edit3,
-  MoreVertical,
-  Github,
-  ExternalLink,
   Sparkles,
-  Search,
-  Replace,
-  Command,
   Braces,
   Layout,
   SplitSquareHorizontal,
@@ -81,11 +64,11 @@ interface SandboxFile {
   isEntry?: boolean;
 }
 
-interface SandboxFolder {
+interface _SandboxFolder {
   id: string;
   name: string;
   files: SandboxFile[];
-  folders: SandboxFolder[];
+  folders: _SandboxFolder[];
   isOpen?: boolean;
 }
 
@@ -775,7 +758,7 @@ setInterval(() => {
 export default function WebSandbox({
   initialFiles = DEFAULT_FILES,
   title = 'Web Sandbox',
-  description,
+  _description,
   readOnly = false,
   showHeader = true,
   defaultLayout = 'horizontal'
@@ -800,8 +783,8 @@ export default function WebSandbox({
   const [splitPosition, setSplitPosition] = useState(50);
   const [devicePreset, setDevicePreset] = useState<DevicePreset | null>(null);
   const [copied, setCopied] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [_searchOpen, _setSearchOpen] = useState(false);
+  const [_searchQuery, _setSearchQuery] = useState('');
   const [showShareModal, setShowShareModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [showTemplates, setShowTemplates] = useState(true);
@@ -1047,7 +1030,7 @@ export default function WebSandbox({
     setShowShareModal(true);
   };
   
-  const quickCopyLink = async () => {
+  const _quickCopyLink = async () => {
     // Quick copy current URL for sharing (existing behavior)
     const code = JSON.stringify(files);
     const encoded = btoa(encodeURIComponent(code));
@@ -1501,8 +1484,8 @@ export default function WebSandbox({
               )}
               onMouseDown={(e) => {
                 e.preventDefault();
-                const startPos = layout === 'horizontal' ? e.clientX : e.clientY;
-                const startSplit = splitPosition;
+                const _startPos = layout === 'horizontal' ? e.clientX : e.clientY;
+                const _startSplit = splitPosition;
                 const container = containerRef.current;
                 if (!container) return;
                 

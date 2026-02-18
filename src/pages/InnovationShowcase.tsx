@@ -16,7 +16,6 @@ import {
   Rocket,
   Target,
   Award,
-  TrendingUp,
   Code2,
   Heart,
   Globe,

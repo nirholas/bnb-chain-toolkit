@@ -2,6 +2,8 @@
 
 Practical DeFi utilities included in the toolkit.
 
+> **New to DeFi?** "DeFi" means Decentralized Finance — financial services run by code on blockchains instead of banks. See the [Glossary](GLOSSARY.md) for full definitions of DeFi terms like dust, slippage, bridge, and TVL.
+
 ---
 
 ## Dust Sweeper
@@ -154,6 +156,9 @@ The sweep tool uses the x402 payment protocol for monetization:
 
 ## See Also
 
+- [Glossary](GLOSSARY.md) — Definitions for dust, bridge, slippage, and other DeFi terms
 - [Wallets](wallets.md) — Wallet management tools
 - [MCP Servers](mcp-servers.md) — Connect DeFi tools to AI
+- [Examples](examples.md) — Dust sweeping examples and scripts
 - [Getting Started](getting-started.md) — Initial setup
+- [Troubleshooting](troubleshooting.md) — When things go wrong

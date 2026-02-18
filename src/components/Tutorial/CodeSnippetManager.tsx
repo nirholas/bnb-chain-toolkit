@@ -4,7 +4,7 @@
  * 💫 Persistence beats perfection 🎖️
  */
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Copy, Check, Download, Share2, BookOpen, Code2 } from 'lucide-react';
 
 export interface CodeSnippet {
@@ -71,7 +71,7 @@ export default function CodeSnippetManager({
           text: snippet.description,
           url: window.location.href
         });
-      } catch (err) {
+    } catch (_err) {
         console.log('Share cancelled');
       }
     } else {

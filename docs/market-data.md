@@ -2,6 +2,8 @@
 
 How to use the market data components for real-time crypto prices, news, and analytics.
 
+> **New to market data?** See the [Glossary](GLOSSARY.md) for definitions of terms like TVL, Fear & Greed Index, and market cap.
+
 ---
 
 ## Overview
@@ -180,6 +182,9 @@ articles.forEach(article => {
 
 ## See Also
 
+- [Glossary](GLOSSARY.md) — Definitions for TVL, APY, sentiment, and other terms
 - [Getting Started](getting-started.md) — Initial setup
 - [Agents](agents.md) — AI agents that use market data
+- [MCP Servers](mcp-servers.md) — Connect market data to AI assistants
 - [Examples](examples.md) — More usage patterns
+- [Troubleshooting](troubleshooting.md) — When API calls fail

@@ -80,7 +80,7 @@ It's a single repository with **everything** you need to build AI-powered applic
 ## ⚡ Quick Start
 
 [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nirholas/bnb-chain-toolkit)
-[![Open in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nirholas/bnb-chain-toolkit)
+[![Open in CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/devbox/github/nirholas/bnb-chain-toolkit)
 
 ```bash
 # Clone
@@ -399,7 +399,8 @@ bun run build
 | Guide | For | Description |
 |-------|-----|-------------|
 | [What Is This?](docs/what-is-this.md) | Everyone | Simple explanation, no jargon |
-| [Getting Started](docs/getting-started.md) | Beginners | 5-minute setup |
+| [Glossary](docs/GLOSSARY.md) | Everyone | 60+ terms explained in plain English |
+| [Getting Started](docs/getting-started.md) | Beginners | Step-by-step setup guide |
 | [Architecture](docs/architecture.md) | Developers | System design & data flows |
 | [Agents](docs/agents.md) | Users | Complete agent catalog |
 | [MCP Servers](docs/mcp-servers.md) | Developers | Server setup & configuration |

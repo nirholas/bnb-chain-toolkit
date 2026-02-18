@@ -10,8 +10,7 @@ import { useSEO } from '@/hooks/useSEO';
 import useI18n from '@/stores/i18nStore';
 import WebSandbox from '@/components/Sandbox/WebSandbox';
 import SoliditySandbox from '@/components/Sandbox/SoliditySandbox';
-import { Code2, FileCode, Layers, Sparkles, Zap, Globe, ArrowRight, Home } from 'lucide-react';
-import { cn } from '@/utils/helpers';
+import { FileCode, Sparkles, Zap, Globe, ArrowRight, Home } from 'lucide-react';
 
 type SandboxType = 'web' | 'solidity' | null;
 

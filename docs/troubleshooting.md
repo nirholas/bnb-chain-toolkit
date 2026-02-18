@@ -237,14 +237,28 @@ const client = new CoinGecko({ cacheTtl: 60_000 }); // Cache for 60 seconds
 
 ## Still Stuck?
 
-1. Check the [FAQ](faq.md) for more common questions
-2. Search [existing issues](https://github.com/nirholas/bnb-chain-toolkit/issues)
-3. [Open a new issue](https://github.com/nirholas/bnb-chain-toolkit/issues/new) with:
-   - What you expected to happen
-   - What actually happened
-   - Steps to reproduce
-   - Your Node.js version (`node --version`)
-   - Your OS
+If none of the sections above matched your issue:
+
+1. **Check the [FAQ](faq.md)** — it covers conceptual questions the troubleshooting guide doesn't
+2. **Search [existing issues](https://github.com/nirholas/bnb-chain-toolkit/issues)** — someone may have hit the same problem
+3. **[Open a new issue](https://github.com/nirholas/bnb-chain-toolkit/issues/new)** with this template:
+
+```markdown
+**What I expected:** [describe the expected behavior]
+**What happened:** [describe the actual behavior]
+**Error message:** [paste the exact error]
+**Steps to reproduce:**
+1. [step 1]
+2. [step 2]
+
+**Environment:**
+- OS: [e.g., macOS 14.2, Ubuntu 24.04, Windows 11]
+- Node.js: [output of `node --version`]
+- bun: [output of `bun --version`]
+- Component: [e.g., bnbchain-mcp, agents build, etc.]
+```
+
+The more detail you provide, the faster we can help.
 
 ---
 
@@ -302,3 +316,12 @@ export SHOW_STACK_TRACES=true
 ```
 
 See [SECURITY.md](../SECURITY.md) for the full environment variables reference.
+
+---
+
+## See Also
+
+- [Glossary](GLOSSARY.md) — Definitions for terms on this page
+- [FAQ](faq.md) — Conceptual questions answered
+- [Getting Started](getting-started.md) — Clean setup walkthrough
+- [MCP Servers](mcp-servers.md) — Server-specific configuration details

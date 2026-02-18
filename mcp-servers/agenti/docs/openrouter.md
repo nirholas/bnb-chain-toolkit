@@ -137,7 +137,7 @@ DEFILLAMA_API_KEY=...
 
 - [GitHub Repository](https://github.com/nirholas/agenti)
 - [Full Documentation](https://agenti.dev)
-- [MCP Protocol Spec](https://spec.modelcontextprotocol.io/)
+- [MCP Protocol Spec](https://modelcontextprotocol.io/specification)
 - [OpenRouter Documentation](https://openrouter.ai/docs)
 
 ## Support

@@ -207,7 +207,7 @@ GOPLUS_API_KEY=...
 
 ## Resources
 
-- [MCP Specification](https://spec.modelcontextprotocol.io/)
+- [MCP Specification](https://modelcontextprotocol.io/specification)
 - [viem Documentation](https://viem.sh/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 

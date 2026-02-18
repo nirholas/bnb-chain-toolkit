@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import Editor, { OnMount } from '@monaco-editor/react';
+import Editor from '@monaco-editor/react';
 import { useThemeStore } from '@/stores/themeStore';
 import { 
   Play, 
@@ -19,21 +19,12 @@ import {
   FileCode, 
   Globe, 
   Copy, 
-  Check, 
-  Settings, 
   Maximize2, 
   Minimize2,
   RefreshCw,
   X,
-  CheckCircle,
-  XCircle,
-  AlertTriangle,
   Box,
-  Activity,
-  Trash2,
-  ExternalLink,
-  Wallet,
-  Coins
+  Trash2
 } from 'lucide-react';
 import { cn } from '@/utils/helpers';
 import { getTemplateById } from '@/utils/contractTemplates';
@@ -81,7 +72,7 @@ interface DeployedContract {
 const generateAddress = () => 
   '0x' + Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
 
-const generateTxHash = () => 
+const _generateTxHash = () => 
   '0x' + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
 
 // Generate frontend from contract
@@ -94,7 +85,7 @@ const generateFrontendFromContract = (contractCode: string, contractName: string
   let match;
   
   while ((match = funcRegex.exec(contractCode)) !== null) {
-    const [, name, params, , mutability, , returns] = match;
+    const [, name, params, , mutability, , _returns] = match;
     const inputs = params.split(',').filter(p => p.trim()).map(p => {
       const parts = p.trim().split(/\s+/);
       return { name: parts[1] || parts[0], type: parts[0] };
@@ -260,7 +251,7 @@ export default function UnifiedSandbox({
   const [isFullscreen, setIsFullscreen] = useState(false);
   
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const editorRef = useRef<any>(null);
+  const _editorRef = useRef<any>(null);
   
   // ---------------------------------------------------------------------------
   // HANDLERS
@@ -371,7 +362,7 @@ export default function UnifiedSandbox({
     log('log', `  Gas: ${compilationResult.gasEstimate}`);
   };
   
-  const callFunction = async (contractId: string, func: any, isWrite: boolean) => {
+  const callFunction = async (contractId: string, func: any, _isWrite: boolean) => {
     const inputs = functionInputs[contractId]?.[func.name] || {};
     const args = func.inputs.map((i: any) => inputs[i.name] || '');
     

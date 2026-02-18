@@ -10,15 +10,12 @@ import {
   Code, 
   Layout, 
   Zap, 
-  Copy, 
-  CheckCircle, 
   AlertCircle,
   Wand2,
   Layers,
   FileCode,
   Palette
 } from 'lucide-react';
-import { copyToClipboard } from '@/utils/helpers';
 import FullStackPlayground from '@/components/Playground/FullStackPlayground';
 
 interface GeneratedProject {

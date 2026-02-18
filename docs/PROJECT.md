@@ -300,5 +300,5 @@ The entire project is MIT licensed and designed for community contribution. We p
 - [ERC-8004 Specification](../erc8004.md)
 - [W3AG Standard](../standards/)
 - [Documentation](./README.md)
-- [npm: @nirholas/bnbchain-mcp](https://www.npmjs.com/package/@nirholas/bnbchain-mcp)
-- [npm: @nirholas/universal-crypto-mcp](https://www.npmjs.com/package/@nirholas/universal-crypto-mcp)
+- npm: @nirholas/bnbchain-mcp _(coming soon)_
+- npm: @nirholas/universal-crypto-mcp _(coming soon)_

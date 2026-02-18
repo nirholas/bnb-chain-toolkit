@@ -5,7 +5,7 @@
  */
 
 import { useState, useMemo } from 'react';
-import { Wallet, CheckCircle, AlertCircle, RefreshCw, Copy, ExternalLink } from 'lucide-react';
+import { Wallet, CheckCircle, AlertCircle, RefreshCw, Copy } from 'lucide-react';
 import { BrowserProvider, formatEther } from 'ethers';
 import { useWalletStore } from '@/stores/walletStore';
 import { truncateAddress, copyToClipboard } from '@/utils/helpers';
