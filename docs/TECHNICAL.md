@@ -1,6 +1,6 @@
 # Technical Document — BNB Chain AI Toolkit
 
-> Hackathon submission: 78 AI agents, 6 MCP servers, 900+ tools for BNB Chain and 60+ networks.
+> Hackathon submission: 78 AI agents, 6 MCP servers, 1,100+ tools for BNB Chain and 60+ networks.
 
 ---
 
@@ -213,7 +213,7 @@ bun run dev
 cd mcp-servers/bnbchain-mcp && bun install && bun start
 
 # Universal Crypto MCP (one-command, no clone needed)
-npx -y @anthropic/universal-crypto-mcp
+npx -y @nirholas/universal-crypto-mcp
 
 # Run tests
 bun run test
@@ -306,7 +306,7 @@ curl -X POST http://localhost:3000/mcp -d '{"method":"tools/list"}'
 ### Expected Outcomes
 
 - **Agent browser**: All 78 agents display with full configs (system prompt, MCP connections, opening questions).
-- **MCP servers**: Combined 900+ tools across 6 servers.
+- **MCP servers**: Combined 1,100+ tools across 6 servers.
 - **On-chain**: Contracts verified on BscScan, deterministic addresses via CREATE2.
 - **Agent registration**: Mints an ERC-721 NFT representing the agent's on-chain identity.
 

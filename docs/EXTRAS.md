@@ -65,7 +65,7 @@ Together these five documents cover: **Problem → Solution → Architecture →
 | Package | Install |
 |---|---|
 | BNB Chain MCP | `npx -y @nirholas/bnbchain-mcp` |
-| Universal Crypto MCP | `npx -y @anthropic/universal-crypto-mcp` |
+| Universal Crypto MCP | `npx -y @nirholas/universal-crypto-mcp` |
 
 ## Related Standards
 
@@ -93,11 +93,11 @@ Together these five documents cover: **Problem → Solution → Architecture →
 |--------|------:|
 | AI Agents | 78 |
 | MCP Servers | 6 |
-| Total Tools | 900+ |
+| Total Tools | 1,100+ |
 | Supported Chains | 60+ |
 | Languages | 30+ |
 | Original Standards | 2 |
 | Test Suites | 888 tests passing |
-| Documentation Files | 17+ |
+| Documentation Files | 18 |
 | On-chain Deployments | 24 chains |
 | License | MIT |

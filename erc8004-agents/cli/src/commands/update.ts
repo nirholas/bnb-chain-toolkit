@@ -5,13 +5,15 @@
 import { ethers } from 'ethers';
 import inquirer from 'inquirer';
 import ora from 'ora';
-import { getChain, IDENTITY_ABI } from '../utils/config';
+import { getChain, getWallet, migrateConfigIfNeeded, IDENTITY_ABI } from '../utils/config';
 import { header, field, printError, printSuccess, gold, link, shortAddr } from '../utils/display';
 
 interface UpdateOptions {
   uri?: string;
   chain?: string;
   key?: string;
+  keystore?: string;
+  keystorePassword?: string;
 }
 
 export async function updateCommand(tokenId: string, options: UpdateOptions): Promise<void> {
@@ -20,30 +22,25 @@ export async function updateCommand(tokenId: string, options: UpdateOptions): Pr
   const chain = getChain(options.chain);
   field('Chain', `${chain.name} (${chain.chainId})`);
 
-  // Get private key
-  const privateKey = options.key || process.env.ERC8004_PRIVATE_KEY;
-  if (!privateKey) {
-    const { key } = await inquirer.prompt([
-      {
-        type: 'password',
-        name: 'key',
-        message: 'Private key (0x...):',
-        mask: '*',
-        validate: (v: string) => (v.startsWith('0x') && v.length === 66) || 'Invalid key format',
-      },
-    ]);
-    if (!key) {
-      printError('Private key is required');
-      return;
-    }
-    options.key = key;
+  // Migrate legacy config if needed
+  await migrateConfigIfNeeded();
+
+  // Resolve wallet from available sources
+  const resolvedWallet = await getWallet({
+    key: options.key,
+    keystore: options.keystore,
+    keystorePassword: options.keystorePassword,
+  });
+  if (!resolvedWallet) {
+    printError('No wallet configured. Run `erc8004 wallet import` first, or use --key / --keystore flags.');
+    return;
   }
 
   const provider = new ethers.JsonRpcProvider(chain.rpcUrl, {
     name: chain.name,
     chainId: chain.chainId,
   });
-  const wallet = new ethers.Wallet(options.key as string, provider);
+  const wallet = resolvedWallet.connect(provider);
   const contract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, wallet);
 
   // Verify ownership

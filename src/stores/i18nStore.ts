@@ -195,7 +195,7 @@ export const baseTranslations: Record<string, string> = {
     'error.try_again': 'Try Again',
 
     // Homepage
-    'home.hero.tagline': '78 AI Agents · 6 MCP Servers · 900+ Tools · One Repo',
+    'home.hero.tagline': '78 AI Agents · 6 MCP Servers · 1,100+ Tools · One Repo',
     'home.how_it_works': 'How It Works',
     'home.how_it_works_sub': 'Give any AI model direct access to BNB Chain in three steps.',
     'home.step1.title': 'Pick an Agent',
@@ -205,14 +205,14 @@ export const baseTranslations: Record<string, string> = {
     'home.step2.desc': 'Point Claude, ChatGPT, or any LLM at one of 6 MCP servers. Your AI can now read on-chain data, fetch prices, and interact with protocols.',
     'home.step2.link': 'View Servers',
     'home.step3.title': 'Execute On-Chain',
-    'home.step3.desc': '900+ tools across 60+ networks — swap tokens, check yields, audit contracts, track wallets. All through natural language.',
+    'home.step3.desc': '1,100+ tools across 60+ networks — swap tokens, check yields, audit contracts, track wallets. All through natural language.',
     'home.step3.link': 'Read Docs',
     'home.explore': 'Explore the Toolkit',
     'home.create_erc8004': 'Create ERC-8004 Agent',
     'home.start_building': 'Start Building',
     'home.star_github': 'Star on GitHub',
     'home.mcp.badge': 'Model Context Protocol',
-    'home.mcp.title': '6 MCP Servers, 900+ Tools',
+    'home.mcp.title': '6 MCP Servers, 1,100+ Tools',
     'home.mcp.subtitle': 'Give AI assistants direct blockchain access. Connect Claude, ChatGPT, or any LLM to BNB Chain, Binance, and 60+ networks.',
     'home.agents.badge': '78 Specialized Agents',
     'home.agents.title': 'Pre-Built AI Agents for Every Protocol',
@@ -230,7 +230,7 @@ export const baseTranslations: Record<string, string> = {
     'home.why.badge': 'Why This Toolkit',
     'home.why.title': 'Why BNB Chain AI Toolkit?',
     'home.cta.title': 'Ready to Build on BNB Chain?',
-    'home.cta.subtitle': '78 agents, 6 MCP servers, 900+ tools. Open source. Start building now.',
+    'home.cta.subtitle': '78 agents, 6 MCP servers, 1,100+ tools. Open source. Start building now.',
 
     // Nav groups
     'nav.learn': 'Learn',
@@ -255,7 +255,7 @@ export const baseTranslations: Record<string, string> = {
     'footer.product': 'Product',
     'footer.resources': 'Resources',
     'footer.project': 'Project',
-    'footer.brand_description': '78 AI agents, 6 MCP servers, and 900+ tools for BNB Chain and 60+ networks. Open source and community-driven.',
+    'footer.brand_description': '78 AI agents, 6 MCP servers, and 1,100+ tools for BNB Chain and 60+ networks. Open source and community-driven.',
     'footer.tutorials': 'Tutorials',
     'footer.examples': 'Examples',
     'footer.innovation_lab': 'Innovation Lab',
@@ -263,7 +263,7 @@ export const baseTranslations: Record<string, string> = {
     'footer.changelog': 'Changelog',
 
     // Docs Page
-    'docs.hero_subtitle': 'Everything you need to integrate 78 AI agents, 6 MCP servers, and 900+ tools into your BNB Chain projects.',
+    'docs.hero_subtitle': 'Everything you need to integrate 78 AI agents, 6 MCP servers, and 1,100+ tools into your BNB Chain projects.',
     'docs.start_here': 'Start Here',
     'docs.quick_start': 'Quick Start Guide',
     'docs.quick_start_desc': 'Get up and running in under 5 minutes. Install the toolkit, configure your first MCP server, and deploy an AI agent on BNB Chain.',
@@ -276,7 +276,7 @@ export const baseTranslations: Record<string, string> = {
 
     // About Page
     'about.hero_title': 'Built for BNB Chain. Built by nich.',
-    'about.hero_subtitle': 'The most comprehensive open-source AI toolkit for blockchain — 78 agents, 6 MCP servers, 900+ tools, 2 open standards, and counting.',
+    'about.hero_subtitle': 'The most comprehensive open-source AI toolkit for blockchain — 78 agents, 6 MCP servers, 1,100+ tools, 2 open standards, and counting.',
     'about.whats_inside': "What's Inside",
     'about.mcp_servers': '6 MCP Servers',
     'about.open_standards': 'Open Standards',
@@ -293,7 +293,7 @@ export const baseTranslations: Record<string, string> = {
 
     // Community Page
     'community.hero_title': 'Join the Community',
-    'community.hero_subtitle': 'BNB Chain AI Toolkit is built in the open. 78 agents, 6 MCP servers, 900+ tools — every contribution makes the ecosystem stronger.',
+    'community.hero_subtitle': 'BNB Chain AI Toolkit is built in the open. 78 agents, 6 MCP servers, 1,100+ tools — every contribution makes the ecosystem stronger.',
     'community.contributing_to': "What You're Contributing To",
     'community.ways_to_contribute': 'Ways to Contribute',
     'community.contributors': 'Contributors',

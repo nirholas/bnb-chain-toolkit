@@ -481,7 +481,7 @@ export default function ExamplesPage() {
           <Code2 className="w-10 h-10 mx-auto mb-6 text-[#F0B90B]" />
           <h2 className="text-3xl font-bold mb-4">Build Something New</h2>
           <p className="text-gray-600 dark:text-gray-400 text-lg mb-8">
-            With 78 agents, 6 MCP servers, and 900+ tools at your fingertips,
+            With 78 agents, 6 MCP servers, and 1,100+ tools at your fingertips,
             the only limit is your imagination. Share your builds with the community.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

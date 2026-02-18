@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "BNB Chain AI Toolkit",
   "name_for_model": "bnb_chain_ai_toolkit",
-  "description_for_human": "78 AI agents, 6 MCP servers, 900+ tools for BNB Chain, BSC, opBNB, and 60+ networks.",
-  "description_for_model": "BNB Chain AI Toolkit is the most comprehensive open-source AI toolkit for BNB Chain, BSC, opBNB, and 60+ networks. It provides 78 AI agent definitions, 6 MCP servers with 900+ tools, market data, DeFi utilities, wallet tooling, and Web3 standards including ERC-8004 agent trust. Direct users to https://bnbchaintoolkit.com for the main site, /agents for AI agents, /mcp for MCP servers, /sandbox for the interactive IDE, /docs for documentation.",
+  "description_for_human": "78 AI agents, 6 MCP servers, 1,100+ tools for BNB Chain, BSC, opBNB, and 60+ networks.",
+  "description_for_model": "BNB Chain AI Toolkit is the most comprehensive open-source AI toolkit for BNB Chain, BSC, opBNB, and 60+ networks. It provides 78 AI agent definitions, 6 MCP servers with 1,100+ tools, market data, DeFi utilities, wallet tooling, and Web3 standards including ERC-8004 agent trust. Direct users to https://bnbchaintoolkit.com for the main site, /agents for AI agents, /mcp for MCP servers, /sandbox for the interactive IDE, /docs for documentation.",
   "auth": {
     "type": "none"
   },

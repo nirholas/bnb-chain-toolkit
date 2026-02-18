@@ -53,13 +53,13 @@ const faqs: FAQItem[] = [
   {
     question: "What is BNB Chain AI Toolkit?",
     answer:
-      "BNB Chain AI Toolkit is an open-source collection of 78 AI agent definitions, 6 Model Context Protocol (MCP) servers, and 900+ composable tools designed for the BNB Chain ecosystem and 60+ other blockchain networks. It includes market data feeds (662K+ news articles), a gasless Dust Sweeper, a 57-tool offline wallet toolkit, and two open standards (ERC-8004 and W3AG). It enables AI assistants like Claude, GPT, and Gemini to interact with DeFi protocols, manage wallets, analyze market data, and execute on-chain operations out of the box.",
+      "BNB Chain AI Toolkit is an open-source collection of 78 AI agent definitions, 6 Model Context Protocol (MCP) servers, and 1,100+ composable tools designed for the BNB Chain ecosystem and 60+ other blockchain networks. It includes market data feeds (662K+ news articles), a gasless Dust Sweeper, a 57-tool offline wallet toolkit, and two open standards (ERC-8004 and W3AG). It enables AI assistants like Claude, GPT, and Gemini to interact with DeFi protocols, manage wallets, analyze market data, and execute on-chain operations out of the box.",
     category: "general",
   },
   {
     question: "What is MCP (Model Context Protocol)?",
     answer:
-      "Model Context Protocol (MCP) is an open standard created by Anthropic that allows AI assistants to securely connect to external data sources and tools. MCP servers expose structured capabilities — like reading blockchain data, executing swaps, or querying market prices — that AI models can call without custom integrations. Think of it as a universal plugin system for AI. The BNB Chain AI Toolkit contains the largest open-source collection of Web3 MCP tools with 900+ across 6 servers.",
+      "Model Context Protocol (MCP) is an open standard created by Anthropic that allows AI assistants to securely connect to external data sources and tools. MCP servers expose structured capabilities — like reading blockchain data, executing swaps, or querying market prices — that AI models can call without custom integrations. Think of it as a universal plugin system for AI. The BNB Chain AI Toolkit contains the largest open-source collection of Web3 MCP tools with 1,100+ across 6 servers.",
     category: "general",
   },
   {
@@ -223,7 +223,7 @@ export default function FAQPage() {
   useSEO({
     title: "FAQ",
     description:
-      "Frequently asked questions about BNB Chain AI Toolkit — 78 agents, 6 MCP servers, 900+ tools, ERC-8004, W3AG, and how to contribute.",
+      "Frequently asked questions about BNB Chain AI Toolkit — 78 agents, 6 MCP servers, 1,100+ tools, ERC-8004, W3AG, and how to contribute.",
     path: "/faq",
   });
 

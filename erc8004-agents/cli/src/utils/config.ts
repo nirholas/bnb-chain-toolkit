@@ -6,13 +6,19 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
+import { ethers } from 'ethers';
+import inquirer from 'inquirer';
+import chalk from 'chalk';
 
 const CONFIG_DIR = path.join(os.homedir(), '.erc8004');
 const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 
 export interface CliConfig {
   defaultChain: string;
+  /** @deprecated Use `keystore` instead. Will be auto-migrated. */
   privateKey?: string;
+  /** Encrypted JSON keystore (ethers v6 format) */
+  keystore?: string;
   customRpcUrls: Record<string, string>;
 }
 
@@ -23,6 +29,7 @@ const DEFAULT_CONFIG: CliConfig = {
 
 /**
  * Load config from disk.
+ * Automatically migrates plaintext privateKey → encrypted keystore on first access.
  */
 export function loadConfig(): CliConfig {
   try {
@@ -34,6 +41,131 @@ export function loadConfig(): CliConfig {
     // Fall through to default
   }
   return { ...DEFAULT_CONFIG };
+}
+
+/**
+ * Check for legacy plaintext privateKey and migrate to encrypted keystore.
+ * Should be called once at CLI startup for write commands.
+ */
+export async function migrateConfigIfNeeded(): Promise<void> {
+  const config = loadConfig();
+  if (config.privateKey && !config.keystore) {
+    console.log(chalk.yellow('\n  ⚠ Migrating plaintext private key to encrypted keystore...'));
+    console.log(chalk.yellow('  Your private key is currently stored in plaintext. This is insecure.\n'));
+
+    const { password } = await inquirer.prompt([
+      {
+        type: 'password',
+        name: 'password',
+        message: 'Set an encryption password for your keystore (min 8 chars):',
+        mask: '*',
+        validate: (v: string) => v.length >= 8 || 'Password must be at least 8 characters',
+      },
+    ]);
+    const { confirm } = await inquirer.prompt([
+      {
+        type: 'password',
+        name: 'confirm',
+        message: 'Confirm password:',
+        mask: '*',
+      },
+    ]);
+    if (password !== confirm) {
+      console.log(chalk.red('  Passwords do not match. Migration skipped. Will retry next run.\n'));
+      return;
+    }
+
+    try {
+      const wallet = new ethers.Wallet(config.privateKey);
+      const keystoreJson = await wallet.encrypt(password);
+      config.keystore = keystoreJson;
+      delete config.privateKey;
+      saveConfig(config);
+      console.log(chalk.green('  ✔ Private key encrypted and stored as keystore.'));
+      console.log(chalk.green(`  ✔ Wallet address: ${wallet.address}\n`));
+    } catch (err: any) {
+      console.log(chalk.red(`  Migration failed: ${err.message}. Plaintext key left unchanged.\n`));
+    }
+  }
+}
+
+/**
+ * Prompt the user for a keystore password interactively.
+ */
+export async function promptKeystorePassword(): Promise<string> {
+  const { password } = await inquirer.prompt([
+    {
+      type: 'password',
+      name: 'password',
+      message: 'Keystore password:',
+      mask: '*',
+    },
+  ]);
+  return password;
+}
+
+/**
+ * Resolve a wallet from the available sources (in priority order):
+ * 1. --key flag (deprecated, with warning)
+ * 2. --keystore + --keystore-password flags
+ * 3. ERC8004_PRIVATE_KEY env var (for CI)
+ * 4. Encrypted keystore in config (prompts for password)
+ * 5. Legacy plaintext privateKey in config (deprecated)
+ *
+ * Returns null if no wallet can be resolved.
+ */
+export async function getWallet(options: {
+  key?: string;
+  keystore?: string;
+  keystorePassword?: string;
+}): Promise<ethers.Wallet | null> {
+  // 1. --key flag (deprecated)
+  if (options.key) {
+    console.log(chalk.yellow('  ⚠ Warning: Passing private keys via CLI flags is insecure. Consider using `erc8004 wallet import` instead.'));
+    return new ethers.Wallet(options.key);
+  }
+
+  // 2. --keystore file flag
+  if (options.keystore) {
+    const ksPath = path.resolve(options.keystore);
+    if (!fs.existsSync(ksPath)) {
+      console.log(chalk.red(`  Keystore file not found: ${ksPath}`));
+      return null;
+    }
+    const ksContent = fs.readFileSync(ksPath, 'utf-8');
+    const password = options.keystorePassword || await promptKeystorePassword();
+    try {
+      return (await ethers.Wallet.fromEncryptedJson(ksContent, password)) as ethers.Wallet;
+    } catch {
+      console.log(chalk.red('  Failed to decrypt keystore file. Wrong password?'));
+      return null;
+    }
+  }
+
+  // 3. Env var
+  if (process.env.ERC8004_PRIVATE_KEY) {
+    return new ethers.Wallet(process.env.ERC8004_PRIVATE_KEY);
+  }
+
+  // 4. Encrypted keystore in config
+  const config = loadConfig();
+  if (config.keystore) {
+    const password = await promptKeystorePassword();
+    try {
+      return (await ethers.Wallet.fromEncryptedJson(config.keystore, password)) as ethers.Wallet;
+    } catch {
+      console.log(chalk.red('  Failed to decrypt stored keystore. Wrong password?'));
+      return null;
+    }
+  }
+
+  // 5. Legacy plaintext key (deprecated)
+  if (config.privateKey) {
+    console.log(chalk.yellow('  ⚠ Using legacy plaintext key from config. Run `erc8004 wallet import` to encrypt it.'));
+    return new ethers.Wallet(config.privateKey);
+  }
+
+  return null;
 }
 
 /**

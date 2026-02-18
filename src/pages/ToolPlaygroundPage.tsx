@@ -692,7 +692,7 @@ function OfflineCatalog() {
         </div>
 
         <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-3">
-          900+ Tools Ready to Use
+          1,100+ Tools Ready to Use
         </h2>
 
         <p className="text-neutral-500 dark:text-neutral-400 mb-6 leading-relaxed">
@@ -768,9 +768,9 @@ npx @nirholas/bnb-chain-mcp@latest --http
 
 export default function ToolPlaygroundPage() {
   useSEO({
-    title: 'Tool Playground — Execute 900+ MCP Tools Live',
+    title: 'Tool Playground — Execute 1,100+ MCP Tools Live',
     description:
-      'Connect to BNB Chain MCP servers and execute 900+ crypto, DeFi, and blockchain tools directly in your browser.',
+      'Connect to BNB Chain MCP servers and execute 1,100+ crypto, DeFi, and blockchain tools directly in your browser.',
     path: '/tool-playground',
   });
 
@@ -860,7 +860,7 @@ export default function ToolPlaygroundPage() {
                 MCP Tool Playground
               </h1>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Connect · Browse · Execute — 900+ tools across 6 servers
+                Connect · Browse · Execute — 1,100+ tools across 6 servers
               </p>
             </div>
           </div>

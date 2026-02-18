@@ -59,6 +59,53 @@ agentID, err := client.Register(ctx, erc8004.RegisterOptions{
 fmt.Printf("Agent #%d registered!\n", agentID)
 ```
 
+### Connect with an Encrypted Keystore
+
+```go
+// From a keystore file on disk
+client, err := erc8004.NewClientFromKeystore(
+    "/path/to/keystore.json",
+    "mypassword",
+    "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
+    97, // BSC Testnet chain ID
+)
+if err != nil {
+    log.Fatal(err)
+}
+defer client.Close()
+
+fmt.Printf("Wallet address: %s\n", client.Address())
+```
+
+```go
+// From in-memory keystore JSON (e.g., loaded from a secret manager)
+keystoreJSON := []byte(`{"address":"...","crypto":{...},...}`)
+
+client, err := erc8004.NewClientFromKeystoreJSON(
+    keystoreJSON,
+    "mypassword",
+    "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
+    97,
+)
+if err != nil {
+    log.Fatal(err)
+}
+defer client.Close()
+```
+
+### Export a Keystore
+
+```go
+// Export the client's private key as an encrypted keystore JSON blob
+exported, err := client.ExportKeystore("newpassword")
+if err != nil {
+    log.Fatal(err)
+}
+
+// Save to file
+os.WriteFile("my-wallet.json", exported, 0600)
+```
+
 ## Supported Chains
 
 | Name | Chain ID | Key |
@@ -72,8 +119,12 @@ fmt.Printf("Agent #%d registered!\n", agentID)
 
 ### Client
 
-- `NewClient(chain, privateKey)` — Full client
-- `NewReadOnlyClient(chain)` — Read-only client
+- `NewClient(chain, privateKey)` — Full client with private key hex
+- `NewReadOnlyClient(chain)` — Read-only client (no signing)
+- `NewClientFromKeystore(path, password, rpcURL, chainID)` — Client from keystore file
+- `NewClientFromKeystoreJSON(json, password, rpcURL, chainID)` — Client from in-memory keystore
+- `ExportKeystore(password)` — Export private key as encrypted keystore JSON
+- `Address()` — Wallet address (empty for read-only)
 - `Register(ctx, opts)` — Register an agent
 - `GetAgent(ctx, id)` — Get agent details
 - `GetVersion(ctx)` — Contract version

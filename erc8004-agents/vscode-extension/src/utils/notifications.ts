@@ -88,17 +88,19 @@ export async function pickChain(): Promise<string | undefined> {
 }
 
 /**
- * Require wallet connection, prompting if not connected.
+ * Require wallet connection, prompting with multi-option connect flow if not connected.
+ * Offers keystore import, private key entry, or new wallet creation.
  */
 export async function requireWallet(): Promise<boolean> {
   const { isConnected } = await import('./wallet');
   if (!isConnected()) {
     const action = await vscode.window.showWarningMessage(
-      'ERC-8004: No wallet connected. Connect now?',
+      'ERC-8004: No wallet connected. Connect via keystore (recommended), private key, or create a new wallet.',
       'Connect Wallet',
       'Cancel'
     );
     if (action === 'Connect Wallet') {
+      // Delegates to the multi-option QuickPick in the connectWallet command
       await vscode.commands.executeCommand('erc8004.connectWallet');
       return isConnected();
     }

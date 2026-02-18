@@ -79,7 +79,7 @@ const featuredAgents = [
 
 const heroStats = [
     { label: 'Agents', value: '78', Icon: Bot },
-    { label: 'Tools', value: '900+', Icon: Wrench },
+    { label: 'Tools', value: '1,100+', Icon: Wrench },
     { label: 'Chains', value: '60+', Icon: Network },
     { label: 'MCP Servers', value: '6', Icon: Server },
     { label: 'Languages', value: '30+', Icon: Globe },
@@ -87,7 +87,7 @@ const heroStats = [
 
 const whyReasons = [
     { title: 'Comprehensive Coverage', description: 'No other project covers the entire BNB Chain AI stack in one repo', link: '#' },
-    { title: 'Production-Ready MCP', description: '6 servers, 900+ tools, ready for Claude and other LLMs today', link: '#' },
+    { title: 'Production-Ready MCP', description: '6 servers, 1,100+ tools, ready for Claude and other LLMs today', link: '#' },
     { title: 'Original Standards', description: 'ERC-8004 for agent trust and W3AG for Web3 accessibility', link: '#' },
     { title: 'Real DeFi Tooling', description: 'Dust sweeper, market data, wallet toolkit — not just demos', link: '#' },
     { title: '78 Specialized Agents', description: 'Purpose-built for every major BNB Chain protocol', link: '#' },
@@ -243,8 +243,8 @@ export default function Homepage() {
         },
     ], [t]);
     useSEO({
-        title: 'BNB Chain AI Toolkit — 78 Agents, 6 MCP Servers, 900+ Tools',
-        description: 'The most comprehensive open-source AI toolkit for BNB Chain. 78 specialized agents, 6 MCP servers, 900+ tools, 60+ chains.',
+        title: 'BNB Chain AI Toolkit — 78 Agents, 6 MCP Servers, 1,100+ Tools',
+        description: 'The most comprehensive open-source AI toolkit for BNB Chain. 78 specialized agents, 6 MCP servers, 1,100+ tools, 60+ chains.',
     });
 
     return (

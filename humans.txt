@@ -23,5 +23,5 @@ Standards: ERC-8004, W3AG
 Build: bun
 AI Agents: 78
 MCP Servers: 6
-Tools: 900+
+Tools: 1,100+
 Languages: 30+

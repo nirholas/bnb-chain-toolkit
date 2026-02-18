@@ -39,7 +39,7 @@ Then add it to your AI assistant's config.
 ### 1. BNB Chain MCP
 
 **Location:** `mcp-servers/bnbchain-mcp/`
-**Tools:** 384
+**Tools:** 466+
 **Best for:** BNB Smart Chain (BSC), opBNB, BNB Greenfield, Sperax Protocol, and 10+ EVM chains
 
 #### What It Can Do

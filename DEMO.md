@@ -23,7 +23,7 @@ _[Insert link to demo video — record with Loom, YouTube, or similar]_
 3. **MCP server demo** (90s) — Show an MCP server connecting to Claude Desktop and executing a blockchain query
 4. **Agent in action** (60s) — Show a specialized agent (e.g., PancakeSwap Trader) answering DeFi questions
 5. **Code walkthrough** (30s) — Quick peek at agent JSON structure and how easy it is to add new agents
-6. **Closing** (30s) — Key stats (78 agents, 6 MCP servers, 900+ tools) and future vision
+6. **Closing** (30s) — Key stats (78 agents, 6 MCP servers, 1,100+ tools) and future vision
 
 ---
 

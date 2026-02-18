@@ -1,7 +1,7 @@
 # BNB Chain AI Toolkit — Project Document
 
 > Hackathon submission for **Good Vibes Only: OpenClaw Edition**
-> Track: **Builders** (Tools that help other developers ship faster)
+> Track: **Agent** (AI Agent × Onchain Actions)
 
 | Field         | Details                                                    |
 | ------------- | ---------------------------------------------------------- |
@@ -96,11 +96,11 @@ Model Context Protocol (MCP) servers are the core bridge between AI and blockcha
 
 | MCP Server             | Scope                          | Tools |
 | ---------------------- | ------------------------------ | ----- |
-| `bnbchain-mcp`         | BSC, opBNB, Greenfield + EVM   | 100+  |
-| `binance-mcp`          | Binance.com exchange API        | 478+  |
-| `binance-us-mcp`       | Binance.US exchange API         | 100+  |
-| `universal-crypto-mcp` | 60+ networks                   | 100+  |
-| `agenti`               | Universal EVM + Solana          | 100+  |
+| `bnbchain-mcp`         | BSC, opBNB, Greenfield + EVM   | 466+  |
+| `binance-mcp`          | Binance.com exchange API        | 554+  |
+| `binance-us-mcp`       | Binance.US exchange API         | 2+    |
+| `universal-crypto-mcp` | 60+ networks                   | 59+   |
+| `agenti`               | Universal EVM + Solana          | 58+   |
 | `ucai`                 | ABI-to-MCP generator (Python)  | —     |
 
 Install and run with a single command:

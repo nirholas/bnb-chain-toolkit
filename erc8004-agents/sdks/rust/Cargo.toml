@@ -16,6 +16,12 @@ serde_json = "1"
 base64 = "0.22"
 tokio = { version = "1", features = ["full"] }
 thiserror = "2"
+eth-keystore = { version = "0.5", optional = true }
+hex = { version = "0.4", optional = true }
+
+[features]
+default = []
+keystore = ["eth-keystore", "hex"]
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full", "test-util"] }

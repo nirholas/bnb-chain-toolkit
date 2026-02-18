@@ -36,7 +36,7 @@ import {
 
 const stats = [
   { value: "78", label: "AI Agents", icon: Bot, description: "36 BNB Chain + 42 DeFi agents" },
-  { value: "6", label: "MCP Servers", icon: Server, description: "900+ tools across all servers" },
+  { value: "6", label: "MCP Servers", icon: Server, description: "1,100+ tools across all servers" },
   { value: "478+", label: "Binance Tools", icon: BarChart3, description: "Most comprehensive exchange MCP" },
   { value: "60+", label: "Chains", icon: Globe, description: "BNB Chain, Ethereum, Solana, and more" },
   { value: "57", label: "Wallet Tools", icon: Wallet, description: "5 wallet MCP servers, 348 tests" },
@@ -112,7 +112,7 @@ export default function AboutPage() {
   useSEO({
     title: "About",
     description:
-      "Learn about BNB Chain AI Toolkit — 78 AI agents, 6 MCP servers, and 900+ tools for BNB Chain and 60+ networks.",
+      "Learn about BNB Chain AI Toolkit — 78 AI agents, 6 MCP servers, and 1,100+ tools for BNB Chain and 60+ networks.",
     path: "/about",
   });
 

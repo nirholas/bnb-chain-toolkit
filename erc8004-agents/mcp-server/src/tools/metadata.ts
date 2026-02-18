@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { ethers } from 'ethers';
 import {
   identityRegistry,
-  createSigner,
+  createSignerFromEnv,
 } from '../contracts.js';
 import { resolveChain, chainKeys, type ChainConfig } from '../chains.js';
 
@@ -59,22 +59,11 @@ function requireChain(input: string): ChainConfig {
   return chain;
 }
 
-function requirePrivateKey(): string {
-  const pk = process.env.PRIVATE_KEY;
-  if (!pk) {
-    throw new Error(
-      'PRIVATE_KEY environment variable required for write operations.'
-    );
-  }
-  return pk;
-}
-
 // ─── Tool Implementations ───
 
 export async function setMetadata(args: z.infer<typeof SetMetadataSchema>) {
   const chain = requireChain(args.chain);
-  const pk = requirePrivateKey();
-  const signer = createSigner(pk, chain);
+  const signer = createSignerFromEnv(chain);
   const registry = identityRegistry(chain, signer);
 
   const valueBytes = ethers.toUtf8Bytes(args.value);

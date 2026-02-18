@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "BNB Chain AI Toolkit API",
-    "description": "API for the BNB Chain AI Toolkit — 78 AI agents, 6 MCP servers, 900+ tools for BNB Chain and 60+ networks.",
+    "description": "API for the BNB Chain AI Toolkit — 78 AI agents, 6 MCP servers, 1,100+ tools for BNB Chain and 60+ networks.",
     "version": "2.0.0",
     "contact": {
       "name": "BNB Chain AI Toolkit",

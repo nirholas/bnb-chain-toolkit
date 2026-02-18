@@ -4,17 +4,26 @@ interface SEOProps {
   title?: string;
   description?: string;
   path?: string;
+  /** Optional JSON-LD structured data for the page */
+  jsonLd?: Record<string, unknown>;
+  /** Set to 'article' for blog/doc pages to enable article meta tags */
+  type?: 'website' | 'article';
+  /** ISO date string for article:modified_time */
+  modifiedTime?: string;
+  /** Disable indexing for this page */
+  noindex?: boolean;
 }
 
 const BASE_TITLE = 'BNB Chain AI Toolkit';
-const BASE_DESCRIPTION = 'Learn blockchain development with interactive examples. Compile and deploy Solidity smart contracts directly in your browser.';
-const BASE_URL = 'https://bnb-chain-toolkit.vercel.app';
+const BASE_DESCRIPTION = '78 AI agents, 6 MCP servers, 1,100+ tools for BNB Chain and 60+ networks. The most comprehensive open-source AI toolkit for Web3.';
+const BASE_URL = 'https://bnbchaintoolkit.com';
 
 /**
- * SEO component for dynamic page titles and meta tags
- * Updates document title and meta description on mount
+ * SEO hook for dynamic page titles, meta tags, canonical URLs,
+ * Open Graph, Twitter Cards, JSON-LD, and robots directives.
+ * Updates document head on mount and cleans up on unmount.
  */
-export function useSEO({ title, description, path }: SEOProps) {
+export function useSEO({ title, description, path, jsonLd, type = 'website', modifiedTime, noindex }: SEOProps) {
   useEffect(() => {
     // Update document title
     document.title = title ? `${title} | ${BASE_TITLE}` : BASE_TITLE;
@@ -49,11 +58,53 @@ export function useSEO({ title, description, path }: SEOProps) {
     if (twitterDescription) twitterDescription.setAttribute('content', description || BASE_DESCRIPTION);
     if (twitterUrl && path) twitterUrl.setAttribute('content', `${BASE_URL}${path}`);
 
+    // Robots meta — opt out of indexing for specific pages
+    let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (noindex) {
+      if (!robotsMeta) {
+        robotsMeta = document.createElement('meta');
+        robotsMeta.name = 'robots';
+        document.head.appendChild(robotsMeta);
+      }
+      robotsMeta.content = 'noindex, nofollow';
+    } else if (robotsMeta) {
+      robotsMeta.content = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+    }
+
+    // Article modified time (for doc/blog pages)
+    if (type === 'article' && modifiedTime) {
+      let modMeta = document.querySelector('meta[property="article:modified_time"]') as HTMLMetaElement | null;
+      if (!modMeta) {
+        modMeta = document.createElement('meta');
+        modMeta.setAttribute('property', 'article:modified_time');
+        document.head.appendChild(modMeta);
+      }
+      modMeta.content = modifiedTime;
+    }
+
+    // Inject page-specific JSON-LD structured data
+    let jsonLdScript: HTMLScriptElement | null = null;
+    if (jsonLd) {
+      jsonLdScript = document.createElement('script');
+      jsonLdScript.type = 'application/ld+json';
+      jsonLdScript.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        ...jsonLd,
+      });
+      document.head.appendChild(jsonLdScript);
+    }
+
     // Cleanup - restore defaults on unmount
     return () => {
       document.title = BASE_TITLE;
+      if (jsonLdScript && jsonLdScript.parentNode) {
+        jsonLdScript.parentNode.removeChild(jsonLdScript);
+      }
+      // Remove article:modified_time meta on unmount
+      const modMeta = document.querySelector('meta[property="article:modified_time"]');
+      if (modMeta) modMeta.remove();
     };
-  }, [title, description, path]);
+  }, [title, description, path, jsonLd, type, modifiedTime, noindex]);
 }
 
 export default useSEO;

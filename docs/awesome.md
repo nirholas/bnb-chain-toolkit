@@ -6,7 +6,7 @@ A curated list of tools, libraries, and resources for AI-powered BNB Chain devel
 
 ## This Toolkit
 
-- **[BNB Chain AI Toolkit](https://github.com/nirholas/bnb-chain-toolkit)** — This repo. 78 agents, 6 MCP servers, 900+ tools.
+- **[BNB Chain AI Toolkit](https://github.com/nirholas/bnb-chain-toolkit)** — This repo. 78 agents, 6 MCP servers, 1,100+ tools.
 
 ---
 

@@ -94,6 +94,12 @@
         "icon": "$(debug-disconnect)"
       },
       {
+        "command": "erc8004.exportKeystore",
+        "title": "Export Wallet Keystore",
+        "category": "ERC-8004",
+        "icon": "$(lock)"
+      },
+      {
         "command": "erc8004.refreshAgents",
         "title": "Refresh Agents",
         "category": "ERC-8004",

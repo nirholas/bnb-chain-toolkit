@@ -38,7 +38,7 @@ The core of this project is 78 AI agent definitions split across [`agents/bnb-ch
 
 The [`mcp-servers/`](../mcp-servers/) directory contains six self-contained MCP servers — this was the most technically demanding part.
 
-- **`bnbchain-mcp`** — 100+ tools for BNB Chain + EVM operations. I used AI to scaffold the TypeScript server structure following the MCP SDK patterns, then iteratively built out each tool
+- **`bnbchain-mcp`** — 384 tools for BNB Chain + EVM operations. I used AI to scaffold the TypeScript server structure following the MCP SDK patterns, then iteratively built out each tool
 - **`binance-mcp`** — 478+ tools wrapping the Binance.com API. AI generated the tool definitions and parameter schemas from API documentation, which I then validated against real API responses
 - **`binance-us-mcp`** — US-compliant variant. AI helped identify which endpoints differ between Binance.com and Binance.US
 - **`universal-crypto-mcp`** — 60+ network support, 100+ tools. AI assisted with chain-specific configuration (RPC URLs, chain IDs, block explorers)
@@ -59,7 +59,7 @@ The [`standards/erc-8004/`](../standards/erc-8004/) directory contains a novel o
 
 ### 4. Documentation (17 guides)
 
-The [`docs/`](../docs/) directory contains 17 files ranging from beginner guides to deep technical references.
+The [`docs/`](../docs/) directory contains 18 files ranging from beginner guides to deep technical references.
 
 - [`what-is-this.md`](what-is-this.md) — The beginner-friendly explainer was specifically written for non-technical audiences. I prompted AI to "explain this like the reader has never heard of blockchain or AI agents" and iterated from there
 - [`architecture.md`](architecture.md) — System architecture with Mermaid diagrams. The diagrams were AI-generated from my description of component relationships
@@ -153,7 +153,7 @@ The following files serve as direct evidence of continuous AI tool usage through
 | [`agents/defi-agents/`](../agents/defi-agents/) | 42+ agent definitions with AI-generated system prompts |
 | [`mcp-servers/`](../mcp-servers/) | 6 MCP servers — AI-scaffolded, human-reviewed |
 | [`scripts/`](../scripts/) | Build pipeline tools — AI-generated formatters, validators, parsers |
-| [`docs/`](../docs/) | 17 documentation files — AI-drafted, human-edited |
+| [`docs/`](../docs/) | 18 documentation files — AI-drafted, human-edited |
 | [`CHANGELOG.md`](../CHANGELOG.md) | Version history showing iterative AI-assisted development |
 
 ---
@@ -165,7 +165,8 @@ The following files serve as direct evidence of continuous AI tool usage through
 | Dec 21, 2025 | v1.0.0 | Initial release — 57 agents, build pipeline, 30+ languages | AI generated agent definitions and translations |
 | Dec 21, 2025 | v1.1.0 | Added master agent (58 total) | AI helped design the unified agent combining 16 plugin features |
 | Feb 11, 2026 | v2.0.0 | Monorepo transformation — 78 agents, 6 MCP servers, 1,100+ tools | AI-intensive consolidation of 14 repos; scaffolded all MCP servers |
-| Feb 2026 | — | Hackathon submission | All submission docs AI-drafted from structured prompts || Feb 18, 2026 | v2.1.0 — opBNB + hackathon polish | opBNB chain support (24 chains), CLI expanded to 26 chains, agent runtime showcase, enhanced judges guide |
+| Feb 2026 | — | Hackathon submission | All submission docs AI-drafted from structured prompts |
+| Feb 18, 2026 | v2.1.0 | opBNB + hackathon polish | opBNB chain support (24 chains), CLI expanded to 26 chains, agent runtime showcase, enhanced judges guide |
 ---
 
 *This build log is itself AI-assisted. Because of course it is.*

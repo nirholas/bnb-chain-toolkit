@@ -377,7 +377,7 @@ export default function NavBar() {
           label: 'MCP Playground',
           href: '/tool-playground',
           icon: Wrench,
-          description: 'Execute 900+ MCP tools live in your browser',
+          description: 'Execute 1,100+ MCP tools live in your browser',
           badge: 'New',
           iconColor: 'text-[#F0B90B]',
         },

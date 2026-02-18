@@ -6,6 +6,7 @@
  */
 
 import * as vscode from 'vscode';
+import { ethers } from 'ethers';
 import {
   AgentTreeProvider,
   WalletTreeProvider,
@@ -33,6 +34,9 @@ import {
   getWallet,
   getIdentityContract,
   getActiveChain,
+  importKeystoreFile,
+  exportKeystore,
+  connectWithKeystore,
 } from './utils/wallet';
 import {
   showInfo,
@@ -91,28 +95,124 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   // Connect wallet
   context.subscriptions.push(
     vscode.commands.registerCommand('erc8004.connectWallet', async () => {
-      const privateKey = await vscode.window.showInputBox({
-        title: 'Connect Wallet',
-        prompt: 'Enter your private key (stored securely in VSCode Secrets)',
-        password: true,
-        placeHolder: '0x...',
-        validateInput: (v: string) => {
-          const key = v.trim();
-          if (!key.startsWith('0x') || key.length !== 66) {
-            return 'Must be a 64-character hex private key (with 0x prefix)';
-          }
-          return undefined;
-        },
-      });
-      if (!privateKey) {
+      const choice = await vscode.window.showQuickPick(
+        [
+          {
+            label: '$(file) Import Keystore File',
+            description: 'Recommended — encrypted JSON keystore',
+            id: 'keystore',
+          },
+          {
+            label: '$(key) Import Private Key',
+            description: 'Less secure — plaintext key entry',
+            id: 'privateKey',
+          },
+          {
+            label: '$(add) Create New Wallet',
+            description: 'Generate a new wallet and save as keystore',
+            id: 'create',
+          },
+        ],
+        {
+          title: 'Connect Wallet',
+          placeHolder: 'Choose how to connect your wallet',
+        }
+      );
+
+      if (!choice) {
         return;
       }
 
       try {
-        const wallet = await connectWallet(context, privateKey.trim());
-        showInfo(`Connected: ${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`);
-        refreshAll();
+        if (choice.id === 'keystore') {
+          // --- Import Keystore File ---
+          const wallet = await importKeystoreFile(context);
+          showInfo(`Connected (keystore): ${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`);
+          refreshAll();
+        } else if (choice.id === 'privateKey') {
+          // --- Import Private Key (legacy) ---
+          const warnProceed = await vscode.window.showWarningMessage(
+            'Entering a raw private key is less secure than using an encrypted keystore file. Continue?',
+            { modal: true },
+            'Continue'
+          );
+          if (warnProceed !== 'Continue') {
+            return;
+          }
+
+          const privateKey = await vscode.window.showInputBox({
+            title: 'Import Private Key',
+            prompt: 'Enter your private key (stored securely in VSCode Secrets)',
+            password: true,
+            placeHolder: '0x...',
+            validateInput: (v: string) => {
+              const key = v.trim();
+              if (!key.startsWith('0x') || key.length !== 66) {
+                return 'Must be a 64-character hex private key (with 0x prefix)';
+              }
+              return undefined;
+            },
+          });
+          if (!privateKey) {
+            return;
+          }
+
+          const wallet = await connectWallet(context, privateKey.trim());
+          showInfo(`Connected: ${wallet.address.slice(0, 6)}...${wallet.address.slice(-4)}`);
+          refreshAll();
+        } else if (choice.id === 'create') {
+          // --- Create New Wallet ---
+          const newWallet = ethers.Wallet.createRandom();
+
+          // Prompt for keystore password
+          const password = await vscode.window.showInputBox({
+            title: 'Set Keystore Password',
+            prompt: 'Choose a strong password to encrypt your new wallet keystore',
+            password: true,
+            placeHolder: 'Password (min 8 characters)',
+            validateInput: (v: string) => {
+              if (!v || v.length < 8) {
+                return 'Password must be at least 8 characters';
+              }
+              return undefined;
+            },
+          });
+          if (!password) {
+            return;
+          }
+
+          // Encrypt to keystore JSON
+          const keystoreJson = await vscode.window.withProgress(
+            {
+              location: vscode.ProgressLocation.Notification,
+              title: 'Encrypting new wallet keystore…',
+              cancellable: false,
+            },
+            () => newWallet.encrypt(password)
+          );
+
+          // Prompt user to save the keystore file
+          const saveUri = await vscode.window.showSaveDialog({
+            defaultUri: vscode.Uri.file(`keystore-${newWallet.address.slice(0, 8)}.json`),
+            filters: { 'Keystore JSON': ['json'] },
+            title: 'Save Keystore File',
+          });
+          if (saveUri) {
+            await vscode.workspace.fs.writeFile(saveUri, Buffer.from(keystoreJson, 'utf-8'));
+            showInfo(`Keystore saved to ${saveUri.fsPath}`);
+          } else {
+            showWarning('Keystore was not saved to disk. Back up your wallet!');
+          }
+
+          // Connect with the new wallet via keystore flow
+          await connectWithKeystore(context, keystoreJson, password);
+          showInfo(`New wallet created: ${newWallet.address.slice(0, 6)}...${newWallet.address.slice(-4)}`);
+          refreshAll();
+        }
       } catch (error: any) {
+        if (error.message === 'No file selected.' || error.message === 'Password entry cancelled.') {
+          return; // User cancelled — no error
+        }
         showError('Failed to connect wallet', error.message);
       }
     })
@@ -124,6 +224,58 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       await disconnectWallet(context);
       showInfo('Wallet disconnected');
       refreshAll();
+    })
+  );
+
+  // Export keystore
+  context.subscriptions.push(
+    vscode.commands.registerCommand('erc8004.exportKeystore', async () => {
+      if (!isConnected()) {
+        showWarning('No wallet connected. Connect a wallet first.');
+        return;
+      }
+
+      const password = await vscode.window.showInputBox({
+        title: 'Export Keystore',
+        prompt: 'Choose a strong password to encrypt the keystore file',
+        password: true,
+        placeHolder: 'Password (min 8 characters)',
+        validateInput: (v: string) => {
+          if (!v || v.length < 8) {
+            return 'Password must be at least 8 characters';
+          }
+          return undefined;
+        },
+      });
+      if (!password) {
+        return;
+      }
+
+      try {
+        const keystoreJson = await vscode.window.withProgress(
+          {
+            location: vscode.ProgressLocation.Notification,
+            title: 'Encrypting keystore…',
+            cancellable: false,
+          },
+          () => exportKeystore(password)
+        );
+
+        const wallet = getWallet()!;
+        const saveUri = await vscode.window.showSaveDialog({
+          defaultUri: vscode.Uri.file(`keystore-${wallet.address.slice(0, 8)}.json`),
+          filters: { 'Keystore JSON': ['json'] },
+          title: 'Save Keystore File',
+        });
+        if (!saveUri) {
+          return;
+        }
+
+        await vscode.workspace.fs.writeFile(saveUri, Buffer.from(keystoreJson, 'utf-8'));
+        showInfo(`Keystore exported to ${saveUri.fsPath}`);
+      } catch (error: any) {
+        showError('Export failed', error.message);
+      }
     })
   );
 

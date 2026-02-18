@@ -82,6 +82,9 @@ Licensed under Apache License 2.0
   <!-- Ethers.js v6 -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js" crossorigin="anonymous"></script>
 
+  <!-- Reown AppKit (WalletConnect v2) — loaded dynamically at runtime via initAppKit() -->
+  <link rel="preconnect" href="https://esm.sh" crossorigin />
+
 <style>
 /* ═══ RESET & THEME VARIABLES ═══ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -495,9 +498,7 @@ body {
             <h3>Connect Your Wallet</h3>
             <p>Connect your wallet to create an ERC-8004 agent identity on any EVM chain.</p>
             <button class="btn btn-primary btn-lg" onclick="connectWallet()">Connect Wallet</button>
-            <div id="walletPicker" class="hidden">
-              <div class="wallet-list" id="walletList"></div>
-            </div>
+            <!-- Reown AppKit provides its own modal UI for wallet selection, WalletConnect QR, etc. -->
           </div>
         </div>
 
@@ -888,6 +889,9 @@ let signer = null;
 let userAddress = null;
 let identityContract = null;
 let reputationContract = null;
+let readOnlyProvider = null;
+let readOnlyIdentityContract = null;
+let readOnlyReputationContract = null;
 let uriMethod = 'onchain';
 let serviceCounter = 0;
 let metadataCounter = 0;
@@ -897,22 +901,35 @@ let batchAgents = [];
 let txHistory = JSON.parse(localStorage.getItem('erc8004_history') || '[]');
 let discoveredWallets = [];
 
+// ─── REOWN APPKIT / WALLETCONNECT V2 ───
+// Get your project ID from https://cloud.reown.com (free)
+const WALLETCONNECT_PROJECT_ID = 'YOUR_WALLETCONNECT_PROJECT_ID'; // ← Replace with your project ID
+let appKit = null;
+let appKitReady = false;
+let _activeWalletProvider = null; // tracks the raw EIP-1193 provider in use
+
+// ─── READ-ONLY PROVIDER ───
+function initReadOnlyContracts() {
+  const chain = CHAINS[currentChain];
+  readOnlyProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
+  readOnlyIdentityContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readOnlyProvider);
+  if (chain.contracts.reputation) {
+    readOnlyReputationContract = new ethers.Contract(chain.contracts.reputation, REPUTATION_ABI, readOnlyProvider);
+  } else {
+    readOnlyReputationContract = null;
+  }
+}
+
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', () => {
+  initReadOnlyContracts();
   addService();
   renderChainDropdown();
   renderTemplates();
   renderWalletArea();
   fetchAgentCount();
   updateThemeIcon();
-  detectWallets();
-
-  // EIP-6963 wallet detection
-  window.addEventListener('eip6963:announceProvider', (event) => {
-    discoveredWallets.push({ info: event.detail.info, provider: event.detail.provider });
-    renderWalletPicker();
-  });
-  window.dispatchEvent(new Event('eip6963:requestProvider'));
+  initAppKit(); // Reown AppKit handles wallet detection, EIP-6963, WalletConnect v2
 
   // Watch x402 toggle
   const x402Toggle = document.getElementById('x402Toggle');
@@ -950,61 +967,137 @@ function showToast(message, type = 'info') {
   setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(50px)'; toast.style.transition = 'all 300ms ease-in'; setTimeout(() => toast.remove(), 300); }, 4000);
 }
 
-// ─── WALLET DETECTION ───
-function detectWallets() {
-  // Detect injected wallets
-  if (window.ethereum) {
-    if (window.ethereum.isMetaMask) discoveredWallets.push({ info: { name: 'MetaMask', icon: '' }, provider: window.ethereum });
-    else if (window.ethereum.isCoinbaseWallet) discoveredWallets.push({ info: { name: 'Coinbase Wallet', icon: '' }, provider: window.ethereum });
-    else if (window.ethereum.isRabby) discoveredWallets.push({ info: { name: 'Rabby', icon: '' }, provider: window.ethereum });
-    else if (window.ethereum.isBraveWallet) discoveredWallets.push({ info: { name: 'Brave Wallet', icon: '' }, provider: window.ethereum });
-    else if (window.ethereum.isRainbow) discoveredWallets.push({ info: { name: 'Rainbow', icon: '' }, provider: window.ethereum });
-    else discoveredWallets.push({ info: { name: 'Browser Wallet', icon: '' }, provider: window.ethereum });
+// ─── REOWN APPKIT INITIALIZATION ───
+// Converts our CHAINS config to Reown AppKit caip network format
+function buildAppKitNetworks() {
+  return Object.entries(CHAINS).map(([key, c]) => ({
+    id: `eip155:${c.chainId}`,
+    chainId: c.chainId,
+    chainNamespace: 'eip155',
+    name: c.name,
+    currency: c.currency.symbol,
+    explorerUrl: c.explorer,
+    rpcUrl: c.rpcUrl
+  }));
+}
+
+async function initAppKit() {
+  try {
+    // Dynamic import from esm.sh CDN — no build step required
+    // Alternative CDN: replace esm.sh with cdn.jsdelivr.net/npm/…/+esm
+    const [{ createAppKit }, { EthersAdapter }] = await Promise.all([
+      import(/* webpackIgnore: true */ 'https://esm.sh/@reown/appkit@1.6.8?bundle-deps'),
+      import(/* webpackIgnore: true */ 'https://esm.sh/@reown/appkit-adapter-ethers@1.6.8?bundle-deps')
+    ]);
+
+    const networks = buildAppKitNetworks();
+    const defaultNet = networks.find(n => n.chainId === CHAINS[currentChain].chainId) || networks[0];
+    const ethersAdapter = new EthersAdapter();
+
+    appKit = createAppKit({
+      adapters: [ethersAdapter],
+      networks: networks,
+      defaultNetwork: defaultNet,
+      projectId: WALLETCONNECT_PROJECT_ID,
+      metadata: {
+        name: 'ERC-8004 Agent Creator',
+        description: 'Register trustless AI agents on-chain',
+        url: window.location.origin || 'https://erc8004.agency',
+        icons: ['https://erc8004.agency/favicon.svg']
+      },
+      themeMode: document.documentElement.getAttribute('data-theme') || 'dark',
+      themeVariables: {
+        '--w3m-accent': '#F0B90B',
+        '--w3m-border-radius-master': '2px'
+      },
+      features: {
+        analytics: false
+      }
+    });
+
+    appKitReady = true;
+
+    // Subscribe to wallet provider state changes
+    appKit.subscribeProvider(async (state) => {
+      try {
+        if (state.isConnected && state.address) {
+          const walletProvider = state.provider || appKit.getWalletProvider?.();
+          if (!walletProvider) return;
+          _activeWalletProvider = walletProvider;
+          userAddress = state.address;
+          provider = new ethers.BrowserProvider(walletProvider);
+          signer = await provider.getSigner();
+          setupContracts();
+          renderWalletArea();
+          updateUIForConnected();
+          updateMainnetWarning();
+        } else if (!state.isConnected && userAddress) {
+          _activeWalletProvider = null;
+          userAddress = null;
+          signer = null;
+          provider = null;
+          identityContract = null;
+          reputationContract = null;
+          renderWalletArea();
+          updateUIForDisconnected();
+          showToast('Wallet disconnected.', 'info');
+        }
+      } catch (err) {
+        console.warn('[AppKit] Provider subscribe error:', err);
+      }
+    });
+
+    console.log('[AppKit] Reown AppKit initialized — WalletConnect v2 + injected wallets ready');
+  } catch (err) {
+    console.warn('[AppKit] CDN load failed, falling back to injected wallets only:', err);
+    appKitReady = false;
+    // Fallback: detect injected wallets the legacy way
+    detectWalletsLegacy();
   }
-  // Check for multiple providers
-  if (window.ethereum && window.ethereum.providers) {
+}
+
+// Legacy fallback: detect injected wallets when AppKit CDN fails to load
+function detectWalletsLegacy() {
+  if (window.ethereum) {
+    if (window.ethereum.isMetaMask) discoveredWallets.push({ info: { name: 'MetaMask' }, provider: window.ethereum });
+    else if (window.ethereum.isCoinbaseWallet) discoveredWallets.push({ info: { name: 'Coinbase Wallet' }, provider: window.ethereum });
+    else if (window.ethereum.isRabby) discoveredWallets.push({ info: { name: 'Rabby' }, provider: window.ethereum });
+    else if (window.ethereum.isBraveWallet) discoveredWallets.push({ info: { name: 'Brave Wallet' }, provider: window.ethereum });
+    else discoveredWallets.push({ info: { name: 'Browser Wallet' }, provider: window.ethereum });
+  }
+  if (window.ethereum?.providers) {
     window.ethereum.providers.forEach(p => {
-      const name = p.isMetaMask ? 'MetaMask' : p.isCoinbaseWallet ? 'Coinbase Wallet' : p.isRainbow ? 'Rainbow' : 'Wallet';
+      const name = p.isMetaMask ? 'MetaMask' : p.isCoinbaseWallet ? 'Coinbase Wallet' : 'Wallet';
       if (!discoveredWallets.find(w => w.info.name === name)) {
-        discoveredWallets.push({ info: { name, icon: '' }, provider: p });
+        discoveredWallets.push({ info: { name }, provider: p });
       }
     });
   }
-  renderWalletPicker();
-}
-
-function renderWalletPicker() {
-  const list = document.getElementById('walletList');
-  if (!list) return;
-  if (discoveredWallets.length <= 1) { list.innerHTML = ''; return; }
-  list.innerHTML = discoveredWallets.map((w, i) => `
-    <div class="wallet-option" onclick="connectWithProvider(${i})">
-      <div class="wallet-icon-placeholder" style="background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:16px;">🔗</div>
-      ${escapeHtml(w.info.name)}
-    </div>
-  `).join('');
 }
 
 // ─── WALLET CONNECTION ───
 async function connectWallet() {
+  // Primary: open Reown AppKit modal (WalletConnect v2 + injected + Coinbase SDK)
+  if (appKitReady && appKit) {
+    try { appKit.open(); } catch (e) { console.warn('[AppKit] open() error:', e); }
+    return;
+  }
+  // Fallback: direct injected wallet connection
   if (!window.ethereum) {
     showToast('No wallet detected. Install MetaMask or another Web3 wallet.', 'error');
     window.open('https://metamask.io/download/', '_blank');
     return;
   }
-  if (discoveredWallets.length > 1) {
-    document.getElementById('walletPicker').classList.toggle('hidden');
-    return;
-  }
-  await connectWithProvider(0);
+  await connectWithProviderDirect(window.ethereum);
 }
 
-async function connectWithProvider(index) {
-  const wallet = discoveredWallets[index] || { provider: window.ethereum };
-  const wp = wallet.provider || window.ethereum;
+// Direct EIP-1193 provider connection (used as fallback when AppKit unavailable)
+async function connectWithProviderDirect(wp) {
+  if (!wp) { showToast('No wallet provider available.', 'error'); return; }
   try {
     const accounts = await wp.request({ method: 'eth_requestAccounts' });
-    if (!accounts || !accounts.length) { showToast('No accounts found.', 'error'); return; }
+    if (!accounts?.length) { showToast('No accounts found.', 'error'); return; }
+    _activeWalletProvider = wp;
     userAddress = accounts[0];
     provider = new ethers.BrowserProvider(wp);
     signer = await provider.getSigner();
@@ -1016,13 +1109,18 @@ async function connectWithProvider(index) {
     updateUIForConnected();
     updateMainnetWarning();
     showToast('Wallet connected!', 'success');
-    document.getElementById('walletPicker').classList.add('hidden');
-    wp.on('accountsChanged', handleAccountsChanged);
-    wp.on('chainChanged', () => location.reload());
+    wp.on?.('accountsChanged', handleAccountsChanged);
+    wp.on?.('chainChanged', () => location.reload());
   } catch (err) {
     if (err.code === 4001) showToast('Connection rejected.', 'error');
     else showToast('Connection failed: ' + (err.message || err), 'error');
   }
+}
+
+// Kept for any legacy onclick references
+async function connectWithProvider(index) {
+  const wallet = discoveredWallets[index] || { provider: window.ethereum };
+  await connectWithProviderDirect(wallet.provider || window.ethereum);
 }
 
 function setupContracts() {
@@ -1034,6 +1132,7 @@ function setupContracts() {
 }
 
 async function handleAccountsChanged(accounts) {
+  if (appKitReady) return; // AppKit handles account changes via subscribeProvider
   if (!accounts.length) { disconnectWallet(); return; }
   userAddress = accounts[0];
   signer = await provider.getSigner();
@@ -1043,11 +1142,28 @@ async function handleAccountsChanged(accounts) {
 
 async function ensureNetwork() {
   const chain = CHAINS[currentChain];
+  // Try AppKit network switch first
+  if (appKitReady && appKit?.switchNetwork) {
+    try {
+      await appKit.switchNetwork(chain.chainId);
+      const walletProvider = appKit.getWalletProvider?.() || _activeWalletProvider;
+      if (walletProvider) {
+        provider = new ethers.BrowserProvider(walletProvider);
+        signer = await provider.getSigner();
+      }
+      return;
+    } catch (e) {
+      console.warn('[AppKit] switchNetwork failed, trying direct RPC:', e);
+    }
+  }
+  // Fallback: direct wallet_switchEthereumChain / wallet_addEthereumChain
+  const wp = _activeWalletProvider || window.ethereum;
+  if (!wp) throw new Error('No wallet provider for network switch');
   try {
-    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: chain.chainIdHex }] });
+    await wp.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: chain.chainIdHex }] });
   } catch (err) {
     if (err.code === 4902) {
-      await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: chain.chainIdHex, chainName: chain.name, nativeCurrency: chain.currency, rpcUrls: [chain.rpcUrl], blockExplorerUrls: [chain.explorer] }] });
+      await wp.request({ method: 'wallet_addEthereumChain', params: [{ chainId: chain.chainIdHex, chainName: chain.name, nativeCurrency: chain.currency, rpcUrls: [chain.rpcUrl], blockExplorerUrls: [chain.explorer] }] });
     } else throw err;
   }
 }
@@ -1063,8 +1179,17 @@ function renderWalletArea() {
 }
 
 function disconnectWallet() {
+  // Disconnect via AppKit if available (closes WalletConnect sessions too)
+  if (appKitReady && appKit?.disconnect) {
+    try { appKit.disconnect(); } catch (e) { console.warn('[AppKit] disconnect error:', e); }
+    // subscribeProvider callback handles the state cleanup
+    return;
+  }
+  // Fallback cleanup
+  _activeWalletProvider = null;
   userAddress = null; signer = null; identityContract = null; reputationContract = null;
   renderWalletArea(); updateUIForDisconnected(); showToast('Wallet disconnected.', 'info');
+  // Read-only contracts remain available for search/view/reputation
 }
 
 function updateUIForConnected() {
@@ -1148,10 +1273,14 @@ async function selectChain(key) {
   filterChains('');
   renderChainDropdown();
   updateMainnetWarning();
+  initReadOnlyContracts();
   if (userAddress) {
     try { await ensureNetwork(); } catch(e) { showToast('Failed to switch network.', 'error'); }
-    provider = new ethers.BrowserProvider(window.ethereum);
-    signer = await provider.getSigner();
+    const wp = (appKitReady && appKit?.getWalletProvider?.()) || _activeWalletProvider || window.ethereum;
+    if (wp) {
+      provider = new ethers.BrowserProvider(wp);
+      signer = await provider.getSigner();
+    }
     setupContracts();
     loadMyAgents();
   }
@@ -1183,7 +1312,7 @@ function switchTab(tab) {
     const el = document.getElementById('tab-' + t);
     if (el) el.classList.toggle('hidden', t !== tab);
   });
-  if (tab === 'dashboard' && userAddress) loadMyAgents();
+  if (tab === 'dashboard') loadMyAgents();
   if (tab === 'history') loadHistory();
 }
 
@@ -1454,18 +1583,23 @@ function resetWizard() {
 
 // ─── DASHBOARD ───
 async function loadMyAgents() {
-  if (!userAddress || !identityContract) return;
+  if (!userAddress || !identityContract) {
+    document.getElementById('dashboardConnectPrompt').classList.remove('hidden');
+    document.getElementById('dashboardAgents').classList.add('hidden');
+    return;
+  }
+  document.getElementById('dashboardConnectPrompt').classList.add('hidden');
+  document.getElementById('dashboardAgents').classList.remove('hidden');
   const agentsList = document.getElementById('agentsList');
   const agentCount = document.getElementById('agentCount');
   agentsList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);"><span class="spinner spinner-light" style="margin-right:8px;"></span>Loading...</div>';
   try {
     const chain = CHAINS[currentChain];
-    const balance = await identityContract.balanceOf(userAddress);
+    const balance = await readOnlyIdentityContract.balanceOf(userAddress);
     const count = Number(balance);
     agentCount.textContent = count + ' agent' + (count !== 1 ? 's' : '') + ' found on ' + chain.name;
     if (count === 0) { agentsList.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);"><div style="font-size:32px;margin-bottom:12px;">🤖</div><p>No agents registered yet.</p></div>'; renderAnalytics(0, []); return; }
-    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
-    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+    const readContract = readOnlyIdentityContract;
     const filter = readContract.filters.Transfer(ethers.ZeroAddress, userAddress);
     let events = [];
     for (const range of [5000, 2000, 1000]) { try { events = await readContract.queryFilter(filter, -range); break; } catch(e) {} }
@@ -1527,18 +1661,16 @@ async function showAgentDetail(id) {
   modal.classList.remove('hidden');
   modal.style.display = 'flex';
   try {
-    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
-    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
-    const uri = await readContract.tokenURI(id);
-    const owner = await readContract.ownerOf(id);
+    const uri = await readOnlyIdentityContract.tokenURI(id);
+    const owner = await readOnlyIdentityContract.ownerOf(id);
     let agentData = {};
     if (uri.startsWith('data:application/json;base64,')) {
       agentData = JSON.parse(decodeURIComponent(escape(atob(uri.replace('data:application/json;base64,', '')))));
     }
     let repHtml = '';
-    if (chain.contracts.reputation) {
+    if (chain.contracts.reputation && readOnlyReputationContract) {
       try {
-        const repContract = new ethers.Contract(chain.contracts.reputation, REPUTATION_ABI, readProvider);
+        const repContract = readOnlyReputationContract;
         const [totalScore, repCount] = await repContract.getReputation(id);
         const avg = Number(repCount) > 0 ? (Number(totalScore) / Number(repCount)).toFixed(1) : 'N/A';
         repHtml = '<div class="tx-detail-row"><span class="tx-detail-label">Reputation</span><span class="tx-detail-value">' + avg + '/5 (' + repCount.toString() + ' ratings)</span></div>';
@@ -1584,8 +1716,7 @@ async function searchAgents() {
   results.innerHTML = '<div style="text-align:center;padding:24px;"><span class="spinner spinner-light"></span> Searching...</div>';
   const chain = CHAINS[currentChain];
   try {
-    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
-    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+    const readContract = readOnlyIdentityContract;
     // Search by ID
     if (/^\d+$/.test(query)) {
       const id = parseInt(query);
@@ -1659,8 +1790,7 @@ async function viewReputation() {
   display.classList.remove('hidden');
   document.getElementById('submitRepSection').classList.toggle('hidden', !userAddress);
   try {
-    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
-    const repContract = new ethers.Contract(chain.contracts.reputation, REPUTATION_ABI, readProvider);
+    const repContract = readOnlyReputationContract;
     const [totalScore, count] = await repContract.getReputation(id);
     const avg = Number(count) > 0 ? (Number(totalScore) / Number(count)).toFixed(1) : '0';
     const pct = Number(count) > 0 ? (Number(totalScore) / Number(count) / 5 * 100).toFixed(0) : 0;
@@ -1891,9 +2021,7 @@ function exportCLI() {
 function exportAgentJSON(agentId) {
   // Export from detail modal
   const chain = CHAINS[currentChain];
-  const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
-  const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
-  readContract.tokenURI(agentId).then(uri => {
+  readOnlyIdentityContract.tokenURI(agentId).then(uri => {
     if (uri.startsWith('data:application/json;base64,')) {
       const data = JSON.parse(decodeURIComponent(escape(atob(uri.replace('data:application/json;base64,', '')))));
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -1939,8 +2067,7 @@ async function fetchAgentCount() {
   const el = document.getElementById('statAgents');
   try {
     const chain = CHAINS[currentChain];
-    const readProvider = new ethers.JsonRpcProvider(chain.rpcUrl);
-    const readContract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, readProvider);
+    const readContract = readOnlyIdentityContract;
     await readContract.getVersion();
     let total = 0;
     try { await readContract.ownerOf(1); total = 1; } catch(e) { el.textContent = '0'; return; }

@@ -173,11 +173,11 @@ echo "Done! All dust swept to USDC."
 
 ```typescript
 import { ethers } from 'ethers';
-import { AgentRegistry__factory } from '@erc-8004/contracts';
+import { IdentityRegistry__factory } from '@erc-8004/contracts';
 
 const provider = new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-const registry = AgentRegistry__factory.connect(REGISTRY_ADDRESS, wallet);
+const registry = IdentityRegistry__factory.connect(REGISTRY_ADDRESS, wallet);
 
 // Register your agent
 const tx = await registry.registerAgent(

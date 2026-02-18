@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from typing import Any
 
+from eth_account import Account
 from web3 import AsyncWeb3
 from web3.providers import AsyncHTTPProvider
 
@@ -23,17 +26,23 @@ from erc8004.validation import ValidationRegistry
 class ERC8004Client:
     """High-level client for ERC-8004 AI Agent Registry operations.
 
-    Usage::
+    Supports two authentication methods:
 
-        from erc8004 import ERC8004Client
+    1. **Private key** (direct)::
 
         client = ERC8004Client(chain="bsc-testnet", private_key="0x...")
-        agent_id = await client.register(
-            name="My Agent",
-            description="An AI agent on BNB Chain",
-            services=[{"name": "A2A", "endpoint": "https://agent.example.com/a2a"}],
+
+    2. **Keystore file** (recommended — keeps keys encrypted at rest)::
+
+        client = ERC8004Client.from_keystore(
+            keystore_path="wallet.json",
+            password="my-secure-password",
+            chain="bsc-testnet",
         )
-        print(f"Agent #{agent_id} registered!")
+
+    You can also generate a new keystore wallet::
+
+        path = ERC8004Client.create_wallet(password="secure", save_path="wallet.json")
     """
 
     def __init__(
@@ -49,6 +58,7 @@ class ERC8004Client:
         Args:
             chain: Chain name (e.g., 'bsc-testnet', 'bsc', 'ethereum') or chain ID.
             private_key: Private key for signing transactions. Required for write operations.
+                Consider using :meth:`from_keystore` instead to keep keys encrypted at rest.
             rpc_url: Override the default RPC URL.
             chain_config: Custom chain configuration (overrides chain parameter).
         """
@@ -56,17 +66,153 @@ class ERC8004Client:
         url = rpc_url or self._chain.rpc_url
 
         self._w3 = AsyncWeb3(AsyncHTTPProvider(url))
+        self._account: Account | None = None
 
         if private_key:
-            account = self._w3.eth.account.from_key(private_key)
-            self._w3.eth.default_account = account.address
-            self._w3.middleware_onion.add(
-                self._w3.middleware.construct_sign_and_send_raw_middleware(account)
-            )
+            self._setup_account(private_key)
 
         self._identity = IdentityRegistry(self._w3, self._chain)
         self._reputation: ReputationRegistry | None = None
         self._validation: ValidationRegistry | None = None
+
+    def _setup_account(self, private_key: str) -> None:
+        """Configure the Web3 instance with a signing account.
+
+        Args:
+            private_key: Hex-encoded private key.
+        """
+        account = self._w3.eth.account.from_key(private_key)
+        self._account = account
+        self._w3.eth.default_account = account.address
+        self._w3.middleware_onion.add(
+            self._w3.middleware.construct_sign_and_send_raw_middleware(account)
+        )
+
+    # ── Alternative Constructors ────────────────────────────────────────
+
+    @classmethod
+    def from_private_key(
+        cls,
+        private_key: str,
+        chain: str | int = "bsc-testnet",
+        *,
+        rpc_url: str | None = None,
+        chain_config: ChainConfig | None = None,
+    ) -> ERC8004Client:
+        """Create a client authenticated with a raw private key.
+
+        This is equivalent to passing ``private_key`` to the constructor.
+
+        Args:
+            private_key: Hex-encoded private key (with or without ``0x`` prefix).
+            chain: Chain name or chain ID.
+            rpc_url: Override the default RPC URL.
+            chain_config: Custom chain configuration.
+
+        Returns:
+            An authenticated :class:`ERC8004Client`.
+        """
+        return cls(
+            chain=chain,
+            private_key=private_key,
+            rpc_url=rpc_url,
+            chain_config=chain_config,
+        )
+
+    @classmethod
+    def from_keystore(
+        cls,
+        keystore_path: str | Path,
+        password: str,
+        chain: str | int = "bsc-testnet",
+        *,
+        rpc_url: str | None = None,
+        chain_config: ChainConfig | None = None,
+    ) -> ERC8004Client:
+        """Create a client by decrypting an encrypted keystore (JSON) file.
+
+        This is the **recommended** way to authenticate — private keys stay
+        encrypted on disk and are only decrypted in memory.
+
+        Args:
+            keystore_path: Path to the JSON keystore file.
+            password: Password used to encrypt the keystore.
+            chain: Chain name or chain ID.
+            rpc_url: Override the default RPC URL.
+            chain_config: Custom chain configuration.
+
+        Returns:
+            An authenticated :class:`ERC8004Client`.
+
+        Raises:
+            FileNotFoundError: If the keystore file does not exist.
+            ValueError: If the password is incorrect or the file is malformed.
+        """
+        path = Path(keystore_path)
+        if not path.is_file():
+            raise FileNotFoundError(f"Keystore file not found: {path}")
+
+        keystore_json = json.loads(path.read_text(encoding="utf-8"))
+
+        try:
+            private_key = Account.decrypt(keystore_json, password)
+        except Exception as exc:
+            raise ValueError(
+                f"Failed to decrypt keystore — wrong password or malformed file: {exc}"
+            ) from exc
+
+        return cls(
+            chain=chain,
+            private_key=private_key.hex() if isinstance(private_key, bytes) else private_key,
+            rpc_url=rpc_url,
+            chain_config=chain_config,
+        )
+
+    # ── Wallet Utilities ────────────────────────────────────────────────
+
+    @staticmethod
+    def create_wallet(password: str, save_path: str | Path) -> Path:
+        """Generate a new Ethereum wallet and save it as an encrypted keystore file.
+
+        Args:
+            password: Password to encrypt the keystore.
+            save_path: File path where the keystore JSON will be written.
+
+        Returns:
+            The :class:`~pathlib.Path` to the saved keystore file.
+        """
+        account = Account.create()
+        keystore = Account.encrypt(account.key, password)
+
+        path = Path(save_path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(keystore, indent=2), encoding="utf-8")
+        return path
+
+    def export_keystore(self, password: str, path: str | Path) -> Path:
+        """Export the current account as an encrypted keystore JSON file.
+
+        Args:
+            password: Password to encrypt the keystore.
+            path: Destination file path.
+
+        Returns:
+            The :class:`~pathlib.Path` to the saved keystore file.
+
+        Raises:
+            RuntimeError: If the client has no signing account configured.
+        """
+        if self._account is None:
+            raise RuntimeError(
+                "No signing account configured. "
+                "Initialize the client with a private_key or use from_keystore()."
+            )
+
+        keystore = Account.encrypt(self._account.key, password)
+        dest = Path(path)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(json.dumps(keystore, indent=2), encoding="utf-8")
+        return dest
 
     @property
     def chain(self) -> ChainConfig:

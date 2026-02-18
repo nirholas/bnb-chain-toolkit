@@ -18,6 +18,8 @@ pub mod chains;
 pub mod client;
 pub mod contracts;
 pub mod identity;
+#[cfg(feature = "keystore")]
+pub mod keystore;
 pub mod reputation;
 pub mod types;
 
@@ -57,4 +59,10 @@ pub enum Error {
 
     #[error("Base64 decode error: {0}")]
     Base64Error(#[from] base64::DecodeError),
+
+    #[error("Keystore error: {0}")]
+    KeystoreError(String),
+
+    #[error("IO error: {0}")]
+    IoError(#[from] std::io::Error),
 }

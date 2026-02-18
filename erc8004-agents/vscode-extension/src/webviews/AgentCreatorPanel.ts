@@ -3,7 +3,7 @@
  */
 
 import * as vscode from 'vscode';
-import { getActiveChain, getActiveChainKey, getWallet, isConnected, shortenAddress } from '../utils/wallet';
+import { getActiveChain, getActiveChainKey, getWallet, isConnected, shortenAddress, getWalletAuthMethod } from '../utils/wallet';
 import { getContracts, IDENTITY_ABI } from '../utils/contracts';
 
 export class AgentCreatorPanel {
@@ -72,6 +72,7 @@ export class AgentCreatorPanel {
   private sendWalletInfo(): void {
     const chain = getActiveChain();
     const wallet = getWallet();
+    const authMethod = getWalletAuthMethod();
     this.panel.webview.postMessage({
       type: 'walletInfo',
       data: {
@@ -81,6 +82,7 @@ export class AgentCreatorPanel {
         chain: chain.name,
         chainId: chain.chainId,
         isTestnet: chain.isTestnet,
+        authMethod: authMethod, // 'keystore' | 'privateKey' | null
       },
     });
   }
@@ -316,6 +318,11 @@ export class AgentCreatorPanel {
         if (d.connected) {
           // Security: Use textContent + DOM APIs instead of innerHTML to prevent XSS
           status.textContent = '';
+          // Auth method indicator
+          const authIcon = document.createElement('span');
+          authIcon.title = d.authMethod === 'keystore' ? 'Connected via encrypted keystore' : 'Connected via raw private key';
+          authIcon.textContent = d.authMethod === 'keystore' ? '🔒 ' : '🔑 ';
+          status.appendChild(authIcon);
           const badge = document.createElement('span');
           badge.className = 'chain-badge';
           badge.textContent = d.chain;

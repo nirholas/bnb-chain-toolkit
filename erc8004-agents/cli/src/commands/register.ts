@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 import inquirer from 'inquirer';
 import ora from 'ora';
 import chalk from 'chalk';
-import { getChain, loadConfig, IDENTITY_ABI } from '../utils/config';
+import { getChain, getWallet, migrateConfigIfNeeded, IDENTITY_ABI } from '../utils/config';
 import { header, field, printSuccess, printError, gold, link, shortAddr } from '../utils/display';
 
 interface RegisterOptions {
@@ -14,6 +14,8 @@ interface RegisterOptions {
   desc?: string;
   chain?: string;
   key?: string;
+  keystore?: string;
+  keystorePassword?: string;
   uri?: string;
 }
 
@@ -24,10 +26,17 @@ export async function registerCommand(options: RegisterOptions): Promise<void> {
   field('Chain', `${chain.name} (ID: ${chain.chainId})`);
   console.log();
 
-  // Get private key
-  const privateKey = options.key || process.env.ERC8004_PRIVATE_KEY || (await promptPrivateKey());
-  if (!privateKey) {
-    printError('Private key is required. Set ERC8004_PRIVATE_KEY or use --key');
+  // Migrate legacy config if needed
+  await migrateConfigIfNeeded();
+
+  // Resolve wallet from available sources
+  const wallet = await getWallet({
+    key: options.key,
+    keystore: options.keystore,
+    keystorePassword: options.keystorePassword,
+  });
+  if (!wallet) {
+    printError('No wallet configured. Run `erc8004 wallet import` first, or use --key / --keystore flags.');
     return;
   }
 
@@ -36,10 +45,10 @@ export async function registerCommand(options: RegisterOptions): Promise<void> {
     name: chain.name,
     chainId: chain.chainId,
   });
-  const wallet = new ethers.Wallet(privateKey, provider);
-  field('Wallet', shortAddr(wallet.address));
+  const connectedWallet = wallet.connect(provider);
+  field('Wallet', shortAddr(connectedWallet.address));
 
-  const balance = ethers.formatEther(await provider.getBalance(wallet.address));
+  const balance = ethers.formatEther(await provider.getBalance(connectedWallet.address));
   field('Balance', `${parseFloat(balance).toFixed(4)} ${chain.currency}`);
   console.log();
 
@@ -199,7 +208,7 @@ export async function registerCommand(options: RegisterOptions): Promise<void> {
   // Deploy
   const spinner = ora('Sending registration transaction...').start();
   try {
-    const contract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, wallet);
+    const contract = new ethers.Contract(chain.contracts.identity, IDENTITY_ABI, connectedWallet);
     const tx = await contract.getFunction('register(string)').send(agentURI);
     spinner.text = `Transaction sent: ${shortAddr(tx.hash)}`;
 
@@ -252,22 +261,4 @@ export async function registerCommand(options: RegisterOptions): Promise<void> {
     spinner.fail('Registration failed');
     printError(error.message || String(error));
   }
-}
-
-async function promptPrivateKey(): Promise<string | undefined> {
-  const { key } = await inquirer.prompt([
-    {
-      type: 'password',
-      name: 'key',
-      message: 'Private key (0x...):',
-      mask: '*',
-      validate: (v: string) => {
-        if (!v.startsWith('0x') || v.length !== 66) {
-          return 'Must be a 64-character hex private key with 0x prefix';
-        }
-        return true;
-      },
-    },
-  ]);
-  return key;
 }

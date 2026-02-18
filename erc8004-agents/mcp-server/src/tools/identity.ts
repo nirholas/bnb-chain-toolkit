@@ -9,7 +9,7 @@ import { z } from 'zod';
 import { ethers } from 'ethers';
 import {
   identityRegistry,
-  createSigner,
+  createSignerFromEnv,
   createProvider,
   decodeOnChainURI,
 } from '../contracts.js';
@@ -88,24 +88,13 @@ function requireChain(input: string): ChainConfig {
   return chain;
 }
 
-function requirePrivateKey(): string {
-  const pk = process.env.PRIVATE_KEY;
-  if (!pk) {
-    throw new Error(
-      'PRIVATE_KEY environment variable required for write operations.'
-    );
-  }
-  return pk;
-}
-
 // ─── Tool Implementations ───
 
 export async function registerAgent(
   args: z.infer<typeof RegisterAgentSchema>
 ) {
   const chain = requireChain(args.chain);
-  const pk = requirePrivateKey();
-  const signer = createSigner(pk, chain);
+  const signer = createSignerFromEnv(chain);
   const registry = identityRegistry(chain, signer);
 
   let tx: ethers.TransactionResponse;
@@ -276,8 +265,7 @@ export async function getAgentCount(
 
 export async function setURI(args: z.infer<typeof SetURISchema>) {
   const chain = requireChain(args.chain);
-  const pk = requirePrivateKey();
-  const signer = createSigner(pk, chain);
+  const signer = createSignerFromEnv(chain);
   const registry = identityRegistry(chain, signer);
 
   const tx = await registry.setAgentURI(BigInt(args.agentId), args.newURI);

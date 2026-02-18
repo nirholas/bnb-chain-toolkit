@@ -43,7 +43,7 @@ const phases: Phase[] = [
     status: "completed",
     icon: <Bot className="w-5 h-5" />,
     description:
-      "The foundational layer — 78 AI agent definitions covering every major BNB Chain protocol, plus 6 specialized MCP servers providing 900+ composable tools for Claude, GPT, and other AI assistants.",
+      "The foundational layer — 78 AI agent definitions covering every major BNB Chain protocol, plus 6 specialized MCP servers providing 1,100+ composable tools for Claude, GPT, and other AI assistants.",
     deliverables: [
       { text: "36 BNB Chain agents", detail: "PancakeSwap, Venus, Lista DAO, Thena, Alpaca, opBNB, Greenfield" },
       { text: "42 DeFi agents", detail: "Airdrop Hunter, MEV Protection, IL Calculator, Yield Analyst, Risk Scoring" },
@@ -180,7 +180,7 @@ export default function RoadmapPage() {
   useSEO({
     title: "Projects & Roadmap",
     description:
-      "See what has been built and what is coming next for BNB Chain AI Toolkit — 78 agents, 6 MCP servers, 900+ tools, and the road to autonomous agents.",
+      "See what has been built and what is coming next for BNB Chain AI Toolkit — 78 agents, 6 MCP servers, 1,100+ tools, and the road to autonomous agents.",
     path: "/projects",
   });
 

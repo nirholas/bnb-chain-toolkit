@@ -14,7 +14,7 @@ import { readFileSync } from 'node:fs';
 
 // ─── Cached keystore wallet (decryption is CPU-intensive) ───
 
-let _cachedKeystoreWallet: ethers.Wallet | null = null;
+let _cachedKeystoreWallet: ethers.Wallet | ethers.HDNodeWallet | null = null;
 
 /**
  * Require a signer (private key or keystore).
@@ -22,7 +22,7 @@ let _cachedKeystoreWallet: ethers.Wallet | null = null;
  *
  * Priority: PRIVATE_KEY > KEYSTORE_FILE + KEYSTORE_PASSWORD
  */
-export function requireSigner(): ethers.Wallet {
+export function requireSigner(): ethers.Wallet | ethers.HDNodeWallet {
   // 1. PRIVATE_KEY — fastest path
   const pk = process.env.PRIVATE_KEY;
   if (pk) {

@@ -89,7 +89,7 @@ A comprehensive crypto news aggregator with 200+ sources and 150+ API endpoints.
 - Sentiment analysis per article
 - MCP server included for AI integration
 - CLI tool for terminal-based reading
-- 42-language README support
+- 30+-language README support
 
 ### Quick Start
 

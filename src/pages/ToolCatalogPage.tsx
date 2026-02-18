@@ -95,7 +95,7 @@ export default function ToolCatalogPage() {
   useSEO({
     title: 'Tool Catalog',
     description:
-      '900+ tools for BNB Chain and 60+ blockchain networks — market data, DeFi, wallets, standards, and more.',
+      '1,100+ tools for BNB Chain and 60+ blockchain networks — market data, DeFi, wallets, standards, and more.',
     path: '/tools',
   });
 
@@ -139,7 +139,7 @@ export default function ToolCatalogPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="text-[#F0B90B]">900+</span> Tools
+            <span className="text-[#F0B90B]">1,100+</span> Tools
           </motion.h1>
           <div className="mx-auto mt-4 max-w-2xl">
             <TextGenerateEffect

@@ -11,6 +11,7 @@
 
 import { ethers } from 'ethers';
 import { resolveChain, type ChainConfig } from './chains.js';
+import { requireSigner } from './utils/auth.js';
 
 // ─── Identity Registry ABI ───
 export const IDENTITY_ABI = [
@@ -84,6 +85,18 @@ export function createSigner(
 ): ethers.Wallet {
   const provider = createProvider(chainOrRpc);
   return new ethers.Wallet(privateKey, provider);
+}
+
+/**
+ * Create a signer from environment auth (PRIVATE_KEY or KEYSTORE_FILE).
+ * Uses requireSigner() from utils/auth.ts and connects to the given chain.
+ */
+export function createSignerFromEnv(
+  chainOrRpc: string | number | ChainConfig
+): ethers.Wallet | ethers.HDNodeWallet {
+  const wallet = requireSigner();
+  const provider = createProvider(chainOrRpc);
+  return wallet.connect(provider) as ethers.Wallet | ethers.HDNodeWallet;
 }
 
 /**

@@ -22,6 +22,12 @@ import { updateCommand } from './commands/update';
 import { reputationCommand } from './commands/reputation';
 import { initCommand } from './commands/init';
 import { chainsCommand } from './commands/chains';
+import {
+  walletImportCommand,
+  walletExportCommand,
+  walletShowCommand,
+  walletClearCommand,
+} from './commands/wallet';
 
 const program = new Command();
 
@@ -38,6 +44,8 @@ program
   .option('-d, --desc <description>', 'Agent description')
   .option('-c, --chain <chain>', 'Chain (bsc-testnet, bsc-mainnet, opbnb-testnet, opbnb-mainnet, eth-sepolia, eth-mainnet)')
   .option('-k, --key <privateKey>', 'Private key (or set ERC8004_PRIVATE_KEY env)')
+  .option('--keystore <file>', 'Path to keystore JSON file')
+  .option('--keystore-password <password>', 'Keystore password (prompted if omitted)')
   .option('-u, --uri <uri>', 'Agent URI (HTTPS URL or will generate data URI)')
   .action(registerCommand);
 
@@ -72,6 +80,8 @@ program
   .option('-u, --uri <uri>', 'New URI')
   .option('-c, --chain <chain>', 'Chain')
   .option('-k, --key <privateKey>', 'Private key')
+  .option('--keystore <file>', 'Path to keystore JSON file')
+  .option('--keystore-password <password>', 'Keystore password (prompted if omitted)')
   .action(updateCommand);
 
 // Reputation
@@ -95,5 +105,30 @@ program
   .command('chains')
   .description('List all supported chains with status')
   .action(chainsCommand);
+
+// Wallet management
+const walletCmd = program
+  .command('wallet')
+  .description('Manage encrypted wallet keystore');
+
+walletCmd
+  .command('import')
+  .description('Import a keystore file or raw private key (encrypted at rest)')
+  .action(walletImportCommand);
+
+walletCmd
+  .command('export')
+  .description('Export current wallet as a keystore JSON file')
+  .action(walletExportCommand);
+
+walletCmd
+  .command('show')
+  .description('Display current wallet address and auth method')
+  .action(walletShowCommand);
+
+walletCmd
+  .command('clear')
+  .description('Remove stored wallet from config')
+  .action(walletClearCommand);
 
 program.parse();

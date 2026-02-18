@@ -12,6 +12,7 @@ import {
   isConnected,
   shortenAddress,
   getBalance,
+  getWalletAuthMethod,
 } from '../utils/wallet';
 import { getContracts } from '../utils/contracts';
 import { getAddressUrl, getTxUrl } from '../utils/chains';
@@ -54,6 +55,13 @@ export class AgentDashboard {
             break;
           case 'refresh':
             await this.loadData();
+            break;
+          case 'connectWallet':
+            await vscode.commands.executeCommand('erc8004.connectWallet');
+            await this.loadData();
+            break;
+          case 'exportKeystore':
+            await vscode.commands.executeCommand('erc8004.exportKeystore');
             break;
         }
       },
@@ -134,7 +142,8 @@ export class AgentDashboard {
       balance,
       chain.currency.symbol,
       agents,
-      contracts.identity
+      contracts.identity,
+      getWalletAuthMethod()
     );
   }
 
@@ -143,10 +152,12 @@ export class AgentDashboard {
 <html><head><style>
   body { font-family: var(--vscode-font-family); color: var(--vscode-foreground); background: var(--vscode-editor-background); padding: 40px; text-align: center; }
   .btn { padding: 10px 20px; background: var(--vscode-button-background); color: var(--vscode-button-foreground); border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+  .hint { color: var(--vscode-descriptionForeground); font-size: 12px; margin-top: 8px; }
 </style></head><body>
   <h1>🤖 ERC-8004 Dashboard</h1>
   <p style="margin: 20px 0; color: var(--vscode-descriptionForeground);">Connect a wallet to view your agents</p>
   <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+  <p class="hint">Supports keystore file import, private key, or new wallet creation</p>
   <script>
     const vscode = acquireVsCodeApi();
     function connectWallet() { vscode.postMessage({ type: 'connectWallet' }); }
@@ -161,10 +172,13 @@ export class AgentDashboard {
     balance: string,
     symbol: string,
     agents: Array<{ tokenId: string; name: string; services: string[]; uri: string }>,
-    contractAddress: string
+    contractAddress: string,
+    authMethod: string | null
   ): string {
     const isTestnet = chainKey.includes('testnet') || chainKey.includes('sepolia');
     const explorerUrl = getAddressUrl(chainKey, address);
+    const authIcon = authMethod === 'keystore' ? '🔒' : '🔑';
+    const authLabel = authMethod === 'keystore' ? 'Keystore' : 'Raw Key';
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -199,8 +213,9 @@ export class AgentDashboard {
 
   <div class="stats">
     <div class="stat">
-      <div class="stat-label">Wallet</div>
+      <div class="stat-label">Wallet ${authIcon}</div>
       <div class="stat-value" style="font-size:14px"><a href="${explorerUrl}">${shortenAddress(address)}</a></div>
+      <div style="font-size:11px;color:var(--vscode-descriptionForeground);margin-top:4px">${authLabel}</div>
     </div>
     <div class="stat">
       <div class="stat-label">Chain</div>
@@ -219,7 +234,8 @@ export class AgentDashboard {
   <div class="header-row">
     <h2>My Agents</h2>
     <div>
-      <button class="btn" onclick="refresh()">↻ Refresh</button>
+      <button class="btn" onclick="exportKeystore()" title="Export wallet as encrypted keystore file">📦 Export Keystore</button>
+      <button class="btn" onclick="refresh()" style="margin-left:4px">↻ Refresh</button>
       <button class="btn" onclick="register()" style="margin-left:4px">+ Register</button>
     </div>
   </div>
@@ -246,6 +262,7 @@ export class AgentDashboard {
     function viewAgent(id) { vscode.postMessage({ type: 'viewAgent', tokenId: id }); }
     function register() { vscode.postMessage({ type: 'registerAgent' }); }
     function refresh() { vscode.postMessage({ type: 'refresh' }); }
+    function exportKeystore() { vscode.postMessage({ type: 'exportKeystore' }); }
   </script>
 </body>
 </html>`;

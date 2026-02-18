@@ -23,6 +23,8 @@ use crate::{Error, Result};
 pub struct ERC8004Client {
     chain: ChainConfig,
     _private_key: Option<String>,
+    /// Hex-encoded address derived from the loaded key (if any).
+    _address: Option<String>,
 }
 
 impl ERC8004Client {
@@ -37,6 +39,7 @@ impl ERC8004Client {
         Ok(Self {
             chain: chain_config,
             _private_key: private_key,
+            _address: None,
         })
     }
 
@@ -45,7 +48,60 @@ impl ERC8004Client {
         Self {
             chain,
             _private_key: private_key,
+            _address: None,
         }
+    }
+
+    /// Create a client by decrypting an Ethereum V3 keystore file.
+    ///
+    /// Requires the `keystore` feature (`erc8004 = { features = ["keystore"] }`).
+    ///
+    /// # Arguments
+    ///
+    /// * `chain` - The target chain.
+    /// * `path` - Path to the keystore JSON file.
+    /// * `password` - Password to decrypt the keystore.
+    ///
+    /// # Example
+    ///
+    /// ```rust,no_run
+    /// # #[cfg(feature = "keystore")]
+    /// # {
+    /// use erc8004::{ERC8004Client, ChainName};
+    /// let client = ERC8004Client::from_keystore(
+    ///     ChainName::BscTestnet,
+    ///     "path/to/keystore.json",
+    ///     "my-password",
+    /// ).unwrap();
+    /// # }
+    /// ```
+    #[cfg(feature = "keystore")]
+    pub fn from_keystore(chain: ChainName, path: &str, password: &str) -> Result<Self> {
+        let (secret_key, address) = crate::keystore::decrypt_keystore(path, password)?;
+        let chain_config = get_chain(chain);
+        Ok(Self {
+            chain: chain_config,
+            _private_key: Some(secret_key),
+            _address: Some(address),
+        })
+    }
+
+    /// Export the current private key as an encrypted Ethereum V3 keystore JSON string.
+    ///
+    /// Requires the `keystore` feature.
+    ///
+    /// # Arguments
+    ///
+    /// * `password` - Password to encrypt the keystore with.
+    #[cfg(feature = "keystore")]
+    pub fn export_keystore(&self, password: &str) -> Result<String> {
+        let pk = self._private_key.as_deref().ok_or(Error::NoPrivateKey)?;
+        crate::keystore::encrypt_keystore(pk, password)
+    }
+
+    /// Get the wallet address (if a private key or keystore was loaded).
+    pub fn address(&self) -> Option<&str> {
+        self._address.as_deref()
     }
 
     /// Get the chain configuration.

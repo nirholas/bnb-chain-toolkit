@@ -22,7 +22,7 @@ async function main() {
   const agent = new ERC8004Agent({
     name: 'BNB Chain Toolkit Agent',
     description:
-      'Full-stack AI agent with 900+ tools for BNB Chain — MCP servers, market data, DeFi tools, and on-chain identity via ERC-8004.',
+      'Full-stack AI agent with 1,100+ tools for BNB Chain — MCP servers, market data, DeFi tools, and on-chain identity via ERC-8004.',
     privateKey,
     chain: 'bsc-testnet',
     capabilities: [
@@ -48,7 +48,7 @@ async function main() {
       status: 'completed',
       result: {
         type: 'text',
-        text: `[BNB Chain Toolkit Agent] I'm an AI agent with on-chain identity on BSC Testnet. I have access to 900+ blockchain tools via MCP servers. Your message: "${text}"`,
+        text: `[BNB Chain Toolkit Agent] I'm an AI agent with on-chain identity on BSC Testnet. I have access to 1,100+ blockchain tools via MCP servers. Your message: "${text}"`,
       },
     };
   });

@@ -616,7 +616,7 @@ function getTopCategories(categories: ToolCategory[], limit = 5) {
 export default function ToolReferencePage() {
   useSEO({
     title: 'Tool Reference',
-    description: '900+ tools across 6 MCP servers — searchable index with descriptions, categories, example calls, and copy functionality.',
+    description: '1,100+ tools across 6 MCP servers — searchable index with descriptions, categories, example calls, and copy functionality.',
     path: '/tools',
   });
 
@@ -749,7 +749,7 @@ export default function ToolReferencePage() {
             </div>
 
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              <span className="text-[#F0B90B]">900+</span> Tools
+              <span className="text-[#F0B90B]">1,100+</span> Tools
             </h1>
 
             <TextGenerateEffect
@@ -766,7 +766,7 @@ export default function ToolReferencePage() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             {[
-              { label: 'Tools', value: '900+', icon: Wrench },
+              { label: 'Tools', value: '1,100+', icon: Wrench },
               { label: 'Servers', value: '6', icon: Server },
               { label: 'Categories', value: `${ALL_CATEGORIES.length}`, icon: Layers },
               { label: 'Chains', value: '60+', icon: Globe },
@@ -1235,7 +1235,7 @@ export default function ToolReferencePage() {
             Add All Servers to Start Using These Tools
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-gray-500 dark:text-neutral-400">
-            Copy the configuration to your claude_desktop_config.json and start using 900+ tools instantly.
+            Copy the configuration to your claude_desktop_config.json and start using 1,100+ tools instantly.
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -1275,7 +1275,7 @@ export default function ToolReferencePage() {
 
       {/* Footer attribution */}
       <div className="py-8 text-center text-xs text-gray-400 dark:text-neutral-600">
-        BNB Chain AI Toolkit &mdash; 900+ tools &middot; 6 MCP servers &middot; 60+ chains
+        BNB Chain AI Toolkit &mdash; 1,100+ tools &middot; 6 MCP servers &middot; 60+ chains
       </div>
     </main>
   );

@@ -63,7 +63,7 @@ try {
         toolkit: {
           agents: "78",
           mcpServers: 6,
-          tools: "900+",
+          tools: "1,100+",
           chains: "60+",
         },
       },

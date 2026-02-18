@@ -52,9 +52,9 @@ Located in `standards/erc-8004/contracts/`:
 
 | Contract | Description |
 |----------|-------------|
-| `AgentRegistry.sol` | Main registry for agent registration |
-| `AgentTrust.sol` | Trust attestation and reputation |
-| `IAgentRegistry.sol` | Interface for the registry |
+| `IdentityRegistryUpgradeable.sol` | Main registry for agent registration |
+| `ReputationRegistryUpgradeable.sol` | Trust attestation and reputation |
+| `ValidationRegistryUpgradeable.sol` | Validation and attestation registry |
 
 **Deployed on:**
 - BSC Mainnet & Testnet
@@ -82,7 +82,7 @@ bun start
 
 ```solidity
 // Simplified ERC-8004 interface
-interface IAgentRegistry {
+interface IIdentityRegistry {
     function registerAgent(
         string calldata name,
         string calldata description,

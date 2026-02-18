@@ -512,7 +512,7 @@ export default function ExplorePage() {
             MCP Servers
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-8">
-            6 production-grade Model Context Protocol servers powering 900+ tools
+            6 production-grade Model Context Protocol servers powering 1,100+ tools
           </p>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -621,7 +621,7 @@ export default function ExplorePage() {
             Explore the full ecosystem
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-lg mx-auto">
-            78 AI agents, 6 MCP servers, and 900+ tools — all open source and ready to use.
+            78 AI agents, 6 MCP servers, and 1,100+ tools — all open source and ready to use.
           </p>
           <div className="flex items-center justify-center gap-4">
             <a

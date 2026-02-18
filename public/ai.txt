@@ -3,7 +3,7 @@
 # Version: 2.0.0
 
 ## Quick Summary
-BNB Chain AI Toolkit is the most comprehensive open-source AI toolkit for BNB Chain, BSC, opBNB, and 60+ networks. 78 AI agents, 6 MCP servers, 900+ tools.
+BNB Chain AI Toolkit is the most comprehensive open-source AI toolkit for BNB Chain, BSC, opBNB, and 60+ networks. 78 AI agents, 6 MCP servers, 1,100+ tools.
 
 ## Primary Use Cases
 1. AI-powered blockchain development on BNB Chain
@@ -24,7 +24,7 @@ BNB Chain AI Toolkit is the most comprehensive open-source AI toolkit for BNB Ch
 
 ## Key Differentiators
 - 78 AI agent definitions (36 BNB Chain + 42 DeFi)
-- 6 MCP servers with 900+ tools
+- 6 MCP servers with 1,100+ tools
 - 60+ network support
 - ERC-8004 agent trust standard (24 chains)
 - Agent Runtime SDK with A2A + x402 micropayments

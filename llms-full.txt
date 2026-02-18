@@ -48,7 +48,7 @@ Purpose-built for the BNB Chain ecosystem:
 
 ### DeFi Agents (42)
 
-Cross-chain agents with 18-language support:
+Cross-chain agents with 18-language support (30 locales for BNB Chain agents):
 - Portfolio Management (8) — Tracking, rebalancing, tax, risk
 - Trading Automation (7) — Grid, DCA, arbitrage, signals
 - Yield Optimization (6) — Compounding, IL protection

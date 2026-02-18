@@ -39,8 +39,11 @@ bun add @nirholas/erc8004-mcp
 # Read-only (no private key needed)
 npx @nirholas/erc8004-mcp
 
-# Read + write (registration, metadata updates)
+# Read + write via private key
 PRIVATE_KEY=0x... npx @nirholas/erc8004-mcp
+
+# Read + write via encrypted keystore file
+KEYSTORE_FILE=/path/to/keystore.json KEYSTORE_PASSWORD=mypassword npx @nirholas/erc8004-mcp
 ```
 
 ### Build from source
@@ -66,6 +69,22 @@ Add this to your `claude_desktop_config.json`:
       "args": ["@nirholas/erc8004-mcp"],
       "env": {
         "PRIVATE_KEY": "0xYOUR_PRIVATE_KEY_HERE"
+      }
+    }
+  }
+}
+
+Or using an encrypted keystore file:
+
+```json
+{
+  "mcpServers": {
+    "erc8004": {
+      "command": "npx",
+      "args": ["@nirholas/erc8004-mcp"],
+      "env": {
+        "KEYSTORE_FILE": "/path/to/keystore.json",
+        "KEYSTORE_PASSWORD": "your-keystore-password"
       }
     }
   }
@@ -98,7 +117,9 @@ Add to your MCP settings:
 
 | Variable | Required | Description |
 |---|---|---|
-| `PRIVATE_KEY` | For write ops | Wallet private key (0x-prefixed). Required for `register_agent`, `set_uri`, `set_metadata`, `submit_reputation`. |
+| `PRIVATE_KEY` | For write ops | Wallet private key (0x-prefixed). Required for `register_agent`, `set_uri`, `set_metadata`, `submit_reputation`. Takes precedence over keystore auth. |
+| `KEYSTORE_FILE` | For write ops | Path to an encrypted JSON keystore file (alternative to `PRIVATE_KEY`). Used with `KEYSTORE_PASSWORD`. |
+| `KEYSTORE_PASSWORD` | With keystore | Password to decrypt the keystore file specified by `KEYSTORE_FILE`. |
 | `RPC_URL` | No | Override default RPC endpoint. Chain-specific RPCs are built in. |
 | `CHAIN_ID` | No | Default chain ID (tools accept chain per-call). |
 

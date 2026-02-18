@@ -62,6 +62,62 @@ async def main():
 asyncio.run(main())
 ```
 
+### Keystore Wallet (Recommended)
+
+Using an encrypted keystore file is the **recommended** way to authenticate.
+Private keys stay encrypted on disk and are only decrypted in memory.
+
+#### Create a new wallet
+
+```python
+from erc8004 import ERC8004Client
+
+# Generate a brand-new wallet and save it as an encrypted keystore file
+path = ERC8004Client.create_wallet(
+    password="my-secure-password",
+    save_path="wallet.json",
+)
+print(f"Wallet saved to {path}")
+```
+
+#### Authenticate from a keystore file
+
+```python
+import asyncio
+from erc8004 import ERC8004Client
+
+async def main():
+    client = ERC8004Client.from_keystore(
+        keystore_path="wallet.json",
+        password="my-secure-password",
+        chain="bsc-testnet",
+    )
+
+    agent_id = await client.register(
+        name="Keystore Agent",
+        description="Registered using an encrypted keystore",
+        services=[{"name": "A2A", "endpoint": "https://example.com/a2a"}],
+    )
+    print(f"Agent #{agent_id} registered!")
+
+asyncio.run(main())
+```
+
+#### Export an existing account to keystore
+
+```python
+from erc8004 import ERC8004Client
+
+client = ERC8004Client(chain="bsc-testnet", private_key="0x...")
+client.export_keystore(password="my-secure-password", path="exported-wallet.json")
+```
+
+#### Alternative: `from_private_key` classmethod
+
+```python
+client = ERC8004Client.from_private_key("0xYOUR_KEY", chain="bsc-testnet")
+```
+
 ## Supported Chains
 
 | Chain | Name | Chain ID |
@@ -97,6 +153,11 @@ High-level client for all registry operations.
 
 | Method | Description |
 |--------|-------------|
+| `ERC8004Client(chain, private_key=...)` | Constructor with optional private key |
+| `from_keystore(path, password, chain)` | Create client from encrypted keystore file (**recommended**) |
+| `from_private_key(key, chain)` | Create client from raw private key |
+| `create_wallet(password, save_path)` | Generate a new wallet and save as keystore |
+| `export_keystore(password, path)` | Export current account as encrypted keystore |
 | `register(name, description, services, ...)` | Register a new agent |
 | `register_full(metadata, ...)` | Register with full `AgentMetadata` object |
 | `get_agent(agent_id)` | Fetch agent details by token ID |

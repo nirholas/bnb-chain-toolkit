@@ -57,6 +57,9 @@ import {
 // Chain info
 import { CHAINS, chainKeys } from './chains.js';
 
+// Auth status
+import { getAuthStatus } from './utils/auth.js';
+
 // ─── Create MCP Server ───
 
 const server = new McpServer({
@@ -258,7 +261,9 @@ async function main() {
   await server.connect(transport);
   console.error('ERC-8004 MCP Server running on stdio');
   console.error(`Supported chains: ${chainKeys().join(', ')}`);
-  console.error(`Write operations: ${process.env.PRIVATE_KEY ? 'enabled' : 'disabled (set PRIVATE_KEY)'}`);
+  const auth = getAuthStatus();
+  console.error(`Auth: ${auth}`);
+  console.error(`Write operations: ${auth !== 'none (read-only mode — set PRIVATE_KEY or KEYSTORE_FILE + KEYSTORE_PASSWORD)' ? 'enabled' : 'disabled'}`);
 }
 
 main().catch((err) => {
